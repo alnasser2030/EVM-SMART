@@ -39,14 +39,6 @@ st.subheader("⚡ Total Available Generation Forecast")
 total_generation = [round(pv[i] + wind[i], 2) for i in range(24)]
 st.line_chart(total_generation)
 
-# === Interactive ESS Support Curve ===
-st.subheader("🔌 ESS Support When Renewables Fall Short")
-
-ess_support_df = df[["Battery Discharge (MWh)", "FC Discharge (MW)"]]
-st.line_chart(ess_support_df)
-
-
-
 # === Power Flow and ESS Dispatch Logic ===
 available_power = []
 ess_action = []
@@ -116,6 +108,11 @@ df = pd.DataFrame({
 
 st.subheader("⚡ ESS Response Table")
 st.dataframe(df)
+
+# === Interactive ESS Support Curve ===
+st.subheader("🔌 ESS Support When Renewables Fall Short")
+ess_support_df = df[["Battery Discharge (MWh)", "FC Discharge (MW)"]]
+st.line_chart(ess_support_df)
 
 # === Daily Energy Sufficiency Check ===
 st.subheader("🔋 Daily Energy Sufficiency Check")
