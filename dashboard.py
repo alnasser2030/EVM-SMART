@@ -21,18 +21,7 @@ else:
 st.subheader("Battery Health Status")
 st.write(f"Rating: **{battery_rating}**")
 
-# Hydrogen Tank Rating
-h2_soc = data['h2_soc'][0]
 
-if h2_soc >= 90:
-    h2_rating = "⚠️ Full — consider reducing production"
-elif h2_soc >= 50:
-    h2_rating = "✅ Normal"
-else:
-    h2_rating = "🔵 Low — safe to produce more hydrogen"
-
-st.subheader("Hydrogen Storage Status")
-st.write(f"Rating: **{h2_rating}**")
 
 
 
