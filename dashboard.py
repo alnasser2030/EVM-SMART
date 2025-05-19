@@ -1,7 +1,6 @@
 import streamlit as st
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 
 # === Load Data ===
@@ -34,12 +33,12 @@ st.line_chart(pv)
 st.subheader("🌀 Wind Generation Forecast")
 st.line_chart(wind)
 
-# === Total Generation Curve ===
+# === Total Generation Forecast
 st.subheader("⚡ Total Available Generation Forecast")
 total_generation = [round(pv[i] + wind[i], 2) for i in range(24)]
 st.line_chart(total_generation)
 
-# === Power Flow and ESS Dispatch Logic ===
+# === ESS Dispatch Simulation ===
 available_power = []
 ess_action = []
 battery_discharge = []
@@ -106,15 +105,35 @@ df = pd.DataFrame({
     "ESS Action": ess_action
 })
 
+# === ESS Response Table
 st.subheader("⚡ ESS Response Table")
 st.dataframe(df)
 
-# === Interactive ESS Support Curve ===
+# === Interactive Battery & H2 SOC Over Time
+st.subheader("🔋 Battery & H₂ Tank SOC (Interactive)")
+soc_df = pd.DataFrame({
+    "Battery SOC (MWh)": battery_soc_log,
+    "H₂ SOC (MWh)": h2_soc_log
+})
+st.line_chart(soc_df)
+
+# === Interactive Generation vs Load Comparison
+st.subheader("📉 Generation vs Load (Interactive)")
+gen_load_df = pd.DataFrame({
+    "Load (MW)": load,
+    "PV + Wind (MW)": total_generation
+})
+st.line_chart(gen_load_df)
+
+# === Interactive ESS Support Chart
 st.subheader("🔌 ESS Support When Renewables Fall Short")
-ess_support_df = df[["Battery Discharge (MWh)", "FC Discharge (MW)"]]
+ess_support_df = pd.DataFrame({
+    "Battery Discharge (MWh)": battery_discharge,
+    "Fuel Cell Discharge (MW)": fc_discharge
+})
 st.line_chart(ess_support_df)
 
-# === Daily Energy Sufficiency Check ===
+# === Energy Sufficiency Evaluation
 st.subheader("🔋 Daily Energy Sufficiency Check")
 total_pv_energy = sum(pv)
 total_wind_energy = sum(wind)
@@ -133,33 +152,6 @@ st.write(f"**Wind Energy**: {total_wind_energy:.2f} MWh")
 st.write(f"**Total Renewable Energy**: {total_renewable_energy:.2f} MWh")
 st.write(f"**Required by Load**: 36.00 MWh/day")
 st.write(f"**Status**: {energy_rating}")
-
-# === SOC Over Time Plot ===
-st.subheader("🔋 Battery & H₂ Tank SOC Over Time")
-fig1, ax1 = plt.subplots(figsize=(10, 4))
-ax1.plot(df["Hour"], df["Battery SOC (MWh)"], label="Battery SOC", marker='o')
-ax1.plot(df["Hour"], df["H2 SOC (MWh)"], label="H₂ SOC", marker='s')
-ax1.set_xlabel("Hour")
-ax1.set_ylabel("State of Charge (MWh)")
-ax1.set_title("Battery and Hydrogen Tank SOC")
-ax1.grid(True)
-ax1.legend()
-st.pyplot(fig1)
-
-# === Generation vs Load Plot ===
-st.subheader("📉 Load vs Generation with Shortfall Highlight")
-fig2, ax2 = plt.subplots(figsize=(10, 4))
-ax2.plot(df["Hour"], df["Load (MW)"], '--', label="Load", linewidth=2)
-ax2.plot(df["Hour"], df["Total Generation (MW)"], label="PV + Wind", linewidth=2)
-ax2.fill_between(df["Hour"], df["Load (MW)"], df["Total Generation (MW)"],
-                 where=(df["Total Generation (MW)"] < df["Load (MW)"]),
-                 interpolate=True, color='red', alpha=0.3, label="Shortfall")
-ax2.set_xlabel("Hour")
-ax2.set_ylabel("Power (MW)")
-ax2.set_title("Generation vs Load")
-ax2.grid(True)
-ax2.legend()
-st.pyplot(fig2)
 
 # === System Recommendation ===
 st.markdown("### 🧾 Recommended System Sizing for 1.5 MW Load (36 MWh/day)")
