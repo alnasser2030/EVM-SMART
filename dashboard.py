@@ -35,6 +35,37 @@ else:
 st.subheader("🫧 Hydrogen Storage Status")
 st.write(f"Rating: **{h2_rating}**")
 
+st.subheader("⚡ Load Support Analysis")
+
+load = data["load"]
+pv = data["pv"]
+wind = data["wind"]
+
+supply_status = []
+
+for i in range(24):
+    available_power = pv[i] + wind[i]
+    if available_power >= load[i]:
+        supply_status.append("✅ Covered by PV/Wind")
+    elif available_power >= load[i] * 0.8:
+        supply_status.append("⚠️ Partial — Need Battery or FC")
+    else:
+        supply_status.append("❌ Shortfall — Critical")
+
+# Show as a simple table
+import pandas as pd
+df = pd.DataFrame({
+    "Hour": list(range(24)),
+    "Load (MW)": load,
+    "PV (MW)": pv,
+    "Wind (MW)": wind,
+    "Available (MW)": [round(pv[i] + wind[i], 2) for i in range(24)],
+    "Status": supply_status
+})
+
+st.dataframe(df.style.highlight_text(props=['font-weight: bold']))
+
+
 # --- Metrics ---
 st.metric("🔋 Battery SOC", f"{battery_soc}%")
 st.metric("🫧 Hydrogen Tank", f"{h2_soc}%")
