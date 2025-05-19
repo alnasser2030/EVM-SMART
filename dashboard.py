@@ -2,7 +2,8 @@ import streamlit as st
 import json
 
 # Load NEOM-based realistic data
-with open("data_neom_realistic.json") as f:
+with open("data_neom_realistic_fixed.json") as f:
+
     data = json.load(f)
 
 st.set_page_config(layout="wide")
