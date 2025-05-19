@@ -42,12 +42,9 @@ st.line_chart(total_generation)
 # === Interactive ESS Support Curve ===
 st.subheader("🔌 ESS Support When Renewables Fall Short")
 
-ess_support_df = pd.DataFrame({
-    "Battery Discharge (MWh)": battery_discharge,
-    "Fuel Cell Discharge (MW)": fc_discharge
-})
-
+ess_support_df = df[["Battery Discharge (MWh)", "FC Discharge (MW)"]]
 st.line_chart(ess_support_df)
+
 
 
 # === Power Flow and ESS Dispatch Logic ===
