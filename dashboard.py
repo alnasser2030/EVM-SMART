@@ -80,7 +80,9 @@ df_status = pd.DataFrame({
     "Status": supply_status
 })
 
-st.dataframe(df_status.style.highlight_text(props=['font-weight: bold']))
+# ✅ FIXED: use plain dataframe
+st.dataframe(df_status)
+
 
 # --- Recommendations ---
 st.markdown("### 🧾 Recommended System Sizing for 1.5 MW Load (36 MWh/day)")
