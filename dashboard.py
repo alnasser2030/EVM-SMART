@@ -34,6 +34,11 @@ st.line_chart(pv)
 st.subheader("🌀 Wind Generation Forecast")
 st.line_chart(wind)
 
+# === Total Generation Curve ===
+st.subheader("⚡ Total Available Generation Forecast")
+total_generation = [round(pv[i] + wind[i], 2) for i in range(24)]
+st.line_chart(total_generation)
+
 # === Power Flow and ESS Dispatch Logic ===
 available_power = []
 ess_action = []
@@ -161,4 +166,4 @@ st.markdown("""
 - 🧠 **EVM Smart EMS**: AI-based controller
 """)
 
-st.success("Your system can operate 24/7 on renewables using smart hybrid storage with FC + batteries.")
+st.success("✅ System supports 24/7 renewable power for a 1.5 MW data center in NEOM using smart hybrid storage.")
