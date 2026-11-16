@@ -31,3 +31,6 @@ No study found that (i) treats a constant-load AI data center as inflexible, (ii
 ## Next steps
 - User: download paywalled must-reads 1–5 via TAMU library and upload.
 - Claude: read full texts, then extend to themes 1, 3, 6, 7 and finalize the gap.
+
+## Update 2026-11-16 — Priority A read (13/15)
+Highest-risk paper (Yang et al., Applied Energy 2026, DC–desalination) **does not** pre-empt EEF: it assumes a flexible, co-located DC physically coupled (waste heat) to a single desalination plant and minimizes cost; EEF assumes an inflexible AI DC, uses a portfolio of existing grid-connected flexible loads via a contractual framework, and targets hourly clean-energy matching vs B1/B2/B3 with saturation limits. **Gap confirmed at Priority A level.** Must cite Yang et al. prominently (KAUST co-author; Saudi motivation) and state the differences explicitly.
