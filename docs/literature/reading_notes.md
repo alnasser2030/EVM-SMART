@@ -11,3 +11,14 @@
 | A8 | Bjørn et al., *RECs threaten integrity of corporate science-based targets*, Nature Climate Change 12 (2022) 539 | Without REC-based claims, 2015–2019 scope 2 trajectories not 1.5 °C-aligned; 42% of committed scope 2 reductions may not be real | **Motivation**: annual/REC-based "100% renewable" is clean on paper |
 
 **Batch-1 verdict:** none of the five uses flexibility of *other* grid consumers to deliver hourly matching for a buyer. Gap still holds. Highest-risk paper (A1, DC–desalination) not yet read.
+
+## Batch 2 (Priority A, 4 papers) — 2026-11-16
+
+| # | Paper | Key finding | Relation to EEF |
+|---|---|---|---|
+| A6 | *IDC Load Modeling for DR Considering the Coupling of Multiple Regulation Methods*, IEEE Trans. Smart Grid (2021) | Bottom-up IDC load model coupling spatial (geo-distributed) and temporal regulation via workloads/servers; hierarchical control; joint methods increase IDC DR capability | Representative of **internal** IDC flexibility (relies on shiftable/migratable workloads) → not applicable to constant-load AI training DCs; contrast for EEF |
+| A7 | Chen et al., *Internet data centers participating in demand response: A comprehensive review*, RSER 117 (2020) 109466 | Review of IDC load modeling, regulation operations (spatial/temporal workload shifting, server/cooling control), economics and DR programs | Key citation that the DC-DR literature is about **regulating the DC's own load** → supports "literature looks inside" |
+| A8 | Paterakis, Erdinç & Catalão, *An overview of Demand Response: key-elements and international experience*, RSER 69 (2017) 871–891 | DR taxonomy (incentive- vs price-based), benefits/barriers, enabling technologies, program examples incl. **baseline methods** (e.g., average of 10 previous normal days) | Foundation for modeling external flexible loads relative to a **baseline** and for program/contract design in the framework |
+| A10 | Liu et al., *Data center demand response: avoiding the coincident peak via workload shifting and local generation*, Performance Evaluation 70 (2013) | Workload shifting + local generation avoids coincident-peak charges; up to 40% cost savings vs either alone | Classic **internal** DC flexibility (workload + on-site generation) → contrast for EEF |
+
+**Batch-2 verdict:** all four confirm that data center flexibility is studied as an internal resource (workloads, servers, on-site generation). Gap still holds.
