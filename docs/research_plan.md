@@ -34,10 +34,11 @@ How can External Energy Flexibility enable grid-connected, constant-load AI data
 | RQ3 | Saturation point of grid flexibility as DC capacity grows; optimal supply mix after saturation; expansion pathway | 3 |
 
 ## Scenarios
-- **B1** Direct grid connection (no PV)
-- **B2** 100% clean: PV + BESS, grid as backup
-- **B3** Annual matching: PV injected, no flexibility
-- **C** EEF: PV injected + external flexibility + framework
+Labels (renamed 2026-11-16; formerly B1/B2/B3/C):
+- **GRID** (B1) Direct grid connection (no PV)
+- **RE+BESS** (B2) 100% clean: PV + BESS, grid as backup
+- **AM** (B3) Annual matching: PV injected, no flexibility
+- **EEF** (C) PV injected + external flexibility portfolio + contractual framework
 
 ## Pillars & metrics
 - **Reliability:** DC availability (Tier), grid-side impact (night peak, ramps, LOLP)
@@ -51,6 +52,12 @@ How can External Energy Flexibility enable grid-connected, constant-load AI data
 - DC sizes: **50, 100 (base), 300, 1000 MW**; constant load, PUE ~1.2–1.4; results also normalized per MW.
 - Out of scope: building, GPUs/servers, internal cooling, distribution level, sub-second GPU fluctuations (handled by UPS).
 - Grid: single node (no transmission congestion — stated limitation); parametric flexibility as % of system load, calibrated with public Saudi data (ECRA, SEC, KAPSARC); dimensionless results for generality; optional second case (ERCOT).
+
+## Flexibility portfolio (decided 2026-11-16)
+- External flexibility = portfolio of 4–6 generic load classes already on the Saudi grid (e.g., RO desalination, district cooling with TES, water pumping/irrigation, industrial processes, EV charging, building pre-cooling) — system level, no distribution detail.
+- Each class: max up/down shift (MW), shiftable energy / shift window (h), energy-neutral within window, seasonal/hourly availability, cost (capacity fee + per-MWh shift payment).
+- Loads move relative to their **baseline** following the DC's hourly gap PV(t) − DC(t): up at solar surplus, down at night deficit; dispatched by LP in merit order (cheapest first) → flexibility supply curve → saturation (Ch.3).
+- Base case: contract-based direct dispatch; price-based (ToU/incentive) as sensitivity.
 
 ## Expected contributions
 1. New EEF concept + internal/external flexibility taxonomy
