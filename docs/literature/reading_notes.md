@@ -35,3 +35,17 @@
 Not obtained (not available via TAMU): A5 SMR–renewable microgrids for 24/7 DCs (SETA 2026) — low priority, cite from abstract or request via ILL; A9 Masanet et al., Science 2020 — seek open author/LBNL copy or ILL.
 
 **Priority A verdict (13/15 read):** No paper uses the flexibility of *other, existing grid-connected loads* to deliver hourly clean-energy matching for an *inflexible* AI data center. Closest work (Yang et al. 2026) relies on a flexible, co-located DC with physical heat coupling to one desalination plant. **Gap confirmed at Priority A level.**
+
+## Batch 4 (Priority B, IEEE, 5 papers) — 2026-11-17
+
+| # | Paper | Key finding | Relation to EEF |
+|---|---|---|---|
+| B4 | *On the Interplay between Water and Power Grids: Desalination Plants for Demand Response*, IEEE PESGM 2023 | Game between a power service provider and a desalination plant; equilibrium exists (uniqueness conditions); incentives let the plant adjust power while meeting water requirements → extra system flexibility | Supports desalination as an **external flexibility class** and **incentive/contract design** (Stackelberg-type) for the framework. Buyer is the power provider, not a consumer |
+| B5 | *A Water–Carbon Sustainability Framework for 24/7 Carbon-Free AI Datacenter Siting in the U.S.*, IEEE PESGM 2026 | State-level Water–Carbon Index (eGRID CO2 + WRI baseline water stress); few states are both low-carbon and low-water-stress; solar-rich regions often water-stressed | Context for **sustainability pillar** (water as a possible secondary metric in arid KSA). Siting, not supply design → no overlap |
+| B6 | O'Connell et al., *Carbon-Free Energy: How Much, How Soon?*, IEEE Power & Energy Magazine (2021) | ~90% clean grids feasible by 2035 with wind, solar, short-duration batteries and transmission; existing gas at low capacity factors balances; policy/regulation essential | System-level context: high-VRE grids need flexibility; supports motivation and the regulatory angle of the framework |
+| B7 | Alsaleh et al., *Model-free RL for Demand Response in PV-rich Distribution Systems*, Saudi Arabia Smart Grid 2022 | DRL aggregator directly controls a share of each load on IEEE 33-bus with high PV; shifts flexible demand to solar peaks while keeping voltage within limits | Saudi-context evidence that **shifting flexible demand to solar hours via an aggregator** is studied for grid voltage — not for a consumer's hourly matching. Supports aggregator role in framework |
+| B8 | *Techno-Economic Viability of a Solar PV–Wind–Battery Hybrid System for an EV Charging Station in Khobar*, Saudi Arabia Smart Grid 2024 | HOMER sizing for 2,424 kWh/day, 444 kW peak load in Khobar | Saudi **cost/resource data** reference (PV/wind/battery in Eastern Province); RE+BESS-type sizing method example |
+
+Not yet received: B1 (10.1109/tsg.2018.2871125), B2 (10.1109/tcc.2017.2744623), B3 (10.1109/mele.2023.3291195).
+
+**Batch-4 verdict:** no overlap with EEF; adds support for desalination/aggregator-based external flexibility and Saudi context. Gap still holds.
