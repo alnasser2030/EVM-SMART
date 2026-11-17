@@ -29,3 +29,6 @@ Method: every factual or numeric claim in `chapter2_draft_v1.md` was searched in
 ## Update — LBNL report [40] added
 ✏️ U.S. figures now cite the primary LBNL report (176 TWh = 4.4% in 2023; ~325–580 TWh = 6.7–12.0% in 2028; 74–132 GW at 50% utilization; AI training servers 80% operational time; PUE highest in hot, humid climates) — all verified in the report text. Li et al. [8] kept only for the 7–10-year utility wait times, now worded as "as reported in [8]". Global 2022 figure still cites Yang [22] until the IEA report is obtained.
 Note: the uploaded copy is stamped "EMBARGOED REPORT: DO NOT DISTRIBUTE" (pre-release). Cite the public release (same report number and DOI) and confirm the numbers against it.
+
+## Update — IEA report [41] added
+✏️ Global figures now cite the primary IEA *Energy and AI* (2025) report (executive summary, pp. 13–15): 415 TWh ≈ 1.5% of world electricity in 2024; ~12%/yr growth since 2017 (>4× total demand growth); ~945 TWh by 2030 (AI the main driver); ~1,200 TWh by 2035 in the Base Case, 700–1,700 TWh across cases; typical AI-focused DC = 100,000 households, largest under construction 20×; comparable to aluminium smelters. All verified verbatim. The secondary citation of Yang [22] for 2022 global figures was removed. **No secondary citations remain in Section 2.2.**
