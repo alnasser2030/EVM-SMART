@@ -49,3 +49,13 @@ Not obtained (not available via TAMU): A5 SMR–renewable microgrids for 24/7 DC
 Not yet received: B1 (10.1109/tsg.2018.2871125), B2 (10.1109/tcc.2017.2744623), B3 (10.1109/mele.2023.3291195).
 
 **Batch-4 verdict:** no overlap with EEF; adds support for desalination/aggregator-based external flexibility and Saudi context. Gap still holds.
+
+## Batch 5 (Priority B, IEEE, 3 papers) — 2026-11-17
+
+| # | Paper | Key finding | Relation to EEF |
+|---|---|---|---|
+| B1 | Kwon, Ntaimo & Gautam, *Demand Response in Data Centers: Integration of Server Provisioning and Power Procurement*, IEEE Trans. Smart Grid 10(5) (2019) 4928 | Two-stage stochastic co-optimization of server provisioning (internal) with power procurement from grid, renewables and storage for DR | Internal flexibility + own procurement assets → contrast; stochastic procurement formulation is a method reference |
+| B2 | Dabbagh, Hamdaoui, Rayes & Guizani, *Shaving DC Power Demand Peaks Through Energy Storage and Workload Shifting Control*, IEEE Trans. Cloud Computing 7(4) (2019) 1095 | Optimal/online peak shaving combining delay-tolerant workload classes and on-site batteries (Google traces) | Internal flexibility (workload delay + batteries) → contrast; workload "classes with delay tolerance and cost" parallels our external flexibility **classes** |
+| B3 | Paananen, *Grid-Interactive Data Centers Enabling Energy Transition*, IEEE Electrification Magazine (Sept 2023) | Grid-interactive UPS batteries can provide fast frequency response and reserves; long-duration (hours/days) balancing needs energy-intensive flexible assets | DC flexibility via **UPS** for seconds–minutes services; notes hours-scale balancing needs other assets → supports EEF's focus on hour-scale external flexibility |
+
+**Priority B complete (8/8). Verdict:** all DC-side papers use internal resources (workloads, servers, UPS/batteries). Gap holds.
