@@ -100,7 +100,7 @@ Fig. 2.2 maps the reviewed literature by the source of flexibility and its purpo
 
 ![Fig. 2.2](figures/fig2_2_positioning_map.png)
 
-*Fig. 2.2. Positioning of this research. Columns show where flexibility comes from; rows show what it is used for. Bracketed numbers are references in this chapter.*
+*Fig. 2.2. Positioning of this research. Columns show where flexibility comes from; rows show what it is used for. References for each cell are listed in Table 2.1.*
 
 *Table 2.1. Positioning of this work relative to the literature.*
 

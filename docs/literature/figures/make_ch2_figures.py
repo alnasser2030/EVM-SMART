@@ -70,12 +70,12 @@ def fig_positioning_map():
     rows = ["Buyer's hourly\nclean supply\n(24/7\nmatching)",
             "System\nservices\nand cost"]
     cells = {
-        (0, 0): ("DC spatio-temporal\nload shifting for\n24/7 CFE\n[9], [10]", "lit"),
-        (0, 1): ("Hourly-matching\nprocurement with\ngeneration + storage\n[11], [14]–[16]", "lit"),
+        (0, 0): ("DC spatio-temporal\nload shifting for\n24/7 matching", "lit"),
+        (0, 1): ("Hourly-matching\nprocurement with\ngeneration + storage", "lit"),
         (0, 2): ("External Energy\nFlexibility\n(this work)", "eef"),
-        (1, 0): ("DC demand response,\npeak shaving,\nAI DC flexibility\n[2]–[8], [24], [26], [27]", "lit"),
-        (1, 1): ("Renewable + storage\nsizing, colocation\n[8], [22], [30]–[33]", "lit"),
-        (1, 2): ("Demand response\nprocured by\nsystem operators\n[17]–[21], [23]", "lit"),
+        (1, 0): ("DC demand response,\npeak shaving,\nAI DC flexibility", "lit"),
+        (1, 1): ("Renewable + storage\nsizing, colocation", "lit"),
+        (1, 2): ("Demand response\nprocured by\nsystem operators", "lit"),
     }
     fig, ax = plt.subplots(figsize=(8.4, 5.0))
     ax.set_xlim(0, 3.55); ax.set_ylim(0, 2.75); ax.axis("off")
