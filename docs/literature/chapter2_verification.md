@@ -21,7 +21,11 @@ Method: every factual or numeric claim in `chapter2_draft_v1.md` was searched in
 | 2.2 | [1] Masanet cited from abstract only | Verify against full text (ILL) |
 
 ✏️ Update: [28] Morstyn verified against the Oxford open-access copy — ">5 years" ✅; "grid defection" corrected from "on-site fossil generation" to "local microgrids with dedicated generation".
-| 2.2 | PUE sentence has no source | Add open-access PUE source (e.g., Uptime Institute annual survey) |
+| 2.2 | ~~PUE sentence has no source~~ | ✏️ Resolved with LBNL report [40] |
 
 ## Verified (✅) — key numbers
 [22] 240–340 TWh (2022), 1–1.3%, 176→580 TWh · [8] +300%, 4.4%, 6.7–12% by 2028, 7–10-year waits · [29] 258 estimates, 46 publications, 676 sources, 31% peer-reviewed, Amsterdam/London · [26] 155,410 GPUs, 55.8 MW, 6.35% · [15] ~20% without storage, non-linear beyond ~80% · [13] up to 35% bias · [23] duck curve ×3, ramps ×3.5–5.5, 7.1–29.9 GW, SPPC/NGSA · [36] 50% by 2030, 31/24/22% · [22] 86.5%, 17%, ESS at the substation, daily task totals · plus all qualitative descriptions in Sections 2.4–2.6, 2.8–2.9.
+
+## Update — LBNL report [40] added
+✏️ U.S. figures now cite the primary LBNL report (176 TWh = 4.4% in 2023; ~325–580 TWh = 6.7–12.0% in 2028; 74–132 GW at 50% utilization; AI training servers 80% operational time; PUE highest in hot, humid climates) — all verified in the report text. Li et al. [8] kept only for the 7–10-year utility wait times, now worded as "as reported in [8]". Global 2022 figure still cites Yang [22] until the IEA report is obtained.
+Note: the uploaded copy is stamped "EMBARGOED REPORT: DO NOT DISTRIBUTE" (pre-release). Cite the public release (same report number and DOI) and confirm the numbers against it.
