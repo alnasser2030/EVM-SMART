@@ -18,7 +18,9 @@ Method: every factual or numeric claim in `chapter2_draft_v1.md` was searched in
 | Section | Issue | Action |
 |---|---|---|
 | 2.2 | Global/US demand figures cited via [22] (Yang et al.) and US share/wait times via [8] (Li et al.) are **secondary citations** — both papers quote IEA/LBNL reports | Replace with primary sources: IEA *Energy and AI* (2025) and LBNL *2024 U.S. Data Center Energy Usage Report* (both free; need network access to iea.org / lbl.gov or user download) |
-| 2.2 | [1] Masanet and [28] Morstyn cited from abstract/preprint only | Verify against full text (ILL for Masanet; Oxford ORA open copy for Morstyn) |
+| 2.2 | [1] Masanet cited from abstract only | Verify against full text (ILL) |
+
+✏️ Update: [28] Morstyn verified against the Oxford open-access copy — ">5 years" ✅; "grid defection" corrected from "on-site fossil generation" to "local microgrids with dedicated generation".
 | 2.2 | PUE sentence has no source | Add open-access PUE source (e.g., Uptime Institute annual survey) |
 
 ## Verified (✅) — key numbers
