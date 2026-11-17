@@ -75,3 +75,15 @@ Not yet received: B1 (10.1109/tsg.2018.2871125), B2 (10.1109/tcc.2017.2744623), 
 Not obtained: Cunha 2026 preprint (site blocks automated download).
 
 **Batch-6 verdict:** Open-access evidence reinforces the premise (AI DC inflexible), the motivation (annual matching inadequate, 24/7 valuable) and gives Saudi calibration. No paper uses external loads' flexibility for a DC's hourly matching. Gap holds.
+
+## Batch 7 (Priority C, 5 papers) — 2026-11-17
+
+| # | Paper | Key finding | Relation to EEF |
+|---|---|---|---|
+| C1 | Baghaee, Mirsalim, Gharehpetian & Talebi, *Reliability/cost-based multi-objective Pareto optimal design of stand-alone wind/PV/FC microgrid*, Energy 115 (2016) 1022–1041 | MOPSO minimizing annualized cost, LOLE and LOEE (LPSP, ELF constraint), 20-year horizon, component outages | Method reference for **reliability indices (LOLE, LOEE, LPSP)** and **cost–reliability Pareto** (Ch.2); RE+BESS-type design |
+| C2 | Mazzeo et al., *Energy reliability-constrained method for multi-objective optimization of PV-wind-battery systems*, Energy 156 (2018) 688–708 | ERC method: choose which reliability indicators to constrain vs optimize; grid-connected and stand-alone, hourly load; compared with Pareto-front method | Template for **constraining one pillar while optimizing others** (e.g., Tier availability as constraint) |
+| C3 | Amiri et al., *Strategic MCDM framework for renewable source selection in Saudi Arabia using AHP-TOPSIS*, Renewable Energy 236 (2024) 121523 | Expert survey + AHP-TOPSIS; cost-effectiveness most important criterion (31%), then low intermittency (24%) and resource potential (22%); solar ranked best (23%) | **AHP-TOPSIS method** for ranking GRID / RE+BESS / AM / EEF across the three pillars; Saudi 50%-RE-by-2030 context |
+| C4 | Al Garni & Awasthi, *Solar PV power plant site selection using GIS-AHP in Saudi Arabia*, Applied Energy 206 (2017) 1225–1240 | GIS + AHP land-suitability index for utility PV with real climatology and legislation layers | Saudi PV context (siting, solar resource); AHP application example |
+| C5 | Elshurafa & Peerbocus, *EV deployment and carbon emissions in Saudi Arabia: a power system perspective*, Electricity Journal 33 (2020) 106774 | Saudi power-system model, marginal-emission method; EVs cut emissions ~0.5% per 1% deployed; **marginal generator largely unchanged across hours/regions → time-of-use pricing would not reduce emissions** (2017 mix) | **Critical for the sustainability pillar**: with a thermal-dominated Saudi mix, shifting load by itself may not cut *marginal* emissions; EEF's emission benefit arises when midday marginal supply is **solar that would otherwise be curtailed** → must model future high-solar Saudi grid and report both average and marginal emission accounting |
+
+Pending (Priority C): Mytton (Joule 2022), renewable-storage sizing review (J. Energy Storage 2024), Ayop LPSP (RSER 2018), DC location with RE (Renewable Energy 2025). Not available: PUE paper (Electricity J. 2016) → use open-access alternative.
