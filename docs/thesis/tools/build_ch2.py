@@ -1,21 +1,30 @@
-"""Convert docs/literature/chapter2_draft_v1.md into LaTeX (chapter2.tex + refs.bib).
+"""Convert the Chapter 2 markdown draft into LaTeX (chapter2.tex + refs.bib).
 
 Usage (from repo root):
     python3 docs/thesis/tools/build_ch2.py
     cd docs/thesis && pdflatex main_ch2 && bibtex main_ch2 && pdflatex main_ch2 && pdflatex main_ch2
+
+- Citations [n], [a]–[b] become \\cite{rn,...}; BibTeX numbers them by first citation (IEEE).
+- BibTeX for DOI references is fetched once from Crossref and cached in refs_crossref.bib.
+- Markdown pipe tables preceded by "*Table 2.N. caption*" become booktabs/tabularx tables.
 """
+import json
 import re
 import subprocess
+import time
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
-MD = ROOT / "docs/literature/chapter2_draft_v1.md"
+MD = ROOT / "docs/literature/chapter2_draft_v2.md"
 OUT = ROOT / "docs/thesis"
+CACHE = OUT / "refs_crossref.bib"
 
 MANUAL_BIB = r"""
 @techreport{r1,
   author      = {Shehabi, Arman and Smith, Sarah and Hubbard, Alex and Newkirk, Alex and Lei, Nuoa and Siddik, Md Abu Bakar and Holecek, Billie and Koomey, Jonathan and Masanet, Eric and Sartor, Dale},
-  title       = {2024 United States Data Center Energy Usage Report},
+  title       = {2024 {United States} Data Center Energy Usage Report},
   institution = {Lawrence Berkeley National Laboratory},
   address     = {Berkeley, CA, USA},
   number      = {LBNL-2001637},
@@ -47,20 +56,86 @@ MANUAL_BIB = r"""
   year        = {2025},
   note        = {Licence: CC BY 4.0. [Online]. Available: https://www.iea.org/reports/energy-and-ai}
 }
+
+@techreport{r49,
+  author      = {{Greenhouse Gas Protocol}},
+  title       = {{GHG Protocol} Scope 2 Guidance},
+  institution = {World Resources Institute and World Business Council for Sustainable Development},
+  address     = {Washington, DC, USA},
+  year        = {2015}
+}
+
+@misc{r50,
+  author       = {{Greenhouse Gas Protocol}},
+  title        = {Upcoming Scope 2 Public Consultation: Hourly Matching and Deliverability},
+  year         = {2025},
+  howpublished = {[Online]. Available: https://ghgprotocol.org/blog/upcoming-scope-2-public-consultation-hourly-matching-and-deliverability}
+}
+
+@techreport{r51,
+  author      = {{EnergyTag}},
+  title       = {Granular Certificate Scheme Standard},
+  institution = {EnergyTag},
+  type        = {Standard, Version 2},
+  year        = {2023},
+  note        = {[Online]. Available: https://energytag.org}
+}
+
+@misc{r52,
+  author       = {{U.S. International Trade Administration}},
+  title        = {{Saudi Arabia ICT}: New Data Center Strategy to Accelerate {AI} and Cloud Expansion},
+  year         = {2025},
+  howpublished = {Market Intelligence. [Online]. Available: https://www.trade.gov/market-intelligence/saudi-arabia-ict-new-data-center-strategy-accelerate-ai-and-cloud-expansion}
+}
+
+@misc{r53,
+  author       = {{NEOM}},
+  title        = {{DataVolt} Signs Agreement with {NEOM} to Design and Develop the Region's First Net-Zero {AI} Factory Campus in {Oxagon}},
+  month        = feb,
+  year         = {2025},
+  howpublished = {[Online]. Available: https://www.neom.com/en-us/newsroom/datavolt-signs-agreement-with-neom}
+}
 """
+MANUAL_KEYS = set(re.findall(r"@\w+\{(r\d+),", MANUAL_BIB))
+
+
+# ----------------------------------------------------------------- bibliography
+def fetch_crossref_bib(refs: dict) -> str:
+    cached = CACHE.read_text() if CACHE.exists() else ""
+    have = set(re.findall(r"@\w+\{(r\d+),", cached))
+    new = []
+    for n, doi in sorted(refs.items()):
+        key = f"r{n}"
+        if key in have or key in MANUAL_KEYS or not doi:
+            continue
+        url = "https://api.crossref.org/works/" + urllib.parse.quote(doi) + "/transform/application/x-bibtex"
+        for _ in range(3):
+            try:
+                b = urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": "thesis-build"}),
+                                           timeout=40).read().decode()
+                break
+            except Exception:
+                time.sleep(4)
+        else:
+            raise SystemExit(f"Crossref fetch failed for [{n}] {doi}")
+        new.append(re.sub(r"^@(\w+)\{[^,]+,", lambda m: f"@{m.group(1)}{{{key},", b.strip(), count=1))
+        time.sleep(0.8)
+    if new:
+        cached = cached.rstrip() + "\n\n" + "\n\n".join(new) + "\n"
+        CACHE.write_text(cached)
+    return cached
 
 
 def clean_bib(text: str) -> str:
     text = text.replace("&amp;", r"\&")
-    text = re.sub(r"month=(Sept|June|July)\b", lambda m: "month=" + {"Sept": "sep", "June": "jun", "July": "jul"}[m.group(1)], text)
+    text = re.sub(r"month=(Sept|June|July)\b",
+                  lambda m: "month=" + {"Sept": "sep", "June": "jun", "July": "jul"}[m.group(1)], text)
     text = re.sub(r"pages=\{(\d+)[–-](\d+)\}", r"pages={\1--\2}", text)
     text = re.sub(r"\s*(url|ISSN|publisher|collection|series)=\{[^{}]*\},?", "", text)
-    # DOI -> note (IEEEtran.bst has no doi field)
     text = re.sub(r"DOI=\{([^}]*)\}", lambda m: "note={doi: %s}" % m.group(1), text)
-    # KAPSARC discussion paper as tech report
     text = text.replace("@book{r23,", "@techreport{r23, type={Discussion Paper}, number={KS--2026-DP17},")
-    # protect acronyms and proper nouns in titles (IEEEtran sentence-cases titles)
-    proper = {"Saudi", "Arabia", "Khobar", "Paris", "U.S.", "Türkiye", "Europe", "Korea"}
+    text = text.replace("CO2", r"{CO\textsubscript{2}}")
+    proper = {"Saudi", "Arabia", "Khobar", "Paris", "U.S.", "Türkiye", "Europe", "Korea", "Vision"}
 
     def protect(title):
         out = []
@@ -74,101 +149,116 @@ def clean_bib(text: str) -> str:
             out.append(tok)
         return "".join(out)
 
-    text = re.sub(r"\btitle=\{([^{}]*)\}", lambda m: "title={" + protect(m.group(1)) + "}", text)
-    return text
+    return re.sub(r"\btitle=\{([^{}]*)\}", lambda m: "title={" + protect(m.group(1)) + "}", text)
+
+
+# ----------------------------------------------------------------- body
+CITE_RUN = re.compile(r"\[\d+\](?:\s*(?:–|,)\s*\[\d+\])*")
 
 
 def cite_run(run: str) -> str:
     nums = []
     for a, b in re.findall(r"\[(\d+)\](?:\s*–\s*\[(\d+)\])?", run):
-        a = int(a)
-        nums.extend(range(a, int(b) + 1) if b else [a])
+        nums.extend(range(int(a), int(b) + 1) if b else [int(a)])
     return r"\cite{" + ",".join(f"r{n}" for n in nums) + "}"
 
 
-CITE_RUN = re.compile(r"\[\d+\](?:\s*(?:–|,)\s*\[\d+\])*")
+def tex_inline(cell: str) -> str:
+    cell = cell.strip()
+    cell = cell.replace("&", r"\&").replace("%", r"\%").replace("~", r"$\sim$")
+    cell = CITE_RUN.sub(lambda m: cite_run(m.group(0)), cell)
+    cell = re.sub(r"\*\*(.+?)\*\*", r"\\textbf{\1}", cell)
+    cell = cell.replace("—", "---").replace("–", "--")
+    return cell
 
-FIGS = {
-    "fig2_3_references_by_year.png": "fig:years",
-    "fig2_1_hourly_mismatch.png": "fig:mismatch",
-    "fig2_2_positioning_map.png": "fig:position",
+
+TABLE_COLS = {  # column specs per table number (must sum to \textwidth)
+    "2.1": r">{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X"
+           r">{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.6cm}",
+    "2.2": r">{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}"
+           r">{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.4cm}",
 }
-FIG_TEXT = {"Fig. 2.1": r"Fig.~\ref{fig:mismatch}", "Fig. 2.2": r"Fig.~\ref{fig:position}",
-            "Fig. 2.3": r"Fig.~\ref{fig:years}"}
 
-TABLE = r"""
-```{=latex}
-\begin{table}[!htbp]
-\centering
-\caption{Positioning of this work relative to the literature.}
-\label{tab:positioning}
-\small
-\renewcommand{\arraystretch}{1.25}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.4cm}}
-\toprule
-\textbf{Stream} & \textbf{Flexibility source} & \textbf{Procured by} & \textbf{Purpose} & \textbf{Applicable to an inflexible AI DC?} \\
-\midrule
-Internal DC flexibility \cite{r2,r3,r4,r5,r6,r7,r8,r9,r24,r27} & DC workloads, servers, UPS, batteries & DC operator & Cost, DR, peak shaving, 24/7 CFE & Limited \cite{r26} \\
-Renewables + storage supply \cite{r15,r30,r31,r32,r33} & On-site or contracted storage & DC / buyer & Self-supply, reliability & Costly at high shares \cite{r15} \\
-Hourly clean matching \cite{r9,r10,r11,r14,r15,r16} & Procured generation, storage, own load & Buyer & 24/7 CFE & Only via costly storage \cite{r15} \\
-Grid demand flexibility \cite{r17,r18,r19,r20,r21,r23} & Other consumers' loads & System operator / aggregator & System balancing & Not linked to a buyer's supply \\
-DC--desalination coupling \cite{r22} & Co-located plant + flexible DC & Integrated owner & Cost (heat synergy) & No (assumes flexible DC) \\
-\midrule
-\textbf{This work (EEF)} & \textbf{Portfolio of existing external loads} & \textbf{DC via contractual framework} & \textbf{Hourly matching + reliability + cost} & \textbf{Yes} \\
-\bottomrule
-\end{tabularx}
-\end{table}
-```
-"""
+
+def table_block(m) -> str:
+    num, cap, rows = m.group(1), m.group(2).strip(), m.group(3)
+    lines = [l for l in rows.strip().splitlines() if l.strip()]
+    cells = [[c for c in l.strip().strip("|").split("|")] for l in lines]
+    head, body = cells[0], [r for r in cells[2:]]
+    size = r"\scriptsize" if num == "2.1" else r"\small"
+    out = [r"\begin{table}[!htbp]", r"\centering", f"\\caption{{{tex_inline(cap)}}}", f"\\label{{tab:{num}}}",
+           size, r"\renewcommand{\arraystretch}{1.2}", f"\\begin{{tabularx}}{{\\textwidth}}{{{TABLE_COLS[num]}}}",
+           r"\toprule", " & ".join(r"\textbf{" + tex_inline(h) + "}" for h in head) + r" \\", r"\midrule"]
+    for r in body:
+        if r[0].strip().startswith("**This work"):
+            out.append(r"\midrule")
+        out.append(" & ".join(tex_inline(c) for c in r) + r" \\")
+    out += [r"\bottomrule", r"\end{tabularx}", r"\end{table}"]
+    return "```{=latex}\n" + "\n".join(out) + "\n```\n"
+
+
+FIG_LABEL = {"fig2_3_references_by_year.png": "fig:years", "fig2_1_hourly_mismatch.png": "fig:mismatch",
+             "fig2_2_positioning_map.png": "fig:position"}
 
 
 def body_from_markdown(md: str) -> str:
-    body = md.split("## 2.1", 1)[1]
-    body = "## 2.1" + body.split("\n---\n\n## References", 1)[0]
+    body = "## 2.1" + md.split("## 2.1", 1)[1]
+    body = body.split("\n---\n\n## References", 1)[0]
 
-    # figures: image line + italic caption line -> LaTeX figure
+    fig_num = {}
+
     def fig(m):
-        path, cap = m.group(1), m.group(2)
+        path, num, cap = m.group(1), m.group(2), m.group(3).strip()
         name = Path(path).name
-        cap = re.sub(r"^Fig\. 2\.\d\.\s*", "", cap).strip()
+        fig_num[num] = FIG_LABEL[name]
         cap = CITE_RUN.sub(lambda r: cite_run(r.group(0)), cap)
-        width = "0.95\\textwidth" if "positioning" not in name else "0.9\\textwidth"
-        pdf = name.replace(".png", ".pdf")
+        cap = re.sub(r"Table (2\.\d)", r"Table~\\ref{tab:\1}", cap)
+        width = "0.9\\textwidth" if "positioning" in name else "0.95\\textwidth"
         return ("```{=latex}\n\\begin{figure}[!htbp]\n\\centering\n"
-                f"\\includegraphics[width={width}]{{{pdf}}}\n"
-                f"\\caption{{{cap}}}\n\\label{{{FIGS[name]}}}\n\\end{{figure}}\n```")
-    body = re.sub(r"!\[[^\]]*\]\(([^)]+)\)\n\n\*(Fig\. 2\.\d\..*?)\*", fig, body)
+                f"\\includegraphics[width={width}]{{{name.replace('.png', '.pdf')}}}\n"
+                f"\\caption{{{cap}}}\n\\label{{{FIG_LABEL[name]}}}\n\\end{{figure}}\n```")
 
-    # table 2.1
-    body = re.sub(r"\*Table 2\.1\..*?\*\n\n(\|.*\n)+", lambda m: TABLE.strip("\n") + "\n", body)
-    body = body.replace("Table 2.1 details", r"Table~\ref{tab:positioning} details")
-
-    for k, v in FIG_TEXT.items():
-        body = body.replace(k, v)
-
-    # headings
+    body = re.sub(r"!\[[^\]]*\]\(([^)]+)\)\n\n\*Fig\. (2\.\d)\.\s*(.*?)\*", fig, body)
+    body = re.sub(r"\*Table (2\.\d)\.\s*(.*?)\*\n\n((?:\|.*\n)+)", table_block, body)
+    for num, label in fig_num.items():
+        body = body.replace(f"Fig. {num}", f"Fig.~\\ref{{{label}}}")
+    body = re.sub(r"Table (2\.\d)", r"Table~\\ref{tab:\1}", body)
     body = re.sub(r"^## 2\.(\d+) (.+)$", lambda m: f"\\section{{{m.group(2)}}}\\label{{sec:2-{m.group(1)}}}",
                   body, flags=re.M)
-    # citations
+    body = re.sub(r"Sections? (2\.\d+)(?:–(2\.\d+))?",
+                  lambda m: ("Sections~\\ref{sec:2-%s}--\\ref{sec:2-%s}" % (m.group(1)[2:], m.group(2)[2:]))
+                  if m.group(2) else "Section~\\ref{sec:2-%s}" % m.group(1)[2:], body)
     body = CITE_RUN.sub(lambda m: cite_run(m.group(0)), body)
     return body
 
 
 def main():
     md = MD.read_text()
+    refs = {}
+    for line in md.split("## References", 1)[1].splitlines():
+        m = re.match(r"\[(\d+)\]\s+(.*)", line)
+        if m:
+            d = re.search(r"doi:\s*(\S+?)\.?(\s|$|\*)", m.group(2))
+            refs[int(m.group(1))] = d.group(1) if d else None
     body = body_from_markdown(md)
+    used = sorted({int(n) for n in re.findall(r"\\cite\{([^}]*)\}", body) for n in re.findall(r"r(\d+)", n)})
+    missing = [n for n in used if n not in refs]
+    if missing:
+        raise SystemExit(f"cited but not in reference list: {missing}")
     tex = subprocess.run(["pandoc", "-f", "markdown+raw_tex", "-t", "latex", "--wrap=preserve"],
                          input=body, capture_output=True, text=True, check=True).stdout
-    tex = tex.replace("\\section{", "\\section{")  # keep numbered sections
     tex = tex.replace("\\textasciitilde{}", "~")
     tex = re.sub(r"\\hypertarget\{[^}]*\}\{%\n", "", tex)
     tex = re.sub(r"\\label\{([^}]*)\}\}", r"\\label{\1}", tex)
     (OUT / "chapter2.tex").write_text(
-        "% Generated by tools/build_ch2.py from docs/literature/chapter2_draft_v1.md - edit the markdown, then rebuild.\n"
+        "% Generated by tools/build_ch2.py from docs/literature/chapter2_draft_v2.md - edit the markdown, then rebuild.\n"
         "\\chapter{Literature Review}\\label{ch:literature}\n\n" + tex)
-    crossref = (OUT / "refs_crossref.bib").read_text()
-    (OUT / "refs.bib").write_text(clean_bib(crossref) + "\n" + MANUAL_BIB)
-    print("wrote chapter2.tex and refs.bib")
+    crossref = fetch_crossref_bib({n: d for n, d in refs.items() if n in used})
+    keep = "\n\n".join(e for e in re.split(r"\n\s*\n(?=@)", crossref.strip())
+                       if int(re.match(r"@\w+\{r(\d+),", e.strip()).group(1)) in used)
+    (OUT / "refs.bib").write_text(clean_bib(keep) + "\n" + MANUAL_BIB)
+    unused = sorted(set(refs) - set(used))
+    print(f"wrote chapter2.tex and refs.bib; {len(used)} references cited" + (f"; unused: {unused}" if unused else ""))
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ Outputs are written next to this script.
 Colors follow the validated reference palette (blue #2a78d6, orange #eb6834).
 """
 import os
+import re
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
@@ -103,10 +104,15 @@ def fig_positioning_map():
 
 # ---------------------------------------------------------------- Fig 2.3
 def fig_refs_by_year():
-    years = [2024, 2013, 2020, 2021, 2019, 2019, 2023, 2026, 2025, 2024, 2024, 2022, 2022,
-             2026, 2026, 2024, 2017, 2026, 2024, 2023, 2022, 2026, 2026, 2026, 2021, 2026,
-             2026, 2026, 2022, 2024, 2018, 2016, 2024, 2025, 2026, 2024, 2017, 2020, 2018, 2025]
-    yrs = np.arange(2013, 2027)
+    """Count references by year, parsed from the reference list of the current draft."""
+    md = open(os.path.join(OUT, "..", "chapter2_draft_v2.md"), encoding="utf-8").read()
+    refs = md.split("## References", 1)[1]
+    years = []
+    for line in refs.splitlines():
+        if re.match(r"\[\d+\]", line):
+            ys = re.findall(r"\b(?:19|20)\d{2}\b", line.split("doi:")[0])
+            years.append(int(ys[-1]))
+    yrs = np.arange(min(years), max(years) + 1)
     cnt = np.array([years.count(y) for y in yrs])
     recent = sum(c for y, c in zip(yrs, cnt) if y >= 2024)
     fig, ax = plt.subplots(figsize=(7.2, 3.0))

@@ -32,3 +32,26 @@ Note: the uploaded copy is stamped "EMBARGOED REPORT: DO NOT DISTRIBUTE" (pre-re
 
 ## Update — IEA report [40] added
 ✏️ Global figures now cite the primary IEA *Energy and AI* (2025) report (executive summary, pp. 13–15): 415 TWh ≈ 1.5% of world electricity in 2024; ~12%/yr growth since 2017 (>4× total demand growth); ~945 TWh by 2030 (AI the main driver); ~1,200 TWh by 2035 in the Base Case, 700–1,700 TWh across cases; typical AI-focused DC = 100,000 households, largest under construction 20×; comparable to aluminium smelters. All verified verbatim. The secondary citation of Yang [22] for 2022 global figures was removed. **No secondary citations remain in Section 2.2.**
+
+---
+# Draft v2 additions — verification (2026-11-17)
+
+| Ref (v2 markdown no.) | Claim | Source checked | Status |
+|---|---|---|---|
+| [26] Li 2026 | Mean-calibrated flexibility share overstates dependable relief by 17%, 25%, 47% (1 h, 4 h, 24 h) | Full text (abstract) | ✅ |
+| [42] Mendicino 2019 | CPPA = contract between renewable producer and end user; increasingly used; price and contract length are design variables | Abstract | ✅ |
+| [43] Schmidt 2019 | LCOS falls by one-third by 2030 and one-half by 2050; Li-ion most cost-efficient for nearly all stationary applications from 2030 | Abstract | ✅ |
+| [44] Hirth 2013 | Wind value 110% → 50–80% of average price as penetration 0 → 30%; solar similarly low at ~15%; European markets | Full text (open copy) | ✅ |
+| [45] Valentini 2022 | Reliable baseline is a precondition for fair evaluation; structured review of CBL methods | Abstract | ✅ |
+| [48] Amran 2020 | Large KSA investment in renewables; solar the leading resource (Vision 2030 review) | Abstract | ✅ |
+| [23] KAPSARC | WTP for DR declines as activation hours increase | Full text | ✅ |
+| [27] Khanal | Event-shape limits diminish the value of curtailment | Full text (abstract) | ✅ |
+| [41] Arno 2012 | Tier I–IV redundancy levels; reliability quantified per tier | Title/metadata only | ⚠️ **PDF needed** |
+| [46] Siler-Evans 2012, [47] Hawkes 2010 | Marginal vs average emission factors differ substantially | Title/metadata only | ⚠️ **PDFs needed** |
+| [49] GHG Protocol Scope 2 Guidance (2015) | Dual reporting: location-based and market-based | Standard knowledge; official document not opened | ⚠️ confirm against document |
+| [50] GHG Protocol blog (2025) | Consultation opened Oct 2025 proposing hourly matching and deliverability | Search summaries of official page and PwC | ⚠️ confirm page text |
+| [51] EnergyTag GC Scheme Standard v2 (2023) | Hourly certificates recording time of production standardized | Search summaries (CRU, I-REC) | ⚠️ confirm document |
+| [52] U.S. ITA (trade.gov) | National Data Center Strategy, June 2025, ~1.5 GW by 2030 | Search summaries (trade.gov, Greenberg Traurig) | ⚠️ confirm page text |
+| [53] NEOM newsroom (Feb 2025) | 1.5 GW net-zero AI campus at Oxagon; initially powered by thermal plants | Search summaries of NEOM release and news coverage | ⚠️ confirm page text |
+
+Review-methodology numbers (Section 2.2): 1,365 records retrieved / 1,217 unique from the Crossref queries logged in this session; ~85 screened in detail; ~45 full texts examined; 53 references cited.

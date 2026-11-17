@@ -2,7 +2,7 @@
 
 - `chapter2_literature_review.pdf` — compiled Chapter 2 (Literature Review).
 - `main_ch2.tex` — standalone wrapper: 12 pt Times, 1-inch margins, double spacing, centered all-caps chapter title (Texas A&M OGAPS style), IEEEtran numeric citations.
-- `chapter2.tex`, `refs.bib` — **generated** from `docs/literature/chapter2_draft_v1.md` by `tools/build_ch2.py` (BibTeX from Crossref in `refs_crossref.bib` plus manual entries for LBNL, IEA and arXiv items). Edit the markdown, then rebuild.
+- `chapter2.tex`, `refs.bib` — **generated** from `docs/literature/chapter2_draft_v2.md` by `tools/build_ch2.py` (BibTeX from Crossref in `refs_crossref.bib` plus manual entries for LBNL, IEA and arXiv items). Edit the markdown, then rebuild.
 
 Rebuild:
 ```bash

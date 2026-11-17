@@ -24,6 +24,12 @@
 \titlespacing*{\section}{0pt}{12pt}{0pt}
 \renewcommand{\bibname}{References}
 
+% Float pages: start floats at the top of the page
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\makeatother
+
 % TAMU: figure/table numbering by chapter (Figure 2.1, Table 2.1)
 \renewcommand{\figurename}{Figure}
 
