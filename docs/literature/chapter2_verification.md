@@ -46,8 +46,9 @@ Note: the uploaded copy is stamped "EMBARGOED REPORT: DO NOT DISTRIBUTE" (pre-re
 | [48] Amran 2020 | Large KSA investment in renewables; solar the leading resource (Vision 2030 review) | Abstract | ✅ |
 | [23] KAPSARC | WTP for DR declines as activation hours increase | Full text | ✅ |
 | [27] Khanal | Event-shape limits diminish the value of curtailment | Full text (abstract) | ✅ |
-| [41] Arno 2012 | Tier I–IV redundancy levels; reliability quantified per tier | Title/metadata only | ⚠️ **PDF needed** |
-| [46] Siler-Evans 2012, [47] Hawkes 2010 | Marginal vs average emission factors differ substantially | Title/metadata only | ⚠️ **PDFs needed** |
+| [41] Arno 2012 | Tier 1 (least) to Tier 4 (most reliable); each tier removes single points of failure, Tier 4 none; reliability modeled per tier | Full text | ✅ ("basic capacity" wording removed — not in source) |
+| [47] Hawkes 2010 | Grid-average factors can misstate the effect of demand-side interventions; specific generators respond to demand changes | Full text | ✅ |
+| [46] Siler-Evans 2012 | Marginal factors vary by region and time of day | Supporting Information (figures of MEFs by NERC region and hour) | ✅ (claim narrowed to what the SI shows) |
 | [49] GHG Protocol Scope 2 Guidance (2015) | Dual reporting: location-based and market-based | Standard knowledge; official document not opened | ⚠️ confirm against document |
 | [50] GHG Protocol blog (2025) | Consultation opened Oct 2025 proposing hourly matching and deliverability | Search summaries of official page and PwC | ⚠️ confirm page text |
 | [51] EnergyTag GC Scheme Standard v2 (2023) | Hourly certificates recording time of production standardized | Search summaries (CRU, I-REC) | ⚠️ confirm document |
