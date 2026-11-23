@@ -66,12 +66,12 @@ def fig_architecture():
     # energy (solid)
     arrow((X1 + BW, 3.5), (X2, 3.5), color=ORANGE, lw=1.6); label((X1 + BW + X2) / 2, 3.72, "all PV injected")
     arrow((X2 + 0.6, YT), (X1 + BW - 0.4, YB + BH), color=BLUE, lw=1.6); label(2.75, 2.35, "all DC energy", ha="right")
-    arrow((X2 + BW, 3.68), (X3, 3.68), color=AQUA, lw=1.6); label((X2 + BW + X3) / 2, 3.9, "up at midday")
-    arrow((X3, 3.25), (X2 + BW, 3.25), color=AQUA, lw=1.6, ls=(0, (3, 2))); label((X2 + BW + X3) / 2, 3.03, "down at night")
+    arrow((X2 + BW, 3.68), (X3, 3.68), color=AQUA, lw=1.6); label((X2 + BW + X3) / 2, 3.9, "absorb all PV")
+    arrow((X3, 3.25), (X2 + BW, 3.25), color=AQUA, lw=1.6, ls=(0, (3, 2))); label((X2 + BW + X3) / 2, 3.03, "reduce by DC load")
     # contracts / data (dashed grey)
     arrow((X1 + BW, 1.25), (X2, 1.25), ls=(0, (2, 2))); label((X1 + BW + X2) / 2, 1.47, "flex contract")
     arrow((X2 + BW, 1.25), (X3, 1.25), ls=(0, (2, 2))); label((X2 + BW + X3) / 2, 1.47, "verified shifts")
-    arrow((X2 + BW - 0.5, YB + BH), (X3 + 0.4, YT), ls=(0, (2, 2)), rad=-0.12); label(7.6, 2.3, "dispatch")
+    arrow((X2 + BW - 0.3, YB + BH), (X3 + 1.3, YT), ls=(0, (2, 2)), rad=-0.12); label(8.75, 2.2, "dispatch")
     arrow((X3 + BW / 2, YB), (X1 + BW / 2, YB), ls=(0, (1, 2)), rad=-0.12)
     label((X1 + X3 + BW) / 2, -0.02, "displacement credits for verified matched hours")
     # control layers
@@ -97,8 +97,8 @@ def fig_dispatch():
         h = [int(r["hour"]) for r in rs]
         pv = [float(r["pv_MW"]) for r in rs]; ld = [float(r["load_MW"]) for r in rs]
         up = [float(r["up_MW"]) for r in rs]; dn = [-float(r["down_MW"]) for r in rs]
-        ax.bar(h, up, width=0.8, color=AQUA, lw=0, label="Flex up")
-        ax.bar(h, dn, width=0.8, color="white", edgecolor=AQUA, hatch="////", lw=0.6, label="Flex down")
+        ax.bar(h, up, width=0.8, color=AQUA, lw=0, label="Net increase")
+        ax.bar(h, dn, width=0.8, color="white", edgecolor=AQUA, hatch="////", lw=0.6, label="Net decrease")
         ax.plot(h, pv, color=ORANGE, lw=1.4, label="PV")
         ax.plot(h, ld, color=BLUE, lw=1.4, label="DC load")
         ax.axhline(0, color=MUTED, lw=0.5)
