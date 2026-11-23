@@ -112,6 +112,8 @@ Because both configurations share the same PV plant and grid supply, their cost 
 \end{equation}
 
 \section{Case Study}
+Four supply configurations are compared: \emph{GRID}, direct grid supply without clean procurement; \emph{AM}, annual matching, in which a PV plant sized to the data center's annual consumption injects all its output and no flexibility or storage is used; \emph{RE+BESS}, the same PV plant with a battery (Section~IV-B); and \emph{EEF}, the same PV plant with external flexibility (Section~IV-A). In all four, the data center buys its entire consumption from the grid.
+
 A 100-MW AI data center in Riyadh (24.71$^\circ$N, 46.68$^\circ$E) consumes 876~GWh/yr. Hourly PV output for 2020 was obtained from PVGIS-SARAH3 for fixed, optimally tilted crystalline-silicon modules with 14\% losses~\cite{pvgis}; the capacity factor is 20.96\%, so a 477-MWp plant matches the annual consumption. Table~\ref{tab:params} lists the parameters. The models were solved with HiGHS.
 
 \begin{table}[!t]
