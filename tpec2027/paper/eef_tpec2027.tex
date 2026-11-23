@@ -27,7 +27,7 @@ AI data centers, demand flexibility, hourly matching, 24/7 carbon-free energy, d
 \end{IEEEkeywords}
 
 \section{Introduction}
-Data centers used about 415~TWh, or 1.5\% of global electricity, in 2024, and their consumption is projected to more than double to about 945~TWh by 2030, with AI the main driver~\cite{r40}. In the United States, data centers used 4.4\% of electricity in 2023 and may reach 6.7--12\% by 2028~\cite{r1}. Saudi Arabia targets about 1.5~GW of data center capacity by 2030~\cite{r52}. AI facilities draw power that is high and nearly constant: in a 155{,}410-GPU production trace, only about 6\% of facility power was immediately curtailable~\cite{r26}.
+Data centers used about 415~TWh, or 1.5\% of global electricity, in 2024, and their consumption is projected to more than double to about 945~TWh by 2030, with AI the main driver~\cite{r40}. In the United States, data centers used 4.4\% of electricity in 2023 and may reach 6.7--12\% by 2028~\cite{r1}. In Saudi Arabia, data centers used about 2.8~TWh (0.85\% of national electricity) in 2024, which could rise to 10.2--42.2~TWh by 2030~\cite{kapsarcdc}, and the national strategy targets about 1.5~GW of capacity by 2030~\cite{r52}. AI facilities draw power that is high and nearly constant: in a 155{,}410-GPU production trace, only about 6\% of facility power was immediately curtailable~\cite{r26}.
 
 Large consumers usually claim clean supply through \emph{annual matching}: procuring renewable energy equal to annual consumption. Evidence shows that this overstates real mitigation~\cite{r12} and that hourly (24/7) matching is required for system-level emission reductions~\cite{r10,r11}; revisions of carbon-accounting rules toward hourly matching are under consultation~\cite{r50}. Hourly matching, however, has so far relied on procured generation and storage~\cite{r11,r14,r16}, whose cost escalates as the matched share approaches 100\%~\cite{r15}, or on the buyer's own load flexibility~\cite{r9,r10}, which AI data centers largely lack~\cite{r26}. Meanwhile, other grid loads---desalination, district cooling, pumping and industry---can shift consumption~\cite{r19,r20,r23}, but their flexibility is procured by system operators for system services~\cite{r17,r18}, not by a consumer to secure its own clean supply.
 
@@ -102,7 +102,7 @@ Parameter & Value \\
 \midrule
 Data center load & 100 MW, constant \\
 PV plant (annual matching) & 477 MWp; CF 20.96\% \cite{pvgis} \\
-Grid tariff (industrial) & 0.20 SAR/kWh \cite{sectariff} \\
+Grid tariff (cloud computing) & 0.18 SAR/kWh \cite{kapsarcdc} \\
 Battery capital cost, 2030 (4-h) & US\$124/207/338 per kWh \cite{nrelbess2025} \\
 Battery round-trip efficiency & 90\% \\
 Discount rate, life, fixed O\&M & 8\%, 15 yr, 2.5\%/yr \\
@@ -138,7 +138,7 @@ Fig.~\ref{fig:cfe} shows the maximum CFE as a function of contracted flexible po
 \end{figure}
 
 \subsection{EEF Versus Battery Storage}
-Table~\ref{tab:compare} compares the resources needed for each CFE target. Reaching 80\% requires either 140~MW of flexibility or a 1{,}027-MWh battery, equal to 10.3~h of the data center load. The break-even flexibility price is about US\$86--89/MWh shifted in the mid battery-cost case, rising slightly with the target, and US\$51--146/MWh across the low and high cases; in capacity terms, the mid case corresponds to US\$191--235 per kW-year of contracted flexibility. Fig.~\ref{fig:cost} shows the annual cost of both options: at 80\%, the battery costs US\$30.2~million per year (mid case), whereas EEF costs US\$17.3~million at US\$50/MWh shifted. The low-case break-even, about US\$52/MWh, is close to the industrial grid tariff of US\$53/MWh.
+Table~\ref{tab:compare} compares the resources needed for each CFE target. Reaching 80\% requires either 140~MW of flexibility or a 1{,}027-MWh battery, equal to 10.3~h of the data center load. The break-even flexibility price is about US\$86--89/MWh shifted in the mid battery-cost case, rising slightly with the target, and US\$51--146/MWh across the low and high cases; in capacity terms, the mid case corresponds to US\$191--235 per kW-year of contracted flexibility. Fig.~\ref{fig:cost} shows the annual cost of both options: at 80\%, the battery costs US\$30.2~million per year (mid case), whereas EEF costs US\$17.3~million at US\$50/MWh shifted. The low-case break-even, about US\$52/MWh, is close to the cloud-computing tariff of US\$48/MWh (18~halalas/kWh) and the industrial tariff of US\$53/MWh~\cite{kapsarcdc}.
 
 \begin{table}[!t]
 \centering
