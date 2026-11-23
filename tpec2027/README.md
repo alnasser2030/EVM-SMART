@@ -27,3 +27,4 @@ cd paper && pdflatex eef_tpec2027 && bibtex eef_tpec2027 && pdflatex eef_tpec202
 | Battery cost at 80%: 30.2 M$/yr (mid) | results/targets.csv | 30,150,734 |
 | EEF at $50/MWh, 80%: 17.3 M$/yr | 346,660 MWh × 50 | 17.33 M$ |
 | Emissions 296 / 99.5 / 49.8 kt | (1−CFE)·876 GWh·0.568 | ✓ |
+| NEOM: CF 21.37%, AM 41.5%, 80% → 134 MW or 995 MWh, BE 86.7 $/MWh, max EEF 89.5% | model rerun with data/pv_neom_2020_local_per_kWp.csv | ✓ |
