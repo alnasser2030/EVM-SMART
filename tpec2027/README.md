@@ -31,3 +31,4 @@ cd paper && pdflatex eef_tpec2027 && bibtex eef_tpec2027 && pdflatex eef_tpec202
 | Monthly CFE (80% target): EEF 86.6% vs BESS 85.1% in Jun; 68.6% vs 71.5% in Dec; AM 34.9–44.5% | results/monthly_cfe.csv (model/run_extra.py) | ✓ |
 | PV ×1.25/×1.5: max 93.1/93.7%; P80 123/118 MW; P90 162/151 MW; BESS90 1,252/1,227 MWh | results/sens_pv.csv | ✓ |
 | η 0.85/1.0: P80 163/132 MW; max 89.3/91.5%; break-even per MWh unchanged | results/sens_eta.csv | ✓ |
+| Three pillars at 80%: evening grid load 100/100/13/16 MW; night 100/100/51/41 MW; emissions 498/296/99.5/99.5 kt; storage 1,027 MWh (BESS only); cost 30.2 (18.1–49.2) vs 17.3 (8.7–26.0 at $25–75) M$/yr; grid purchases 42.0 M$/yr | results/three_pillars.csv (model/run_pillars.py) | ✓ |

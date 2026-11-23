@@ -162,6 +162,36 @@ def fig_monthly():
     save(fig, "fig5_monthly")
 
 
+# ---------------------------------------------------------------- Fig. 6 three pillars
+def fig_pillars():
+    rows = {r["config"]: r for r in rd("three_pillars.csv")}
+    cfg = ["GRID", "AM", "RE+BESS", "EEF"]
+    col = {"GRID": "#52514e", "AM": "#b5b4ae", "RE+BESS": BLUE, "EEF": AQUA}
+    fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.0))
+    panels = [("(a) Reliability\nGrid load added, 19:00\u201323:00 (MW)", "evening_net_load_MW", "{:.0f}"),
+              ("(b) Sustainability\nHourly-accounted emissions (kt CO$_2$/yr)", "emissions_kt", "{:.0f}"),
+              ("(c) Cost\nCost of hourly matching (M\\$/yr)", "cost_mid_MUSD", "{:.1f}")]
+    for ax, (title, key, fmt) in zip(axes, panels):
+        vals = [float(rows[c][key]) for c in cfg]
+        bars = ax.bar(range(4), vals, color=[col[c] for c in cfg], width=0.72, edgecolor="white", linewidth=1.5)
+        if key == "cost_mid_MUSD":
+            for i, c in enumerate(cfg):
+                lo, hi = float(rows[c]["cost_lo_MUSD"]), float(rows[c]["cost_hi_MUSD"])
+                if hi > 0:
+                    ax.errorbar(i, vals[i], yerr=[[vals[i] - lo], [hi - vals[i]]], color=INK, lw=0.8, capsize=2)
+        top = max(vals) if key != "cost_mid_MUSD" else max(float(rows[c]["cost_hi_MUSD"]) for c in cfg)
+        for i, v in enumerate(vals):
+            y = v if key != "cost_mid_MUSD" else max(v, float(rows[cfg[i]]["cost_hi_MUSD"]))
+            ax.text(i, y + top * 0.03, fmt.format(v), ha="center", va="bottom", fontsize=6.8, color=INK2)
+        ax.set_ylim(0, top * 1.22)
+        ax.set_xticks(range(4)); ax.set_xticklabels(["GRID", "AM", "RE+BESS", "EEF"], fontsize=7)
+        ax.set_title(title, fontsize=7.3, color=INK, loc="left")
+        ax.tick_params(axis="y", labelsize=6.5)
+        style(ax)
+    fig.tight_layout(w_pad=1.2)
+    save(fig, "fig6_pillars")
+
+
 if __name__ == "__main__":
-    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost(); fig_monthly()
+    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost(); fig_monthly(); fig_pillars()
     print("figures written")
