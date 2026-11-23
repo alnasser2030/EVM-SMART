@@ -148,6 +148,20 @@ def fig_cost():
     save(fig, "fig4_cost")
 
 
+# ---------------------------------------------------------------- Fig. 5 monthly CFE
+def fig_monthly():
+    rows = rd("monthly_cfe.csv")
+    m = [int(r["month"]) for r in rows]
+    fig, ax = plt.subplots(figsize=(W1, 1.85))
+    ax.plot(m, [100 * float(r["BESS"]) for r in rows], color=BLUE, lw=1.6, marker="o", ms=2.5, label="RE+BESS (1,027 MWh)")
+    ax.plot(m, [100 * float(r["EEF"]) for r in rows], color=AQUA, lw=1.6, marker="s", ms=2.5, label="EEF (140 MW, 8 h)")
+    ax.plot(m, [100 * float(r["AM"]) for r in rows], color=MUTED, lw=1.2, ls=(0, (2, 2)), label="AM only")
+    ax.set_xticks(m); ax.set_xticklabels(list("JFMAMJJASOND"))
+    ax.set_ylabel("Monthly CFE (%)"); ax.set_ylim(30, 95)
+    style(ax); ax.legend(fontsize=6.3, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 1.0), handlelength=1.6)
+    save(fig, "fig5_monthly")
+
+
 if __name__ == "__main__":
-    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost()
+    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost(); fig_monthly()
     print("figures written")

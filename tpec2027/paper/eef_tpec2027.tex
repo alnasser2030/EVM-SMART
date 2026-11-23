@@ -34,11 +34,33 @@ Large consumers usually claim clean supply through \emph{annual matching}: procu
 This paper proposes \emph{External Energy Flexibility} (EEF) to close this gap. Its contributions are: (i) the EEF concept, with its actors, an hourly accounting rule and a hierarchical control architecture; (ii) linear-programming formulations that quantify the hourly matching achievable with external flexibility and the storage it replaces; and (iii) a case study for Riyadh, Saudi Arabia, that derives the break-even price of flexibility against battery storage.
 
 \section{Related Work}
-\emph{Internal data center flexibility} has been studied extensively: workload shifting with local generation~\cite{r2}, server provisioning with power procurement~\cite{r5}, spatio-temporal workload migration for 24/7 matching~\cite{r9}, and AI workload scheduling with colocated renewables~\cite{r8}; reviews organize these methods~\cite{r3}. All draw flexibility from inside the data center. \emph{Hourly matching} studies optimize portfolios of clean generation and storage under uncertainty~\cite{r14,r16} or with power purchase agreements~\cite{r15}, and assess system impacts~\cite{r10,r11}. \emph{Demand-side flexibility} research quantifies the flexibility of loads such as desalination~\cite{r19,r20}, designs procurement by grid operators~\cite{r18}, and relies on customer baselines for verification~\cite{r17}. In Saudi Arabia, industrial demand-response potential is estimated at 7.1--29.9~GW by 2030, but its role in the single-buyer market is undefined~\cite{r23}. The closest work co-locates a \emph{flexible} data center with one desalination plant and uses waste heat to cut cost~\cite{r22}. No study uses the flexibility of existing external loads to provide hourly clean supply to an \emph{inflexible} data center.
+\emph{Internal data center flexibility} has been studied extensively: workload shifting with local generation~\cite{r2}, server provisioning with power procurement~\cite{r5}, spatio-temporal workload migration for 24/7 matching~\cite{r9}, and AI workload scheduling with colocated renewables~\cite{r8}; reviews organize these methods~\cite{r3}. All draw flexibility from inside the data center. \emph{Hourly matching} studies optimize portfolios of clean generation and storage under uncertainty~\cite{r14,r16} or with power purchase agreements~\cite{r15}, and assess system impacts~\cite{r10,r11}. \emph{Demand-side flexibility} research quantifies the flexibility of loads such as desalination~\cite{r19,r20}, designs procurement by grid operators~\cite{r18}, and relies on customer baselines for verification~\cite{r17}. In Saudi Arabia, industrial demand-response potential is estimated at 7.1--29.9~GW by 2030, but its role in the single-buyer market is undefined~\cite{r23}. The closest work co-locates a \emph{flexible} data center with one desalination plant and uses waste heat to cut cost~\cite{r22}. No study uses the flexibility of existing external loads to provide hourly clean supply to an \emph{inflexible} data center. Table~\ref{tab:lit} contrasts the closest studies.
+
+\begin{table}[!t]
+\centering
+\caption{Closest Studies Versus This Work}
+\label{tab:lit}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}p{1.55cm}p{1.45cm}p{3.35cm}p{1.2cm}@{}}
+\toprule
+Study & Load & Means of hourly matching & Region \\
+\midrule
+Riepin \cite{r9} & Flexible DCs & Generation, storage, own load shifting & Europe \\
+Xu \cite{r10} & Generic buyer & Generation, storage, own demand response & Western U.S. \\
+Hwang \cite{r14} & Fixed DC & PV, wind, battery, gas, hourly certificates & Korea \\
+Ludkovski \cite{r16} & Fixed loads & Solar and wind PPA portfolio & U.S. \\
+Yang \cite{r22} & Flexible DC & Co-located desalination (waste heat), PV, storage & Arid coasts \\
+Khanal \cite{r27} & DC tiers & Own shifting and curtailment (planner view) & PJM, Korea \\
+\midrule
+\textbf{This work} & \textbf{Inflexible AI DC} & \textbf{All PV absorbed by existing external loads under contract} & \textbf{Saudi Arabia} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{The External Energy Flexibility Concept}
 \subsection{Actors and Flows}
-Fig.~\ref{fig:arch} shows the arrangement. The data center remains fully grid-supplied, so its reliability equals that of the grid. The data center plays no part in absorbing PV output. A PV plant whose annual output equals the data center's annual consumption injects all its energy into the grid and sells it to the single buyer under a power purchase agreement, and the data center buys all its consumption from the grid. Through contracts with the grid and an aggregator, \emph{all} PV output is absorbed by a portfolio of existing flexible loads, which increase their consumption while PV is generating. In return, the same loads reduce their consumption below their baseline by the data center's consumption, and the grid supply they free is credited to the data center. Each load is energy-neutral within its shifting window: it moves, rather than adds, consumption. Because absorption and reduction coincide in daylight hours, the loads' physical deviation from baseline is their net: an increase equal to PV output minus the data center's consumption around midday, and a decrease equal to the data center's consumption at night.
+Fig.~\ref{fig:arch} shows the arrangement. The data center remains fully grid-supplied, so its reliability equals that of the grid. The data center plays no part in absorbing PV output. A PV plant whose annual output equals the data center's annual consumption injects all its energy into the grid and sells it to the single buyer under a power purchase agreement, and the data center buys all its consumption from the grid. Through contracts with the grid and an aggregator, \emph{all} PV output is absorbed by a portfolio of existing flexible loads, which increase their consumption while PV is generating. In return, the same loads reduce their consumption below their baseline by the data center's consumption, and the grid supply they free is credited to the data center. Each load is energy-neutral within its shifting window: it moves, rather than adds, consumption. Because absorption and reduction coincide in daylight hours, the loads' physical deviation from baseline is their net: an increase equal to PV output minus the data center's consumption around midday, and a decrease equal to the data center's consumption at night. For example, at noon with 350~MW of PV output, the loads absorb 350~MW and reduce 100~MW for a 100-MW data center, a net increase of 250~MW; at 02:00 they reduce 100~MW.
 
 \begin{figure*}[!t]
 \centering
@@ -166,6 +188,39 @@ target & (MWh) & (M\$/yr, mid) & ($D=8$ h, MW) & (\$/MWh, mid) \\
 \label{fig:cost}
 \end{figure}
 
+\subsection{Seasonal Performance}
+Fig.~\ref{fig:monthly} shows the monthly CFE at an annual target of 80\%. EEF and the battery perform similarly from March to October, and EEF is slightly better in summer (86.6\% versus 85.1\% in June). In winter EEF falls behind (68.6\% versus 71.5\% in December) because external loads shift energy only within a day, whereas the battery can carry energy across days. Annual-matching CFE alone ranges from 34.9\% in December to 44.5\% in June.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig5_monthly.pdf}
+\caption{Monthly hourly matching at an 80\% annual target.}
+\label{fig:monthly}
+\end{figure}
+
+\subsection{Sensitivity to PV Size and Shifting Efficiency}
+Table~\ref{tab:sens} varies the PV plant size and the shifting efficiency $\eta$. Oversizing PV by 25--50\% raises the maximum EEF matching from 91.2\% to 93.1--93.7\% and cuts the flexibility needed for 90\% from 203~MW to 162--151~MW, while the battery needed for 90\% falls only from 1{,}320 to 1{,}252--1{,}227~MWh. Lower shifting efficiency increases the flexible power required for 80\% from 140~MW at $\eta=0.95$ to 163~MW at $\eta=0.85$, but leaves the energy shifted, and hence the break-even price per MWh shifted, unchanged.
+
+\begin{table}[!t]
+\centering
+\caption{Sensitivity of EEF Requirements}
+\label{tab:sens}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Case & Max CFE & $P^F$ for 80\% & $P^F$ for 90\% & Battery for 90\% \\
+ & (\%) & (MW) & (MW) & (MWh) \\
+\midrule
+PV $\times 1.0$ (base) & 91.2 & 140 & 203 & 1{,}320 \\
+PV $\times 1.25$ & 93.1 & 123 & 162 & 1{,}252 \\
+PV $\times 1.5$ & 93.7 & 118 & 151 & 1{,}227 \\
+$\eta=0.85$ & 89.3 & 163 & -- & 1{,}320 \\
+$\eta=1.0$ & 91.5 & 132 & -- & 1{,}320 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection{Sensitivity to Location}
 Repeating the analysis for the NEOM--Oxagon area on the Red Sea coast (27.40$^\circ$N, 35.60$^\circ$E; PV capacity factor 21.37\%) gives nearly identical results: annual matching yields 41.5\% hourly matching; 80\% requires 134~MW of flexibility or a 995-MWh battery; and the mid-case break-even price is US\$86.7/MWh shifted. The maximum CFE reachable with EEF is slightly lower, 89.5\%, so a 90\% target cannot be met by daily shifting alone at this site. The concept and its economics are therefore not specific to one location.
 
@@ -173,7 +228,7 @@ Repeating the analysis for the NEOM--Oxagon area on the Red Sea coast (27.40$^\c
 Valued at the average grid emission factor, the consumption not matched hourly falls from 296~kt\,CO$_2$/yr under annual matching to 99.5~kt at 80\% and 49.8~kt at 90\%. Scaled to the national target of 1.5~GW of data centers~\cite{r52}, 80\% and 90\% matching would require about 2.1 and 3.0~GW of contracted flexibility, which is within the 7.1--29.9~GW industrial demand-response potential estimated for 2030~\cite{r23}, although that potential is assessed for peak shaving rather than daily shifting.
 
 \section{Discussion and Limitations}
-Three results stand out. First, annual matching leaves most of an AI data center's consumption unmatched hour by hour, consistent with evidence that annual claims overstate mitigation~\cite{r12}. Second, EEF reaches 80--90\% hourly matching without storage and without touching the data center's reliability, provided that flexible power comparable to the data center load can be contracted. Third, the break-even price gives a single, transferable figure for negotiating flexibility contracts.
+Three results stand out. First, annual matching leaves most of an AI data center's consumption unmatched hour by hour, consistent with evidence that annual claims overstate mitigation~\cite{r12}. Second, EEF reaches 80--90\% hourly matching without storage and without touching the data center's reliability, provided that flexible power comparable to the data center load can be contracted. Third, the break-even price gives a single, transferable figure for negotiating flexibility contracts. Fourth, the main shortfall of EEF is seasonal: within-day shifting cannot carry summer PV into winter nights, so moderate PV oversizing is an effective complement to EEF above 90\%, reducing the flexibility needed much more than it reduces the storage needed.
 
 The analysis has limitations. Flexibility is represented by one generic class with perfect foresight and one weather year; flexibility costs are unknown and are therefore reported as break-even values; battery costs exclude power-related costs, which favors storage. Emission reductions are reported at the average factor: in Saudi Arabia the marginal generator often changes little with load timing~\cite{r38}, so the benefit of shifting depends on midday PV that would otherwise be curtailed, which becomes more frequent as solar penetration rises~\cite{r23,r44}. Network constraints, baseline accuracy~\cite{r45} and the saturation of flexibility as many data centers compete for it are left to future work.
 

@@ -28,3 +28,6 @@ cd paper && pdflatex eef_tpec2027 && bibtex eef_tpec2027 && pdflatex eef_tpec202
 | EEF at $50/MWh, 80%: 17.3 M$/yr | 346,660 MWh × 50 | 17.33 M$ |
 | Emissions 296 / 99.5 / 49.8 kt | (1−CFE)·876 GWh·0.568 | ✓ |
 | NEOM: CF 21.37%, AM 41.5%, 80% → 134 MW or 995 MWh, BE 86.7 $/MWh, max EEF 89.5% | model rerun with data/pv_neom_2020_local_per_kWp.csv | ✓ |
+| Monthly CFE (80% target): EEF 86.6% vs BESS 85.1% in Jun; 68.6% vs 71.5% in Dec; AM 34.9–44.5% | results/monthly_cfe.csv (model/run_extra.py) | ✓ |
+| PV ×1.25/×1.5: max 93.1/93.7%; P80 123/118 MW; P90 162/151 MW; BESS90 1,252/1,227 MWh | results/sens_pv.csv | ✓ |
+| η 0.85/1.0: P80 163/132 MW; max 89.3/91.5%; break-even per MWh unchanged | results/sens_eta.csv | ✓ |
