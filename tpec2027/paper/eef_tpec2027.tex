@@ -19,7 +19,7 @@ Email: [email]}}
 \maketitle
 
 \begin{abstract}
-Artificial-intelligence (AI) data centers are large, nearly constant loads with little internal flexibility. They can be supplied with renewable energy that matches their consumption over a year, but such annual matching leaves most night-time consumption supplied by fossil generation, while achieving hourly matching with batteries is costly. This paper proposes External Energy Flexibility (EEF): the data center procures photovoltaic (PV) energy equal to its annual consumption, injects it into the grid, and contracts existing flexible loads elsewhere on the grid to shift consumption into its PV-surplus hours, so that night-time supply is displaced rather than stored. We define the actors, an hourly accounting rule and a hierarchical control architecture, and formulate linear programs that compare EEF with battery storage. For a 100-MW data center in Riyadh, annual matching yields 40.4\% hourly matching. EEF raises this to 80\% with contracted flexible power of 1.4 times the data center load and about 8~h of shifting, whereas a battery needs 1{,}027~MWh. EEF is cheaper than storage whenever flexibility costs less than about US\$87 per MWh shifted at 80\% matching (US\$52--142 across battery-cost cases), while reliability remains that of the grid.
+Artificial-intelligence (AI) data centers are large, nearly constant loads with little internal flexibility. They can be supplied with renewable energy that matches their consumption over a year, but such annual matching leaves most night-time consumption supplied by fossil generation, while achieving hourly matching with batteries is costly. This paper proposes External Energy Flexibility (EEF): the data center procures photovoltaic (PV) energy equal to its annual consumption, injects it into the grid, and contracts existing flexible loads elsewhere on the grid to shift consumption into the hours when its PV output exceeds its consumption, so that night-time supply is displaced rather than stored. We define the actors, an hourly accounting rule and a hierarchical control architecture, and formulate linear programs that compare EEF with battery storage. For a 100-MW data center in Riyadh, annual matching yields 40.4\% hourly matching. EEF raises this to 80\% with contracted flexible power of 1.4 times the data center load and about 8~h of shifting, whereas a battery needs 1{,}027~MWh. EEF is cheaper than storage whenever flexibility costs less than about US\$87 per MWh shifted at 80\% matching (US\$52--142 across battery-cost cases), while reliability remains that of the grid.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -38,7 +38,7 @@ This paper proposes \emph{External Energy Flexibility} (EEF) to close this gap. 
 
 \section{The External Energy Flexibility Concept}
 \subsection{Actors and Flows}
-Fig.~\ref{fig:arch} shows the arrangement. The data center remains fully grid-supplied, so its reliability equals that of the grid. A PV plant whose annual output equals the data center's annual consumption injects all its energy into the grid and sells it to the single buyer under a power purchase agreement. An aggregator contracts a portfolio of existing flexible loads. When PV output exceeds the data center load, the loads increase consumption (up-shift) and absorb the surplus; when it falls short, they reduce consumption (down-shift) below their baseline, freeing grid supply for the data center. Each load is energy-neutral within its shifting window: it moves, rather than adds, consumption.
+Fig.~\ref{fig:arch} shows the arrangement. The data center remains fully grid-supplied, so its reliability equals that of the grid. The data center never consumes PV output directly: a PV plant whose annual output equals the data center's annual consumption injects all its energy into the grid and sells it to the single buyer under a power purchase agreement, while the data center buys all its consumption from the grid. Matching is contractual and hourly. In each hour, the PV energy injected is credited against the data center's consumption in the same hour, up to that consumption, as with hourly certificates. PV energy injected beyond the data center's same-hour consumption is absorbed by a portfolio of existing flexible loads, contracted through an aggregator, which increase their consumption (up-shift); when PV output falls short of the data center's consumption, the same loads reduce their consumption (down-shift) below their baseline, freeing grid supply that is credited to the data center. Each load is energy-neutral within its shifting window: it moves, rather than adds, consumption.
 
 \begin{figure*}[!t]
 \centering
@@ -48,18 +48,18 @@ Fig.~\ref{fig:arch} shows the arrangement. The data center remains fully grid-su
 \end{figure*}
 
 \subsection{Hourly Accounting Rule}
-A down-shift is credited to the data center as clean supply in hour $t$ only if (i) it occurs in an hour of deficit, when PV output is below the data center load; (ii) it is paired, within the same window, with an up-shift that absorbed the data center's own PV surplus; and (iii) both are verified against the load's baseline with interval metering. Credits are recorded in a registry as hourly certificates~\cite{r51}, which prevents double counting with other flexibility services.
+A down-shift is credited to the data center as clean supply in hour $t$ only if (i) it occurs in an hour of deficit, when PV output is below the data center load; (ii) it is paired, within the same window, with an up-shift that absorbed PV energy injected beyond the data center's same-hour consumption; and (iii) both are verified against the load's baseline with interval metering. Credits are recorded in a registry as hourly certificates~\cite{r51}, which prevents double counting with other flexibility services.
 
 \subsection{Control Architecture}
 EEF is controlled in four layers. \emph{Planning} (years) sizes the PV plant and the contracted flexible power and energy. \emph{Day-ahead} scheduling forecasts PV output and the data center load, computes the hourly gap and dispatches the cheapest flexibility first, subject to network checks by the system operator. \emph{Intraday} model-predictive correction re-dispatches the loads as forecasts change; any residual error is absorbed by the grid and counted as unmatched. \emph{Settlement} verifies shifts against baselines, issues credits and pays the loads. Because control never acts on the data center, the worst case of EEF is annual matching, with unchanged reliability. This paper addresses the planning layer.
 
 \section{Problem Formulation}
-Let $L_t$ be the data center load and $P_t$ the PV output in hour $t \in \mathcal{T}$ ($|\mathcal{T}|=8760$). The PV surplus and deficit are $s_t=[P_t-L_t]^+$ and $g_t=[L_t-P_t]^+$. The hourly matching (carbon-free energy, CFE) score is
+Let $L_t$ be the data center load and $P_t$ the PV output in hour $t \in \mathcal{T}$ ($|\mathcal{T}|=8760$). The PV energy injected beyond the data center's same-hour consumption (excess) and the shortfall are $s_t=[P_t-L_t]^+$ and $g_t=[L_t-P_t]^+$; all PV output is injected into the grid and all consumption is bought from it. The hourly matching (carbon-free energy, CFE) score is
 \begin{equation}
 \mathrm{CFE}=\frac{\sum_t \min(L_t,P_t)+\sum_t m_t}{\sum_t L_t},
 \label{eq:cfe}
 \end{equation}
-where $m_t \le g_t$ is the deficit covered by credited flexibility ($m_t=d_t$ for EEF) or by storage discharge ($m_t=b_t$).
+where $m_t \le g_t$ is the shortfall covered by credited flexibility ($m_t=d_t$ for EEF) or by storage discharge ($m_t=b_t$). The first term is same-hour contractual matching, not physical self-consumption; crediting all PV output to the flexible loads instead, with down-shifts in every hour, nets to the same physical flows and the same CFE.
 
 \subsection{EEF Model}
 The flexible portfolio is represented by one aggregated class with power $P^F$, shiftable energy $D\,P^F$ (duration $D$) and shifting efficiency $\eta$. Up-shift $u_t$, down-shift $d_t$ and shifted energy $S_t$ satisfy
@@ -76,7 +76,7 @@ where $\delta_t=1$ at the start of each 24-h window (06:00) and $\mathcal{E}$ is
 For given $P^F$, the maximum CFE is obtained by maximizing $\sum_t d_t$ subject to (\ref{eq:state})--(\ref{eq:energy}).
 
 \subsection{Battery Benchmark (RE+BESS)}
-A battery of energy capacity $E$ charges $c_t\le s_t$ from the data center's PV surplus and discharges $b_t\le g_t$:
+A battery of energy capacity $E$ charges $c_t\le s_t$ from PV output in excess of the data center's same-hour consumption and discharges $b_t\le g_t$:
 \begin{equation}
 Q_t = Q_{t-1} + \eta_c c_t - b_t/\eta_d,\ \ 0\le Q_t\le E,\ \ Q_0=Q_{|\mathcal{T}|},
 \end{equation}
@@ -115,7 +115,7 @@ Grid emission factor (average) & 0.568 tCO$_2$/MWh \cite{kfupmghg} \\
 
 \section{Results}
 \subsection{Annual Matching Baseline}
-Although annual PV energy equals annual consumption, only 40.4\% of the data center's consumption is matched hour by hour. The remaining 521.9~GWh/yr of deficit equals the PV surplus injected at midday (Fig.~\ref{fig:dispatch}).
+Although annual PV energy equals annual consumption, only 40.4\% of the data center's consumption is matched hour by hour. The remaining 521.9~GWh/yr of shortfall equals the PV energy injected beyond the data center's consumption around midday (Fig.~\ref{fig:dispatch}).
 
 \subsection{Dispatch Under EEF}
 Fig.~\ref{fig:dispatch} shows two days with 150~MW of contracted flexibility and $D=8$~h. Flexible loads up-shift by up to 150~MW around noon and down-shift by 100~MW at night, raising the annual CFE to 82.0\% with 364.6~GWh/yr shifted.
