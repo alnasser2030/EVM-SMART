@@ -165,11 +165,13 @@ Fig.~\ref{fig:cfe} shows the maximum CFE as a function of contracted flexible po
 \subsection{Three-Pillar Comparison at 80\% Hourly Matching}
 Table~\ref{tab:pillars} and Fig.~\ref{fig:pillars} compare the four configurations on the three pillars at an 80\% target; grid energy purchases, US\$42.0~million per year at the cloud-computing tariff, are identical in all of them because the data center always buys its full consumption from the grid.
 
-\emph{Reliability.} The data center is supplied by the grid in every configuration, so no energy goes unserved and its availability equals that of the grid. If the battery or the flexible loads fail to deliver, only hourly matching falls; under EEF it falls at worst to the annual-matching level, and the data center is never curtailed. Seen from the grid, both EEF and the battery remove most of the load the data center adds in the evening (16 and 13~MW instead of 100~MW between 19:00 and 23:00), and EEF removes more after midnight (41 versus 51~MW).
+\emph{Reliability.} The data center is connected to and supplied by the grid at all times in every configuration, so its reliability under EEF is identical to that of direct grid supply: no energy goes unserved, and its availability equals that of the grid. EEF never acts on the data center; if the flexible loads fail to deliver, only hourly matching falls, at worst to the annual-matching level, while the data center's supply is unaffected.
 
 \emph{Sustainability.} EEF and the battery reach the same 80\% matching and the same hourly-accounted emissions, 99.5~kt\,CO$_2$/yr, a third of those under annual matching (296~kt) and a fifth of those under direct grid supply (498~kt). EEF achieves this without building 1{,}027~MWh of new batteries.
 
 \emph{Cost.} The battery costs US\$30.2~million per year (US\$18.1--49.2~million across cost cases), whereas EEF costs US\$17.3~million at US\$50/MWh shifted (US\$8.7--26.0~million at US\$25--75/MWh). EEF is therefore the combination that matches the grid's reliability and the battery's emissions at lower cost, provided that flexibility costs less than the break-even price of about US\$87/MWh shifted.
+
+\emph{Additional grid benefit.} Beyond the three pillars, EEF also relieves the grid: like the battery, it removes most of the load that the data center adds in the evening (16 and 13~MW instead of 100~MW between 19:00 and 23:00), and it removes more after midnight (41 versus 51~MW).
 
 \begin{table}[!t]
 \centering
@@ -181,12 +183,11 @@ Table~\ref{tab:pillars} and Fig.~\ref{fig:pillars} compare the four configuratio
 \toprule
  & GRID & AM & RE+BESS & EEF \\
 \midrule
-\multicolumn{5}{@{}l}{\emph{Reliability}} \\
+\multicolumn{5}{@{}l}{\emph{Reliability of the data center}} \\
 Supply source & Grid & Grid & Grid & Grid \\
+Availability & \multicolumn{4}{c}{identical, equal to that of the grid} \\
 Energy not served & 0 & 0 & 0 & 0 \\
 If resource fails & -- & -- & CFE falls & CFE $\to$ AM \\
-Grid load 19--23 h (MW) & 100 & 100 & 13 & 16 \\
-Grid load 00--06 h (MW) & 100 & 100 & 51 & 41 \\
 \midrule
 \multicolumn{5}{@{}l}{\emph{Sustainability}} \\
 CFE (\%) & 0 & 40.4 & 80.0 & 80.0 \\
@@ -196,15 +197,19 @@ New storage (MWh) & 0 & 0 & 1{,}027 & 0 \\
 \multicolumn{5}{@{}l}{\emph{Cost}} \\
 Matching cost (M\$/yr) & 0 & ${\approx}0$ & 30.2 & 17.3$^\ast$ \\
 Range (M\$/yr) & -- & -- & 18.1--49.2 & 8.7--26.0$^\ast$ \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Additional: impact on the grid}} \\
+Load 19--23 h (MW) & 100 & 100 & 13 & 16 \\
+Load 00--06 h (MW) & 100 & 100 & 51 & 41 \\
 \bottomrule
-\multicolumn{5}{@{}p{8.2cm}@{}}{\scriptsize $^\ast$At US\$50 (25--75) per MWh shifted. Grid load: load added to the grid by the data center and its resources. PV is sold at a price that recovers its cost, so AM adds no net cost. Emissions use the hourly unmatched energy and 0.568~tCO$_2$/MWh~\cite{kfupmghg}.}
+\multicolumn{5}{@{}p{8.2cm}@{}}{\scriptsize $^\ast$At US\$50 (25--75) per MWh shifted. Load: load added to the grid by the data center and its resources. PV is sold at a price that recovers its cost, so AM adds no net cost. Emissions use the hourly unmatched energy and 0.568~tCO$_2$/MWh~\cite{kfupmghg}.}
 \end{tabular}
 \end{table}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.95\textwidth]{fig6_pillars.pdf}
-\caption{Three-pillar comparison at an 80\% hourly matching target: (a) load added to the grid in the evening, (b) hourly-accounted emissions and (c) annual cost of hourly matching (battery: mid case with low--high range; EEF: US\$50/MWh shifted with US\$25--75 range).}
+\caption{Comparison at an 80\% hourly matching target: (a) load added to the grid in the evening, (b) hourly-accounted emissions and (c) annual cost of hourly matching (battery: mid case with low--high range; EEF: US\$50/MWh shifted with US\$25--75 range). The data center's reliability is identical in all four configurations and equal to that of the grid.}
 \label{fig:pillars}
 \end{figure*}
 
