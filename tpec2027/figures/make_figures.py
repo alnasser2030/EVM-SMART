@@ -168,7 +168,7 @@ def fig_pillars():
     cfg = ["GRID", "AM", "RE+BESS", "EEF"]
     col = {"GRID": "#52514e", "AM": "#b5b4ae", "RE+BESS": BLUE, "EEF": AQUA}
     fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.0))
-    panels = [("(a) Grid impact\nLoad added to the grid, 19:00\u201323:00 (MW)", "evening_net_load_MW", "{:.0f}"),
+    panels = [("(a) Reliability\nData center load served (%)", "dc_load_served_pct", "{:.0f}"),
               ("(b) Sustainability\nHourly-accounted emissions (kt CO$_2$/yr)", "emissions_kt", "{:.0f}"),
               ("(c) Cost\nCost of hourly matching (M\\$/yr)", "cost_mid_MUSD", "{:.1f}")]
     for ax, (title, key, fmt) in zip(axes, panels):

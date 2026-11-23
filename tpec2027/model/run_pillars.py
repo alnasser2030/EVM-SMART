@@ -21,11 +21,12 @@ cost = {"GRID": (0, 0, 0), "AM": (0, 0, 0),
         "EEF": tuple(sh * pr / 1e6 for pr in (25, 50, 75))}
 rows = []
 for k in net:
-    rows.append([k, 0.0, net[k][eve].mean(), net[k][night].mean(), 100 * cfe[k],
+    served = L.copy()   # DC load is bought from the grid in every hour in all configurations
+    rows.append([k, 100 * served.sum() / L.sum(), net[k][eve].mean(), net[k][night].mean(), 100 * cfe[k],
                  (1 - cfe[k]) * L.sum() * EF_GRID / 1e3, b["E"] if k == "RE+BESS" else 0.0, *cost[k]])
 with open(OUT / "three_pillars.csv", "w", newline="") as f:
     w = csv.writer(f)
-    w.writerow(["config", "dc_energy_not_served_MWh", "evening_net_load_MW", "night_net_load_MW", "cfe_pct",
+    w.writerow(["config", "dc_load_served_pct", "evening_net_load_MW", "night_net_load_MW", "cfe_pct",
                 "emissions_kt", "new_storage_MWh", "cost_lo_MUSD", "cost_mid_MUSD", "cost_hi_MUSD"])
     w.writerows(rows)
 for r in rows:
