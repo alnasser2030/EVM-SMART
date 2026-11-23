@@ -1,0 +1,11 @@
+item,value
+DC load MW,100.0
+DC energy GWh/yr,876.0
+PV MWp (annual match),477.0613933084461
+PV energy GWh/yr,876.0
+AM hourly CFE,0.4042692308144364
+PV surplus GWh/yr,521.8601538065539
+DC deficit GWh/yr,521.8601538065537
+Grid tariff USD/MWh,53.333333333333336
+PV PPA USD/MWh,13.6
+GRID energy cost MUSD/yr,46.72
