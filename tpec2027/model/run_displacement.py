@@ -10,9 +10,10 @@ Two designs:
 
 For every X it records the least flexible capacity P_F, the energy shifted, the least battery for the same X,
 and the coverage of summer evenings (Jun-Sep, 18:00-01:59), the hours that drive grid reinforcement.
-Writes tpec2027/results/displacement_curve.csv.
+Writes tpec2027/results/displacement_curve.csv (Riyadh) or displacement_curve_neom.csv (`python3 run_displacement.py neom`).
 """
 import csv
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -28,6 +29,7 @@ EVE = (month >= 6) & (month <= 9) & ((hour >= 18) | (hour <= 1))
 SUMMER = (month >= 6) & (month <= 9)
 DESIGNS = {"pv1.0_w06": (1.0, 6), "pv1.25_w09": (1.25, 9)}
 XS = [0.5, 0.6, 0.7, 0.8, 0.85, 0.9, 0.93, 0.95, 0.97]
+SITE = sys.argv[1] if len(sys.argv) > 1 else "riyadh"
 
 
 def cover(p, extra, mask):
@@ -37,7 +39,7 @@ def cover(p, extra, mask):
 rows = []
 for name, (k, wh) in DESIGNS.items():
     em.WINDOW_START_HOUR = wh
-    p = em.base_profiles(pv_multiple=k)
+    p = em.base_profiles(pv_multiple=k, site=SITE)
     xmax = em.eef_max_cfe(p, 5000.0, 24)["cfe"]
     rows.append([name, k, wh, "max", round(100 * xmax, 2), "", "", "", "", "", "", ""])
     for X in XS:
@@ -52,7 +54,7 @@ for name, (k, wh) in DESIGNS.items():
         print(rows[-1])
 em.WINDOW_START_HOUR = 6
 
-with open(OUT / "displacement_curve.csv", "w", newline="") as f:
+with open(OUT / ("displacement_curve.csv" if SITE == "riyadh" else f"displacement_curve_{SITE}.csv"), "w", newline="") as f:
     w = csv.writer(f)
     w.writerow(["design", "pv_multiple", "window_start_h", "kind", "displacement_pct", "eef_PF_MW", "eef_shifted_GWh",
                 "eef_summer_evening_cover", "eef_summer_cover", "bess_E_MWh", "bess_summer_evening_cover",
