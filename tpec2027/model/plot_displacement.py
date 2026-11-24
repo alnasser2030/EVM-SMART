@@ -13,10 +13,11 @@ Value cases (assumptions, stated in the figure):
   bill           nothing else is valued
   grid           + grid reinforcement for load added on summer evenings, US$125/kW-yr (range 100-150)
   grid+carbon    + carbon at US$50/t (0.568 t/MWh)
-Size enters through a fixed overhead per EEF contract (US$0.25 M/yr) and the national flexibility pool. The Saudi grid
-is one interconnected system, so a data center can contract flexible loads anywhere in it through the operator; the
-pool is the national industrial demand-response potential, 7.1 GW (low) to 29.9 GW (high) by 2030 (KAPSARC 2026),
-shared by all data centers that use EEF. Inter-regional transfer limits are checked by the operator (contract C5).
+Size enters through a fixed overhead per EEF contract (US$0.25 M/yr). The Saudi grid is one interconnected system, so a
+data center can contract flexible loads anywhere in it through the operator. The national flexible-load potential
+(7.1-29.9 GW by 2030, KAPSARC 2026) exceeds the data-center capacity planned so far, so the base case assumes enough
+flexible load (no pool limit); saturation is left to Chapter 6 (set POOL to 7100 or 29900 to test it).
+Inter-regional transfer limits are checked by the operator (contract C5).
 
 Writes results/displacement_costs.csv, results/displacement_size_map.csv and
 figures/fig_displacement_curve.png, figures/fig_displacement_size_map.png.
@@ -43,8 +44,7 @@ PI = {"low": 25.0, "mid": 50.0, "high": 75.0}            # US$/MWh shifted
 R_KW = 125.0                      # US$/kW-yr grid reinforcement (assumption)
 CASES = {"bill": (0.0, 0.0), "grid": (R_KW, 0.0), "grid+carbon": (R_KW, 50.0)}
 F_CONTRACT = 0.25                 # US$ M/yr per EEF contract
-POOL = 7100.0                     # MW national flexibility pool, low estimate (KAPSARC 2026)
-POOL_HIGH = 29900.0               # MW, high estimate
+POOL = float("inf")               # MW flexible-load pool: not binding in the base case (national 7.1-29.9 GW)
 COL = {"EEF": "#7A1E2B", "EEF + storage": "#C98A93", "Battery": "#2E6DB4", "AM": "#B07A12", "GRID": "#6B6E70",
        "GRID / AM": "#6B6E70"}
 
@@ -241,9 +241,9 @@ def main():
     axs[0].set_ylabel("Displacement (%)")
     axs[0].set_yticks([50, 60, 70, 80, 85, 90, 93, 95, 97])
     fig.suptitle("Cheapest option by data-center size and displacement — 25 years\n"
-                 "flexibility US$50/MWh shifted; battery mid; EEF overhead US$0.25 M/yr per contract; national flexibility pool 7.1 GW (low estimate)", x=.01, ha="left", fontsize=11.5, weight="bold")
-    fig.text(.01, .01, "Dotted lines: 5 MW, 1.5 GW (NEOM campus / KSA 2030), 6.6 GW (HUMAIN 2034). "
-             "'EEF + storage' = EEF covers what the pool allows, storage the rest.", fontsize=8.5, color="#555555")
+                 "flexibility US$50/MWh shifted; battery mid; EEF overhead US$0.25 M/yr per contract; flexible load assumed sufficient nationally", x=.01, ha="left", fontsize=11.5, weight="bold")
+    fig.text(.01, .01, "Dotted lines: 5 MW, 1.5 GW (largest single campus planned; NEOM), 6.6 GW (HUMAIN 2034, a group of campuses). "
+             "Pool limits on flexible load are tested in Chapter 6.", fontsize=8.5, color="#555555")
     fig.tight_layout(rect=(0, .03, 1, .9))
     fig.savefig(FIG / "fig_displacement_size_map.png")
     plt.close(fig)
