@@ -178,6 +178,8 @@ function sCompareTable(g, lt) {
   CFGS.forEach((k, i) => {
     E('rect', { x: xs[i] - cw[i] / 2 + 8, y: 276, width: cw[i] - 16, height: 44, rx: 10, fill: CC[k] }, hg);
     T(hg, xs[i], 306, 21, k, { a: 'middle', w: 800, c: '#fff' });
+    const sub = { GRID: 'today’s default', AM: 'today’s I-REC claim' }[k];
+    if (sub) T(hg, xs[i], 338, 13, sub, { a: 'middle', w: 700, c: inkOf(k), it: true });
   });
   T(hg, 80, 306, 15, '80% HOURLY-MATCHING TARGET · RIYADH', { w: 700, c: C.muted, ls: 2 });
   const rows = [

@@ -292,7 +292,7 @@ function sPlan(g, lt) {
   });
   const ng = inG(g, lt, 4.4, .7, 10);
   T(ng, 80, 690, 16, 'NEXT STEPS', { w: 700, c: C.muted, ls: 3 });
-  const steps = ['Multi-class flexibility portfolio with costs', 'Forecast uncertainty: day-ahead + MPC', 'Multi-year weather and marginal emissions', 'Single-buyer and liberalized market contracts', 'Saturation as data-center capacity grows'];
+  const steps = ['Multi-class flexibility portfolio with costs', 'Forecast uncertainty: day-ahead + MPC', 'Multi-year weather and marginal emissions', 'Single-buyer and liberalized market contracts', 'Saturation as data-center capacity grows', 'Pilot design with SERA, SPPC and Saudi Energy'];
   let x = 80, y = 740;
   steps.forEach((s2, i) => {
     const w = tw(s2, 18, 600) + 32;
@@ -336,21 +336,22 @@ function sConclusion(g, lt) {
     ['leaf', 'EMISSIONS', '99.5 kt CO₂/yr at 80% matching: the same as a battery, one third of annual matching.'],
     ['cost', 'COST', '≈ US$17 M/yr vs. US$30 M/yr for storage — whenever flexibility costs < ≈ US$87/MWh shifted.'],
     ['pylon', 'LOCATION', 'Holds at NEOM–Oxagon: 134 MW of flexibility for 80%; ≈ 2 GW for the 1.5-GW campus.'],
+    ['doc', 'APPLICATION', 'Works inside the single-buyer market: SPPC buys the PV, Saudi Energy supplies, a SERA-licensed aggregator delivers.'],
   ];
-  const dim = 1 - .55 * P(lt, 9.4, 1.0, eIO);
+  const dim = 1 - .55 * P(lt, 10.2, 1.0, eIO);
   items.forEach(([ik, nm, txt], i) => {
-    const y = 214 + i * 112, rg = inG(g, lt, .5 + i * 1.5, .8, 0, -30);
+    const y = 196 + i * 102, rg = inG(g, lt, .5 + i * 1.4, .8, 0, -30);
     rg.setAttribute('opacity', (Number(rg.getAttribute('opacity')) * dim).toFixed(3));
     E('circle', { cx: 130, cy: y + 40, r: 44, fill: C.maroonT }, rg);
     ico(rg, ik, 130, y + 40, .5, C.maroon, 5);
     T(rg, 200, y + 26, 18, nm, { w: 800, c: C.maroon, ls: 4 });
-    T(rg, 200, y + 66, 29, txt, { c: C.ink });
+    T(rg, 200, y + 64, 27, txt, { c: C.ink });
   });
-  const t1 = inG(g, lt, 9.8, 1.0, 18);
-  T(t1, 960, 790, 64, 'The sun goes to the loads.', { a: 'middle', f: F.slab, w: 700, c: C.ink });
-  const t2 = inG(g, lt, 11.2, 1.0, 18);
-  T(t2, 960, 878, 64, 'The night comes back to the data center.', { a: 'middle', f: F.slab, w: 700, c: C.maroon });
-  drawP(g, 'M760,920 H1160', P(lt, 12.2, 1.0, eIO), { stroke: C.maroon, 'stroke-width': 4, 'stroke-linecap': 'round' });
+  const t1 = inG(g, lt, 10.6, 1.0, 18);
+  T(t1, 960, 820, 64, 'The sun goes to the loads.', { a: 'middle', f: F.slab, w: 700, c: C.ink });
+  const t2 = inG(g, lt, 12.0, 1.0, 18);
+  T(t2, 960, 904, 64, 'The night comes back to the data center.', { a: 'middle', f: F.slab, w: 700, c: C.maroon });
+  drawP(g, 'M760,940 H1160', P(lt, 13.0, 1.0, eIO), { stroke: C.maroon, 'stroke-width': 4, 'stroke-linecap': 'round' });
 }
 
 // ------------------------------------------------------------ end card

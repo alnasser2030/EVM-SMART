@@ -69,11 +69,11 @@ function sTitle(g, lt) {
 const ROAD = [
   ['Motivation', 'Why now'], ['Problem', 'What is missing'], ['State of the Art', '53 refs, one gap'],
   ['Questions & Objectives', 'RQ1–RQ4, O1–O5'], ['Methodology', 'Concept and model'], ['Results: Riyadh', 'All four scenarios'],
-  ['Case: NEOM', 'Red Sea site'], ['Expected Results', 'Chapters 4–6'], ['Research Plan', 'Chapters, next steps'], ['Contributions', 'and conclusion'],
+  ['Case: NEOM', 'Red Sea site'], ['Implementation', 'Actors, contracts'], ['Expected Results', 'Chapters 4–6'], ['Research Plan', 'Next steps'], ['Contributions', 'and conclusion'],
 ];
 function sRoadmap(g, lt) {
   head(g, lt, 'OUTLINE', 'The path through this work');
-  const n = ROAD.length, x0 = 110, x1 = 1810, sp = 176, xs = i => 168 + i * sp, y = x => 600 + 80 * Math.cos(Math.PI * (x - 168) / sp);
+  const n = ROAD.length, x0 = 100, x1 = 1820, sp = 160, xs = i => 160 + i * sp, y = x => 600 + 80 * Math.cos(Math.PI * (x - 160) / sp);
   const pts = []; for (let x = x0; x <= x1; x += 6) pts.push([x, y(x)]);
   const u = P(lt, .8, 7.2, eIO);
   drawP(g, poly(pts), 1, { stroke: C.faint, 'stroke-width': 10, 'stroke-linecap': 'round' });
@@ -86,12 +86,12 @@ function sRoadmap(g, lt) {
     E('circle', { r: 28, fill: C.paper, stroke: C.maroon, 'stroke-width': 4 }, pg);
     T(pg, 0, 8, 20, String(i + 1).padStart(2, '0'), { a: 'middle', f: F.slab, w: 700, c: C.maroon });
     const lg = inG(g, lt, tt, .7, i % 2 ? -12 : 12);
-    const lines = wrap(name, 21, 168, 700), lh = 26;
+    const lines = wrap(name, 20, 150, 700), lh = 25;
     const ly = i % 2 ? yy - 70 - lines.length * lh : yy + 74;
-    lines.forEach((l, k) => T(lg, x, ly + k * lh, 21, l, { a: 'middle', w: 700 }));
-    T(lg, x, ly + lines.length * lh + 2, 17, sub, { a: 'middle', c: C.muted });
+    lines.forEach((l, k) => T(lg, x, ly + k * lh, 20, l, { a: 'middle', w: 700 }));
+    T(lg, x, ly + lines.length * lh + 2, 16, sub, { a: 'middle', c: C.muted });
   });
-  cap(g, lt, 9, 'Ten stops — from why this matters to what this dissertation contributes.');
+  cap(g, lt, 9, 'Eleven stops — from why this matters to how it is applied and what it contributes.');
 }
 
 // ------------------------------------------------------------ motivation 1: global demand

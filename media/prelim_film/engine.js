@@ -319,8 +319,8 @@ function particles(p, pathEl, lt, n, speed, col, r = 6, op = 1) {
 // ---------------------------------------------------------------- chrome
 const SECTIONS = [
   ['01', 'Motivation'], ['02', 'Problem'], ['03', 'State of the Art'], ['04', 'Questions & Objectives'],
-  ['05', 'Methodology'], ['06', 'Results: Riyadh'], ['07', 'Case: NEOM'], ['08', 'Expected Results'],
-  ['09', 'Research Plan'], ['10', 'Contributions & Conclusion'],
+  ['05', 'Methodology'], ['06', 'Results: Riyadh'], ['07', 'Case: NEOM'], ['08', 'Implementation in KSA'],
+  ['09', 'Expected Results'], ['10', 'Research Plan'], ['11', 'Contributions & Conclusion'],
 ];
 function chrome(t, sc, alpha) {
   const g = G(stage, { opacity: alpha.toFixed(3) });
