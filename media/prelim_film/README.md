@@ -56,7 +56,7 @@ node media/prelim_film/stills.js <outDir> scene:concept:10 120.5          # revi
 N=29004; Q=$(( (N+3)/4 ))
 for k in 0 1 2 3; do node media/prelim_film/record_pipe.js seg_$k.mp4 30 $((k*Q)) $(((k+1)*Q)) & done; wait
 printf "file 'seg_%d.mp4'\n" 0 1 2 3 > list.txt
-ffmpeg -f concat -safe 0 -i list.txt -c copy -movflags +faststart media/prelim_film/eef_prelim_film.mp4
+ffmpeg -f concat -safe 0 -i list.txt -c:v libx264 -crf 21 -preset medium -pix_fmt yuv420p -movflags +faststart media/prelim_film/eef_prelim_film.mp4   # re-encode: keeps the file under GitHub's 100 MB limit
 ```
 
 `N` is the duration × 30; `stills.js` prints the duration as `T_END`.
