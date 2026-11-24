@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEF Explainer Film</title>
+<style>
+  :root{--bg:#0a0f1f;--panel:#121a30;--ink:#f4f6fb;--ink2:#aab2c8;--muted:#6c7590;
+        --sun:#ffb02e;--pv:#ff8a3d;--dc:#4c8dff;--grid:#9b8cff;--flex:#2fd6a3;--bad:#ff5d6c}
+  html,body{margin:0;background:#05070f;height:100%}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"Inter",system-ui,sans-serif;color:var(--ink)}
+  #frame{width:1080px;height:1350px;position:relative;transform-origin:top center}
+  svg{display:block}
+  .ctrl{width:1080px;display:flex;gap:10px;align-items:center;padding:12px 0;color:var(--ink2);font:600 15px Inter,system-ui}
+  .ctrl button{background:#1b2440;color:var(--ink);border:1px solid #2c3760;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer}
+  .ctrl button:hover{border-color:var(--flex)}
+  .ctrl input{flex:1;accent-color:var(--flex)}
+  .chips{width:1080px;display:flex;gap:8px;flex-wrap:wrap;padding-bottom:10px}
+  .chips button{background:transparent;color:var(--ink2);border:1px solid #2c3760;border-radius:999px;padding:6px 12px;font:600 13px Inter;cursor:pointer}
+  .chips button.on{color:#06110d;background:var(--flex);border-color:var(--flex)}
+  body.rec .ctrl, body.rec .chips{display:none}
+</style>
+</head>
+<body>
+<div id="frame"><svg id="film" width="1080" height="1350" viewBox="0 0 1080 1350"></svg></div>
+<div class="ctrl"><button id="play">❚❚ Pause</button><input id="scrub" type="range" min="0" max="58" step="0.01" value="0"><span id="tc">0.0 s</span></div>
+<div class="chips" id="chips"></div>
+
+<script>
+const S = document.getElementById('film'), NS = 'http://www.w3.org/2000/svg';
+const C = {bg:'#0a0f1f', panel:'#121a30', ink:'#f4f6fb', ink2:'#aab2c8', muted:'#6c7590', sun:'#ffb02e', pv:'#ff8a3d',
+           dc:'#4c8dff', grid:'#9b8cff', flex:'#2fd6a3', bad:'#ff5d6c'};
+const T_END = 58;
+const SCENES = [['Title',0,5],['Problem',5,15],['Batteries',15,21],['The idea',21,37],['Verification',37,43],['Results',43,53],['Credits',53,58]];
+
+// ---------- helpers
+function E(tag, attrs = {}, parent = S, text){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text !== undefined) e.textContent = text; parent.appendChild(e); return e; }
+const G = (p = S, a = {}) => E('g', a, p);
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const prog = (t, a, b) => ease((t - a) / (b - a));
+function sceneAlpha(t, a, b, f = .6){ return Math.min(prog(t, a - .01, a + f), 1 - prog(t, b - f, b + .01)); }
+function T(p, x, y, s, txt, o = {}){ return E('text', Object.assign({x, y, 'font-size': s, fill: C.ink, 'font-family': 'Inter', 'font-weight': 700}, o), p, txt); }
+function set(e, a){ for (const k in a) e.setAttribute(k, a[k]); }
+// idealized day: PV daily energy = DC daily energy
+const L = 100; const shape = h => { const x = (h - 6) / 12; return (x > 0 && x < 1) ? Math.pow(Math.sin(Math.PI * x), 1.5) : 0; };
+let I = 0; for (let k = 0; k < 2400; k++) I += shape(k / 100) / 100; const A = 24 * L / I; const PV = h => A * shape(((h % 24) + 24) % 24);
+
+// ---------- background
+E('rect', {width: 1080, height: 1350, fill: C.bg});
+const bgGrid = G(S, {opacity: .35});
+for (let x = 60; x < 1080; x += 60) E('line', {x1: x, y1: 0, x2: x, y2: 1350, stroke: '#141c33', 'stroke-width': 1}, bgGrid);
+for (let y = 60; y < 1350; y += 60) E('line', {x1: 0, y1: y, x2: 1080, y2: y, stroke: '#141c33', 'stroke-width': 1}, bgGrid);
+const glow = E('circle', {cx: 540, cy: 520, r: 520, fill: 'url(#gl)'});
+const defs = E('defs');
+defs.innerHTML = `<radialGradient id="gl"><stop offset="0" stop-color="#1b2a55" stop-opacity=".55"/><stop offset="1" stop-color="#0a0f1f" stop-opacity="0"/></radialGradient>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a3a78"/><stop offset="1" stop-color="#0a0f1f"/></linearGradient>
+<filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>`;
+// persistent header / footer
+const brand = T(S, 60, 78, 20, 'EXTERNAL ENERGY FLEXIBILITY', {fill: C.flex, 'letter-spacing': 4});
+const pbarBg = E('rect', {x: 60, y: 1300, width: 960, height: 4, rx: 2, fill: '#1b2440'});
+const pbar = E('rect', {x: 60, y: 1300, width: 0, height: 4, rx: 2, fill: C.flex});
+const foot = T(S, 60, 1278, 18, 'Ali Nasser · PhD Resident, ECEN, Texas A&M University', {fill: C.muted, 'font-weight': 600});
+
+// ---------- icons
+function dcIcon(p, x, y, s = 1){ const g = G(p, {transform: `translate(${x},${y}) scale(${s})`});
+  E('rect', {x: -70, y: -80, width: 140, height: 160, rx: 14, fill: '#16224a', stroke: C.dc, 'stroke-width': 3}, g);
+  const leds = []; for (let i = 0; i < 4; i++){ E('rect', {x: -52, y: -62 + i * 36, width: 104, height: 24, rx: 5, fill: '#0f1838', stroke: '#2b4a9a'}, g);
+    leds.push(E('circle', {cx: 36, cy: -50 + i * 36, r: 4, fill: C.flex}, g)); E('rect', {x: -42, y: -54 + i * 36, width: 50, height: 6, rx: 3, fill: '#2b4a9a'}, g); }
+  g.leds = leds; return g; }
+function sunIcon(p, x, y, r = 26){ const g = G(p, {transform: `translate(${x},${y})`}); E('circle', {r: r + 18, fill: C.sun, opacity: .18, filter: 'url(#soft)'}, g); E('circle', {r, fill: C.sun}, g);
+  for (let i = 0; i < 8; i++){ const a = i * Math.PI / 4; E('line', {x1: Math.cos(a) * (r + 8), y1: Math.sin(a) * (r + 8), x2: Math.cos(a) * (r + 18), y2: Math.sin(a) * (r + 18), stroke: C.sun, 'stroke-width': 4, 'stroke-linecap': 'round'}, g); } return g; }
+function moonIcon(p, x, y){ const g = G(p, {transform: `translate(${x},${y})`}); E('circle', {r: 24, fill: '#dfe6ff'}, g); E('circle', {cx: 11, cy: -8, r: 22, fill: '#10203f'}, g); return g; }
+function pvIcon(p, x, y){ const g = G(p, {transform: `translate(${x},${y})`});
+  E('path', {d: 'M-70,30 L-40,-30 L70,-30 L40,30 Z', fill: '#1b2d5c', stroke: C.pv, 'stroke-width': 3}, g);
+  for (let i = 1; i < 4; i++) E('line', {x1: -70 + i * 27.5 + 7.5 * (0), y1: 30, x2: -40 + i * 27.5, y2: -30, stroke: '#3c5aa8', 'stroke-width': 2}, g);
+  E('line', {x1: -55, y1: 0, x2: 55, y2: 0, stroke: '#3c5aa8', 'stroke-width': 2}, g); E('line', {x1: 0, y1: 30, x2: 0, y2: 58, stroke: C.pv, 'stroke-width': 4}, g); return g; }
+function loadIcon(p, x, y, kind, label){ const g = G(p, {transform: `translate(${x},${y})`});
+  const ring = E('circle', {r: 46, fill: '#0f2a26', stroke: C.flex, 'stroke-width': 3}, g);
+  if (kind === 'desal') E('path', {d: 'M0,-26 C14,-8 20,2 20,10 A20,20 0 0 1 -20,10 C-20,2 -14,-8 0,-26 Z', fill: C.flex}, g);
+  if (kind === 'cool'){ for (let i = 0; i < 3; i++){ const a = i * Math.PI / 3; E('line', {x1: Math.cos(a) * -24, y1: Math.sin(a) * -24, x2: Math.cos(a) * 24, y2: Math.sin(a) * 24, stroke: C.flex, 'stroke-width': 5, 'stroke-linecap': 'round'}, g);} }
+  if (kind === 'pump'){ E('circle', {r: 20, fill: 'none', stroke: C.flex, 'stroke-width': 5}, g); E('path', {d: 'M-4,-12 L12,0 L-4,12 Z', fill: C.flex}, g); }
+  if (kind === 'ind'){ E('path', {d: 'M-24,20 L-24,-6 L-10,-16 L-10,-6 L4,-16 L4,-6 L18,-16 L18,-26 L24,-26 L24,20 Z', fill: C.flex}, g); }
+  T(g, 0, 78, 19, label, {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 600}); g.ring = ring; return g; }
+function battIcon(p, x, y){ const g = G(p, {transform: `translate(${x},${y})`}); E('rect', {x: -120, y: -70, width: 240, height: 140, rx: 18, fill: '#151f3d', stroke: C.ink2, 'stroke-width': 4}, g);
+  E('rect', {x: 120, y: -22, width: 16, height: 44, rx: 4, fill: C.ink2}, g); g.fill = E('rect', {x: -106, y: -56, width: 0, height: 112, rx: 10, fill: C.dc}, g); return g; }
+
+// =============== Scene 1: title
+const s1 = G();
+const s1line = E('rect', {x: 60, y: 470, width: 0, height: 6, rx: 3, fill: C.flex}, s1);
+const s1a = T(s1, 60, 590, 92, 'External', {});
+const s1b = T(s1, 60, 690, 92, 'Energy Flexibility', {fill: C.flex});
+const s1c = T(s1, 60, 780, 34, 'Hourly clean power for AI data centers —', {fill: C.ink2, 'font-weight': 500});
+const s1d = T(s1, 60, 826, 34, 'without building a single battery.', {fill: C.ink2, 'font-weight': 500});
+const s1n = T(s1, 60, 960, 30, 'Ali Nasser', {});
+const s1m = T(s1, 60, 1000, 24, 'PhD Resident · ECEN · Texas A&M University', {fill: C.muted, 'font-weight': 600});
+
+// =============== Scene 2: problem
+const s2 = G();
+T(s2, 60, 170, 22, 'THE PROBLEM', {fill: C.bad, 'letter-spacing': 3});
+const s2h = T(s2, 60, 236, 50, 'AI data centers never sleep.', {});
+const dc2 = dcIcon(s2, 860, 330, .9);
+const s2l = T(s2, 60, 300, 30, '100 MW, every hour, all year.', {fill: C.ink2, 'font-weight': 500});
+// annual bars
+const s2A = G(s2);
+T(s2A, 60, 440, 28, 'Annual matching', {fill: C.ink});
+T(s2A, 60, 476, 22, 'build solar = yearly consumption', {fill: C.ink2, 'font-weight': 500});
+const barPV = E('rect', {x: 60, y: 510, width: 0, height: 44, rx: 8, fill: C.pv}, s2A);
+const barDC = E('rect', {x: 60, y: 566, width: 0, height: 44, rx: 8, fill: C.dc}, s2A);
+const tPV2 = T(s2A, 80, 541, 22, 'Solar 876 GWh/yr', {fill: '#1a0f05'});
+const tDC2 = T(s2A, 80, 597, 22, 'Data center 876 GWh/yr', {fill: '#06122b'});
+const s2ok = T(s2A, 760, 572, 30, '100% ✓ on paper', {fill: C.flex});
+// hourly chart
+const s2C = G(s2);
+const cx0 = 90, cx1 = 990, cy0 = 690, cy1 = 1000, ymax = 380;
+const X = h => cx0 + (cx1 - cx0) * h / 24, Y = v => cy1 - (cy1 - cy0) * v / ymax;
+T(s2C, 60, 670, 28, 'Hour by hour', {});
+E('line', {x1: cx0, y1: cy1, x2: cx1, y2: cy1, stroke: '#2a3354', 'stroke-width': 2}, s2C);
+['00:00','06:00','12:00','18:00','24:00'].forEach((l, i) => T(s2C, X(i * 6), cy1 + 32, 18, l, {fill: C.muted, 'text-anchor': i === 0 ? 'start' : i === 4 ? 'end' : 'middle', 'font-weight': 500}));
+let dpv = ''; for (let k = 0; k <= 240; k++){ const h = k / 10; dpv += (k ? 'L' : 'M') + X(h) + ',' + Y(PV(h)); }
+const pvArea = E('path', {d: dpv + `L${X(24)},${Y(0)}L${X(0)},${Y(0)}Z`, fill: C.pv, opacity: .16}, s2C);
+const pvLine = E('path', {d: dpv, fill: 'none', stroke: C.pv, 'stroke-width': 5, 'stroke-linecap': 'round'}, s2C);
+const pvLen = 2000; set(pvLine, {'stroke-dasharray': pvLen, 'stroke-dashoffset': pvLen});
+const dcLine = E('line', {x1: X(0), y1: Y(L), x2: X(24), y2: Y(L), stroke: C.dc, 'stroke-width': 5}, s2C);
+// night gaps (where PV < L)
+let gap = `M${X(0)},${Y(L)}`; for (let k = 0; k <= 240; k++){ const h = k / 10; gap += `L${X(h)},${Y(Math.min(PV(h), L))}`; } gap += `L${X(24)},${Y(L)}Z`;
+const gapArea = E('path', {d: gap, fill: C.bad, opacity: 0}, s2C);
+const gapTxt1 = T(s2C, X(2.2), Y(L) - 18, 22, 'night: fossil power', {fill: C.bad});
+const gapTxt2 = T(s2C, X(19.2), Y(L) - 18, 22, 'evening: fossil power', {fill: C.bad});
+const s2big = T(s2, 60, 1120, 60, 'Only 40% matched', {fill: C.bad});
+const s2big2 = T(s2, 60, 1176, 30, 'hour by hour — the night still runs on fossil power.', {fill: C.ink2, 'font-weight': 500});
+
+// =============== Scene 3: batteries
+const s3 = G();
+T(s3, 60, 170, 22, 'THE USUAL FIX', {fill: C.ink2, 'letter-spacing': 3});
+T(s3, 60, 236, 50, 'Store the sun in batteries?', {});
+const batt = battIcon(s3, 540, 520);
+const s3n1 = T(s3, 540, 760, 96, '1,027 MWh', {'text-anchor': 'middle', fill: C.dc});
+const s3n1b = T(s3, 540, 806, 26, 'of new batteries for 80% hourly matching', {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 500});
+const s3n2 = T(s3, 540, 960, 96, '$30M / year', {'text-anchor': 'middle', fill: C.bad});
+const s3n2b = T(s3, 540, 1006, 26, 'and replaced every 10–15 years', {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 500});
+
+// =============== Scene 4: the idea
+const s4 = G();
+T(s4, 60, 170, 22, 'THE IDEA', {fill: C.flex, 'letter-spacing': 3});
+const s4h = T(s4, 60, 236, 44, 'Borrow flexibility from loads', {});
+const s4h2 = T(s4, 60, 290, 44, 'already on the grid.', {fill: C.flex});
+// sky
+const sky = E('rect', {x: 60, y: 330, width: 960, height: 150, rx: 18, fill: 'url(#sky)', opacity: .9}, s4);
+const sunG = sunIcon(s4, 0, 0, 22), moonG = moonIcon(s4, 0, 0);
+const clock = T(s4, 990, 420, 54, '06:00', {'text-anchor': 'end', 'font-variant-numeric': 'tabular-nums'});
+// nodes
+const busY = 720;
+const pv4 = pvIcon(s4, 200, 590);
+T(s4, 200, 545, 22, 'Solar plant', {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 600});
+const pvVal = T(s4, 186, 692, 24, '0 MW', {'text-anchor': 'end', fill: C.pv, 'font-variant-numeric': 'tabular-nums'});
+const dc4 = dcIcon(s4, 880, 585, .62);
+T(s4, 880, 510, 22, 'AI data center', {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 600});
+E('line', {x1: 110, y1: busY, x2: 970, y2: busY, stroke: C.grid, 'stroke-width': 8, 'stroke-linecap': 'round', opacity: .9}, s4);
+T(s4, 540, busY - 18, 22, 'POWER GRID', {'text-anchor': 'middle', fill: C.grid, 'letter-spacing': 3});
+E('line', {x1: 200, y1: 648, x2: 200, y2: busY, stroke: C.pv, 'stroke-width': 4, opacity: .6}, s4);
+E('line', {x1: 880, y1: 640, x2: 880, y2: busY, stroke: C.dc, 'stroke-width': 4, opacity: .6}, s4);
+const loadsX = [240, 440, 640, 840], kinds = [['desal','Desalination'],['cool','District cooling'],['pump','Water pumping'],['ind','Industry']];
+const loads = loadsX.map((x, i) => { E('line', {x1: x, y1: busY, x2: x, y2: 880, stroke: C.flex, 'stroke-width': 4, opacity: .5}, s4); return loadIcon(s4, x, 930, kinds[i][0], kinds[i][1]); });
+const dcFeed = T(s4, 898, 676, 20, '100 MW', {fill: C.dc}); T(s4, 898, 700, 18, 'always on', {fill: C.dc, 'font-weight': 600});
+// particles
+const parts = G(s4);
+function pathPts(pts){ const segs = []; let tot = 0; for (let i = 1; i < pts.length; i++){ const d = Math.hypot(pts[i][0] - pts[i-1][0], pts[i][1] - pts[i-1][1]); segs.push([pts[i-1], pts[i], d]); tot += d; } return {segs, tot}; }
+function at(P, u){ let d = u * P.tot; for (const [a, b, l] of P.segs){ if (d <= l){ const r = d / l; return [a[0] + (b[0] - a[0]) * r, a[1] + (b[1] - a[1]) * r]; } d -= l; } const last = P.segs[P.segs.length - 1][1]; return last; }
+const pPV = pathPts([[200, 650], [200, busY]]);
+const pAbs = loadsX.map(x => pathPts([[200, busY], [x, busY], [x, 878]]));
+const pDC = pathPts([[600, busY], [880, busY], [880, 642]]);
+const pRel = loadsX.map(x => pathPts([[x, 878], [x, busY], [880, busY], [880, 642]]));
+function dots(n, color, r){ return Array.from({length: n}, () => E('circle', {r, fill: color, opacity: 0}, parts)); }
+const dPV = dots(10, C.pv, 6), dAbs = loadsX.map(() => dots(7, C.pv, 5)), dDC = dots(8, C.dc, 6), dRel = loadsX.map(() => dots(6, C.flex, 5.5));
+// meter + caption
+const meter = G(s4);
+E('rect', {x: 60, y: 1030, width: 960, height: 70, rx: 16, fill: C.panel}, meter);
+T(meter, 84, 1074, 21, 'Flexible loads vs. their baseline', {fill: C.ink2, 'font-weight': 600});
+E('line', {x1: 720, y1: 1044, x2: 720, y2: 1086, stroke: C.muted, 'stroke-width': 2}, meter);
+const mBar = E('rect', {x: 720, y: 1052, width: 0, height: 26, rx: 6, fill: C.flex}, meter);
+const mVal = T(meter, 996, 1074, 22, '', {'text-anchor': 'end', fill: C.flex, 'font-variant-numeric': 'tabular-nums'});
+const cap1 = T(s4, 60, 1160, 32, '', {});
+const cap2 = T(s4, 60, 1204, 26, '', {fill: C.ink2, 'font-weight': 500});
+
+// =============== Scene 5: verification
+const s5 = G();
+T(s5, 60, 170, 22, 'VERIFIED, HOUR BY HOUR', {fill: C.grid, 'letter-spacing': 3});
+T(s5, 60, 236, 50, 'A contract the grid can audit.', {});
+const steps = [['1','Contract','The data center pays the loads only for verified shifts.', C.grid],
+               ['2','Metering','Each load is measured against its own baseline.', C.flex],
+               ['3','Hourly credits','Solar is credited to the loads that absorb it.\nFreed grid supply is credited to the data center.', C.pv]];
+const stepG = steps.map((s, i) => { const g = G(s5); const y = 340 + i * 270;
+  E('rect', {x: 60, y, width: 960, height: 220, rx: 22, fill: C.panel, stroke: '#26304f', 'stroke-width': 2}, g);
+  E('circle', {cx: 130, cy: y + 110, r: 42, fill: s[3]}, g); T(g, 130, y + 126, 44, s[0], {'text-anchor': 'middle', fill: '#0a0f1f'});
+  T(g, 200, y + 92, 38, s[1], {});
+  s[2].split('\n').forEach((ln, j) => T(g, 200, y + 140 + j * 38, 27, ln, {fill: C.ink2, 'font-weight': 500}));
+  return g; });
+
+// =============== Scene 6: results
+const s6 = G();
+T(s6, 60, 170, 22, 'RESULTS · 100-MW AI DATA CENTER · RIYADH', {fill: C.pv, 'letter-spacing': 3});
+T(s6, 60, 236, 44, 'One combination of three pillars.', {});
+const colX = [60, 390, 720], colW = 300;
+const pillars = ['Reliability', 'Emissions', 'Cost'].map((t, i) => { const g = G(s6);
+  E('rect', {x: colX[i], y: 300, width: colW, height: 720, rx: 24, fill: C.panel, stroke: '#26304f', 'stroke-width': 2}, g);
+  T(g, colX[i] + 28, 360, 34, t, {}); return g; });
+// reliability
+T(pillars[0], 90, 470, 110, '=', {fill: C.dc});
+T(pillars[0], 90, 560, 54, 'the grid', {fill: C.dc});
+T(pillars[0], 90, 640, 25, 'Load served', {fill: C.ink2, 'font-weight': 500});
+T(pillars[0], 90, 700, 64, '100%', {});
+T(pillars[0], 90, 790, 23, 'Always grid-supplied.', {fill: C.ink2, 'font-weight': 500});
+T(pillars[0], 90, 824, 23, 'If loads fail, only the', {fill: C.ink2, 'font-weight': 500});
+T(pillars[0], 90, 858, 23, 'clean share drops.', {fill: C.ink2, 'font-weight': 500});
+// emissions bars (kt/yr)
+const eB = [['Annual\nmatching', 296, C.muted], ['EEF', 99.5, C.flex]];
+const eBars = eB.map((b, i) => { const x = 430 + i * 120; const r = E('rect', {x, y: 900, width: 90, height: 0, rx: 10, fill: b[2]}, pillars[1]);
+  const v = T(pillars[1], x + 45, 890, 28, '', {'text-anchor': 'middle', fill: b[2]}); b[0].split('\n').forEach((ln, j) => T(pillars[1], x + 45, 940 + j * 26, 20, ln, {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 500})); return [r, v, b[1]]; });
+T(pillars[1], 418, 430, 25, 'kt CO₂ per year', {fill: C.ink2, 'font-weight': 500});
+const e3 = T(pillars[1], 418, 500, 58, '3× lower', {fill: C.flex});
+// cost bars (M$/yr)
+const cB = [['Batteries', 30.2, C.dc], ['EEF', 17.3, C.flex]];
+const cBars = cB.map((b, i) => { const x = 760 + i * 120; const r = E('rect', {x, y: 900, width: 90, height: 0, rx: 10, fill: b[2]}, pillars[2]);
+  const v = T(pillars[2], x + 45, 890, 28, '', {'text-anchor': 'middle', fill: b[2]}); T(pillars[2], x + 45, 940, 20, b[0], {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 500}); return [r, v, b[1]]; });
+T(pillars[2], 748, 430, 25, 'M$ per year', {fill: C.ink2, 'font-weight': 500});
+const c3 = T(pillars[2], 748, 500, 58, '−43%', {fill: C.flex});
+const s6tag = T(s6, 540, 1110, 32, 'Grid reliability · battery-level emissions · lower cost', {'text-anchor': 'middle', fill: C.flex});
+const s6note = T(s6, 540, 1160, 19, '80% hourly matching · flexibility at $50/MWh shifted · zero new storage (batteries: 1,027 MWh)', {'text-anchor': 'middle', fill: C.muted, 'font-weight': 500});
+
+// =============== Scene 7: credits
+const s7 = G();
+const s7a = T(s7, 540, 560, 70, 'External', {'text-anchor': 'middle'});
+const s7b = T(s7, 540, 650, 70, 'Energy Flexibility', {'text-anchor': 'middle', fill: C.flex});
+const s7c = T(s7, 540, 730, 28, 'The sun goes to the loads. The night comes back to the data center.', {'text-anchor': 'middle', fill: C.ink2, 'font-weight': 500});
+const s7l = E('rect', {x: 540, y: 800, width: 0, height: 4, rx: 2, fill: C.flex}, s7);
+const s7n = T(s7, 540, 880, 40, 'Ali Nasser', {'text-anchor': 'middle'});
+const s7m = T(s7, 540, 926, 26, 'PhD Resident · ECEN · Texas A&M University', {'text-anchor': 'middle', fill: C.muted, 'font-weight': 600});
+const s7p = T(s7, 540, 990, 22, 'IEEE TPEC 2027 · College Station, Texas', {'text-anchor': 'middle', fill: C.muted, 'font-weight': 500});
+
+// ---------- render
+const groups = [s1, s2, s3, s4, s5, s6, s7];
+function slideIn(e, t, a, dy = 30){ const p = prog(t, a, a + .7); e.setAttribute('opacity', p); e.setAttribute('transform', `translate(0,${(1 - p) * dy})`); }
+function render(t){
+  t = clamp(t, 0, T_END);
+  SCENES.forEach((s, i) => groups[i].setAttribute('opacity', sceneAlpha(t, s[1], s[2])));
+  set(pbar, {width: 960 * t / T_END}); brand.setAttribute('opacity', 1 - prog(t, 0, .1) * 0 - (t < 5 ? 1 - prog(t, 3.8, 4.8) : 0) * 0);
+  foot.setAttribute('opacity', (t > 5 && t < 53) ? 1 : 0); brand.setAttribute('opacity', (t > 5 && t < 53) ? 1 : 0);
+  // S1
+  set(s1line, {width: 180 * prog(t, .2, 1.2)}); slideIn(s1a, t, .3); slideIn(s1b, t, .6); slideIn(s1c, t, 1.2); slideIn(s1d, t, 1.4); slideIn(s1n, t, 2.0); slideIn(s1m, t, 2.2);
+  // S2
+  slideIn(s2h, t, 5.2); slideIn(s2l, t, 5.5);
+  dc2.leds.forEach((l, i) => l.setAttribute('opacity', .4 + .6 * ((Math.sin(t * 6 + i * 1.7) + 1) / 2)));
+  const pa = prog(t, 6.2, 7.4); set(barPV, {width: 640 * pa}); set(barDC, {width: 640 * prog(t, 6.6, 7.8)});
+  tPV2.setAttribute('opacity', prog(t, 7.0, 7.4)); tDC2.setAttribute('opacity', prog(t, 7.4, 7.8)); s2ok.setAttribute('opacity', prog(t, 8.0, 8.4));
+  s2A.setAttribute('opacity', 1 - .55 * prog(t, 9.0, 9.6));
+  s2C.setAttribute('opacity', prog(t, 8.8, 9.4));
+  set(pvLine, {'stroke-dashoffset': pvLen * (1 - prog(t, 9.2, 11.2))}); pvArea.setAttribute('opacity', .16 * prog(t, 10.5, 11.4));
+  dcLine.setAttribute('opacity', prog(t, 9.4, 10)); gapArea.setAttribute('opacity', .35 * prog(t, 11.4, 12.2));
+  gapTxt1.setAttribute('opacity', prog(t, 11.8, 12.3)); gapTxt2.setAttribute('opacity', prog(t, 12.0, 12.5));
+  slideIn(s2big, t, 12.6); slideIn(s2big2, t, 12.9);
+  // S3
+  set(batt.fill, {width: 212 * (.15 + .85 * (Math.sin((t - 15) * 2.2) * .5 + .5) * prog(t, 15.4, 16.4))});
+  slideIn(s3n1, t, 16.2); slideIn(s3n1b, t, 16.5); slideIn(s3n2, t, 17.6); slideIn(s3n2b, t, 17.9);
+  // S4 — one day from 06:00 to 06:00 over 22.5–35.5 s
+  slideIn(s4h, t, 21.2); slideIn(s4h2, t, 21.5);
+  const hRaw = 6 + 24 * clamp((t - 22.5) / 13); const h = hRaw % 24; const pv = PV(h), net = pv - L;
+  const hh = Math.floor(h), mm = Math.floor((h - hh) * 4) * 15; clock.textContent = String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+  const day = pv > 1; const sx = 110 + 650 * clamp((h - 6) / 12), sy = 455 - 100 * Math.sin(Math.PI * clamp((h - 6) / 12));
+  sunG.setAttribute('transform', `translate(${sx},${sy})`); sunG.setAttribute('opacity', day ? 1 : 0);
+  const nh = (h >= 18 ? h - 18 : h + 6) / 12; moonG.setAttribute('transform', `translate(${110 + 650 * clamp(nh)},${455 - 90 * Math.sin(Math.PI * clamp(nh))})`); moonG.setAttribute('opacity', day ? 0 : 1);
+  sky.setAttribute('opacity', day ? .95 : .35);
+  pvVal.textContent = Math.round(pv) + ' MW';
+  const flow = (t - 21) * 0.55;
+  const showP = (arr, P, on, k = 0) => arr.forEach((d, i) => { const u = (flow * (P.tot > 400 ? .7 : 1.1) + i / arr.length + k) % 1; const [x, y] = at(P, u); set(d, {cx: x, cy: y, opacity: on ? .95 : 0}); });
+  const live = t > 22.3;
+  showP(dPV, pPV, live && day && pv > 15);
+  dAbs.forEach((arr, j) => showP(arr, pAbs[j], live && day && pv > 15, j * .13));
+  showP(dDC, pDC, live);
+  dRel.forEach((arr, j) => showP(arr, pRel[j], live && !day && pv < 5, j * .17));
+  loads.forEach(g => g.ring.setAttribute('stroke-width', live ? (day ? 3 + 3 * pv / A : 5) : 3));
+  dc4.leds.forEach((l, i) => l.setAttribute('opacity', .4 + .6 * ((Math.sin(t * 6 + i * 1.7) + 1) / 2)));
+  const mw = Math.max(-1, Math.min(1, net / 270)); set(mBar, {x: mw >= 0 ? 720 : 720 + 240 * mw, width: Math.abs(240 * mw), fill: C.flex});
+  mVal.textContent = live ? ((net >= 0 ? '+' : '−') + Math.abs(Math.round(net)) + ' MW') : '';
+  if (!live){ cap1.textContent = 'Four loads that can move their consumption,'; cap2.textContent = 'paid by the data center under one contract.'; }
+  else if (day && pv > 100){ cap1.textContent = 'Day: the loads absorb ALL the solar output.'; cap2.textContent = 'The data center keeps drawing 100 MW from the grid.'; }
+  else if (day){ cap1.textContent = 'Sunrise / sunset: the loads follow the sun.'; cap2.textContent = 'Every MWh they absorb is credited to them, not to the data center.'; }
+  else { cap1.textContent = 'Night: the same loads cut 100 MW.'; cap2.textContent = 'The freed grid supply is credited to the data center.'; }
+  // S5
+  stepG.forEach((g, i) => slideIn(g, t, 37.6 + i * 1.3, 40));
+  // S6
+  pillars.forEach((g, i) => slideIn(g, t, 43.4 + i * 1.6, 50));
+  const ep = prog(t, 46.4, 47.6); eBars.forEach(([r, v, val]) => { const hgt = 290 * val / 296 * ep; set(r, {y: 900 - hgt, height: hgt}); v.textContent = ep > .05 ? (val < 100 ? val.toFixed(1) : Math.round(val)) : ''; set(v, {y: 890 - hgt}); });
+  e3.setAttribute('opacity', prog(t, 47.6, 48.0));
+  const cp = prog(t, 48.0, 49.2); cBars.forEach(([r, v, val]) => { const hgt = 290 * val / 30.2 * cp; set(r, {y: 900 - hgt, height: hgt}); v.textContent = cp > .05 ? '$' + val.toFixed(1) + 'M' : ''; set(v, {y: 890 - hgt}); });
+  c3.setAttribute('opacity', prog(t, 49.2, 49.6));
+  slideIn(s6tag, t, 50.0); slideIn(s6note, t, 50.4);
+  // S7
+  slideIn(s7a, t, 53.3); slideIn(s7b, t, 53.6); slideIn(s7c, t, 54.2); set(s7l, {x: 540 - 160 * prog(t, 54.6, 55.4), width: 320 * prog(t, 54.6, 55.4)});
+  slideIn(s7n, t, 55.0); slideIn(s7m, t, 55.3); slideIn(s7p, t, 55.6);
+  if (!window.__RECORD__){ document.getElementById('scrub').value = t; document.getElementById('tc').textContent = t.toFixed(1) + ' s';
+    [...document.querySelectorAll('#chips button')].forEach((b, i) => b.classList.toggle('on', t >= SCENES[i][1] && t < SCENES[i][2])); }
+}
+window.render = render;
+
+// ---------- interactivity (browser)
+if (window.__RECORD__){ document.body.classList.add('rec'); render(0); }
+else {
+  let t0 = performance.now(), base = 0, playing = true;
+  const now = () => playing ? (base + (performance.now() - t0) / 1000) % T_END : base;
+  const btn = document.getElementById('play');
+  btn.onclick = () => { if (playing){ base = now(); playing = false; btn.textContent = '▶ Play'; } else { t0 = performance.now(); playing = true; btn.textContent = '❚❚ Pause'; } };
+  document.getElementById('scrub').oninput = e => { base = +e.target.value; t0 = performance.now(); render(base); };
+  const chips = document.getElementById('chips');
+  SCENES.forEach(s => { const b = document.createElement('button'); b.textContent = s[0]; b.onclick = () => { base = s[1] + .01; t0 = performance.now(); }; chips.appendChild(b); });
+  const fit = () => { const sc = Math.min(1, (innerHeight - 120) / 1350, innerWidth / 1080); document.getElementById('frame').style.transform = `scale(${sc})`;
+    document.getElementById('frame').style.height = (1350 * sc) + 'px'; };
+  addEventListener('resize', fit); fit();
+  (function loop(){ render(now()); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>
