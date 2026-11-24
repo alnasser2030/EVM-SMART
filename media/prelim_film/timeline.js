@@ -48,6 +48,7 @@ buildTimeline([
   ['whenBest', 16, 6, sWhenBest],
   ['dispCurve', 18, 6, sDispCurve],
   ['sizeCurve', 16, 6, sSizeCurve],
+  ['workMap', 18, 6, sWorkMap],
   ['seasons', 13, 6, sSeasons],
   ['c7', 2.8, 7, chapterCard('07', 'Case: NEOM', 'Second site — NEOM–Oxagon on the Red Sea'), { card: true }],
   ['neomSite', 15, 7, sNeomSite],

@@ -24,7 +24,7 @@ X_REC = 0.90
 EVE_MIN = 0.90
 S_MAX = 1500.0                     # MW, largest single campus planned in Saudi Arabia
 SITES = {"riyadh": ("Riyadh", "-"), "neom": ("NEOM", "--")}
-SIZES = np.logspace(0, np.log10(S_MAX), 361)
+SIZES = np.logspace(-1, np.log10(S_MAX), 401)
 MAROON, BLUE, GREY = pdp.COL["EEF"], pdp.COL["Battery"], "#6B6E70"
 
 
@@ -70,7 +70,7 @@ for site, (lab, ls) in SITES.items():
     ax3.plot(xp, [100 * e for e in cv["eve"]], color=MAROON, lw=2.4, ls=ls, marker="o", ms=4, label=lab)
 for ax in (ax1, ax3):
     ax.axvspan(r_lo, r_hi, color=MAROON, alpha=.08, lw=0)
-    ax.set_xticks([50, 60, 70, 80, 85, 90, 95, 100]); ax.set_xlim(48, 101)
+    ax.set_xticks([40, 50, 60, 70, 80, 85, 90, 100]); ax.set_xlim(38, 101)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
 ax1.axhline(0, color="#333333", lw=1)
 ax1.set_ylim(-2, 26)
@@ -88,8 +88,8 @@ for site, (lab, ls) in SITES.items():
     ax2.plot(SIZES, [a[1] for a in cv["sz"]], color=BLUE, lw=1.8, ls=ls, label=f"{lab}: vs. the battery")
 ax2.axvspan(s_lo, S_MAX, color=MAROON, alpha=.10, lw=0)
 ax2.axhline(0, color="#333333", lw=1)
-ax2.set_xscale("log"); ax2.set_xlim(1, S_MAX * 1.02); ax2.set_ylim(-25, 26)
-ax2.set_xticks([1, 10, 100, 1500]); ax2.set_xticklabels(["1 MW", "10 MW", "100 MW", "1.5 GW"])
+ax2.set_xscale("log"); ax2.set_xlim(.1, S_MAX * 1.02); ax2.set_ylim(-25, 26)
+ax2.set_xticks([.1, 1, 10, 100, 1500]); ax2.set_xticklabels(["100 kW", "1 MW", "10 MW", "100 MW", "1.5 GW"])
 ax2.axvline(5, color=GREY, lw=.8, ls=":"); ax2.text(5 * 1.08, -23.5, "5 MW", fontsize=8.5, color=GREY, rotation=90, va="bottom")
 ax2.text(np.sqrt(s_lo * S_MAX), 24.5, f"EEF works: ≈ {s_lo:.0f} MW – 1.5 GW", ha="center", va="top", color=MAROON, weight="bold", fontsize=12)
 ax2.text(s_lo * 1.4, -7, "← below ≈ 8 MW: fixed contract costs\n    dominate → group small sites\n    in one contract", fontsize=9, color="#333333")

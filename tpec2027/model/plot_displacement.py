@@ -135,7 +135,7 @@ def main():
         w.writerows(rows)
 
     # ------------------------------------------------------------------ size x displacement map
-    SIZES = np.logspace(0, 4, 161)
+    SIZES = np.logspace(-1, np.log10(1500), 161)
     NAMES = ["GRID / AM", "AM", "Battery", "EEF + storage", "EEF"]
     PV_RULE = 30.0                    # US$/MWh for EEF-linked PV in map (b): below the US$48 tariff
     maps = {}
@@ -189,7 +189,7 @@ def main():
                 ends[n] = (ends[n - 1][0] + 3,) + ends[n][1:]
         for y, lab, col in ends:
             ax.text(101, y, lab, color=col, va="center", fontsize=9.5, weight="bold")
-        ax.set_xlim(48, 109); ax.set_ylim(0, 70); ax.set_xticks([50, 60, 70, 80, 90, 100])
+        ax.set_xlim(38, 109); ax.set_ylim(0, 70); ax.set_xticks([40, 50, 60, 70, 80, 90, 100])
         ax.set_title(titles[name]); ax.set_xlabel("Displacement of the data center's use (%)")
         ax.grid(axis="y", color="#E6E3DE", lw=.8)
     axs[0][0].set_ylabel("US$ per MWh of DC load, on top of the\nUS$48/MWh tariff (25-yr annual equivalent)")
@@ -200,12 +200,12 @@ def main():
     for x, r in zip(xp, tg):
         ax.text(x, r[3] + .04, f"{r[3]:.1f}", ha="center", fontsize=8, color="#333333")
     ax.set_title("(d) Flexible load to contract per MW of data center"); ax.set_ylabel("MW per MW")
-    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 3.2)
+    ax.set_xticks([40, 50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 3.2)
     ax = axs[1][1]
     ax.plot(xp, [100 * r[4] for r in tg], color=COL["EEF"], lw=2.6, marker="o", ms=4.5)
     ax.axhline(100, color="#9A9A9A", lw=.8, ls=":")
     ax.set_title("(e) Summer evenings (18:00–02:00) freed on the grid"); ax.set_ylabel("% of DC load")
-    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 105)
+    ax.set_xticks([40, 50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 105)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
     knee = next(x for x, r in zip(xp, tg) if r[4] >= .95)
     ax.text(96, 40, f"≥ 95% freed from\n{knee:.0f}% displacement", color=COL["EEF"], weight="bold", ha="right", va="top")
@@ -217,7 +217,7 @@ def main():
     ax.axhline(TARIFF, color=COL["GRID"], lw=1.4); ax.text(50, TARIFF + 1.2, "grid purchase tariff US$48/MWh", color="#333333", fontsize=9)
     ax.axhline(PV_PRICE, color=COL["AM"], lw=1.4); ax.text(97, PV_PRICE - 3.2, "NREP benchmark US$13.6/MWh (= PV cost)", color="#333333", fontsize=9, ha="right")
     ax.set_title("(f) PV sale price that makes EEF the cheapest"); ax.set_ylabel("US$/MWh of PV sold")
-    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 60); ax.set_xlim(48, 112)
+    ax.set_xticks([40, 50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 60); ax.set_xlim(38, 112)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
     fig.suptitle("Displacement curve — 100-MW data center, Riyadh, 25-year horizon\nflexibility US$50/MWh shifted (band US$25–75); battery mid (band low–high)",
                  x=.01, ha="left", fontsize=12, weight="bold")
@@ -233,14 +233,15 @@ def main():
     ptitles = {"clean": "(a) EEF vs. battery at the same displacement",
                "pv_rule": f"(b) All four, EEF-linked PV sold at US${PV_RULE:.0f}/MWh\n(below the US$48 tariff; nothing else valued)",
                "grid+carbon": "(c) All four, grid reinforcement (US$125/kW-yr)\n+ carbon (US$50/t) valued"}
-    yedges = np.r_[45, [(a + b) / 2 * 100 for a, b in zip(XS[:-1], XS[1:])], 100.5]
-    xedges = np.logspace(-0.0125, 4.0125, len(SIZES) + 1)
+    yedges = np.r_[40.4, [(a + b) / 2 * 100 for a, b in zip(XS[:-1], XS[1:])], 100.5]
+    lo, hi = -1, np.log10(1500); dl = (hi - lo) / (len(SIZES) - 1) / 2
+    xedges = np.logspace(lo - dl, hi + dl, len(SIZES) + 1)
     for ax, (panel, Z) in zip(axs, maps.items()):
         ax.pcolormesh(xedges, yedges, Z, cmap=cmap, vmin=-.5, vmax=len(NAMES) - .5, shading="flat")
         ax.set_xscale("log"); ax.set_title(ptitles[panel])
-        ax.set_xticks([1, 10, 100, 1000, 10000]); ax.set_xticklabels(["1 MW", "10 MW", "100 MW", "1 GW", "10 GW"])
+        ax.set_xticks([.1, 1, 10, 100, 1500]); ax.set_xticklabels(["100 kW", "1 MW", "10 MW", "100 MW", "1.5 GW"])
         ax.set_xlabel("Data-center size")
-        for v in (5, 1500, 6600):
+        for v in (5, 100):
             ax.axvline(v, color="white", lw=1, ls=":")
         present = sorted({int(z) for z in Z.ravel()})
         for z in present:
@@ -254,7 +255,7 @@ def main():
     axs[0].set_yticks([50, 60, 70, 80, 85, 90, 93, 95, 97])
     fig.suptitle("Cheapest option by data-center size and displacement — 25 years\n"
                  "flexibility US$50/MWh shifted; battery mid; EEF overhead US$0.25 M/yr per contract; flexible load assumed sufficient nationally", x=.01, ha="left", fontsize=11.5, weight="bold")
-    fig.text(.01, .01, "Dotted lines: 5 MW, 1.5 GW (largest single campus planned; NEOM), 6.6 GW (HUMAIN 2034, a group of campuses). "
+    fig.text(.01, .01, "Dotted lines: 5 MW and 100 MW. 1.5 GW is the largest single campus planned; larger sizes are groups of campuses with the same result. "
              "Pool limits on flexible load are tested in Chapter 6.", fontsize=8.5, color="#555555")
     fig.tight_layout(rect=(0, .03, 1, .9))
     fig.savefig(FIG / "fig_displacement_size_map.png")

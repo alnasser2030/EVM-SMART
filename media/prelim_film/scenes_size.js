@@ -75,16 +75,19 @@ function sDisplacement(g, lt) {
 
 // ------------------------------------------------------------ results: the displacement curve
 function sDispCurve(g, lt) {
-  head(g, lt, 'THE DISPLACEMENT CURVE', 'Where EEF is the best option — 100-MW data center, 25 years');
+  head(g, lt, 'THE DISPLACEMENT CURVE', 'From 40% to 100% — where EEF is the best option (100-MW data center, 25 years)');
   source(g, lt, .5, 'Model results; grid reinforcement (US$125/kW-yr) and carbon (US$50/t) are assumptions');
-  const D = DATA.disp.sites, x0 = 200, x1 = 1080, X = v => x0 + (x1 - x0) * (v - 48) / 58;
+  const D = DATA.disp.sites, x0 = 200, x1 = 1080, X = v => x0 + (x1 - x0) * (v - 38) / 68;
   const yT = 630, yH = 330, Y = v => yT - (yT - yH) * (Math.min(v, 30) + 2) / 32, HI = DATA.disp.verdict.riyadh.displacement_max_pct, yB = 870, yBH = 730, YB = v => yB - (yB - yBH) * v / 100;
   const ax = inG(g, lt, .3, .6, 0);
   for (const v of [0, 10, 20, 30]) { E('line', { x1: x0, x2: x1, y1: Y(v), y2: Y(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, Y(v) + 6, 15, v, { a: 'end', c: C.muted }); }
   T(ax, x0 - 12, yH - 22, 15, 'EEF saving, US$ per MWh of DC load (> 0 = EEF cheaper)', { c: C.muted, w: 700 });
   for (const v of [0, 50, 100]) { E('line', { x1: x0, x2: x1, y1: YB(v), y2: YB(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, YB(v) + 6, 15, `${v}%`, { a: 'end', c: C.muted }); }
   T(ax, x0 - 12, yBH - 22, 15, 'Summer evenings freed on the grid (18:00–02:00)', { c: C.muted, w: 700 });
-  [50, 60, 70, 80, 85, 90, 100].forEach(v => T(ax, X(v), yB + 28, 15, v, { a: 'middle', c: C.muted }));
+  [40, 50, 60, 70, 80, 90, 100].forEach(v => T(ax, X(v), yB + 28, 15, v, { a: 'middle', c: C.muted }));
+  const sz = inG(g, lt, .8, .6, 0);
+  E('line', { x1: X(40.4), x2: X(40.4), y1: yH, y2: yB, stroke: C.sunD, 'stroke-width': 1.5, 'stroke-dasharray': '3 4' }, sz);
+  TP(sz, X(40.4) + 8, yBH + 30, 13, '40.4%: solar alone (annual matching) — no EEF needed below', 150, { c: C.sunD, w: 700, lh: 17 });
   T(ax, (x0 + x1) / 2, yB + 56, 16, 'Displacement of the data center’s use (%)', { a: 'middle', c: C.ink2, w: 600 });
   const bu = P(lt, 6.0, .8);
   if (bu > 0) {
@@ -138,21 +141,21 @@ function sDispCurve(g, lt) {
 
 // ------------------------------------------------------------ results: the size curve
 function sSizeCurve(g, lt) {
-  head(g, lt, 'THE SIZE CURVE', 'Which data centers should use EEF — at 90% displacement');
+  head(g, lt, 'THE SIZE CURVE', 'From 100 kW to 1.5 GW — which data centers should use EEF (at 90%)');
   source(g, lt, .5, 'Model results; contract overhead US$0.25 M/yr is an assumption');
   const D = DATA.disp.sites, F28 = DATA.disp.overhead_MUSD * 1e6 / 8760;
-  const x0 = 200, x1 = 1100, y0 = 860, y1 = 330, Smax = 1500, X = v => x0 + (x1 - x0) * Math.log10(v) / Math.log10(Smax), Y = c => y0 - (y0 - y1) * (c + 25) / 47;
+  const x0 = 200, x1 = 1100, y0 = 860, y1 = 330, Smax = 1500, X = v => x0 + (x1 - x0) * Math.log10(v / .1) / Math.log10(Smax / .1), Y = c => y0 - (y0 - y1) * (c + 25) / 47;
   const at90 = site => D[site].find(p => p.X === 90), adv = (site, key, S) => at90(site)[key] + F28 / 100 - F28 / S;
   const ax = inG(g, lt, .3, .6, 0);
   for (const c of [-20, -10, 0, 10, 20]) { E('line', { x1: x0, x2: x1, y1: Y(c), y2: Y(c), stroke: c ? C.faint : C.ink2, 'stroke-width': c ? 1.5 : 2 }, ax); T(ax, x0 - 12, Y(c) + 6, 15, c, { a: 'end', c: C.muted }); }
-  [[1, '1 MW'], [10, '10 MW'], [100, '100 MW'], [1500, '1.5 GW']].forEach(([v, l]) => T(ax, X(v), y0 + 28, 15, l, { a: 'middle', c: C.muted, w: 600 }));
+  [[.1, '100 kW'], [1, '1 MW'], [10, '10 MW'], [100, '100 MW'], [1500, '1.5 GW']].forEach(([v, l]) => T(ax, X(v), y0 + 28, 15, l, { a: 'middle', c: C.muted, w: 600 }));
   T(ax, (x0 + x1) / 2, y0 + 58, 16, 'Data-center size (one campus, log scale)', { a: 'middle', c: C.ink2, w: 600 });
   T(ax, x0 - 12, y1 - 24, 15, 'EEF saving, US$ per MWh of DC load (> 0 = EEF cheaper)', { c: C.muted, w: 700 });
   const smin = DATA.disp.verdict.riyadh.size_min_MW;
   const zu = P(lt, 5.4, .8);
   if (zu > 0) { E('rect', { x: X(smin), y: y1, width: X(Smax) - X(smin), height: y0 - y1, fill: C.maroon, opacity: (.08 * zu).toFixed(3) }, g); T(G(g, { opacity: zu.toFixed(3) }), (X(smin) + X(Smax)) / 2, y1 + 26, 18, `EEF WORKS · ≈ ${fmt(smin, 0)} MW – 1.5 GW`, { a: 'middle', w: 800, c: C.maroon, ls: 2 }); }
   [['riyadh', 'advB', C.bess, 3, null, 1.0], ['neom', 'advB', C.bess, 2.4, '8 6', 1.6], ['riyadh', 'adv', C.maroon, 4.5, null, 2.4], ['neom', 'adv', C.maroon, 3, '8 6', 3.0]].forEach(([site, key, col, w, dash, at]) => {
-    const pts = []; for (let lv = 0; lv <= Math.log10(Smax) + 1e-9; lv += .02) { const S = Math.pow(10, lv); pts.push([X(S), Y(Math.max(-25, adv(site, key, S)))]); }
+    const pts = []; for (let lv = -1; lv <= Math.log10(Smax) + 1e-9; lv += .02) { const S = Math.pow(10, lv); pts.push([X(S), Y(Math.max(-25, adv(site, key, S)))]); }
     const u = P(lt, at, 1.6, eIO);
     drawP(g, poly(pts), u, { stroke: col, 'stroke-width': w, 'stroke-dasharray': u >= 1 ? dash : null });
   });
@@ -178,6 +181,68 @@ function sSizeCurve(g, lt) {
     TP(vg, 1212, y + 104, 15, t2, 610, { c: C.ink2, lh: 19 });
   });
   cap(g, lt, 9.6, 'EEF suits every data center from ≈ 8 MW up to the largest campus planned — group the smaller ones.', { y: 972 });
+}
+
+// ------------------------------------------------------------ results: the boundary map (displacement x size)
+function sWorkMap(g, lt) {
+  head(g, lt, 'WHERE EEF WORKS — THE BOUNDARY MAP', 'Displacement × data-center size · Riyadh · 25 years');
+  source(g, lt, .5, 'Model results; grid reinforcement, carbon and contract overhead are assumptions');
+  const pts = DATA.disp.sites.riyadh, F28 = DATA.disp.overhead_MUSD * 1e6 / 8760, V = DATA.disp.verdict.riyadh;
+  const x0 = 220, x1 = 1160, y0 = 860, y1 = 300, Smin = .1, Smax = 1500;
+  const X = S => x0 + (x1 - x0) * Math.log10(S / Smin) / Math.log10(Smax / Smin), Y = v => y0 - (y0 - y1) * (v - 30) / 70;
+  const ax = inG(g, lt, .3, .6, 0);
+  for (const v of [30, 40, 50, 60, 70, 80, 90, 100]) T(ax, x0 - 12, Y(v) + 6, 15, `${v}%`, { a: 'end', c: C.muted });
+  [[.1, '100 kW'], [1, '1 MW'], [10, '10 MW'], [100, '100 MW'], [1500, '1.5 GW']].forEach(([v, l]) => T(ax, X(v), y0 + 28, 15, l, { a: 'middle', c: C.muted, w: 600 }));
+  T(ax, (x0 + x1) / 2, y0 + 58, 16, 'Data-center size (one campus, log scale)', { a: 'middle', c: C.ink2, w: 600 });
+  T(ax, x0 - 12, y1 - 18, 15, 'Displacement', { a: 'end', c: C.muted, w: 700 });
+  // rows: band edges halfway between the computed levels
+  const xs = pts.map(p => p.X), edges = [40.4].concat(xs.slice(0, -1).map((v, i) => (v + xs[i + 1]) / 2), [xs[xs.length - 1] + .25]);
+  const NC = 64, cu = P(lt, .9, 3.0, eIO), ncol = Math.round(NC * cu);
+  const sw = Array.from({ length: NC + 1 }, (_, j) => Smin * Math.pow(Smax / Smin, j / NC));
+  for (let j = 0; j < ncol; j++) {
+    const S = Math.sqrt(sw[j] * sw[j + 1]);
+    pts.forEach((p, i) => {
+      const eef = p.eef - F28 / 100 + F28 / S, alt = Math.min(p.grid, p.am, p.bess);
+      let col = C.am, op = 1;
+      if (eef < alt) col = p.eve >= 90 ? C.maroon : C.maroonL;
+      else if (p.bess < Math.min(p.grid, p.am)) col = C.bess;
+      E('rect', { x: X(sw[j]), y: Y(edges[i + 1]), width: X(sw[j + 1]) - X(sw[j]) + .6, height: Y(edges[i]) - Y(edges[i + 1]) + .6, fill: col, opacity: op }, g);
+    });
+  }
+  // below 40.4%: solar alone; above the last level: out of reach
+  const bz = inG(g, lt, 3.6, .6, 0);
+  E('rect', { x: x0, y: Y(40.4), width: x1 - x0, height: y0 - Y(40.4), fill: 'url(#hS)', opacity: .9 }, bz);
+  T(bz, (x0 + x1) / 2, (Y(40.4) + y0) / 2 + 6, 17, '0–40%: the solar plant alone covers it in the same hour — no EEF needed', { a: 'middle', w: 800, c: C.sunD });
+  E('rect', { x: x0, y: y1, width: x1 - x0, height: Y(edges[edges.length - 1]) - y1, fill: 'url(#hG)' }, bz);
+  T(bz, x1 - 8, y1 + 14, 13, '100%: out of reach', { a: 'end', w: 800, c: C.ink2 });
+  // the EEF-works zone
+  const wu = P(lt, 4.6, .8, eIO);
+  if (wu > 0) {
+    const zx = X(V.size_min_MW), zy = Y(V.displacement_max_pct), zh = Y(V.displacement_min_pct - 2.5) - zy;
+    E('rect', { x: zx, y: zy, width: (x1 - zx) * wu, height: zh, fill: 'none', stroke: '#fff', 'stroke-width': 7 }, g);
+    E('rect', { x: zx, y: zy, width: (x1 - zx) * wu, height: zh, fill: 'none', stroke: C.ink, 'stroke-width': 3, 'stroke-dasharray': '10 6' }, g);
+    const lg = G(g, { opacity: clamp((wu - .6) / .4).toFixed(3) });
+    E('rect', { x: (zx + x1) / 2 - 170, y: zy + zh / 2 - 26, width: 340, height: 52, rx: 10, fill: '#fff', opacity: .92 }, lg);
+    T(lg, (zx + x1) / 2, zy + zh / 2 + 8, 22, `EEF WORKS · ${fmt(V.displacement_min_pct)}–${fmt(V.displacement_max_pct, 1)}%`, { a: 'middle', f: F.slab, w: 700, c: C.maroon });
+  }
+  // legend and verdict
+  const items = [
+    [C.maroon, null, 'EEF is the best option', 'cheapest of the four and ≥ 90% of summer evenings freed'],
+    [C.maroonL, null, 'EEF cheapest — evenings not yet freed', 'below ≈ 85%: cheaper, but the grid still carries the night'],
+    [C.am, null, 'Annual matching cheapest', 'small sites: a contract’s fixed cost outweighs the savings'],
+    [null, 'url(#hS)', 'Solar alone', 'up to 40%, no flexibility is needed'],
+    [null, 'url(#hG)', 'Out of reach', 'above 99.5–99.9%: dusty days remain'],
+  ];
+  items.forEach(([col, pat, a, b], i) => {
+    const y = 300 + i * 88, ig = inG(g, lt, 5.4 + i * .35, .5, 0, 20);
+    E('rect', { x: 1230, y: y + 4, width: 34, height: 34, rx: 6, fill: col || pat, stroke: C.rule, 'stroke-width': 1 }, ig);
+    T(ig, 1280, y + 20, 19, a, { w: 800 });
+    TP(ig, 1280, y + 46, 15, b, 540, { c: C.ink2, lh: 19 });
+  });
+  const vg = inG(g, lt, 7.6, .7, 0, 20);
+  E('rect', { x: 1220, y: 750, width: 620, height: 130, rx: 14, fill: C.maroon }, vg);
+  TP(vg, 1248, 792, 19, `EEF works for ${fmt(V.displacement_min_pct)}–${fmt(V.displacement_max_pct, 1)}% displacement and data centers from ≈ ${fmt(V.size_min_MW)} MW to 1.5 GW. Smaller sites: group them in one contract. Larger: groups of campuses, same result.`, 570, { c: '#fff', w: 700, lh: 26 });
+  cap(g, lt, 9.6, 'Not every size, not every target: EEF works above ≈ 8 MW and between 85% and 99.5% displacement.', { y: 972 });
 }
 
 // ------------------------------------------------------------ conclusion: recommendations
