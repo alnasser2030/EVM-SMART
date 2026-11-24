@@ -61,6 +61,7 @@ buildTimeline([
   ['plan', 15, 10, sPlan],
   ['c11', 2.8, 11, chapterCard('11', 'Contributions & Conclusion', 'What this work adds'), { card: true }],
   ['contrib', 13, 11, sContrib],
+  ['verdict', 16, 11, sVerdict],
   ['conclusion', 19, 11, sConclusion],
   ['end', 9, 0, sEnd, { chrome: false, cam: false }],
 ]);

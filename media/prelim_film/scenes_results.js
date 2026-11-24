@@ -330,7 +330,7 @@ function sContrib(g, lt) {
 
 // ------------------------------------------------------------ conclusion
 function sConclusion(g, lt) {
-  const k = inG(g, lt, .1, .7, 0); T(k, 80, 150, 18, 'CONCLUSION', { w: 700, c: C.maroon, ls: 4 });
+  const k = inG(g, lt, .1, .7, 0); T(k, 80, 150, 18, 'CONCLUSION  ·  EEF MEETS ALL THREE PILLARS', { w: 700, c: C.maroon, ls: 4 });
   const items = [
     ['shield', 'RELIABILITY', 'Identical to direct grid supply — the data center is never touched.'],
     ['leaf', 'EMISSIONS', '99.5 kt CO₂/yr at 80% matching: the same as a battery, one third of annual matching.'],

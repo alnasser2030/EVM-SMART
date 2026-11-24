@@ -130,3 +130,48 @@ function sLifetime(g, lt) {
   TP(rg, 1470, 740, 15, 'Next: PV and battery degradation, price escalation, discount rate 6/8/10% and 20/30-year horizons.', 340, { c: '#fff', op: .85, lh: 21 });
   cap(g, lt, 9.0, 'What all options share cancels out — the comparison is the yearly cost of covering the night.', { y: 972 });
 }
+
+// ------------------------------------------------------------ conclusion: the verdict scorecard
+function sVerdict(g, lt) {
+  head(g, lt, 'THE VERDICT', 'Which configuration wins? — scored on all three pillars');
+  const cols = [['shield', 'Reliability', 'data-center load served'], ['leaf', 'Emissions', 'hourly matching · kt CO₂/yr'], ['cost', 'Cost', 'cost of hourly matching']];
+  const cx = i => 640 + i * 330, cw = 300;
+  const hg = inG(g, lt, .4, .6, 0);
+  cols.forEach(([ik, t1, t2], i) => {
+    ico(hg, ik, cx(i) + 34, 300, .36, C.maroon, 5.5);
+    T(hg, cx(i) + 64, 300, 21, t1, { w: 800, c: C.maroon });
+    T(hg, cx(i) + 64, 324, 14, t2, { c: C.muted });
+  });
+  T(hg, 1660, 300, 21, 'All three?', { w: 800, c: C.maroon });
+  const rows = [
+    ['GRID', 'today’s default', [[1, '100%'], [0, '0% · 497.6'], [1, 'US$0 — no clean supply']], 0],
+    ['AM', 'today’s I-REC claim', [[1, '100%'], [0, '40.4% · 296.4'], [1, 'US$0 — clean on paper']], 0],
+    ['RE+BESS', 'PV + battery', [[1, '100%'], [1, '80% · 99.5'], [0, 'US$30.2 M/yr + 1,027 MWh']], 0],
+    ['EEF', 'this work', [[1, '100%'], [1, '80% · 99.5'], [1, 'US$17.3 M/yr, no storage']], 1],
+  ];
+  rows.forEach(([k, sub, cells, win], r) => {
+    const y = 360 + r * 118, at = 1.0 + r * 1.6, rg = inG(g, lt, at, .7, 0, -30);
+    const winU = win ? P(lt, at + 2.6, .8, eIO) : 0;
+    E('rect', { x: 80, y, width: 1760, height: 100, rx: 14, fill: win ? C.maroonT : C.paper, stroke: win ? C.maroon : C.rule, 'stroke-width': win ? 2 + 2 * winU : 1.5, filter: 'url(#sh)' }, rg);
+    E('rect', { x: 80, y, width: 10, height: 100, rx: 4, fill: CC[k] }, rg);
+    T(rg, 116, y + 50, 30, k, { f: F.slab, w: 700, c: inkOf(k) });
+    T(rg, 116, y + 78, 15, sub, { c: C.muted, it: true });
+    cells.forEach(([ok, txt], i) => {
+      const mu = P(lt, at + .4 + i * .25, .5, eBack);
+      if (mu > 0) { const mg = G(rg, { transform: `translate(${cx(i) + 30} ${y + 50}) scale(${Math.max(.01, mu).toFixed(3)})` }); (ok ? okMark : xMark)(mg, 0, 0, 20, ok ? C.maroon : C.am); }
+      TP(rg, cx(i) + 62, y + (wrap(txt, 17, cw - 70, 600).length > 1 ? 44 : 56), 17, txt, cw - 70, { w: 600, c: ok ? C.ink : C.muted, lh: 21 });
+    });
+    const all = cells.every(c => c[0]);
+    const au = P(lt, at + 1.2, .5, eBack);
+    if (au > 0) { const ag = G(rg, { transform: `translate(1690 ${y + 50}) scale(${Math.max(.01, au).toFixed(3)})` }); (all ? okMark : xMark)(ag, 0, 0, 26, all ? C.maroon : C.am); }
+    if (win && winU > 0) {
+      const wg = G(g, { opacity: winU.toFixed(3), transform: `translate(${(1 - winU) * 30} 0)` });
+      E('rect', { x: 1730, y: y + 30, width: 96, height: 40, rx: 20, fill: C.maroon }, wg);
+      T(wg, 1778, y + 57, 17, 'WINNER', { a: 'middle', w: 800, c: '#fff', ls: 1 });
+    }
+  });
+  const ng = inG(g, lt, 8.6, .8, 10);
+  E('rect', { x: 80, y: 842, width: 1760, height: 84, rx: 14, fill: C.maroon }, ng);
+  TR(ng, 110, 878, 22, [['EEF is the only configuration that meets all three pillars at once ', { w: 800 }], ['— in Riyadh and at NEOM.', {}]], { c: '#fff' });
+  T(ng, 110, 910, 17, 'Conditions: flexibility below ≈ US$87/MWh shifted (≈ US$215/kW-yr) and ≈ 1.4 MW of flexible load per MW of data center; above ≈ 90% matching, add PV oversizing or a small battery.', { c: '#fff', op: .9 });
+}

@@ -1,6 +1,6 @@
 # Prelim film: External Energy Flexibility
 
-A 14-minute educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
+A 14-minute (14:18) educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
 
 - **Video:** `eef_prelim_film.mp4`
 - **Interactive version:** open `prelim_film.html` in a browser. It has play/pause, a scrubber and a button for each section. Use it to pause on any scene while presenting.
@@ -21,8 +21,8 @@ A 14-minute educational film (1920×1080, 30 fps, no audio) for the PhD prelimin
 | 10:42 | 08 Implementation in KSA | **Actors and roles, six contracts, prices and money flows, steps and regulatory gaps** |
 | 11:57 | 09 Expected Results | RQ2 control bounds, RQ3 first decision map, RQ4 first-order saturation, hypotheses H1–H4 |
 | 13:00 | 10 Research Plan | Chapter status, next steps, publications |
-| 13:17 | 11 Contributions & Conclusion | Five contributions, five-line verdict, closing line |
-| 13:52 | End card | Thank you / questions |
+| 13:17 | 11 Contributions & Conclusion | Five contributions, **the verdict: four configurations scored on three pillars, EEF the only one meeting all three (with conditions)**, five-line conclusion, closing line |
+| 14:08 | End card | Thank you / questions |
 
 All result numbers come from `tpec2027/results/*.csv` (same model and data as the TPEC 2027 paper). The NEOM case, the one-day scenario comparison and the decision map come from `tpec2027/model/run_sites.py` (outputs `sites_*.csv`, `scenario_day.csv`, `decision_map.csv`). The 1.5-GW campus figures are a linear ×15 scale-up of the 100-MW results, and the saturation chart is a first-order estimate; both are labelled as such in the film. Saudi market facts, SERA rules and the off-grid design are documented in `docs/implementation/eef_saudi_framework.md`. The off-grid design is shown without the developer's name. Literature numbers come from Chapter 2 (`docs/literature/chapter2_draft_v2.md`).
 
@@ -51,7 +51,7 @@ NODE_PATH=<dir>/node_modules node media/prelim_film/build_equations.js   # after
 node media/prelim_film/stills.js <outDir> scene:concept:10 120.5          # review stills (scene:<id>:<offset> or seconds)
 
 # full render: 4 parallel segments, then join
-N=25254; Q=$(( (N+3)/4 ))
+N=25734; Q=$(( (N+3)/4 ))
 for k in 0 1 2 3; do node media/prelim_film/record_pipe.js seg_$k.mp4 30 $((k*Q)) $(((k+1)*Q)) & done; wait
 printf "file 'seg_%d.mp4'\n" 0 1 2 3 > list.txt
 ffmpeg -f concat -safe 0 -i list.txt -c copy -movflags +faststart media/prelim_film/eef_prelim_film.mp4
