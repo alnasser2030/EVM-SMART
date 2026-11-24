@@ -164,7 +164,9 @@ The sweep to 100% (`run_displacement.py`) shows the upper boundary:
 - With loads that shift across a week (e.g. water storage) and PV ×2, it is 99.9%.
 - 100% is out of reach in every design. The first hours of the year come before any PV, and the dustiest days remain.
 
-**Size curve (at 90%).** The only size effect is the fixed contract overhead, which adds US$28.5/MWh ÷ size in MW.
+**From 0% to 100%.** The sweep starts at 40.4%, which the solar plant alone gives in the same hour (annual matching), so below it no flexibility is needed. From 42% up, EEF is cheaper than the alternatives at most sizes, but below ≈ 85% the summer evenings are not yet freed, so the grid still carries the night. The boundary map (`fig_displacement_size_map.png`, film scene "Where EEF works") puts displacement and size together. EEF is the best option for 85–99.5% displacement and data centers from ≈ 8 MW to 1.5 GW. Smaller sites are cheaper on annual matching unless they are grouped. Above 99.9%, the target is out of reach.
+
+**Size curve (at 90%), from 100 kW to 1.5 GW.** The only size effect is the fixed contract overhead, which adds US$28.5/MWh ÷ size in MW.
 - **Below ≈ 8 MW:** the overhead dominates. Group small sites in one contract. EEF still beats a battery from ≈ 2 MW.
 - **≈ 8 MW to 1.5 GW:** EEF is the best option. 1.5 GW is the largest single campus planned (NEOM–Oxagon).
 - **Above 1.5 GW:** groups of campuses. The curve stays flat, so the result is the same.
