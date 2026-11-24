@@ -43,8 +43,9 @@
 | **Tariff** | Public cloud-computing operators: **18 halalas/kWh (≈ US$48/MWh)**, a reduced rate approved by the Council of Ministers in 2021 and still listed by Saudi Energy. Industrial: 20 halalas/kWh, rising to **23 halalas/kWh on 1 Jan 2027**. KAPSARC notes that the exact tariff for AI data centers "is yet to be decided". | Council of Ministers, SERA, Saudi Energy. |
 | **Backup** | UPS for ride-through plus on-site backup generators (typically diesel) for outages; Tier III certification is required for CST's "Advanced" category. | DC operator; CST registration. |
 | **"Green" claims** | Unbundled **I-REC** certificates: issuance in Saudi Arabia started in Q2 2024, and S&P Global Platts has assessed Saudi I-REC prices since Jan 2025. These certificates support **annual** matching only. | Accredited I-REC issuer; DC buys certificates. |
-| **On-site renewables** | SERA's self-consumption framework now covers systems **up to 50 MW** (raised from 2 MW, Nov 2026), with net billing, but generation and consumption must be **at the same facility**. A 100-MW constant load needs ≈ 477 MWp of PV. | SERA (generation licence above 2 MW). |
+| **On-site renewables** | SERA's *Regulatory Framework for Renewable Energy for Self-Consumption* (ERD-TA-004, V02/23) sets these rules: generation and consumption **at the same facility in all cases** (Art. 3-5); **≤ 30 MW per facility** (Art. 5-1), raised to **50 MW in the Nov 2026 update**; connected capacity **≤ the facility's contracted load** (Art. 5-1(c)); mandatory **net billing**, in which energy counts as self-consumed only within the same metering period and surplus is credited at a SERA-set price valid 12 months (Art. 8); transmission-connected self-consumption capped at **3% of last year's national peak** (Art. 11-1); storage only if integrated, ≤ the PV's capacity and for self-consumption (Art. 11-4); a 20-year connection agreement (+5). A 100-MW constant load needs ≈ 477 MWp of PV for annual matching. | SERA (study permit and licence); the transmission service provider and principal buyer for transmission connections. |
 | **Utility-scale renewables** | Built only through the **single buyer**: SPPC (the "Principal Buyer") tenders NREP projects and signs the PPAs. Round 6 solar tariffs were 1.10–1.49 US¢/kWh; Round 4 was ≈ 1.68 ¢/kWh. No in-force wheeling or bilateral regime for consumers was found. | Ministry of Energy (NREP), SPPC, IPPs. |
+| **Off-grid PV + battery (a real design)** | An industry design for an off-grid ≈ 0.7-MW data center in Riyadh (2024; 6,000 MWh/yr, 924.6 kW peak) needs **6.25 MWp of PV, ≈ 9.1 kWp per kW** of load (EEF: 4.8). It **curtails 46%** of the possible PV output (5.88 of 12.68 GWh/yr) and serves 53% of the load from batteries. The module output is ≈ 85% of the original after 25 years. | private developer (design report shared with the author; not public) |
 | **Dedicated / off-grid campuses** | Announced, e.g. the NEOM–Oxagon 1.5-GW campus "powered by solar, wind, on-site battery storage and hydrogen backup". Reports say it will initially draw power from thermal plants. | NEOM, DataVolt, HUMAIN. |
 | **Large campus connections** | HUMAIN signed an electricity-provision agreement with National Grid SA for its Riyadh AI project (Sep 2026; no capacity published). HUMAIN targets 1.9 GW by 2030 and 6.6 GW by 2034 (KAPSARC). | National Grid SA, Saudi Energy, HUMAIN. |
 
@@ -54,7 +55,7 @@
 
 1. **Clean on paper only.** Annual I-RECs equal to annual use leave the night on gas and oil. In our Riyadh model, annual matching is **40.4%** hourly and emits **296 kt CO₂/yr** per 100 MW on an hourly basis, against 497.6 kt for plain grid supply.
 2. **Hourly accounting is coming.** The GHG Protocol is revising Scope 2. One option adds hourly matching, deliverability and incrementality, and the new standard is expected in 2027. The outcome is contested (70% of 909 respondents opposed hourly matching), but large AI buyers already ask for 24/7 clean supply.
-3. **Self-supply does not scale.** On-site renewables are capped at 50 MW and tied to the same premises. A 100-MW to multi-GW AI campus cannot cover itself, and there is no in-force wheeling regime.
+3. **Self-supply does not scale.** On-site renewables are capped at 30–50 MW per facility and at the facility's contracted load, are tied to the same premises, and are limited nationally to 3% of peak for transmission-connected systems. An off-grid design needs about twice the PV of annual matching and wastes almost half of it. A 100-MW to multi-GW AI campus cannot cover itself, and there is no in-force wheeling regime.
 4. **Batteries are expensive at high matching.** Reaching 80% needs **1,027 MWh** per 100 MW (≈ 10 h of load), costing ≈ **US$30 M/yr** (US$18–49 M). Each further point of matching needs more storage.
 5. **Off-grid campuses trade away grid-grade reliability or pay for it twice.** They need firm backup (hydrogen, gas) in addition to storage.
 6. **Grid stress.** The grid was built for air-conditioning peaks. Multi-GW constant loads raise evening and night demand exactly when solar is absent, and connection lead times and transformer backlogs are binding (KAPSARC).
@@ -156,12 +157,44 @@ Its worst case is annual matching with unchanged reliability, because control ne
 | No aggregator / DR licence in KSA | SERA licence category for flexibility aggregators | Abu Dhabi DoE aggregator licensing framework (Nov 2026); its 2025 pilot cut peak demand by up to 401 MW |
 | No baseline / M&V standard | SERA standard for baselines and verification of load shifts | DR baseline practice (Ch. 2) |
 | Certificates are annual (I-REC) | Hourly, time-stamped certificates, or an hourly extension of I-REC | EnergyTag granular certificates |
-| No rule to credit freed supply to a named consumer | Hourly accounting rule (Chapter 3): credit only verified freed supply, up to the DC's use, tied to equal PV absorption within the window | this work |
+| No rule to credit freed supply to a named consumer | Hourly accounting rule (Chapter 3): credit only verified freed supply, up to the DC's use, tied to equal PV absorption within the window | SERA net billing already matches energy within a metering period (ERD-TA-004, Art. 8-3) |
 | Single-buyer market limits bilateral deals | Run EEF through SPPC and the regulated supplier (C2, C5); no wheeling needed | NREP PPAs |
 | AI-DC tariff not yet decided | Keep EEF tariff-neutral: all options pay the same energy tariff | KAPSARC 2025 |
 | Water security | Priority override for desalination and pumping in C4; the aggregator covers shortfalls | this work |
 
-## 10. Gap register for the dissertation
+## 10. Why linear programming
+
+- **Linear physics.** At the planning stage every relation is linear in the hourly variables: energy balance, power limits, and the shifted-energy state with efficiency η. No on/off decisions are needed, so MILP adds cost without accuracy.
+- **Guaranteed global optimum.** Each run returns the true minimum flexibility, or the true minimum battery, for the target, not a heuristic estimate. GA and PSO give no such guarantee.
+- **One exact question per run:**
+  - max matching for a given Pᶠ
+  - min Pᶠ for a target X
+  - min battery E for a target X
+
+  The break-even price is π\* = C_B / Σd.
+- **Fast at full resolution.** 8,760 hours give ≈ 26,000 variables per run. HiGHS solves one run in 0.2–1.6 s, which makes sweeps, two sites and decision maps cheap.
+- **Fair and reproducible.** The battery and EEF are sized with the same method, on the same data, with an open solver.
+- **Limitation.** Perfect foresight makes the results an upper bound on matching. Chapter 4 adds stochastic and robust day-ahead scheduling with intraday MPC.
+- **Simulation tools** (e.g., PV design software) evaluate a given design but do not find the minimum. The off-grid design in Section 1 is an example: it curtails 46% of its PV.
+
+## 11. Cost basis and project horizon
+
+- **Horizon:** 25 years, the PV plant life. Results are reported as **annual equivalent costs**.
+- **Shared items cancel.** The PV plant (same 477 MWp in AM, RE+BESS and EEF) and the grid tariff (876 GWh/yr at the same price in all four) are identical across configurations. The comparison is therefore the yearly cost of covering the night.
+- **Battery:** C_B = c_E · E · (CRF + φ), where CRF = r / (1 − (1 + r)^−n), with r = 8%, n = 15 yr (CRF = 0.1168) and φ = 2.5%.
+  - Capital: 1,027 MWh × US$207/kWh = US$212.6 M.
+  - Annual cost: US$212.6 M × 0.1418 = **US$30.2 M/yr**.
+- **EEF:** no capital; 346.7 GWh/yr × US$50/MWh = **US$17.3 M/yr**.
+- **Check over 25 years:** explicit cash flows, with the battery replaced at year 15 and 5 years of remaining life salvaged at year 25, give US$30.5 M/yr (+1%).
+- **Present value at 8% over 25 years:** battery ≈ US$326 M, EEF ≈ US$185 M.
+- **Sensitivities in the dissertation:**
+  - PV degradation (≈ 0.5–0.6%/yr; ≈ 85% of the original output after 25 yr in the 2024 Riyadh design)
+  - battery degradation and replacement timing
+  - price escalation
+  - discount rate of 6/8/10%
+  - horizons of 20 and 30 years
+
+## 12. Gap register for the dissertation
 
 | Gap | How it is closed | Where |
 |---|---|---|
@@ -169,7 +202,9 @@ Its worst case is annual matching with unchanged reliability, because control ne
 | Comparison with today's practice | Section 3 (GRID = today's default, AM = today's I-REC claims) | here, Ch. 3 |
 | When EEF is best | Section 4 conditions and thresholds | here, Ch. 5 |
 | Implementation, contracts, prices, responsible entities | Sections 5–9 | here, Ch. 5 |
-| Project horizon unclear | 25-year horizon with annualized costs stated; sensitivity ≈ 1% | here, paper table, film |
+| Project horizon unclear | 25-year horizon with annualized costs, shared items cancel, 25-yr check (+1%) and present values (Section 11) | here, paper table, film |
+| Why linear programming | Section 10; alternatives and where they fit | here, film |
+| Self-supply route | SERA self-consumption rules (Section 1) and a real off-grid design | here, film |
 | Second site | NEOM–Oxagon case (`run_sites.py`) | film, Ch. 3 |
 | Saturation | first-order estimate now; system model in Ch. 6 | film, Ch. 6 |
 | **Still open (needs data or a decision outside this work)** | Real flexibility costs from loads; SERA position on aggregators and hourly credits; the final AI-DC tariff; GHG Protocol outcome (2027) | Ch. 4–6, interviews with SERA, SPPC, Saudi Energy, SWA |
@@ -193,6 +228,9 @@ Official or primary:
 - GHG Protocol Scope 2 update status: https://ghgprotocol.org/blog/scope-2-market-based-method-update-2025-2026-public-consultation-current-status ; https://www.argusmedia.com/en/news-and-insights/latest-market-news/2858486-ghg-protocol-faces-pushback-on-scope-2-reforms
 - Desalination flexibility (RO ≈ half of capacity): https://www.iea.org/commentaries/desalinated-water-affects-the-energy-equation-in-the-middle-east
 - Renewable generation 2025: https://www.mees.com/index.php/2026/6/19/power-water/saudi-renewable-generation-doubled-to-25twh-last-year/0a59f370-6bdd-11f1-a35f-899191c3f67e
+
+- SERA, *Regulatory Framework for Renewable Energy for Self-Consumption* (ERD-TA-004, V02/23, Dhu al-Qadah 1444 H), Arabic edition, provided by the author; Nov 2026 update raising the cap to 50 MW (pv magazine, above)
+- Energy+Environmental Economics (E3), *Load Growth Is Here to Stay, but Are Data Centers?* (July 2024). There is no 2026 edition. E3's newer papers, *Forecasting Large Loads in the Age of AI and Data Centers* (Dec 2025) and *Tailored for Scale* (Dec 2025, large-load rate design), are at https://www.ethree.com/data-center-load-growth/ but could not be read from this environment (host blocked).
 
 Third-party analyses (no official confirmation found; use with care):
 - HUMAIN – National Grid SA agreement and power constraints: https://vision2030.ai/analysis/saudi-ai-data-centre-power-agreements-september-2026/ ; https://vision2030.ai/analysis/saudi-arabia-ai-power-constraint-not-chips/

@@ -26,6 +26,7 @@ const EQ = {
   obj: String.raw`\min\ P^F\quad \text{s.t.}\quad \sum_t d_t\;\ge\; X\sum_t L_t-\sum_t \min(L_t,P_t)`,
   bess: String.raw`Q_t=Q_{t-1}+\eta_c\,c_t-b_t/\eta_d,\qquad 0\le Q_t\le E`,
   pi: String.raw`\pi^{\ast}(X)=\dfrac{C^B(X)}{\sum_t d_t(X)}`,
+  crf: String.raw`C^B=c_E\,E\,\big(\mathrm{CRF}+\phi\big),\qquad \mathrm{CRF}=\dfrac{r}{1-(1+r)^{-n}}`,
 };
 
 const out = {};

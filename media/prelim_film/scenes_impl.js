@@ -237,7 +237,7 @@ function sImplSteps(g, lt) {
   [['Aggregator licence', 'precedent: Abu Dhabi licensed aggregators in Nov 2026 after a 401-MW pilot'],
     ['Baseline & M&V standard', 'how load shifts are measured and verified'],
     ['Hourly certificates', 'time-stamped credits, an hourly extension of today’s I-RECs'],
-    ['Crediting rule', 'freed supply credited to a named consumer, only against equal PV absorption']].forEach(([a, b], i) => {
+    ['Crediting rule', 'freed supply credited to a named consumer against equal PV absorption — net billing already matches energy within a metering period']].forEach(([a, b], i) => {
     const y = 400 + i * 116;
     okMark(rg, 1228, y - 6, 13, 'rgba(255,255,255,.25)');
     T(rg, 1256, y, 22, a, { w: 800, c: '#fff' });

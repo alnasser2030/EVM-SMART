@@ -75,10 +75,16 @@ How can External Energy Flexibility enable a grid-connected, constant-load AI da
 - **Sustainability:** hourly matching (CFE score) and hourly-accounted emissions at the average factor (0.568 t CO₂/MWh), with the marginal-emission caveat.
 - **Cost:** annualized cost of hourly matching; break-even flexibility price π\* = C_B / Σd.
 
+## Method
+- **Linear programming (HiGHS), 8,760 hours:** the planning physics is linear, the optimum is global, and one run (≈ 26,000 variables) takes 0.2–1.6 s. Each run answers one question: max matching for a given Pᶠ, min Pᶠ or min battery for a target, and the break-even price.
+- **Later chapters:** stochastic or robust scheduling with MPC (Ch. 4), and MILP only if discrete unit sizes matter. Rationale: `docs/implementation/eef_saudi_framework.md` §10.
+
 ## Assumptions / scope
 - **Horizon: 25 years**, set by the PV life. Costs are reported as annual equivalents.
   - The battery is annualized over a 15-year life at 8% with 2.5%/yr fixed O&M.
   - An explicit 25-year computation with one battery replacement changes the battery cost by ≈ 1% (US$30.5 M vs US$30.2 M/yr).
+  - Present value over 25 years at 8%: battery ≈ US$326 M, EEF ≈ US$185 M.
+  - Shared items (the PV plant and the grid tariff) cancel across configurations.
   - PV and inverter degradation, battery degradation, 6/8/10% discount rates and 20/30-year horizons are dissertation sensitivities.
 - **DC size:** 100 MW base (results scale linearly); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
 - **Sites:** Riyadh (base) and NEOM–Oxagon (second site, `tpec2027/model/run_sites.py`).
@@ -132,7 +138,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 | Ch. 2 literature review | complete (53 refs, TAMU format PDF) |
 | Ch. 3 planning model | preliminary results: Riyadh + NEOM, four scenarios, sensitivities |
 | TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
-| Prelim film | `media/prelim_film/` (11 sections, ≈ 13 min, with an interactive HTML version) |
+| Prelim film | `media/prelim_film/` (11 sections, ≈ 14 min, with an interactive HTML version) |
 | Implementation framework | `docs/implementation/eef_saudi_framework.md` |
 | Ch. 4–6 | planned (control, decision maps and contracts, saturation) |
 

@@ -1,6 +1,6 @@
 # Prelim film: External Energy Flexibility
 
-An 11-minute educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
+A 14-minute educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
 
 - **Video:** `eef_prelim_film.mp4`
 - **Interactive version:** open `prelim_film.html` in a browser. It has play/pause, a scrubber and a button for each section. Use it to pause on any scene while presenting.
@@ -10,20 +10,21 @@ An 11-minute educational film (1920×1080, 30 fps, no audio) for the PhD prelimi
 
 | Time | Section | Scenes |
 |---|---|---|
-| 0:00 | Opening | Flat AI load vs. the sun, title, roadmap (10 stops) |
+| 0:00 | Opening | Flat AI load vs. the sun, title, roadmap (11 stops) |
 | 0:36 | 01 Motivation | Global demand (IEA, LBNL), Saudi data centers (KAPSARC, national strategy), the Saudi grid (duck curve, 7.1–29.9 GW DR), three pillars |
-| 1:29 | 02 Problem | Annual matching = 40.4% hourly, ≈6% internal flexibility, battery escalation, problem statement |
-| 2:25 | 03 State of the Art | Review funnel (1,365 → 53), three research streams (Venn), closest study (Yang et al. 2026), positioning map and gap |
-| 3:25 | 04 Questions & Objectives | Main RQ, RQ1–RQ4 mapped to Chapters 3–6, objectives O1–O5 |
-| 4:06 | 05 Methodology | EEF concept over one day, hourly accounting, four control layers, model pipeline (inputs → 4 LPs → outputs), equations, the LP over one day (shifted-energy account), experimental design |
-| 6:11 | 06 Results: Riyadh | Dispatch day, matching vs. flexibility, **all four scenarios on one day**, **full comparison table**, three pillars at 80%, **cost across targets**, break-even price, seasons and sensitivity |
-| 8:22 | 07 Case: NEOM | Site and PV shape (later sun), NEOM results vs. Riyadh, NEOM at 80% and scaled to the 1.5-GW Oxagon campus |
-| 9:14 | 08 Expected Results | RQ2 control bounds, RQ3 first decision map, RQ4 first-order saturation, hypotheses H1–H4 |
-| 10:17 | 09 Research Plan | Chapter status, next steps, publications |
-| 10:35 | 10 Contributions & Conclusion | Five contributions, four-line verdict (incl. NEOM), closing line |
-| 11:08 | End card | Thank you / questions |
+| 1:29 | 02 Problem | **How Saudi data centers are supplied today**, **why self-supply does not scale (SERA rules, a real off-grid design)**, annual matching = 40.4% hourly, ≈ 6% internal flexibility, battery escalation, problem statement |
+| 3:01 | 03 State of the Art | Review funnel (1,365 → 53), three research streams (Venn), closest study (Yang et al. 2026), positioning map and gap |
+| 4:01 | 04 Questions & Objectives | Main RQ, RQ1–RQ4 mapped to Chapters 3–6, objectives O1–O5 |
+| 4:42 | 05 Methodology | EEF concept over one day, hourly accounting, four control layers, model pipeline, equations, **why linear programming**, the LP over one day, experimental design, **25-year cost basis** |
+| 7:23 | 06 Results: Riyadh | Dispatch day, matching vs. flexibility, all four scenarios on one day, full comparison table, three pillars at 80%, cost across targets, break-even price, **when EEF wins**, seasons and sensitivity |
+| 9:50 | 07 Case: NEOM | Site and PV shape (later sun), NEOM results vs. Riyadh, NEOM at 80% and scaled to the 1.5-GW Oxagon campus |
+| 10:42 | 08 Implementation in KSA | **Actors and roles, six contracts, prices and money flows, steps and regulatory gaps** |
+| 11:57 | 09 Expected Results | RQ2 control bounds, RQ3 first decision map, RQ4 first-order saturation, hypotheses H1–H4 |
+| 13:00 | 10 Research Plan | Chapter status, next steps, publications |
+| 13:17 | 11 Contributions & Conclusion | Five contributions, five-line verdict, closing line |
+| 13:52 | End card | Thank you / questions |
 
-All result numbers come from `tpec2027/results/*.csv` (same model and data as the TPEC 2027 paper). The NEOM case, the one-day scenario comparison and the decision map come from `tpec2027/model/run_sites.py` (outputs `sites_*.csv`, `scenario_day.csv`, `decision_map.csv`). The 1.5-GW campus figures are a linear ×15 scale-up of the 100-MW results, and the saturation chart is a first-order estimate; both are labelled as such in the film. Literature numbers come from Chapter 2 (`docs/literature/chapter2_draft_v2.md`).
+All result numbers come from `tpec2027/results/*.csv` (same model and data as the TPEC 2027 paper). The NEOM case, the one-day scenario comparison and the decision map come from `tpec2027/model/run_sites.py` (outputs `sites_*.csv`, `scenario_day.csv`, `decision_map.csv`). The 1.5-GW campus figures are a linear ×15 scale-up of the 100-MW results, and the saturation chart is a first-order estimate; both are labelled as such in the film. Saudi market facts, SERA rules and the off-grid design are documented in `docs/implementation/eef_saudi_framework.md`. The off-grid design is shown without the developer's name. Literature numbers come from Chapter 2 (`docs/literature/chapter2_draft_v2.md`).
 
 ## Editing and rebuilding
 
@@ -35,6 +36,8 @@ All result numbers come from `tpec2027/results/*.csv` (same model and data as th
 | `scenes_method.js` | Concept, accounting, control, model, design |
 | `scenes_results.js` | Results, plan, contributions, conclusion, end card |
 | `scenes_extra.js` | Model pipeline, LP day, scenario comparisons, NEOM case, expected results |
+| `scenes_impl.js` | Status quo, when EEF wins, implementation (actors, contracts, prices, steps) |
+| `scenes_basis.js` | Self-supply limits (SERA), why linear programming, 25-year cost basis |
 | `timeline.js` | Scene order and durations |
 | `data.js` | Generated by `build_data.py` from the TPEC results |
 | `equations.js` | Generated by `build_equations.js` (MathJax 3.2.2) |
@@ -48,7 +51,7 @@ NODE_PATH=<dir>/node_modules node media/prelim_film/build_equations.js   # after
 node media/prelim_film/stills.js <outDir> scene:concept:10 120.5          # review stills (scene:<id>:<offset> or seconds)
 
 # full render: 4 parallel segments, then join
-N=20340; Q=$(( (N+3)/4 ))
+N=25254; Q=$(( (N+3)/4 ))
 for k in 0 1 2 3; do node media/prelim_film/record_pipe.js seg_$k.mp4 30 $((k*Q)) $(((k+1)*Q)) & done; wait
 printf "file 'seg_%d.mp4'\n" 0 1 2 3 > list.txt
 ffmpeg -f concat -safe 0 -i list.txt -c copy -movflags +faststart media/prelim_film/eef_prelim_film.mp4
