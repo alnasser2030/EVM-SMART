@@ -76,9 +76,9 @@ function sFullBill(g, lt) {
   const rg = inG(g, lt, 5.6, .8, 0, 30);
   card(rg, 1130, 290, 710, 620, { fill: C.paper });
   T(rg, 1160, 336, 16, 'WHAT SELLING THE PV DOES', { w: 800, c: C.maroon, ls: 2 });
-  [['All 876 GWh/yr sold to SPPC', '≈ US$11.9 M/yr at 5.1 halalas/kWh (NREP range 1.1–1.7 ¢: US$9.6–14.9 M)'],
+  [['All 876 GWh/yr sold to SPPC', '≈ US$11.9 M/yr at US$13.6/MWh (NREP range US$11–17/MWh: US$9.6–14.9 M)'],
     ['It pays back the PV plant', 'at NREP-level prices, sales ≈ the plant’s cost, so the net is ≈ 0 (bars above)'],
-    ['A margin is a bonus', 'every 0.1 ¢/kWh sold above your PV cost = US$0.9 M/yr off the bill'],
+    ['A margin is a bonus', 'every US$1/MWh sold above your PV cost = US$0.9 M/yr off the bill'],
     ['It does not change the winner', 'the same PV sits in AM, RE+BESS and EEF, so all three drop equally'],
     ['Cost per tonne avoided vs. AM', 'EEF ≈ US$88/t CO₂ · battery ≈ US$153/t CO₂']].forEach(([a, b], i) => {
     const y = 388 + i * 100;
@@ -86,5 +86,7 @@ function sFullBill(g, lt) {
     T(rg, 1194, y, 20, a, { w: 800 });
     TP(rg, 1194, y + 28, 16, b, 620, { c: C.ink2, lh: 21 });
   });
+  const ag = inG(g, lt, 7.6, .6, 0);
+  TP(ag, 1160, 868, 14, 'No export price is published for this case: US$13.6/MWh is an assumption, and a PV purchase-price rule is proposed for SERA’s framework.', 650, { c: C.muted, it: true, lh: 19 });
   cap(g, lt, 8.6, 'Selling the PV pays for the PV; EEF then covers the night for ≈ 40% less per tonne than a battery.', { y: 972 });
 }

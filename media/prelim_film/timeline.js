@@ -7,6 +7,7 @@ buildTimeline([
   ['motGlobal', 14, 1, sMotGlobal],
   ['motSaudi', 12, 1, sMotSaudi],
   ['motGrid', 14, 1, sMotGrid],
+  ['texas', 13, 1, sTexas],
   ['pillars', 11, 1, sPillars],
   ['c2', 2.8, 2, chapterCard('02', 'Problem', 'What today’s options leave unsolved'), { card: true }],
   ['today', 18, 2, sToday],
@@ -44,6 +45,7 @@ buildTimeline([
   ['fullBill', 18, 6, sFullBill],
   ['breakeven', 14, 6, sBreakeven],
   ['whenBest', 16, 6, sWhenBest],
+  ['sizeMap', 16, 6, sSizeMap],
   ['seasons', 13, 6, sSeasons],
   ['c7', 2.8, 7, chapterCard('07', 'Case: NEOM', 'Second site — NEOM–Oxagon on the Red Sea'), { card: true }],
   ['neomSite', 15, 7, sNeomSite],
@@ -64,6 +66,7 @@ buildTimeline([
   ['c11', 2.8, 11, chapterCard('11', 'Contributions & Conclusion', 'What this work adds'), { card: true }],
   ['contrib', 13, 11, sContrib],
   ['verdict', 16, 11, sVerdict],
+  ['recommend', 12, 11, sRecommend],
   ['conclusion', 19, 11, sConclusion],
   ['end', 9, 0, sEnd, { chrome: false, cam: false }],
 ]);

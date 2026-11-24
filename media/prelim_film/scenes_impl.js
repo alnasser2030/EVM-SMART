@@ -14,11 +14,11 @@ function sToday(g, lt) {
   head(g, lt, 'THE STATUS QUO', 'How Saudi data centers are supplied today');
   source(g, lt, .5, 'KAPSARC (2025); Saudi Energy; SERA (2026); S&P Global Platts (2025)');
   const routes = [
-    ['pylon', 'Grid supply — Saudi Energy', 'Regulated tariff: 18 halalas/kWh for cloud (2021); industrial 20 → 23 from 2027'],
+    ['pylon', 'Grid supply — Saudi Energy', 'Tariff: US$48/MWh for cloud (18 halalas/kWh); industrial US$53 → 61 from 2027'],
     ['shield', 'Backup — UPS + on-site generators', 'Typically diesel; Tier III needed for CST’s “Advanced” class'],
     ['doc', 'Green claims — annual I-RECs', 'Issued in Saudi Arabia since 2024: they match the year, not the hour'],
     ['pv', 'On-site PV — self-consumption', 'Up to 50 MW, same premises only (SERA, Nov 2026)'],
-    ['node', 'Utility PV — only via the single buyer', 'SPPC signs NREP PPAs at 1.1–1.7 US¢/kWh; no wheeling to consumers'],
+    ['node', 'Utility PV — only via the single buyer', 'SPPC signs NREP PPAs at US$11–17/MWh; no wheeling to consumers'],
   ];
   const probs = [
     'Night supply is gas and oil (58% / 41% of generation, 2022)',
@@ -143,7 +143,7 @@ function sContracts(g, lt) {
   });
   const terms = [
     ['C1', 'Supply agreement', 'DC ↔ Saudi Energy', '100% of use at the regulated tariff; firm supply — unchanged by EEF'],
-    ['C2', 'PV purchase agreement', 'PV developer ↔ SPPC', 'PV ≈ annual use; ≈ 1.1–1.7 US¢/kWh; attributes to the registry'],
+    ['C2', 'PV purchase agreement', 'PV developer ↔ SPPC', 'PV ≈ annual use; ≈ US$11–17/MWh; attributes to the registry'],
     ['C3', 'EEF service agreement', 'DC ↔ aggregator', 'Pᶠ and a 24-h window; capacity + energy fee below break-even; no right to curtail the DC'],
     ['C4', 'Flexibility agreements', 'aggregator ↔ each load', 'baseline, limits, notice, payment share; water-security override'],
     ['C5', 'Dispatch & settlement', 'aggregator ↔ National Grid SA', 'day-ahead schedule, network check, intraday update, monthly settlement'],
@@ -189,11 +189,11 @@ function sMoney(g, lt) {
   const ng2 = inG(g, lt, 7.4, .6, 0);
   TP(ng2, 780, 836, 15, 'Loads move consumption, they do not add it — their energy bill is unchanged.', 330, { it: true, c: C.muted, lh: 20 });
   // price per kWh of the data center
-  const x0 = 1260, bw = 120, base = 820, s = 13;
+  const x0 = 1260, bw = 120, base = 820, s = 4.875;
   const rg = inG(g, lt, 8.0, .7, 0, 30);
   card(rg, 1220, 286, 620, 640, { flat: true });
-  T(rg, 1250, 330, 16, 'WHAT THE DATA CENTER PAYS (halalas/kWh)', { w: 800, c: C.maroon, ls: 2 });
-  const bars = [['Grid only', 18, 0, C.am], ['Battery', 18, 12.9, C.bess], ['EEF', 18, 7.4, C.maroon]];
+  T(rg, 1250, 330, 16, 'WHAT THE DATA CENTER PAYS (US$/MWh)', { w: 800, c: C.maroon, ls: 2 });
+  const bars = [['Grid only', 48, 0, C.am], ['Battery', 48, 34.4, C.bess], ['EEF', 48, 19.8, C.maroon]];
   bars.forEach(([nm, t, extra, col], i) => {
     const x = x0 + 40 + i * 180, u = P(lt, 8.4 + i * .5, .9, eIO);
     E('rect', { x, y: base - t * s * u, width: bw, height: t * s * u, fill: C.am, opacity: .55 }, g);
@@ -204,10 +204,10 @@ function sMoney(g, lt) {
     if (extra) T(lg, x + bw / 2, base - t * s - extra * s / 2 + 6, 15, `+${fmt(extra, 1)}`, { a: 'middle', w: 800, c: '#fff' });
   });
   const tl = inG(g, lt, 9.2, .5, 0);
-  T(tl, x0 + 40 + bw / 2, base - 18 * s / 2, 14, 'tariff 18', { a: 'middle', c: C.ink2, w: 700 });
+  T(tl, x0 + 40 + bw / 2, base - 48 * s / 2, 14, 'tariff 48', { a: 'middle', c: C.ink2, w: 700 });
   const nt = inG(g, lt, 10.4, .6, 0);
   TP(nt, 1250, 882, 14, 'Annual equivalents over a 25-year horizon (PV life); battery: 15-year life at 8%. Ceiling for EEF: ≈ US$87/MWh shifted or ≈ US$215/kW-yr.', 560, { c: C.muted, it: true, lh: 19 });
-  cap(g, lt, 11.4, 'The data center keeps paying its tariff; EEF adds ≈ 7 halalas/kWh where storage adds ≈ 13.', { y: 976 });
+  cap(g, lt, 11.4, 'The data center keeps paying its US$48/MWh tariff; EEF adds ≈ US$20/MWh where storage adds ≈ US$34.', { y: 976 });
 }
 
 // ------------------------------------------------------------ implementation 4: steps and regulatory asks

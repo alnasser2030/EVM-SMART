@@ -43,6 +43,7 @@ AI data centers are large, nearly constant loads with little internal flexibilit
    - 7.1–29.9 GW of industrial demand-response potential
    - an undefined role for flexibility in the single-buyer market
 5. **Reliability is non-negotiable**, so any solution must keep grid-level reliability.
+6. **Grid burden (the Texas lesson).** ERCOT's large-load queue grew from > 233 GW (Dec 2025) to ≈ 474 GW (mid-2026), ≈ 90% data centers, and Texas SB 6 (2025) now allows new large loads to be curtailed in emergencies. EEF supplies the DC without adding its night load to the system: it cuts the net night load by ≈ 59% of DC size, against ≈ 49% for a battery. The DC's own connection is still sized for its full load.
 
 ## Main research question
 How can External Energy Flexibility enable a grid-connected, constant-load AI data center to achieve hourly clean-energy matching while maintaining reliability and minimizing cost, compared with conventional supply configurations?
@@ -86,7 +87,11 @@ How can External Energy Flexibility enable a grid-connected, constant-load AI da
   - Present value over 25 years at 8%: battery ≈ US$326 M, EEF ≈ US$185 M.
   - Shared items (the PV plant and the grid tariff) cancel across configurations.
   - PV and inverter degradation, battery degradation, 6/8/10% discount rates and 20/30-year horizons are dissertation sensitivities.
-- **DC size:** 100 MW base (results scale linearly); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
+- **DC size:** 100 MW base (the LP is linear, so per-MW results do not depend on size); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
+  - Size map from 1 MW to 10 GW (`tpec2027/model/run_sizes.py`). It assumes a fixed overhead of US$0.1–0.5 M/yr per EEF contract and a regional flexibility pool of 2 GW (or the national low estimate of 7.1 GW), with storage beyond the pool.
+  - Result: EEF is best from ≈ 5 MW to ≈ 1.4 GW per region. Smaller sites should be pooled; above the pool, EEF is combined with storage.
+- **Prices in US$:** Saudi prices are converted at 3.75 SAR per US$.
+- **PV selling price (assumption):** US$13.6/MWh (5.1 halalas/kWh), the NREP benchmark. This is below the DC's US$48/MWh purchase tariff. No official price exists for this case, so a three-tier SERA rule is proposed (framework §7c).
 - **Sites:** Riyadh (base) and NEOM–Oxagon (second site, `tpec2027/model/run_sites.py`).
 - **Out of scope:**
   - the building, GPUs and servers
@@ -120,6 +125,8 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 - prices and money flows
 - the developer's steps
 - the regulatory gaps
+- where EEF wins by DC size (§4a)
+- recommendations (§13)
 
 **Actors:**
 - Ministry of Energy (policy)
@@ -138,7 +145,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 | Ch. 2 literature review | complete (53 refs, TAMU format PDF) |
 | Ch. 3 planning model | preliminary results: Riyadh + NEOM, four scenarios, sensitivities |
 | TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
-| Prelim film | `media/prelim_film/` (11 sections, ≈ 14 min, with an interactive HTML version) |
+| Prelim film | `media/prelim_film/` (11 sections, ≈ 15.5 min, with an interactive HTML version) |
 | Implementation framework | `docs/implementation/eef_saudi_framework.md` |
 | Ch. 4–6 | planned (control, decision maps and contracts, saturation) |
 
