@@ -140,6 +140,43 @@ Its worst case is annual matching with unchanged reliability, because control ne
 - **PV:** its cost is recovered by the SPPC PPA price, so it adds no net cost to any configuration.
 - **Horizon:** results are annual equivalents over a **25-year horizon** (PV life). The battery is annualized over a 15-year life at 8% plus 2.5% fixed O&M. Re-computing over 25 years with one replacement at year 15 changes the battery cost by ≈ 1% (US$30.5 M vs US$30.2 M/yr).
 
+### 7a. The data center's full bill, including PV sales (per 100 MW, 80%)
+
+| US$ M/yr | GRID | AM | RE+BESS | EEF |
+|---|---|---|---|---|
+| Grid purchases (876 GWh × US$48/MWh) | 42.0 | 42.0 | 42.0 | 42.0 |
+| PV plant cost (annualized) | — | ≈ 11.9 | ≈ 11.9 | ≈ 11.9 |
+| PV sales to SPPC (876 GWh × 5.1 halalas/kWh) | — | −11.9 | −11.9 | −11.9 |
+| Cost of hourly matching | — | — | 30.2 | 17.3 |
+| **Net** | **42.0** | **42.0** | **72.2** | **59.4** |
+| Net per MWh of DC use | US$48.0 | US$48.0 | US$82.4 | US$67.8 |
+
+- **PV sales:** selling the PV output pays for the PV plant. At NREP-level prices (1.1–1.7 US¢/kWh, i.e. US$9.6–14.9 M/yr), sales ≈ the plant's annualized cost, so the net is ≈ 0.
+- **Margin:** every 0.1 ¢/kWh sold above the PV cost lowers the bill by ≈ US$0.9 M/yr.
+- **Ranking:** the same PV sits in AM, RE+BESS and EEF, so the sale lowers all three equally and the ranking does not change.
+- **Cost per tonne of CO₂ avoided relative to AM:** EEF ≈ US$88/t (US$50/MWh ÷ 0.568 t/MWh), battery ≈ US$153/t.
+
+### 7b. How much of the data center's use is shifted
+
+EEF does **not** shift 100% of the data center's consumption. For a chosen hourly-matching target X, the LP finds the smallest contracted flexibility that meets Σd ≥ X·ΣL − Σmin(L,P).
+
+| Target | Netted in the same hour | Shifted by the loads | Still from the grid mix | Pᶠ | Share of the night deficit shifted |
+|---|---|---|---|---|---|
+| 60% | 40.4% | 19.6% | 40.0% | 63 MW | 33% |
+| **80%** | **40.4%** | **39.6% (346.7 GWh)** | **20.0%** | **140 MW** | **66%** |
+| 90% | 40.4% | 49.6% | 10.0% | 203 MW | 83% |
+| max | 40.4% | 50.7% | 8.8% | unlimited | 85% |
+
+- **The three pillars:** reliability is 100% by design, emissions follow from the chosen X, and cost is minimized for that X.
+- **Why the shift stops short of 100%:**
+  - each day must balance (cloudy and winter days fall short)
+  - 5% of the shifted energy is lost (η = 0.95)
+  - every extra point needs more contracted flexibility
+- **Load-side numbers at 80%:**
+  - the loads absorb 364.9 GWh/yr of midday surplus to release 346.7 GWh/yr at night
+  - they use ≈ 85% of their daily shifting capacity (950 of 1,123 MWh/day)
+  - 61% of the deficit hours are fully covered, the rest partly (mostly winter nights)
+
 ## 8. Step by step: what a data-center developer does
 
 1. **Register** the DC with CST; request the grid connection (National Grid SA / Saudi Energy) and sign C1.
