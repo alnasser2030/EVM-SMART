@@ -47,13 +47,13 @@ function sDispatch(g, lt) {
   const rg = inG(g, lt, 1.2, .8, 14);
   T(rg, 1470, 330, 16, 'RIYADH · SUMMER DAY', { w: 700, c: C.muted, ls: 3 });
   pill(rg, 1470, 372, 'Pᶠ = 150 MW  ·  D = 8 h', { s: 18 });
-  T(rg, 1470, 470, 20, 'Annual hourly matching', { w: 600, c: C.ink2 });
+  T(rg, 1470, 470, 20, 'Annual displacement', { w: 600, c: C.ink2 });
   T(rg, 1470, 532, 50, '40.4%', { f: F.slab, w: 700, c: C.am });
   const r2 = inG(g, lt, 9.2, .8, 10);
   T(r2, 1470, 600, 30, '↓', { c: C.maroon, w: 700 });
   T(r2, 1466, 690, 84, fmt(lerp(40.4, DATA.dispatch_summary.cfe, P(lt, 9.2, 1.6, eIO)), 1) + '%', { f: F.slab, w: 700, c: C.maroon });
   T(r2, 1470, 732, 20, `with EEF  ·  ${fmt(DATA.dispatch_summary.shifted_GWh, 1)} GWh/yr shifted`, { c: C.ink2 });
-  cap(g, lt, 11.2, 'Up to +150 MW around noon, −100 MW all night — and hourly matching doubles.');
+  cap(g, lt, 11.2, 'Up to +150 MW around noon, −100 MW all night — and displacement doubles.');
 }
 
 // ------------------------------------------------------------ result 2: how much flexibility
@@ -64,7 +64,7 @@ function sCurve(g, lt) {
   for (const c of [40, 50, 60, 70, 80, 90, 100]) { E('line', { x1: x0, x2: x1, y1: Y(c), y2: Y(c), stroke: c === 40 ? C.ink2 : C.faint, 'stroke-width': c === 40 ? 2 : 1.5 }, ax); T(ax, x0 - 12, Y(c) + 6, 16, `${c}%`, { a: 'end', c: C.muted }); }
   for (const v of [0, .5, 1, 1.5, 2, 2.5, 3]) T(ax, X(v), y0 + 30, 16, v.toFixed(1), { a: 'middle', c: C.muted });
   T(ax, (x0 + x1) / 2, y0 + 62, 18, 'Contracted flexible power / data-center load  (Pᶠ / L)', { a: 'middle', c: C.ink2, w: 600 });
-  T(ax, x0 - 12, y1 - 26, 16, 'Hourly matching', { a: 'end', c: C.muted, w: 700 });
+  T(ax, x0 - 12, y1 - 26, 16, 'Displacement', { a: 'end', c: C.muted, w: 700 });
   legend(ax, 760, y0 - 30, [['D = 8 h', C.maroon, 'line'], ['D = 12 h', C.maroonL, 'dash'], ['D = 4 h', C.am, 'dash']], 17);
   const curve = (key, u, attrs) => {
     const pts = DATA.cfe_curves[key], f = mono(pts.map(q => q[0]), pts.map(q => q[1]));
@@ -85,7 +85,7 @@ function sCurve(g, lt) {
   const gmx = inG(g, lt, 8.6, .6, 0);
   E('line', { x1: X(0), x2: X(3.2), y1: Y(91.2), y2: Y(91.2), stroke: C.ink2, 'stroke-width': 1.5, 'stroke-dasharray': '3 5' }, gmx);
   T(gmx, X(3.2), Y(91.2) - 14, 17, `${DATA.max_cfe}% ceiling — each 24-h window must be energy-neutral`, { a: 'end', c: C.ink2, w: 600 });
-  const tk = [['≈ 1.4 MW', 'of flexibility per MW of data center reaches 80% hourly matching'], ['8 h = 12 h', 'beyond 8 hours, duration barely matters — power is the binding resource'], ['≈ 1.7×', 'the power is needed if loads can shift for only 4 hours']];
+  const tk = [['≈ 1.4 MW', 'of flexibility per MW of data center reaches 80% displacement'], ['8 h = 12 h', 'beyond 8 hours, duration barely matters — power is the binding resource'], ['≈ 1.7×', 'the power is needed if loads can shift for only 4 hours']];
   tk.forEach(([big, txt], i) => {
     const tg = inG(g, lt, 3.2 + i * 2.6, .7, 0, 30);
     const y = 330 + i * 190;
@@ -97,13 +97,13 @@ function sCurve(g, lt) {
 
 // ------------------------------------------------------------ result 3: three pillars
 function sResPillars(g, lt) {
-  head(g, lt, 'RESULT 3  ·  THREE PILLARS AT 80% HOURLY MATCHING', 'Grid reliability, battery-level emissions, lower cost');
+  head(g, lt, 'RESULT 3  ·  THREE PILLARS AT 80% DISPLACEMENT', 'Grid reliability, battery-level emissions, lower cost');
   const pl = DATA.pillars, lg = inG(g, lt, .4, .6, 0);
   legend(lg, 80, 300, pl.map(p => [p.config, CC[p.config]]), 19);
   const panels = [
     ['(a) Reliability', 'data-center load served, %', p => p.served, 118, 1.0, v => `${fmt(v)}%`, 'Identical: the data center is always grid-supplied'],
     ['(b) Emissions', 'hourly-accounted, kt CO₂ / yr', p => p.em_kt, 560, 4.4, v => fmt(v, 1), 'EEF = battery — one third of annual matching'],
-    ['(c) Cost of hourly matching', 'US$ million / yr (range: cost cases)', p => p.cost_mid, 52, 7.8, v => fmt(v, 1), `EEF ≈ ${fmt(100 * (1 - pl[3].cost_mid / pl[2].cost_mid))}% cheaper, with no new storage`],
+    ['(c) Cost of displacement', 'US$ million / yr (range: cost cases)', p => p.cost_mid, 52, 7.8, v => fmt(v, 1), `EEF ≈ ${fmt(100 * (1 - pl[3].cost_mid / pl[2].cost_mid))}% cheaper, with no new storage`],
   ];
   panels.forEach(([ttl, unit, get, vmax, at, lab, note], k) => {
     const px = 80 + k * 600, base = 790, hmax = 380;
@@ -117,8 +117,8 @@ function sResPillars(g, lt) {
       T(xl, bx + 40, base + 30, 17, p.config, { a: 'middle', w: 700, c: CC[p.config] === C.am ? C.grid : CC[p.config] });
       if (k === 2 && v === 0) {
         const ng = inG(g, lt, at + i * .25 + .4, .5, 6);
-        T(ng, bx + 40, base - 34, 15, 'no hourly', { a: 'middle', c: C.muted, w: 600 });
-        T(ng, bx + 40, base - 14, 15, 'matching', { a: 'middle', c: C.muted, w: 600 });
+        T(ng, bx + 40, base - 34, 15, 'nothing', { a: 'middle', c: C.muted, w: 600 });
+        T(ng, bx + 40, base - 14, 15, 'displaced', { a: 'middle', c: C.muted, w: 600 });
         return;
       }
       if (u <= 0) return;
@@ -151,7 +151,7 @@ function sBreakeven(g, lt) {
   head(g, lt, 'RESULT 4  ·  WHAT IT REPLACES', 'Flexibility instead of storage — and the price that decides');
   const rows = DATA.targets.filter(t => [60, 80, 90].includes(t.X));
   const lg = inG(g, lt, .4, .6, 0);
-  T(lg, 80, 316, 16, 'RESOURCE NEEDED FOR EACH HOURLY-MATCHING TARGET', { w: 700, c: C.muted, ls: 3 });
+  T(lg, 80, 316, 16, 'RESOURCE NEEDED FOR EACH DISPLACEMENT TARGET', { w: 700, c: C.muted, ls: 3 });
   rows.forEach((t, i) => {
     const y = 400 + i * 160, at = .8 + i * .8;
     const rg = inG(g, lt, at, .6, 0);
@@ -196,7 +196,7 @@ function sSeasons(g, lt) {
   const ax = inG(g, lt, .3, .6, 0);
   for (const c of [30, 45, 60, 75, 90]) { E('line', { x1: x0 - 20, x2: x1 + 20, y1: Y(c), y2: Y(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, ax); T(ax, x0 - 32, Y(c) + 6, 16, `${c}%`, { a: 'end', c: C.muted }); }
   'JFMAMJJASOND'.split('').forEach((l, i) => T(ax, X(i + 1), y0 + 30, 16, l, { a: 'middle', c: C.muted, w: 700 }));
-  T(ax, x0 - 32, y1 - 44, 16, 'Monthly hourly matching (annual target 80%)', { c: C.muted, w: 700 });
+  T(ax, x0 - 32, y1 - 44, 16, 'Monthly displacement (annual target 80%)', { c: C.muted, w: 700 });
   legend(ax, 620, y0 - 24, [['EEF', C.maroon, 'line'], ['RE+BESS', C.bess, 'line'], ['AM', C.am, 'line']], 17);
   [['AM', C.am, 3.5, .6], ['BESS', C.bess, 4, 1.4], ['EEF', C.maroon, 5, 2.2]].forEach(([k, col, sw, at]) => {
     const pts = M.map(r => [X(r.m), Y(r[k])]);
@@ -333,10 +333,10 @@ function sConclusion(g, lt) {
   const k = inG(g, lt, .1, .7, 0); T(k, 80, 150, 18, 'CONCLUSION  ·  EEF MEETS ALL THREE PILLARS', { w: 700, c: C.maroon, ls: 4 });
   const items = [
     ['shield', 'RELIABILITY', 'Identical to direct grid supply — the data center is never touched.'],
-    ['leaf', 'EMISSIONS', '99.5 kt CO₂/yr at 80% matching: the same as a battery, one third of annual matching.'],
-    ['cost', 'COST', '≈ US$17 M/yr vs. US$30 M/yr for storage — whenever flexibility costs < ≈ US$87/MWh shifted.'],
-    ['pylon', 'LOCATION', 'Holds at NEOM–Oxagon: 134 MW of flexibility for 80%; ≈ 2 GW for the 1.5-GW campus.'],
-    ['doc', 'APPLICATION', 'Works inside the single-buyer market: SPPC buys the PV, Saudi Energy supplies, a SERA-licensed aggregator delivers.'],
+    ['leaf', 'EMISSIONS', '≈ 50 kt CO₂/yr at 90% displacement — like a battery, one sixth of annual matching.'],
+    ['cost', 'COST', 'Cheapest over 25 years: US$28/MWh vs. 31 (AM), 43 (grid), 45 (battery), grid room and carbon counted.'],
+    ['pylon', 'GRID ROOM', 'Frees ≈ 100% of the data center’s load on summer evenings — no new night load.'],
+    ['doc', 'WHERE', 'Best at 85–97% displacement, for data centers of ≈ 8 MW to 1.5 GW — in Riyadh and at NEOM.'],
   ];
   const dim = 1 - .55 * P(lt, 10.2, 1.0, eIO);
   items.forEach(([ik, nm, txt], i) => {

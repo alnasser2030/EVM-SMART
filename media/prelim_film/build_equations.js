@@ -19,6 +19,7 @@ const doc = mathjax.document('', {
 
 const EQ = {
   cfe: String.raw`\mathrm{CFE}=\dfrac{\sum_t \min(L_t,P_t)\;+\;\sum_t d_t}{\sum_t L_t}`,
+  disp: String.raw`X=\dfrac{\sum_t \min(L_t,P_t)\;+\;\sum_t d_t}{\sum_t L_t}`,
   net: String.raw`s_t=[P_t-L_t]^{+},\qquad g_t=[L_t-P_t]^{+}`,
   state: String.raw`S_t=(1-\delta_t)\,S_{t-1}+\eta\,u_t-d_t`,
   bounds: String.raw`0\le u_t\le \min(P^F,s_t),\qquad 0\le d_t\le \min(P^F,g_t)`,

@@ -357,7 +357,7 @@ function sBatteries(g, lt) {
   const tg = DATA.targets, x0 = 160, y0 = 840, sy = 460 / 1320, Y = v => y0 - v * sy;
   const ax = inG(g, lt, .4, .6, 0);
   E('line', { x1: x0 - 20, x2: 1100, y1: y0, y2: y0, stroke: C.ink2, 'stroke-width': 2 }, ax);
-  T(ax, 630, 922, 19, 'Hourly matching target', { a: 'middle', c: C.muted, w: 600 });
+  T(ax, 630, 922, 19, 'Displacement target', { a: 'middle', c: C.muted, w: 600 });
   T(ax, x0 - 20, 330, 19, 'Battery energy needed (MWh)', { c: C.muted, w: 600 });
   const sel = tg.filter(t => [50, 60, 70, 80, 90].includes(t.X));
   sel.forEach((t, i) => {
@@ -372,7 +372,7 @@ function sBatteries(g, lt) {
     T(lg, cx, Y(t.bess_MWh) - 26, 24, fmt(t.bess_MWh), { a: 'middle', f: F.slab, w: 700, c: C.bess });
   });
   const rg = inG(g, lt, 4.4, .8, 14);
-  T(rg, 1200, 380, 18, 'AT 80% HOURLY MATCHING', { w: 700, c: C.muted, ls: 3 });
+  T(rg, 1200, 380, 18, 'AT 80% DISPLACEMENT', { w: 700, c: C.muted, ls: 3 });
   T(rg, 1196, 470, 84, '1,027 MWh', { f: F.slab, w: 700, c: C.bess });
   T(rg, 1200, 516, 25, '≈ 10.3 hours of the data center’s load', { w: 600 });
   T(rg, 1200, 556, 25, '≈ US$30 M per year  (US$18–49 M)', { w: 600 });

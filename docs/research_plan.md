@@ -88,8 +88,10 @@ How can External Energy Flexibility enable a grid-connected, constant-load AI da
   - Shared items (the PV plant and the grid tariff) cancel across configurations.
   - PV and inverter degradation, battery degradation, 6/8/10% discount rates and 20/30-year horizons are dissertation sensitivities.
 - **DC size:** 100 MW base (the LP is linear, so per-MW results do not depend on size); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
-  - Size map from 1 MW to 10 GW (`tpec2027/model/run_sizes.py`). It assumes a fixed overhead of US$0.1–0.5 M/yr per EEF contract and a regional flexibility pool of 2 GW (or the national low estimate of 7.1 GW), with storage beyond the pool.
-  - Result: EEF is best from ≈ 5 MW to ≈ 1.4 GW per region. Smaller sites should be pooled; above the pool, EEF is combined with storage.
+  - **Displacement** X = share of the DC's use freed on the grid hour by hour (= hourly matching in the literature); the DC always takes 100% from the grid.
+  - Verdict curves (`run_displacement.py`, `plot_verdict.py`; Riyadh and NEOM): over 25 years, with grid reinforcement (US$125/kW-yr) and carbon (US$50/t) valued, EEF is the best option at **85–97% displacement (best ≈ 90%)** for data centers of **≈ 8 MW to 1.5 GW** (the largest single campus planned; larger = groups of campuses).
+  - Smaller sites are grouped in one contract (fixed overhead US$0.25 M/yr per contract). Flexible load is contracted anywhere on the one national grid and is not limiting today (7.1–29.9 GW potential); saturation is a Chapter 6 test.
+  - On the bill alone, EEF wins if SPPC buys its PV at ≈ US$33/MWh at 90% (below the US$48 tariff).
 - **Prices in US$:** Saudi prices are converted at 3.75 SAR per US$.
 - **PV selling price (assumption):** US$13.6/MWh (5.1 halalas/kWh), the NREP benchmark. This is below the DC's US$48/MWh purchase tariff. No official price exists for this case, so a three-tier SERA rule is proposed (framework §7c).
 - **Sites:** Riyadh (base) and NEOM–Oxagon (second site, `tpec2027/model/run_sites.py`).
@@ -145,7 +147,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 | Ch. 2 literature review | complete (53 refs, TAMU format PDF) |
 | Ch. 3 planning model | preliminary results: Riyadh + NEOM, four scenarios, sensitivities |
 | TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
-| Prelim film | `media/prelim_film/` (11 sections, ≈ 15.5 min, with an interactive HTML version) |
+| Prelim film | `media/prelim_film/` (11 sections, ≈ 16 min, with an interactive HTML version) |
 | Implementation framework | `docs/implementation/eef_saudi_framework.md` |
 | Ch. 4–6 | planned (control, decision maps and contracts, saturation) |
 

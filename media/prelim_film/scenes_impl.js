@@ -50,13 +50,13 @@ function sToday(g, lt) {
 
 // ------------------------------------------------------------ results: when does EEF win?
 function sWhenBest(g, lt) {
-  head(g, lt, 'WHEN DOES EEF WIN?', 'Five conditions — all met in the Riyadh case');
+  head(g, lt, 'WHEN DOES EEF WIN?', 'Five conditions — the first four met in Riyadh and at NEOM');
   const conds = [
     ['Grid-grade reliability is required', 'the data center stays on the grid', 'always'],
-    ['Hourly-matching target 60–90%', 'daily-shifting ceiling: 91.2% Riyadh · 89.5% NEOM', '80%'],
+    ['Displacement target 85–97%', 'summer evenings ≥ 93% freed · ceiling ≈ 98% with PV × 1.25', '≈ 90%'],
     ['Flexibility costs less than storage', '< ≈ US$87 per MWh shifted · < ≈ US$215 per kW-year', 'US$25–75'],
-    ['Enough flexible load nearby', '≈ 1.4 MW per MW of data center, shiftable ≥ 8 h', '140 MW'],
-    ['Hourly claims are recognized', 'a registry issues time-stamped credits', 'needed'],
+    ['Data center of ≈ 8 MW or more', 'or smaller sites grouped in one contract; flexible load anywhere on the grid', '8 MW+'],
+    ['Grid room and hourly claims are valued', 'reinforcement + carbon, or a PV price ≈ US$33/MWh; hourly credits', 'needed'],
   ];
   conds.forEach(([t1, t2, v], i) => {
     const y = 290 + i * 122, at = .8 + i * 1.3, cg = inG(g, lt, at, .7, 0, -30);
@@ -70,9 +70,9 @@ function sWhenBest(g, lt) {
   const rg = inG(g, lt, 7.6, .8, 0, 30);
   card(rg, 1240, 290, 600, 600, { fill: C.paper });
   T(rg, 1272, 336, 16, 'EEF IS NOT THE BEST WHEN…', { w: 800, c: C.bess, ls: 3 });
-  [['the target is above ≈ 90%', '→ hybrid: oversize PV (+25% → 93%) or add a small battery'],
+  [['a site below ≈ 8 MW stands alone', '→ group it with others in one EEF contract'],
     ['batteries fall below ≈ US$100/kWh', '→ the break-even drops to ≈ US$42/MWh'],
-    ['flexibility is scarce or network-constrained', '→ near the data center, storage may win'],
+    ['neither grid room nor carbon is valued', '→ on the bill alone, grid supply or AM is cheaper'],
     ['only annual claims matter', '→ annual matching is cheapest (but clean on paper only)']].forEach(([a, b], i) => {
     const y = 388 + i * 106;
     xMark(rg, 1282, y - 6, 12, C.bess);
@@ -81,7 +81,7 @@ function sWhenBest(g, lt) {
   });
   E('rect', { x: 1262, y: 818, width: 556, height: 54, rx: 10, fill: C.maroonT }, rg);
   T(rg, 1540, 852, 17, 'Worst case = annual matching, same reliability', { a: 'middle', w: 700, c: C.maroon });
-  cap(g, lt, 10.6, 'Outside these conditions the answer is a hybrid — Chapter 5’s decision maps draw the exact boundaries.', { y: 972 });
+  cap(g, lt, 10.6, 'Outside these conditions the answer is grouping, a hybrid or plain supply — Chapter 5 draws the exact boundaries.', { y: 972 });
 }
 
 // ------------------------------------------------------------ implementation 1: actors
@@ -162,7 +162,7 @@ function sContracts(g, lt) {
 
 // ------------------------------------------------------------ implementation 3: prices and money flows
 function sMoney(g, lt) {
-  head(g, lt, 'IMPLEMENTATION · PRICES', 'Who pays whom — per 100 MW at 80% hourly matching');
+  head(g, lt, 'IMPLEMENTATION · PRICES', 'Who pays whom — per 100 MW at 80% displacement');
   const N = { se: [180, 330, 'Saudi Energy', C.grid], dc: [180, 590, 'Data center', C.dc], agg: [640, 590, 'Aggregator', C.maroon],
     fl: [640, 850, 'Flexible loads', C.maroon2], reg: [180, 850, 'Hourly registry', C.maroonL], sppc: [1000, 330, 'SPPC', C.grid], pv: [1000, 590, 'PV developer', C.sunD] };
   const flows = [

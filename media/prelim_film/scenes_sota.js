@@ -165,7 +165,7 @@ function sGap(g, lt) {
 // ------------------------------------------------------------ research questions
 const RQS = [
   ['RQ1', 'Formulate & compare', 'How can EEF be formalized — actors, contract and hourly accounting — and how does it compare with GRID, RE+BESS and AM on reliability, cost and sustainability?', 'Chapter 3'],
-  ['RQ2', 'Operate under uncertainty', 'How should EEF be controlled in operation, and how robust is its hourly matching to forecast errors and the limits of the flexible loads?', 'Chapter 4'],
+  ['RQ2', 'Operate under uncertainty', 'How should EEF be controlled in operation, and how robust is its displacement to forecast errors and the limits of the flexible loads?', 'Chapter 4'],
   ['RQ3', 'When does EEF win?', 'Under what general conditions does EEF dominate, and what contractual framework enables it in single-buyer and liberalized markets?', 'Chapter 5'],
   ['RQ4', 'Where does it saturate?', 'At what scale of data-center capacity does external flexibility saturate, and what supply mix is best beyond that point?', 'Chapter 6'],
 ];
@@ -174,7 +174,7 @@ function sRQ(g, lt) {
   const mg = inG(g, lt, .4, 1, 20);
   E('rect', { x: 120, y: 190, width: 1680, height: 236, rx: 16, fill: C.maroon, filter: 'url(#sh)' }, mg);
   T(mg, 160, 240, 17, 'MAIN RESEARCH QUESTION', { w: 700, c: '#fff', ls: 4, op: .75 });
-  TP(mg, 160, 296, 33, 'How can External Energy Flexibility enable a grid-connected, constant-load AI data center to achieve hourly clean-energy matching while maintaining reliability and minimizing cost, compared with conventional supply configurations?', 1600, { f: F.slab, w: 400, c: '#fff', lh: 46 });
+  TP(mg, 160, 296, 33, 'How can External Energy Flexibility enable a grid-connected, constant-load AI data center to displace its grid consumption hour by hour with clean energy while maintaining reliability and minimizing cost, compared with conventional supply configurations?', 1600, { f: F.slab, w: 400, c: '#fff', lh: 46 });
   const bu = P(lt, 3.4, 1.0, eIO);
   if (bu > 0) {
     drawP(g, 'M960,426 V478', bu, { stroke: C.maroon, 'stroke-width': 3 });

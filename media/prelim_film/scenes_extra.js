@@ -15,9 +15,9 @@ function sPipeline(g, lt) {
   const ins = [['pv', 'Hourly PV, 8,760 h', 'PVGIS-SARAH3 · Riyadh & NEOM · sized to annual use'], ['dc', 'Data-center load', '100 MW, constant, always on the grid'],
     ['node', 'Flexible portfolio', 'power Pᶠ · duration D · efficiency η'], ['battery', 'Battery benchmark', 'η 0.9 · NREL 2025 costs · 8%, 15 years'],
     ['cost', 'Prices & emissions', 'US$48/MWh tariff · 0.568 t CO₂/MWh']];
-  const mods = [['Max matching', 'for a given flexible power Pᶠ → the matching curve'], ['Min flexibility', 'smallest Pᶠ that reaches target X (EEF)'],
+  const mods = [['Max displacement', 'for a given flexible power Pᶠ → the displacement curve'], ['Min flexibility', 'smallest Pᶠ that reaches target X (EEF)'],
     ['Min battery', 'smallest energy E that reaches target X (RE+BESS)'], ['Break-even price', 'π* = annual battery cost ÷ MWh shifted']];
-  const outs = [['shield', 'Data-center load served', 'reliability'], ['leaf', 'Hourly matching, emissions', 'sustainability'], ['cost', 'Cost of hourly matching', 'cost'],
+  const outs = [['shield', 'Data-center load served', 'reliability'], ['leaf', 'Displacement, emissions', 'sustainability'], ['cost', 'Cost of displacement', 'cost'],
     ['battery', 'Storage avoided', 'MWh'], ['node', 'Flexibility required', 'MW per MW of load'], ['pylon', 'Net load on the grid', 'evening and night']];
   const hg = inG(g, lt, .3, .6, 0);
   T(hg, 80, 300, 16, 'INPUTS', { w: 700, c: C.muted, ls: 3 });
@@ -131,7 +131,7 @@ function sScenarioDay(g, lt) {
     T(pg, px + 24 + tw(k, 26, 700, F.slab) + 16, py + 41, 16, sub, { c: C.muted });
     let tot = 0; for (let h = 0; h < 24; h++) { const [a, b] = f(h); tot += a + b; }
     T(pg, px + pw - 24, py + 50, 40, `${fmt(tot / 24, 1)}%`, { a: 'end', f: F.slab, w: 700, c: inkOf(k) });
-    T(pg, px + pw - 24, py + 74, 14, 'matched this day', { a: 'end', c: C.muted });
+    T(pg, px + pw - 24, py + 74, 14, 'displaced this day', { a: 'end', c: C.muted });
     const cx0 = px + 56, cx1 = px + pw - 28, base = py + 222, sy = 1.15, bw = (cx1 - cx0) / 24 - 4;
     E('line', { x1: cx0, x2: cx1, y1: base, y2: base, stroke: C.ink2, 'stroke-width': 1.5 }, pg);
     [0, 6, 12, 18, 24].forEach(h => T(pg, cx0 + (cx1 - cx0) * h / 24, base + 20, 13, `${String(h).padStart(2, '0')}`, { a: 'middle', c: C.muted }));
@@ -181,13 +181,13 @@ function sCompareTable(g, lt) {
     const sub = { GRID: 'today’s default', AM: 'today’s I-REC claim' }[k];
     if (sub) T(hg, xs[i], 338, 13, sub, { a: 'middle', w: 700, c: inkOf(k), it: true });
   });
-  T(hg, 80, 306, 15, '80% HOURLY-MATCHING TARGET · RIYADH', { w: 700, c: C.muted, ls: 2 });
+  T(hg, 80, 306, 15, '80% DISPLACEMENT TARGET · RIYADH', { w: 700, c: C.muted, ls: 2 });
   const rows = [
     ['RELIABILITY', 'Data-center load served', ['100%', '100%', '100%', '100%'], [0, 1, 2, 3]],
     ['', 'Energy bought by the data center', ['876 GWh', '876 GWh', '876 GWh', '876 GWh'], []],
-    ['EMISSIONS', 'Hourly matching', ['0%', `${fmt(pl.AM.cfe, 1)}%`, '80%', '80%'], [2, 3]],
+    ['EMISSIONS', 'Displacement', ['0%', `${fmt(pl.AM.cfe, 1)}%`, '80%', '80%'], [2, 3]],
     ['', 'Emissions (kt CO₂ / yr)', CFGS.map(k => fmt(pl[k].em_kt, 1)), [2, 3]],
-    ['COST', 'Cost of hourly matching (US$ M / yr)', ['—', '—', `${fmt(pl['RE+BESS'].cost_mid, 1)}  (${fmt(pl['RE+BESS'].cost_lo, 1)}–${fmt(pl['RE+BESS'].cost_hi, 1)})`, `${fmt(pl.EEF.cost_mid, 1)}  (${fmt(pl.EEF.cost_lo, 1)}–${fmt(pl.EEF.cost_hi, 1)})`], [3]],
+    ['COST', 'Cost of displacement (US$ M / yr)', ['—', '—', `${fmt(pl['RE+BESS'].cost_mid, 1)}  (${fmt(pl['RE+BESS'].cost_lo, 1)}–${fmt(pl['RE+BESS'].cost_hi, 1)})`, `${fmt(pl.EEF.cost_mid, 1)}  (${fmt(pl.EEF.cost_lo, 1)}–${fmt(pl.EEF.cost_hi, 1)})`], [3]],
     ['', 'New storage built', ['—', '—', `${fmt(pl['RE+BESS'].storage_MWh)} MWh`, 'none'], [3]],
     ['', 'Contracted flexibility', ['—', '—', '—', '140 MW · 8 h'], []],
     ['GRID IMPACT', 'Net grid load, evening 19–23 h (MW)', CFGS.map(k => fmt(nl[k][0], 1)), [2]],
@@ -215,7 +215,7 @@ function sCostTargets(g, lt) {
   for (const v of [0, 15, 30, 45, 60]) { E('line', { x1: x0, x2: x1, y1: Y(v), y2: Y(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, Y(v) + 6, 16, v, { a: 'end', c: C.muted }); }
   for (const v of [50, 60, 70, 80, 90]) T(ax, X(v), y0 + 30, 16, `${v}%`, { a: 'middle', c: C.muted, w: 700 });
   T(ax, x0 - 12, y1 - 24, 16, 'US$ million / yr', { a: 'end', c: C.muted, w: 700 });
-  T(ax, (x0 + x1) / 2, y0 + 62, 17, 'Annual hourly-matching target', { a: 'middle', c: C.ink2, w: 600 });
+  T(ax, (x0 + x1) / 2, y0 + 62, 17, 'Annual displacement target', { a: 'middle', c: C.ink2, w: 600 });
   const band = (lo, hi, fill, u) => {
     const n = Math.max(2, Math.round(tg.length * u));
     const top = tg.slice(0, n).map(t => [X(t.X), Y(hi(t))]), bot = tg.slice(0, n).map(t => [X(t.X), Y(lo(t))]).reverse();
@@ -235,9 +235,9 @@ function sCostTargets(g, lt) {
   const mk = inG(g, lt, 6.2, .6, 0);
   E('line', { x1: X(80), x2: X(80), y1: Y(0), y2: Y(t80.bess_mid) - 10, stroke: C.ink2, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, mk);
   [[t80.bess_mid, C.bess], [t80.shifted_GWh * .05, C.maroon]].forEach(([v, col]) => { E('circle', { cx: X(80), cy: Y(v), r: 8, fill: col, stroke: '#fff', 'stroke-width': 3 }, mk); T(mk, X(80) - 14, Y(v) - 12, 18, fmt(v, 1), { a: 'end', w: 800, c: col }); });
-  const tiles = [[`US$${fmt(t80.shifted_GWh * .05, 1)} M vs ${fmt(t80.bess_mid, 1)} M`, 'per year at 80% hourly matching'],
+  const tiles = [[`US$${fmt(t80.shifted_GWh * .05, 1)} M vs ${fmt(t80.bess_mid, 1)} M`, 'per year at 80% displacement'],
     [`US$${fmt(t90.shifted_GWh * .05, 1)} M vs ${fmt(t90.bess_mid, 1)} M`, 'per year at 90%'],
-    [`+US$${fmt(t50.bess_mid - t50.shifted_GWh * .05, 1)} M → +${fmt(t90.bess_mid - t90.shifted_GWh * .05, 1)} M`, 'the yearly saving grows from 50% to 90% matching']];
+    [`+US$${fmt(t50.bess_mid - t50.shifted_GWh * .05, 1)} M → +${fmt(t90.bess_mid - t90.shifted_GWh * .05, 1)} M`, 'the yearly saving grows from 50% to 90% displacement']];
   tiles.forEach(([big, txt], i) => {
     const tg2 = inG(g, lt, 6.8 + i * 1.0, .7, 0, 30), y = 320 + i * 180;
     card(tg2, 1340, y, 500, 156);
@@ -300,7 +300,7 @@ function sNeomSite(g, lt) {
     T(mg, x + bw / 2, b0 + 22, 14, 'JFMAMJJASOND'[i], { a: 'middle', c: C.muted, w: 700 });
   });
   T(mg, m0 - 8, MY(25) + 5, 13, '25', { a: 'end', c: C.muted }); T(mg, m0 - 8, MY(15) + 5, 13, '15', { a: 'end', c: C.muted });
-  cap(g, lt, 10.6, 'Slightly sunnier, and later in the day — what does that change for hourly matching?');
+  cap(g, lt, 10.6, 'Slightly sunnier, and later in the day — what does that change for displacement?');
 }
 
 // ------------------------------------------------------------ NEOM 2: results
@@ -311,7 +311,7 @@ function sNeomResults(g, lt) {
   for (const c of [40, 50, 60, 70, 80, 90, 100]) { E('line', { x1: x0, x2: x1, y1: Y(c), y2: Y(c), stroke: c === 40 ? C.ink2 : C.faint, 'stroke-width': c === 40 ? 2 : 1.5 }, ax); T(ax, x0 - 10, Y(c) + 6, 15, `${c}%`, { a: 'end', c: C.muted }); }
   for (const v of [0, 1, 2, 3]) T(ax, X(v), y0 + 28, 15, v.toFixed(1), { a: 'middle', c: C.muted });
   T(ax, (x0 + x1) / 2, y0 + 58, 16, 'Contracted flexible power / data-center load (D = 8 h)', { a: 'middle', c: C.ink2, w: 600 });
-  T(ax, x0 - 10, y1 - 22, 15, 'Hourly matching', { a: 'end', c: C.muted, w: 700 });
+  T(ax, x0 - 10, y1 - 22, 15, 'Displacement', { a: 'end', c: C.muted, w: 700 });
   [['riyadh', C.maroon, .8], ['neom', NEO, 2.4]].forEach(([k, col, at]) => {
     const pts = DATA.site_curves[k], f = mono(pts.map(q => q[0]), pts.map(q => q[1]));
     drawP(g, poly(sample(f, 0, 3.2, 200).map(q => [X(q[0]), Y(q[1])])), P(lt, at, 1.8, eIO), { stroke: col, 'stroke-width': 4.5 });
@@ -332,7 +332,7 @@ function sNeomResults(g, lt) {
   // NEOM monthly matching
   const mx0 = 1120, mx1 = 1820, my0 = 740, my1 = 320, MX = m => mx0 + (mx1 - mx0) * (m - 1) / 11, MY = c => my0 - (my0 - my1) * (c - 30) / 60;
   const mg = inG(g, lt, 5.2, .6, 0);
-  T(mg, mx0 - 20, 300, 16, 'NEOM · MONTHLY HOURLY MATCHING AT 80%', { w: 700, c: C.muted, ls: 2 });
+  T(mg, mx0 - 20, 300, 16, 'NEOM · MONTHLY DISPLACEMENT AT 80%', { w: 700, c: C.muted, ls: 2 });
   for (const c of [30, 45, 60, 75, 90]) { E('line', { x1: mx0 - 10, x2: mx1 + 10, y1: MY(c), y2: MY(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, mg); T(mg, mx0 - 20, MY(c) + 5, 13, `${c}%`, { a: 'end', c: C.muted }); }
   'JFMAMJJASOND'.split('').forEach((l, i) => T(mg, MX(i + 1), my0 + 24, 14, l, { a: 'middle', c: C.muted, w: 700 }));
   const NM = DATA.site_monthly.neom;
@@ -362,7 +362,7 @@ function sNeomScale(g, lt) {
     ['Annual matching alone', `${fmt(S.riyadh.am_cfe_pct, 1)}%`, `${fmt(S.neom.am_cfe_pct, 1)}%`],
     ['Flexibility for 80%', `${fmt(S.riyadh.flex_MW_80)} MW`, `${fmt(S.neom.flex_MW_80)} MW`],
     ['Battery for 80%', `${fmt(S.riyadh.bess_MWh_80)} MWh`, `${fmt(S.neom.bess_MWh_80)} MWh`],
-    ['Maximum EEF matching', `${fmt(S.riyadh.max_eef_cfe_pct, 1)}%`, `${fmt(S.neom.max_eef_cfe_pct, 1)}%`],
+    ['Maximum EEF displacement', `${fmt(S.riyadh.max_eef_cfe_pct, 1)}%`, `${fmt(S.neom.max_eef_cfe_pct, 1)}%`],
     ['Emissions: AM → EEF (kt/yr)', `${fmt(R.AM.emissions_kt)} → ${fmt(R.EEF.emissions_kt, 1)}`, `${fmt(N.AM.emissions_kt)} → ${fmt(N.EEF.emissions_kt, 1)}`],
     ['Cost: EEF vs. battery (US$ M/yr)', `${fmt(R.EEF.cost_mid_MUSD, 1)} vs ${fmt(R['RE+BESS'].cost_mid_MUSD, 1)}`, `${fmt(N.EEF.cost_mid_MUSD, 1)} vs ${fmt(N['RE+BESS'].cost_mid_MUSD, 1)}`],
     ['Break-even price (US$/MWh)', fmt(S.riyadh.breakeven_mid_80, 1), fmt(S.neom.breakeven_mid_80, 1)],
@@ -378,7 +378,7 @@ function sNeomScale(g, lt) {
   const sg = inG(g, lt, 5.0, .7, 0);
   E('rect', { x: 980, y: 290, width: 860, height: 56, rx: 12, fill: NEO }, sg);
   T(sg, 1004, 326, 19, 'SCALED TO THE 1.5-GW OXAGON CAMPUS  (× 15, linear model)', { w: 800, c: '#fff', ls: 1 });
-  const tiles = [[`≈ ${fmt(n.flex_MW_80 * k / 1000, 1)} GW`, 'of contracted flexibility for 80% hourly matching'],
+  const tiles = [[`≈ ${fmt(n.flex_MW_80 * k / 1000, 1)} GW`, 'of contracted flexibility for 80% displacement'],
     [`≈ ${fmt(n.bess_MWh_80 * k / 1000, 1)} GWh`, 'of batteries avoided'],
     [`≈ ${fmt((N.AM.emissions_kt - ne.emissions_kt) * k / 1000, 1)} Mt CO₂`, 'per year below annual matching (hourly accounting)'],
     [`≈ US$${fmt(ne.cost_mid_MUSD * k)} M`, `per year, vs. ≈ US$${fmt(nb.cost_mid_MUSD * k)} M for storage (mid case)`]];
@@ -395,12 +395,12 @@ function sNeomScale(g, lt) {
 
 // ------------------------------------------------------------ expected 1: control (RQ2)
 function sExpControl(g, lt) {
-  head(g, lt, 'EXPECTED RESULTS · RQ2 · CHAPTER 4', 'Control should keep matching near the planning bound');
+  head(g, lt, 'EXPECTED RESULTS · RQ2 · CHAPTER 4', 'Control should keep displacement near the planning bound');
   const x0 = 360, x1 = 1180, X = v => x0 + (x1 - x0) * (v - 30) / 60, axY = 780;
   const ax = inG(g, lt, .4, .6, 0);
   E('line', { x1: x0, x2: x1, y1: axY, y2: axY, stroke: C.ink2, 'stroke-width': 2 }, ax);
   for (const v of [30, 40, 50, 60, 70, 80, 90]) { E('line', { x1: X(v), x2: X(v), y1: axY, y2: axY + 8, stroke: C.ink2, 'stroke-width': 2 }, ax); T(ax, X(v), axY + 30, 15, `${v}%`, { a: 'middle', c: C.muted }); }
-  T(ax, (x0 + x1) / 2, axY + 60, 16, 'Annual hourly matching (Riyadh, sized for 80%)', { a: 'middle', c: C.ink2, w: 600 });
+  T(ax, (x0 + x1) / 2, axY + 60, 16, 'Annual displacement (Riyadh, sized for 80%)', { a: 'middle', c: C.ink2, w: 600 });
   const bars = [['Planning model', 'perfect foresight · computed', 80, 'solid', .9], ['Day-ahead + intraday MPC', 'expected: close to the bound', 80, 'open', 2.4], ['Day-ahead schedule only', 'expected: lower', 80, 'open', 3.6], ['Flexible loads deliver nothing', 'worst case = annual matching · computed', 40.4, 'floor', 4.8]];
   bars.forEach(([lab, sub, v, kind, at], i) => {
     const y = 320 + i * 108, bg = inG(g, lt, at, .7, 0, -20);
@@ -425,7 +425,7 @@ function sExpControl(g, lt) {
   });
   E('rect', { x: 1310, y: 760, width: 510, height: 104, rx: 12, fill: C.maroonT }, rg);
   ico(rg, 'shield', 1360, 812, .5, C.maroon, 5);
-  TP(rg, 1404, 800, 18, 'In every case the data center stays 100% grid-supplied — only matching is at stake.', 400, { w: 700, c: C.maroon, lh: 24 });
+  TP(rg, 1404, 800, 18, 'In every case the data center stays 100% grid-supplied — only displacement is at stake.', 400, { w: 700, c: C.maroon, lh: 24 });
   cap(g, lt, 8.4, 'Both bounds are computed; where operational control lands between them is what Chapter 4 measures.');
 }
 
@@ -519,7 +519,7 @@ function sExpSaturation(g, lt) {
 function sExpHypotheses(g, lt) {
   head(g, lt, 'EXPECTED RESULTS', 'Four hypotheses the remaining chapters will test');
   const H = [
-    ['H1', 'Chapter 4 · RQ2', 'With day-ahead scheduling and intraday MPC, EEF keeps most of its planned hourly matching — and the data center’s supply is never at risk.'],
+    ['H1', 'Chapter 4 · RQ2', 'With day-ahead scheduling and intraday MPC, EEF keeps most of its planned displacement — and the data center’s supply is never at risk.'],
     ['H2', 'Chapter 5 · RQ3', 'EEF beats storage wherever flexibility costs less than the battery’s annualized cost per MWh shifted — a boundary that moves with battery and PV prices.'],
     ['H3', 'Chapter 6 · RQ4', 'External flexibility saturates only at multi-GW data-center scale; beyond it, a hybrid of EEF and storage is least-cost.'],
     ['H4', 'Chapters 3–6', 'The framework transfers to other sites and to both single-buyer and liberalized markets with the same accounting rule.'],

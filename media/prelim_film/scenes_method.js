@@ -175,7 +175,7 @@ function sControl(g, lt) {
   ico(rg, 'shield', 1350, 380, .9, '#fff', 4);
   T(rg, 1420, 372, 16, 'BY DESIGN', { w: 700, c: '#fff', ls: 4, op: .75 });
   T(rg, 1420, 404, 25, 'Worst case = annual matching', { w: 700, c: '#fff' });
-  TP(rg, 1300, 490, 23, 'Control never touches the data center. If the flexible loads under-deliver, only the matching score drops — the data center is still fully supplied by the grid.', 500, { c: '#fff', lh: 34 });
+  TP(rg, 1300, 490, 23, 'Control never touches the data center. If the flexible loads under-deliver, only the displacement score drops — the data center is still fully supplied by the grid.', 500, { c: '#fff', lh: 34 });
   TP(rg, 1300, 700, 22, 'Reliability of EEF = reliability of the grid.', 500, { c: '#fff', w: 700, lh: 30 });
   cap(g, lt, 7.8, 'The planning layer is solved in the preliminary results; operations and settlement follow in Chapters 4–5.');
 }
@@ -184,8 +184,8 @@ function sControl(g, lt) {
 function sModel(g, lt) {
   head(g, lt, 'MATHEMATICAL MODEL', 'A linear program over 8,760 hours');
   const em = 34;
-  const colA = [['cfe', 'Hourly matching (CFE) score: same-hour overlap plus credited flexibility'], ['net', 'Hourly PV surplus and deficit bound the loads’ net deviation'], ['state', 'Shifted energy of the aggregated flexible portfolio (efficiency η)'], ['bounds', 'Net up- and down-shifts limited by the contracted flexible power']];
-  const colB = [['energy', 'Energy-neutral 24-h window from 06:00 — loads move consumption, they do not add it'], ['obj', 'Minimum contracted flexibility that reaches hourly-matching target X'], ['bess', 'Benchmark: battery with cyclic state of charge (RE+BESS)'], ['pi', 'Break-even flexibility price: annual battery cost per MWh shifted']];
+  const colA = [['cfe', 'Displacement (CFE) score: same-hour overlap plus credited flexibility'], ['net', 'Hourly PV surplus and deficit bound the loads’ net deviation'], ['state', 'Shifted energy of the aggregated flexible portfolio (efficiency η)'], ['bounds', 'Net up- and down-shifts limited by the contracted flexible power']];
+  const colB = [['energy', 'Energy-neutral 24-h window from 06:00 — loads move consumption, they do not add it'], ['obj', 'Minimum contracted flexibility that reaches displacement target X'], ['bess', 'Benchmark: battery with cyclic state of charge (RE+BESS)'], ['pi', 'Break-even flexibility price: annual battery cost per MWh shifted']];
   const hg = inG(g, lt, .5, .6, 0);
   T(hg, 120, 300, 16, 'EEF MODEL', { w: 700, c: C.muted, ls: 3 });
   T(hg, 1000, 300, 16, 'WINDOW, TARGET, BENCHMARK & PRICE', { w: 700, c: C.muted, ls: 3 });
@@ -230,7 +230,7 @@ function sDesign(g, lt) {
   const note = inG(g, lt, 3.2, .7, 0);
   T(note, 80, 330, 17, 'IN ALL FOUR', { w: 700, c: C.muted, ls: 3 });
   TP(note, 80, 364, 21, 'the data center buys its entire consumption from the grid', 380, { w: 600, c: C.ink2 });
-  const rows = [['shield', 'Reliability', 'data-center load served (%)'], ['leaf', 'Emissions', 'hourly-accounted, t CO₂ / yr'], ['cost', 'Cost', 'annualized cost of hourly matching']];
+  const rows = [['shield', 'Reliability', 'data-center load served (%)'], ['leaf', 'Emissions', 'hourly-accounted, t CO₂ / yr'], ['cost', 'Cost', 'annualized cost of displacement']];
   rows.forEach(([ik, nm, d], r) => {
     const y = 560 + r * 96, rg = inG(g, lt, 4.2 + r * .8, .7, 0, -30);
     E('rect', { x: 80, y, width: 1760, height: 80, rx: 10, fill: r % 2 ? C.paper : C.maroonT }, rg);

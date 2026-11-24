@@ -2,6 +2,8 @@
 
 *Working document for Chapter 3 (concept and accounting) and Chapter 5 (contracts and decision maps). Model numbers refer to a 100-MW data center in Riyadh at an 80% hourly-matching target (TPEC 2027 model, `tpec2027/results`). Market facts were checked in November 2026; sources are listed at the end, and third-party analyses are flagged where no official source was found.*
 
+*Terminology: **displacement** X is the share of the data center's annual use freed on the grid hour by hour (PV injected in the same hour plus supply freed by flexible loads). The data center itself always takes 100% of its energy from the grid. The literature, and the TPEC paper, call the same number hourly matching (CFE).*
+
 *Currency: all prices are in US dollars. Saudi sources quote SAR or halalas; these are converted at the fixed peg of 1 US$ = 3.75 SAR, so 1 halala/kWh = US$2.67/MWh. The original SAR value is kept in parentheses.*
 
 ---
@@ -14,14 +16,16 @@
 - البطاريات مكلفة: 1,027 م.و.س لكل 100 ميجاواط عند 80%.
 - لا يوجد إطار سعودي منشور لمجمّعي الأحمال أو الاستجابة للطلب.
 
-**متى تكون فكرتك الأفضل:** حين يتحقق ما يلي:
-1. يشترط المركز اعتمادية الشبكة الكاملة.
-2. الهدف ساعي بين 60 و90%.
-3. سعر المرونة أقل من نقطة التعادل (≈ 87 دولار/م.و.س مُزاحة، أو ≈ 215 دولار/ك.و/سنة).
-4. تتوفر في نفس المنطقة أحمال مرنة بنحو 1.4 ميجاواط لكل ميجاواط من المركز، بمدة ≥ 8 ساعات.
-5. تُعترف المطابقة الساعية في الحسابات.
+**المصطلح:** نستخدم **نسبة الإزاحة**، وهي نسبة استهلاك المركز اللي تنفضى لها على الشبكة ساعة بساعة. المركز نفسه ياخذ 100% من الشبكة دائمًا، والشمسي يُباع كله لـ SPPC، والأحمال المرنة تفضّي نفس الكمية. نفس الرقم تسميه الأدبيات المطابقة الساعية.
 
-خارج هذه الشروط يكون الأفضل خليطًا، أو المطابقة السنوية، أو التخزين.
+**الحكم (25 سنة، الرياض ونيوم):** فكرتك هي الخيار الأفضل عند **إزاحة 85–97%** (الأمثل ≈ 90%)، ولمراكز من **≈ 8 ميجاواط إلى 1.5 جيجاواط** (أكبر مركز مخطط له؛ الأكبر مجموعات مراكز بنفس النتيجة). الشروط:
+1. يشترط المركز اعتمادية الشبكة الكاملة.
+2. الإزاحة 85–97%: ليالي الصيف تنفضى ≥ 93% والسقف ≈ 98% بشمسي ×1.25.
+3. سعر المرونة أقل من ≈ 87 دولار/م.و.س مُزاحة.
+4. المركز ≥ 8 ميجاواط، أو تتجمّع المراكز الصغيرة في عقد واحد. الأحمال المرنة من أي مكان على الشبكة الوطنية عبر المشغل، والمتاح وطنيًا (7.1–29.9 جيجاواط) أكبر من المراكز المخطط لها.
+5. تُحسب قيمة تفضية الشبكة (125 دولار/ك.و/سنة) والكربون (50 دولار/طن)، أو تشتري SPPC الشمسي بـ ≈ 33 دولار/م.و.س (أقل من 48).
+
+عند 90%: EEF ≈ 28 دولار/م.و.س فوق التعريفة، مقابل 31 (AM) و43 (الشبكة) و45 (البطارية).
 
 **التطبيق:** الجهات هي:
 - وزارة الطاقة: السياسة.
@@ -33,13 +37,12 @@
 - الأحمال المرنة: التحلية، التبريد المركزي، الضخ، الصناعة.
 - هيئة الاتصالات والفضاء والتقنية (CST): تسجيل المركز وخطة الاستدامة.
 
-يوقّع المركز ستة عقود (القسم 6). يدفع التعريفة كاملة كما هي، ويدفع **رسم خدمة EEF**: في الحالة الأساسية ≈ 17.3 مليون دولار/سنة، أي ≈ 19.8 دولار لكل م.و.س يستهلكها المركز (7.4 هللة/ك.و.س)، مقابل ≈ 30.2 مليون دولار (34.4 دولار/م.و.س) للبطارية. يحصل مقابلها على 80% مطابقة ساعية موثقة دون أي تغيير في اعتماديته.
+يوقّع المركز ستة عقود (القسم 6). يدفع التعريفة كاملة كما هي، ويدفع **رسم خدمة EEF**: في الحالة الأساسية ≈ 17.3 مليون دولار/سنة، أي ≈ 19.8 دولار لكل م.و.س يستهلكها المركز (7.4 هللة/ك.و.س)، مقابل ≈ 30.2 مليون دولار (34.4 دولار/م.و.س) للبطارية. يحصل مقابلها على 80% إزاحة موثقة دون أي تغيير في اعتماديته (حالة ورقة TPEC؛ والموصى به 85–97%).
 
 **حسب حجم المركز (القسم 4أ):**
-- أقل من 5 ميجاواط: المنافسة متقاربة، لأن التكاليف الثابتة للعقد (العدادات والتحقق والتسجيل والإدارة) تطغى. الحل: تجميع عدة مراكز صغيرة في عقد EEF واحد.
-- من 5 ميجاواط إلى ≈ 1.4 جيجاواط لكل منطقة شبكة: **EEF الأفضل بوضوح**، بتكلفة 20–25 دولار/م.و.س مقابل 34 للبطارية. وفوق ≈ 50 ميجاواط يصير أقل حتى من حالة البطارية المتفائلة (20.6).
-- من 1.4 إلى 5 جيجاواط: خليط من EEF وتخزين، لأن المرونة الإقليمية تنفد. يبقى الخليط أرخص من البطارية وحدها.
-- فوق 5 جيجاواط: التخزين هو الأساس وEEF مكمّل، لأننا نتجاوز التقدير الأدنى للمرونة الوطنية (7.1 جيجاواط).
+- أقل من ≈ 8 ميجاواط: التكاليف الثابتة للعقد تطغى. الحل تجميع عدة مراكز صغيرة في عقد EEF واحد. ومع ذلك يغلب EEF البطارية من ≈ 2 ميجاواط.
+- من ≈ 8 ميجاواط إلى 1.5 جيجاواط: **EEF الأفضل**. يوفّر ≈ 3.2 دولار/م.و.س مقابل أرخص بديل، و≈ 17 دولار/م.و.س مقابل البطارية (عند 90%).
+- فوق 1.5 جيجاواط: مجموعات مراكز، والمنحنى ثابت فالنتيجة نفسها.
 
 **لماذا الفكرة مهمة (درس تكساس):** طلبات ربط الأحمال الكبيرة في ERCOT قفزت من 233 جيجاواط (ديسمبر 2025) إلى ≈ 474 جيجاواط (منتصف 2026)، ≈ 90% منها مراكز بيانات. في أبريل 2026 كان 22 جيجاواط فقط قد استوفى متطلبات الدراسة. صدر قانون SB 6 (يونيو 2025) الذي يسمح بفصل الأحمال الكبيرة الجديدة في الطوارئ ويفرض دراسات ربط جديدة. EEF يحافظ على اعتمادية الشبكة الكاملة للمركز، ويخفض صافي حمل الليل على المنظومة بنحو 59% من حجم المركز (البطارية 49%). تنبيه: توصيلة المركز نفسها تبقى بكامل قدرته، لكن العبء على التوليد ليلًا يقل.
 
@@ -105,45 +108,54 @@ EEF dominates when **all** of the following hold. The thresholds come from the p
 | Condition | Threshold (Riyadh, 80%) | Source |
 |---|---|---|
 | The DC must keep grid-grade reliability | always grid-connected | concept |
-| Hourly-matching target | between ≈ 60% and ≈ 90% (ceiling 91.2% Riyadh, 89.5% NEOM with daily shifting) | model |
+| Displacement target | **85–97%, best ≈ 90%** (summer evenings ≥ 93% freed; ceiling ≈ 98% with PV ×1.25 and the window from 09:00) | model |
 | Flexibility price | **< ≈ US$87/MWh shifted** (US$51–146 across battery cost cases), or **< ≈ US$215/kW-yr** of contracted power | model |
-| Flexibility available in the same grid region | **≈ 1.4 MW per MW of DC** for 80% (≈ 2.0 for 90%), shiftable for **≥ 8 h** within a day | model |
-| National pool not saturated | first-order: 80% saturates at ≈ 5–21 GW of data centers; the 1.5-GW national target needs 2.1 GW | model, KAPSARC 2026 |
+| Flexible load on the national grid | **≈ 2.0 MW per MW of DC** at 90% (1.4 at 80%), shiftable for **≥ 8 h**, anywhere on the one national grid through the operator; the national potential (7.1–29.9 GW) exceeds planned DC capacity | model, KAPSARC 2026 |
+| Data-center size | **≈ 8 MW to 1.5 GW** (largest single campus planned); smaller sites grouped in one contract | model |
+| Grid room and carbon valued | reinforcement US$125/kW-yr + carbon US$50/t, or SPPC buys the EEF-linked PV at ≈ US$33/MWh | model, Section 7c |
 | Hourly claims recognized | a registry that issues time-stamped credits | Section 7 |
 
 EEF is **not** the best choice:
-- If the target is **above ≈ 90%**: add PV oversizing (+25% PV gives 93.1%) or a small battery, i.e. a hybrid.
+- If a site **below ≈ 8 MW** stands alone: group it with others in one EEF contract.
+- If **neither grid room nor carbon is valued**: on the bill alone, grid supply or annual matching is cheaper.
 - If **flexibility costs more than** the battery's annualized cost per MWh shifted, which can happen if batteries fall below ≈ US$100/kWh (break-even ≈ US$42/MWh).
-- If **local flexibility is scarce or network-constrained** around the DC.
+- If the inter-regional ties cannot carry the freed supply at peak; the operator checks this in the daily schedule (C5).
 - If only **annual** claims matter to the buyer, annual matching is cheapest, although it is clean only on paper.
 
 Its worst case is annual matching with unchanged reliability, because control never touches the data center.
 
-### 4a. By data-center size
+### 4a. The verdict: displacement curve and size curve
 
-The planning LP is linear, so per-MW results do not depend on size: 1.40 MW of flexibility, 3.47 GWh/yr shifted and 10.3 MWh of battery per MW of DC at 80%. Size enters only through three effects, all stated as assumptions (`tpec2027/model/run_sizes.py` → `tpec2027/results/size_map.csv`):
-1. A **fixed overhead per EEF contract**: metering, M&V, registry and aggregator administration, US$0.1–0.5 M/yr, base US$0.25 M/yr.
-2. The **flexibility pool** available to the DC. The base is a regional pool of 2 GW; the alternative is the national low estimate of 7.1 GW (KAPSARC 2026). Beyond the pool, the rest of the target is met by storage (a hybrid).
-3. **Battery cost per kWh independent of size.** NREL's ATB shows no clear premium for small utility-scale systems.
+The planning LP is linear, so per-MW results do not depend on size. The verdict comes from two curves (`tpec2027/model/run_displacement.py`, `plot_displacement.py`, `plot_verdict.py`; figures `fig_displacement_curve.png`, `fig_verdict_curves.png`).
 
-Cost of hourly matching at 80%, in US$ per MWh of DC load (flexibility at US$50/MWh shifted; battery mid case US$34.4, range US$20.6–56.2):
+**Costs compared.** For each option, the 25-year annual-equivalent cost to the DC, on top of the US$48/MWh tariff that every option pays in full:
+- PV sold to SPPC at its cost (NREP benchmark US$13.6/MWh), so PV nets to zero.
+- Flexibility at US$50/MWh shifted (range US$25–75); battery at the NREL mid case.
+- **Grid reinforcement** for load the DC adds on summer evenings (18:00–02:00): US$125/kW-yr (assumption, range 100–150).
+- **Carbon** at US$50/t (assumption).
+- A fixed overhead of US$0.25 M/yr per EEF contract.
 
-| DC size | EEF (overhead 0.25, regional pool) | Break-even flexibility price (US$/MWh shifted) | Night load cut, EEF / battery (MW) | Verdict |
-|---|---|---|---|---|
-| 1 MW | 48.3 | 14.9 | 0.6 / 0.5 | battery, or pool several sites |
-| 2 MW | 34.1 | 50.9 | 1.2 / 1.0 | tie |
-| **5 MW** | **25.5** | 72.5 | 3.0 / 2.5 | **EEF** |
-| 10 MW | 22.6 | 79.8 | 5.9 / 4.9 | EEF |
-| 100 MW | 20.1 | 86.3 | 59 / 49 | EEF |
-| **1 GW** | **19.8** | ≈ 87 | 593 / 492 | **EEF** |
-| 1.5 GW | 20.5 (95% EEF) | — | — | EEF, pool nearly used |
-| 3 GW | 27.5 (hybrid) | — | — | hybrid |
-| 6.6 GW | 31.3 (hybrid); 23.2 with the national pool | — | — | hybrid / storage-led |
+**Displacement curve (100-MW DC, Riyadh; NEOM within ±0.5 US$/MWh):**
 
-- **Crossover with the battery (mid):** EEF is cheaper from 1 MW if the overhead is US$0.1 M/yr, from 2 MW at US$0.25 M/yr and from 5 MW at US$0.5 M/yr.
-- **Sweet spot:** **≈ 5 MW up to ≈ 1.4 GW per grid region** (2 GW pool ÷ 1.4). Here EEF costs US$20–25/MWh against US$34.4 for the mid battery case. From ≈ 50 MW it is also below the optimistic battery case (US$20.6).
-- **Hyperscale:** a 1-GW campus gets the lowest cost (US$19.8/MWh) if the region holds ≈ 1.4 GW of contractable flexible load. Above the regional pool, EEF still lowers the cost as part of a hybrid. Above ≈ 5 GW, storage leads.
-- **Small DCs:** they cannot self-supply either. SERA caps on-site PV at the contracted load, so a 5-MW DC gets ≤ 5 MW AC of PV, ≈ 21% of its energy. Pooling several small DCs under one aggregator contract spreads the fixed overhead.
+| Displacement | Flexible load per MW | Summer evenings freed | GRID | AM | Battery | **EEF** | PV price for EEF to win on the bill alone |
+|---|---|---|---|---|---|---|---|
+| 70% | 1.0 | 69% | 42.7 | 31.2 | 37.3 | **27.5** | US$25/MWh |
+| 80% | 1.4 | 83% | 42.7 | 31.2 | 41.0 | **27.7** | US$29 |
+| **85%** | 1.65 | 93% | 42.7 | 31.2 | 43.1 | **27.8** | US$31 |
+| **90%** | 2.0 | 99% | 42.7 | 31.2 | 45.5 | **28.0** | US$33 |
+| **95%** | 2.05 | 99.5% | 42.7 | 31.2 | 48.1 | **28.6** | US$35 |
+| 97% | 2.3 | 99.8% | 42.7 | 31.2 | 50.3 | **28.9** | US$36 |
+
+Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the four **and** frees ≥ 90% of the DC's load on summer evenings. That holds at **85–97%**. The best point is ≈ 90%: the evenings are ≈ 100% freed and EEF saves ≈ US$3.2/MWh against the cheapest alternative and ≈ US$17/MWh against a battery.
+
+**Why not 100%?** Riyadh and NEOM have only ≈ 14 dusty or cloudy days a year in the 2020 data. With PV equal to annual use, the gap comes mostly from the 5% shifting loss and short winter days; those 14 days explain only 15–21% of it. With PV ×1.25 and the window from 09:00, displacement reaches 98.1% (Riyadh) and 98.4% (NEOM). Two-thirds of the remaining 2% falls on the 14 low-sun days.
+
+**Size curve (at 90%).** The only size effect is the fixed contract overhead, which adds US$28.5/MWh ÷ size in MW.
+- **Below ≈ 8 MW:** the overhead dominates. Group small sites in one contract. EEF still beats a battery from ≈ 2 MW.
+- **≈ 8 MW to 1.5 GW:** EEF is the best option. 1.5 GW is the largest single campus planned (NEOM–Oxagon).
+- **Above 1.5 GW:** groups of campuses. The curve stays flat, so the result is the same.
+- **Flexible load is not a limit here.** The Saudi grid is one interconnected system, and a DC can contract loads anywhere through the operator. The national potential (7.1–29.9 GW) exceeds planned DC capacity; a 1.5-GW campus needs ≈ 3 GW at 90%. Saturation is tested in Chapter 6.
+- **Small DCs cannot self-supply either.** SERA caps on-site PV at the contracted load.
 
 ## 5. Who is responsible: actors and roles
 
@@ -317,26 +329,27 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen hourl
 | Self-supply route | SERA self-consumption rules (Section 1) and a real off-grid design | here, film |
 | Second site | NEOM–Oxagon case (`run_sites.py`) | film, Ch. 3 |
 | Saturation | first-order estimate now; system model in Ch. 6 | film, Ch. 6 |
-| Where EEF wins by DC size | Section 4a (`run_sizes.py`); film scene "Where EEF wins — by size" | here, film, Ch. 5 |
+| Where EEF wins (displacement and size) | Section 4a: displacement curve and size curve (`run_displacement.py`, `plot_verdict.py`); film scenes | here, film, Ch. 5 |
+| Grid reinforcement and carbon values | assumptions now (US$125/kW-yr, US$50/t); Saudi values needed | Ch. 5 |
 | Grid-burden rationale | Texas lesson (Section 2, item 6) and the night-load cut | here, film |
 | PV selling price | No official price: assumption US$13.6/MWh plus a proposed SERA rule (Section 7c) | here, film |
 | **Still open (needs data or a decision outside this work)** | Real flexibility costs from loads; SERA position on aggregators and hourly credits; the final AI-DC tariff; GHG Protocol outcome (2027) | Ch. 4–6, interviews with SERA, SPPC, Saudi Energy, SWA |
 
 ## 13. Recommendations
 
-1. **Size.** Use EEF for data centers from ≈ 5 MW to ≈ 1.4 GW per grid region. Below ≈ 5 MW, pool several sites under one aggregator contract. Above the regional pool, combine EEF with storage (hybrid). Above ≈ 5 GW nationally, storage leads and EEF supplements it.
-2. **Flexibility to contract.** About 1.4 MW of flexible load per MW of DC for 80% (≈ 2.0 for 90%), shiftable for ≥ 8 h within the day, in the same grid region.
-3. **Shifting window and PV.** Start the daily energy-neutral window at ≈ 09:00 rather than 06:00 (max matching 91.2% → 93.4%). For more than 90%, oversize PV by ≈ 25% (ceiling ≈ 98%).
-4. **Prices.**
+1. **Size.** Use EEF for data centers from ≈ 8 MW up to the largest campus planned (1.5 GW). Group smaller sites under one aggregator contract; groups of campuses get the same result.
+2. **Displacement.** Target 85–97%, best at ≈ 90%: the summer evenings are then ≈ 100% freed and EEF is the cheapest of the four options over 25 years.
+3. **Flexibility to contract.** About 2.0 MW of flexible load per MW of DC at 90% (1.4 at 80%), shiftable for ≥ 8 h within the day, anywhere on the national grid through the operator.
+4. **Shifting window and PV.** Start the daily energy-neutral window at ≈ 09:00 rather than 06:00. Above 90%, oversize PV by ≈ 25% (ceiling ≈ 98%).
+5. **Prices.**
    - Pay flexibility below ≈ US$87/MWh shifted (≈ US$215/kW-yr).
-   - Sell the PV at the NREP benchmark, ≈ US$13.6/MWh, below the US$48/MWh purchase tariff.
-5. **Target.** Use 80% as the base case. The ranking is the same from 50% to 90% (break-even US$85–89/MWh shifted).
-6. **Grid.** Report the night net-load cut (≈ 59% of DC size) next to emissions and cost, because it is EEF's main system benefit. Still size the DC's own connection for its full load.
+   - SPPC buys the EEF-linked PV at US$13.6/MWh (NREP benchmark). Raise it toward ≈ US$33/MWh only to pay for the grid room EEF frees. It always stays below the US$48/MWh purchase tariff.
+6. **Grid.** Report the summer-evening load freed next to emissions and cost, because it is EEF's main system benefit. Still size the DC's own connection for its full load, and have the operator check inter-regional transfers.
 7. **Regulation (SERA).** Add four things to the framework:
    - an aggregator licence
    - baseline and M&V rules
    - hourly certificates and a rule for crediting freed supply
-   - the PV purchase-price rule of Section 7c
+   - the PV purchase-price rule of Section 7c, valuing the grid room EEF frees
 
 ---
 

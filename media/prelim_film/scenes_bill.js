@@ -8,7 +8,7 @@ function sShiftSplit(g, lt) {
     ['90%', tg[90].shifted_GWh / 8.76, `Pᶠ = ${fmt(tg[90].flex_MW)} MW`], ['max', DATA.sites.riyadh.max_eef_cfe_pct - DATA.sites.riyadh.am_cfe_pct, 'unlimited Pᶠ']];
   const x0 = 240, w = 820;
   const hg = inG(g, lt, .3, .6, 0);
-  T(hg, 80, 300, 16, 'THE DATA CENTER’S 876 GWh/yr, BY HOURLY-MATCHING TARGET', { w: 800, c: C.muted, ls: 2 });
+  T(hg, 80, 300, 16, 'THE DATA CENTER’S 876 GWh/yr, BY DISPLACEMENT TARGET', { w: 800, c: C.muted, ls: 2 });
   legend(hg, 240, 890, [['netted in the same hour', C.sun], ['shifted by the flexible loads', C.maroon], ['still from the grid mix', C.am]], 17);
   rows.forEach(([lab, sh, pf], i) => {
     const y = 336 + i * 130, at = .8 + i * 1.1, u = P(lt, at, 1.4, eIO);
@@ -39,7 +39,7 @@ function sShiftSplit(g, lt) {
   });
   EQN(rg, 'obj', 1180, 636, eqH('obj', 22), C.ink);
   T(rg, 1180, 736, 16, 'WHY NOT 100%?', { w: 800, c: C.maroon, ls: 2 });
-  ['each day must balance — cloudy and winter days fall short', '5% of the shifted energy is lost (η = 0.95)', 'every extra point needs more contracted flexibility'].forEach((t, i) => {
+  ['short winter days — dusty or cloudy days are only ≈ 14 a year', '5% of the shifted energy is lost (η = 0.95)', 'every extra point needs more contracted flexibility'].forEach((t, i) => {
     E('circle', { cx: 1190, cy: 764 + i * 34, r: 5, fill: C.maroon }, rg);
     T(rg, 1206, 770 + i * 34, 17, t, { c: C.ink });
   });
@@ -48,13 +48,13 @@ function sShiftSplit(g, lt) {
 
 // ------------------------------------------------------------ results: the data center's full bill, with PV sales
 function sFullBill(g, lt) {
-  head(g, lt, 'THE FULL BILL', 'Including the PV sales — per 100 MW at 80% hourly matching');
+  head(g, lt, 'THE FULL BILL', 'Including the PV sales — per 100 MW at 80% displacement');
   const buy = 42.048, pv = 11.91, cfgs = [['GRID', 0, 0], ['AM', pv, 0], ['RE+BESS', pv, 30.15], ['EEF', pv, 17.33]];
   const z = 740, s = 4.6, Y = v => z - v * s, cxs = [300, 520, 740, 960], bw = 130;
   const ax = inG(g, lt, .3, .6, 0);
   for (const v of [-10, 0, 20, 40, 60, 80]) { E('line', { x1: 160, x2: 1060, y1: Y(v), y2: Y(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, 150, Y(v) + 5, 14, v, { a: 'end', c: C.muted }); }
   T(ax, 150, Y(80) - 22, 14, 'US$ M / yr', { a: 'end', c: C.muted, w: 700 });
-  legend(ax, 160, 900, [['grid purchases (tariff)', C.am], ['PV plant cost', C.sunL], ['PV sales', C.sun], ['hourly-matching cost', C.maroon]], 16);
+  legend(ax, 160, 900, [['grid purchases (tariff)', C.am], ['PV plant cost', C.sunL], ['PV sales', C.sun], ['displacement cost', C.maroon]], 16);
   cfgs.forEach(([k, pvc, hm], i) => {
     const x = cxs[i] - bw / 2, at = .8 + i * 1.0, u = P(lt, at, 1.2, eIO);
     const lg = inG(g, lt, at, .5, 0);

@@ -1,6 +1,6 @@
 # Prelim film: External Energy Flexibility
 
-A 15.5-minute (15:35) educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
+A 16-minute (16:07) educational film (1920×1080, 30 fps, no audio) for the PhD preliminary examination. It goes from the title to the conclusion in Texas A&M colours (maroon `#500000`, white, A&M gray `#707373`). The official A&M logo is not used.
 
 - **Video:** `eef_prelim_film.mp4`
 - **Interactive version:** open `prelim_film.html` in a browser. It has play/pause, a scrubber and a button for each section. Use it to pause on any scene while presenting.
@@ -15,16 +15,16 @@ A 15.5-minute (15:35) educational film (1920×1080, 30 fps, no audio) for the Ph
 | 1:42 | 02 Problem | **How Saudi data centers are supplied today**, **why self-supply does not scale (SERA rules, a real off-grid design)**, annual matching = 40.4% hourly, ≈ 6% internal flexibility, battery escalation, problem statement |
 | 3:14 | 03 State of the Art | Review funnel (1,365 → 53), three research streams (Venn), closest study (Yang et al. 2026), positioning map and gap |
 | 4:14 | 04 Questions & Objectives | Main RQ, RQ1–RQ4 mapped to Chapters 3–6, objectives O1–O5 |
-| 4:55 | 05 Methodology | EEF concept over one day, hourly accounting, four control layers, model pipeline, equations, **why linear programming**, the LP over one day, experimental design, **25-year cost basis** |
-| 7:36 | 06 Results: Riyadh | Dispatch day, matching vs. flexibility, **how much is shifted (not 100%: netted / shifted / grid mix)**, all four scenarios on one day, full comparison table, three pillars at 80%, cost across targets, **the full bill including PV sales**, break-even price, **when EEF wins**, **where EEF wins by data-center size (1 MW–10 GW)**, seasons and sensitivity |
-| 10:55 | 07 Case: NEOM | Site and PV shape (later sun), NEOM results vs. Riyadh, NEOM at 80% and scaled to the 1.5-GW Oxagon campus |
-| 11:47 | 08 Implementation in KSA | **Actors and roles, six contracts, prices and money flows, steps and regulatory gaps** |
-| 13:02 | 09 Expected Results | RQ2 control bounds, RQ3 first decision map, RQ4 first-order saturation, hypotheses H1–H4 |
-| 14:05 | 10 Research Plan | Chapter status, next steps, publications |
-| 14:22 | 11 Contributions & Conclusion | Five contributions, **the verdict: four configurations scored on three pillars, EEF the only one meeting all three (with conditions)**, **recommendations (size, flexibility, window, prices, SERA asks)**, five-line conclusion, closing line |
-| 15:25 | End card | Thank you / questions |
+| 4:55 | 05 Methodology | EEF concept over one day, hourly accounting, **what displacement means (the data center takes 100% from the grid; PV sold; flexible loads free the same MWh hour by hour)**, four control layers, model pipeline, equations, **why linear programming**, the LP over one day, experimental design, **25-year cost basis** |
+| 7:50 | 06 Results: Riyadh | Dispatch day, displacement vs. flexibility, **how much is shifted (not 100%: netted / shifted / grid mix)**, all four scenarios on one day, full comparison table, three pillars at 80%, cost across targets, **the full bill including PV sales**, break-even price, **when EEF wins**, **the displacement curve (EEF works at 85–97%, best ≈ 90%)**, **the size curve (≈ 8 MW to 1.5 GW)**, seasons and sensitivity |
+| 11:27 | 07 Case: NEOM | Site and PV shape (later sun), NEOM results vs. Riyadh, NEOM at 80% and scaled to the 1.5-GW Oxagon campus |
+| 12:19 | 08 Implementation in KSA | **Actors and roles, six contracts, prices and money flows, steps and regulatory gaps** |
+| 13:34 | 09 Expected Results | RQ2 control bounds, RQ3 first decision map, RQ4 first-order saturation, hypotheses H1–H4 |
+| 14:37 | 10 Research Plan | Chapter status, next steps, publications |
+| 14:54 | 11 Contributions & Conclusion | Five contributions, **the verdict at 90% displacement over 25 years: EEF the only configuration meeting all three pillars**, **recommendations (size, displacement, flexibility, window, prices, SERA asks)**, five-line conclusion, closing line |
+| 15:57 | End card | Thank you / questions |
 
-All result numbers come from `tpec2027/results/*.csv` (same model and data as the TPEC 2027 paper). The NEOM case, the one-day scenario comparison and the decision map come from `tpec2027/model/run_sites.py` (outputs `sites_*.csv`, `scenario_day.csv`, `decision_map.csv`). The size map comes from `tpec2027/model/run_sizes.py` (`size_map.csv`); its contract overhead and flexibility-pool sizes are stated assumptions. All prices are shown in US$ (Saudi sources converted at 3.75 SAR per US$). The 1.5-GW campus figures are a linear ×15 scale-up of the 100-MW results, and the saturation chart is a first-order estimate; both are labelled as such in the film. Saudi market facts, SERA rules and the off-grid design are documented in `docs/implementation/eef_saudi_framework.md`. The off-grid design is shown without the developer's name. Literature numbers come from Chapter 2 (`docs/literature/chapter2_draft_v2.md`).
+All result numbers come from `tpec2027/results/*.csv` (same model and data as the TPEC 2027 paper). The NEOM case, the one-day scenario comparison and the decision map come from `tpec2027/model/run_sites.py` (outputs `sites_*.csv`, `scenario_day.csv`, `decision_map.csv`). The film uses **displacement** for the share of the data center's use freed on the grid hour by hour; the paper and the literature call the same number hourly matching (CFE). The displacement and size curves come from `tpec2027/model/run_displacement.py`, `plot_displacement.py` and `plot_verdict.py` (Riyadh and NEOM); grid reinforcement (US$125/kW-yr), carbon (US$50/t) and the contract overhead (US$0.25 M/yr) are stated assumptions, and flexible load is not limiting on the one national grid. All prices are shown in US$ (Saudi sources converted at 3.75 SAR per US$). The 1.5-GW campus figures are a linear ×15 scale-up of the 100-MW results, and the saturation chart is a first-order estimate; both are labelled as such in the film. Saudi market facts, SERA rules and the off-grid design are documented in `docs/implementation/eef_saudi_framework.md`. The off-grid design is shown without the developer's name. Literature numbers come from Chapter 2 (`docs/literature/chapter2_draft_v2.md`).
 
 ## Editing and rebuilding
 
@@ -39,7 +39,7 @@ All result numbers come from `tpec2027/results/*.csv` (same model and data as th
 | `scenes_impl.js` | Status quo, when EEF wins, implementation (actors, contracts, prices, steps) |
 | `scenes_basis.js` | Self-supply limits (SERA), why linear programming, 25-year cost basis, verdict |
 | `scenes_bill.js` | How much is shifted, the full bill with PV sales |
-| `scenes_size.js` | The Texas lesson, where EEF wins by data-center size, recommendations |
+| `scenes_size.js` | The Texas lesson, what displacement means, the displacement curve, the size curve, recommendations |
 | `timeline.js` | Scene order and durations |
 | `data.js` | Generated by `build_data.py` from the TPEC results |
 | `equations.js` | Generated by `build_equations.js` (MathJax 3.2.2) |
@@ -53,7 +53,7 @@ NODE_PATH=<dir>/node_modules node media/prelim_film/build_equations.js   # after
 node media/prelim_film/stills.js <outDir> scene:concept:10 120.5          # review stills (scene:<id>:<offset> or seconds)
 
 # full render: 4 parallel segments, then join
-N=28044; Q=$(( (N+3)/4 ))
+N=29004; Q=$(( (N+3)/4 ))
 for k in 0 1 2 3; do node media/prelim_film/record_pipe.js seg_$k.mp4 30 $((k*Q)) $(((k+1)*Q)) & done; wait
 printf "file 'seg_%d.mp4'\n" 0 1 2 3 > list.txt
 ffmpeg -f concat -safe 0 -i list.txt -c copy -movflags +faststart media/prelim_film/eef_prelim_film.mp4

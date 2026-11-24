@@ -49,7 +49,7 @@ function sWhyLP(g, lt) {
   const reasons = [
     ['check', 'The physics is linear', 'Energy balance, power limits and the shifted-energy account are all linear in the hourly variables — no on/off decisions at the planning stage.'],
     ['shield', 'A guaranteed global optimum', 'The answer is the true minimum flexibility or battery for the target, not a local guess or a heuristic estimate.'],
-    ['search', 'One exact question per run', 'Max matching for a given Pᶠ; min Pᶠ or min battery E for a target X — the break-even price follows directly.'],
+    ['search', 'One exact question per run', 'Max displacement for a given Pᶠ; min Pᶠ or min battery E for a target X — the break-even price follows directly.'],
     ['clock', 'Fast at full hourly resolution', '8,760 hours, ≈ 26,000 variables: 0.2–1.6 s per run with HiGHS, so hundreds of runs for sweeps and two sites.'],
     ['node', 'Fair and reproducible', 'Battery and EEF are sized by the same method, on the same data, with an open solver.'],
   ];
@@ -133,8 +133,9 @@ function sLifetime(g, lt) {
 
 // ------------------------------------------------------------ conclusion: the verdict scorecard
 function sVerdict(g, lt) {
-  head(g, lt, 'THE VERDICT', 'Which configuration wins? — scored on all three pillars');
-  const cols = [['shield', 'Reliability', 'data-center load served'], ['leaf', 'Emissions', 'hourly matching · kt CO₂/yr'], ['cost', 'Cost', 'cost of hourly matching']];
+  head(g, lt, 'THE VERDICT', 'Which configuration wins? — three pillars at 90% displacement');
+  const p9 = DATA.disp.sites.riyadh.find(p => p.X === 90), em9 = fmt(.1 * 497.6, 1);
+  const cols = [['shield', 'Reliability', 'data-center load served'], ['leaf', 'Emissions', 'displacement · kt CO₂/yr'], ['cost', 'Cost (25 yr)', 'US$/MWh, grid room + carbon counted']];
   const cx = i => 640 + i * 330, cw = 300;
   const hg = inG(g, lt, .4, .6, 0);
   cols.forEach(([ik, t1, t2], i) => {
@@ -144,10 +145,10 @@ function sVerdict(g, lt) {
   });
   T(hg, 1660, 300, 21, 'All three?', { w: 800, c: C.maroon });
   const rows = [
-    ['GRID', 'today’s default', [[1, '100%'], [0, '0% · 497.6'], [1, 'US$0 — no clean supply']], 0],
-    ['AM', 'today’s I-REC claim', [[1, '100%'], [0, '40.4% · 296.4'], [1, 'US$0 — clean on paper']], 0],
-    ['RE+BESS', 'PV + battery', [[1, '100%'], [1, '80% · 99.5'], [0, 'US$30.2 M/yr + 1,027 MWh']], 0],
-    ['EEF', 'this work', [[1, '100%'], [1, '80% · 99.5'], [1, 'US$17.3 M/yr, no storage']], 1],
+    ['GRID', 'today’s default', [[1, '100%'], [0, '0% · 497.6'], [0, `US$${fmt(p9.grid, 1)} — new load at night`]], 0],
+    ['AM', 'today’s I-REC claim', [[1, '100%'], [0, '40.4% · 296.4'], [0, `US$${fmt(p9.am, 1)} — clean on paper`]], 0],
+    ['RE+BESS', 'PV + battery', [[1, '100%'], [1, `90% · ${em9}`], [0, `US$${fmt(p9.bess, 1)} + ≈ 1.3 GWh battery`]], 0],
+    ['EEF', 'this work', [[1, '100%'], [1, `90% · ${em9}`], [1, `US$${fmt(p9.eef, 1)} — lowest, no storage`]], 1],
   ];
   rows.forEach(([k, sub, cells, win], r) => {
     const y = 360 + r * 118, at = 1.0 + r * 1.6, rg = inG(g, lt, at, .7, 0, -30);
@@ -173,5 +174,5 @@ function sVerdict(g, lt) {
   const ng = inG(g, lt, 8.6, .8, 10);
   E('rect', { x: 80, y: 842, width: 1760, height: 84, rx: 14, fill: C.maroon }, ng);
   TR(ng, 110, 878, 22, [['EEF is the only configuration that meets all three pillars at once ', { w: 800 }], ['— in Riyadh and at NEOM.', {}]], { c: '#fff' });
-  T(ng, 110, 910, 17, 'Conditions: flexibility below ≈ US$87/MWh shifted (≈ US$215/kW-yr) and ≈ 1.4 MW of flexible load per MW of data center; above ≈ 90% matching, add PV oversizing or a small battery.', { c: '#fff', op: .9 });
+  T(ng, 110, 910, 17, `Costs on top of the US$48/MWh tariff, with grid reinforcement and carbon valued. On the bill alone, EEF wins if SPPC buys its PV at ≈ US$${fmt(p9.pv_bill, 0)}/MWh.`, { c: '#fff', op: .9 });
 }
