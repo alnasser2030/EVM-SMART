@@ -1,0 +1,15 @@
+kind,case,max_hourly_matching_pct
+decomposition,"100% minus losses (annual window, eta=0.95)",97.02
+decomposition,"daily windows, ignoring hour order",94.59
+decomposition,"LP, daily window from 06:00 (model)",91.17
+window_bound,weekly windows,95.34
+window_bound,monthly windows,95.88
+battery_bound,"battery, annual, eta_rt=0.9",94.04
+max_cfe,"PV x1.0, window from 06:00",91.17
+max_cfe,"PV x1.0, window from 09:00",93.4
+max_cfe,"PV x1.25, window from 06:00",93.12
+max_cfe,"PV x1.25, window from 09:00",98.08
+max_cfe,"PV x1.5, window from 06:00",93.74
+max_cfe,"PV x1.5, window from 09:00",98.74
+max_cfe,"PV x2.0, window from 06:00",94.44
+max_cfe,"PV x2.0, window from 09:00",99.18
