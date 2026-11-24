@@ -75,7 +75,7 @@ function sDisplacement(g, lt) {
 
 // ------------------------------------------------------------ results: the displacement curve
 function sDispCurve(g, lt) {
-  head(g, lt, 'THE DISPLACEMENT CURVE', 'From 40% to 100% — where EEF is the best option (100-MW data center, 25 years)');
+  head(g, lt, 'THE DISPLACEMENT CURVE', 'From 40% to 100% — where EEF is the best option');
   source(g, lt, .5, 'Model results; grid reinforcement (US$125/kW-yr) and carbon (US$50/t) are assumptions');
   const D = DATA.disp.sites, x0 = 200, x1 = 1080, X = v => x0 + (x1 - x0) * (v - 38) / 68;
   const yT = 630, yH = 330, Y = v => yT - (yT - yH) * (Math.min(v, 30) + 2) / 32, HI = DATA.disp.verdict.riyadh.displacement_max_pct, yB = 870, yBH = 730, YB = v => yB - (yB - yBH) * v / 100;
@@ -160,7 +160,7 @@ function sSizeCurve(g, lt) {
     drawP(g, poly(pts), u, { stroke: col, 'stroke-width': w, 'stroke-dasharray': u >= 1 ? dash : null });
   });
   const lg = inG(g, lt, 4.0, .5, 0);
-  T(lg, X(1500) - 8, Y(adv('riyadh', 'advB', 1500)) - 12, 16, 'vs. battery', { a: 'end', w: 800, c: C.bess });
+  T(lg, X(1500) - 8, Y(adv('riyadh', 'advB', 1500)) + 28, 16, 'vs. battery', { a: 'end', w: 800, c: C.bess });
   T(lg, X(1500) - 8, Y(adv('riyadh', 'adv', 1500)) - 12, 16, 'vs. cheapest alternative', { a: 'end', w: 800, c: C.maroon });
   T(lg, X(30), Y(-18), 15, '— Riyadh    - - NEOM', { c: C.ink2, w: 600 });
   const mk = inG(g, lt, 4.6, .6, 0);
@@ -189,7 +189,7 @@ function sWorkMap(g, lt) {
   source(g, lt, .5, 'Model results; grid reinforcement, carbon and contract overhead are assumptions');
   const pts = DATA.disp.sites.riyadh, F28 = DATA.disp.overhead_MUSD * 1e6 / 8760, V = DATA.disp.verdict.riyadh;
   const x0 = 220, x1 = 1160, y0 = 860, y1 = 300, Smin = .1, Smax = 1500;
-  const X = S => x0 + (x1 - x0) * Math.log10(S / Smin) / Math.log10(Smax / Smin), Y = v => y0 - (y0 - y1) * (v - 30) / 70;
+  const X = S => x0 + (x1 - x0) * Math.log10(S / Smin) / Math.log10(Smax / Smin), Y = v => y0 - (y0 - y1) * (v - 30) / 73;
   const ax = inG(g, lt, .3, .6, 0);
   for (const v of [30, 40, 50, 60, 70, 80, 90, 100]) T(ax, x0 - 12, Y(v) + 6, 15, `${v}%`, { a: 'end', c: C.muted });
   [[.1, '100 kW'], [1, '1 MW'], [10, '10 MW'], [100, '100 MW'], [1500, '1.5 GW']].forEach(([v, l]) => T(ax, X(v), y0 + 28, 15, l, { a: 'middle', c: C.muted, w: 600 }));
@@ -214,7 +214,7 @@ function sWorkMap(g, lt) {
   E('rect', { x: x0, y: Y(40.4), width: x1 - x0, height: y0 - Y(40.4), fill: 'url(#hS)', opacity: .9 }, bz);
   T(bz, (x0 + x1) / 2, (Y(40.4) + y0) / 2 + 6, 17, '0–40%: the solar plant alone covers it in the same hour — no EEF needed', { a: 'middle', w: 800, c: C.sunD });
   E('rect', { x: x0, y: y1, width: x1 - x0, height: Y(edges[edges.length - 1]) - y1, fill: 'url(#hG)' }, bz);
-  T(bz, x1 - 8, y1 + 14, 13, '100%: out of reach', { a: 'end', w: 800, c: C.ink2 });
+  T(bz, x0 + 10, y1 + 19, 14, '≥ 99.9% · 100%: out of reach', { w: 800, c: C.ink2 });
   // the EEF-works zone
   const wu = P(lt, 4.6, .8, eIO);
   if (wu > 0) {
@@ -230,14 +230,15 @@ function sWorkMap(g, lt) {
     [C.maroon, null, 'EEF is the best option', 'cheapest of the four and ≥ 90% of summer evenings freed'],
     [C.maroonL, null, 'EEF cheapest — evenings not yet freed', 'below ≈ 85%: cheaper, but the grid still carries the night'],
     [C.am, null, 'Annual matching cheapest', 'small sites: a contract’s fixed cost outweighs the savings'],
+    [C.bess, null, 'Battery cheapest (just)', 'only just above 40%, where very little needs to move'],
     [null, 'url(#hS)', 'Solar alone', 'up to 40%, no flexibility is needed'],
     [null, 'url(#hG)', 'Out of reach', 'above 99.5–99.9%: dusty days remain'],
   ];
   items.forEach(([col, pat, a, b], i) => {
-    const y = 300 + i * 88, ig = inG(g, lt, 5.4 + i * .35, .5, 0, 20);
+    const y = 296 + i * 74, ig = inG(g, lt, 5.4 + i * .35, .5, 0, 20);
     E('rect', { x: 1230, y: y + 4, width: 34, height: 34, rx: 6, fill: col || pat, stroke: C.rule, 'stroke-width': 1 }, ig);
     T(ig, 1280, y + 20, 19, a, { w: 800 });
-    TP(ig, 1280, y + 46, 15, b, 540, { c: C.ink2, lh: 19 });
+    TP(ig, 1280, y + 44, 15, b, 540, { c: C.ink2, lh: 19 });
   });
   const vg = inG(g, lt, 7.6, .7, 0, 20);
   E('rect', { x: 1220, y: 750, width: 620, height: 130, rx: 14, fill: C.maroon }, vg);

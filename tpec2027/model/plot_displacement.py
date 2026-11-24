@@ -105,7 +105,7 @@ def costs(X, S, R, c, adder=0.0, ph=None, am_x=AM_X, pool=POOL):
     e, b = best(X, R, ph)
     if adder:
         e = min(allowed(X, ph), key=lambda d: eef_var(d, R) - adder * d["k"])
-    f = min(1.0, pool / (e["pf"] * S))
+    f = 1.0 if e["pf"] <= 0 else min(1.0, pool / (e["pf"] * S))
     carbon_x = c * EF * (1 - X)
     eef = F_CONTRACT * 1e6 / (8760 * S) + f * (eef_var(e, R) - adder * e["k"]) + (1 - f) * bess_var(b, R) + carbon_x
     return dict(GRID=R / 8.76 + c * EF, AM=R / 8.76 + c * EF * (1 - am_x), Battery=bess_var(b, R) + carbon_x,

@@ -1,3 +1,3 @@
 site,displacement_min_pct,displacement_max_pct,size_min_MW,size_max_MW_largest_campus,size_min_MW_vs_battery,size_curve_at_pct,saving_vs_cheapest_USD_per_MWh_100MW,saving_vs_battery_USD_per_MWh_100MW
 riyadh,85.0,99.5,8.3,1500,1.6,90,3.19,17.43
-neom,85.0,99.5,8.4,1500,1.7,90,3.1,16.74
+neom,85.0,99.5,8.5,1500,1.7,90,3.1,16.74

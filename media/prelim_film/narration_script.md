@@ -1,7 +1,7 @@
 # Prelim film — narration script
 
-Film: `eef_prelim_film.mp4` (16:07, 11 chapters, 71 scenes). Read at a relaxed pace, about 140 words a minute.
-The whole script is ≈ 2487 words, ≈ 18 minutes of speech.
+Film: `eef_prelim_film.mp4` (16:07, 11 chapters, 72 scenes). Read at a relaxed pace, about 140 words a minute.
+The whole script is ≈ 2588 words, ≈ 18 minutes of speech.
 
 ## How to record
 
@@ -267,143 +267,148 @@ File name: `46_whenBest.m4a` · 48 words (≈ 20 s spoken — the scene will be 
 
 > EEF wins when the data center needs grid-grade reliability, the target is high, flexibility is cheaper than storage, the site is at least about eight megawatts, and the grid room and carbon it saves are valued. Outside these conditions the answer is grouping, a hybrid, or plain supply.
 
-**47 · `dispCurve` · starts 10:40.8 · 18 s** — on screen: *Where EEF is the best option — 100-MW data center, 25 years*  
-File name: `47_dispCurve.m4a` · 82 words (≈ 34 s spoken — the scene will be stretched to your recording)
+**47 · `dispCurve` · starts 10:40.8 · 18 s** — on screen: *From 40% to 100% — where EEF is the best option (100-MW data center, 25 years)*  
+File name: `47_dispCurve.m4a` · 91 words (≈ 38 s spoken — the scene will be stretched to your recording)
 
-> Where exactly does EEF work? I swept displacement from fifty to one hundred percent. From eighty-five percent the summer evenings are freed, and EEF stays the cheapest all the way to ninety-nine and a half. Up to ninety-eight needs only daily shifting and a quarter more solar; beyond that, two to three times the solar, or loads that shift across a week. One hundred percent is out of reach. Ninety percent frees the evenings with no oversizing — that is my recommendation.
+> Where exactly does EEF work? I swept displacement from forty percent — what the solar plant alone already gives — to one hundred. From eighty-five percent the summer evenings are freed, and EEF stays the cheapest all the way to ninety-nine and a half. Up to ninety-eight needs only daily shifting and a quarter more solar; beyond that, two to three times the solar, or loads that shift across a week. One hundred percent is out of reach. Ninety percent frees the evenings with no oversizing — that is my recommendation.
 
-**48 · `sizeCurve` · starts 10:58.8 · 16 s** — on screen: *Which data centers should use EEF — at 90% displacement*  
-File name: `48_sizeCurve.m4a` · 56 words (≈ 23 s spoken — the scene will be stretched to your recording)
+**48 · `sizeCurve` · starts 10:58.8 · 16 s** — on screen: *From 100 kW to 1.5 GW — which data centers should use EEF (at 90%)*  
+File name: `48_sizeCurve.m4a` · 68 words (≈ 28 s spoken — the scene will be stretched to your recording)
 
-> And for which sizes? The only size effect is the fixed cost of a contract. Below about eight megawatts it dominates, so small sites should be grouped. From eight megawatts up to the largest campus planned — one and a half gigawatts — EEF is the best option, and groups of campuses get the same result.
+> And for which sizes? I tested from a hundred kilowatts to one and a half gigawatts. The only size effect is the fixed cost of a contract: below about eight megawatts it dominates, so small sites should be grouped. From eight megawatts up to the largest campus planned — one and a half gigawatts — EEF is the best option, and groups of campuses get the same result.
 
-**49 · `seasons` · starts 11:14.8 · 13 s** — on screen: *Summer is easy; winter is where the daily window binds*  
-File name: `49_seasons.m4a` · 23 words (fits)
+**49 · `workMap` · starts 11:14.8 · 18 s** — on screen: *Displacement × data-center size · Riyadh · 25 years*  
+File name: `49_workMap.m4a` · 75 words (≈ 31 s spoken — the scene will be stretched to your recording)
+
+> This map puts both answers together. Across, the size of the data center; up, the displacement target. EEF is the best option in the dark region: from eighty-five to ninety-nine and a half percent, and from about eight megawatts up. Below eighty-five percent it is still cheaper, but the grid still carries the night. Small sites are better grouped, below forty percent the solar alone is enough, and one hundred percent is out of reach.
+
+**50 · `seasons` · starts 11:32.8 · 13 s** — on screen: *Summer is easy; winter is where the daily window binds*  
+File name: `50_seasons.m4a` · 23 words (fits)
 
 > Summer is easy. Winter is where the daily window binds, because the days are shorter. Modest solar oversizing closes most of the gap.
 
 
 ## 07 · Case: NEOM
 
-**50 · `c7` · starts 11:27.8 · 2.8 s** — on screen: *Chapter card*  
-File name: `50_c7.m4a` · 5 words (fits)
+**51 · `c7` · starts 11:45.8 · 2.8 s** — on screen: *Chapter card*  
+File name: `51_c7.m4a` · 5 words (fits)
 
 > Chapter seven: the NEOM case.
 
-**51 · `neomSite` · starts 11:30.6 · 15 s** — on screen: *A second site on the Red Sea coast*  
-File name: `51_neomSite.m4a` · 24 words (fits)
+**52 · `neomSite` · starts 11:48.6 · 15 s** — on screen: *A second site on the Red Sea coast*  
+File name: `52_neomSite.m4a` · 24 words (fits)
 
 > The second site is NEOM–Oxagon on the Red Sea coast: slightly sunnier, and the sun comes later in the day. What does that change?
 
-**52 · `neomResults` · starts 11:45.6 · 16 s** — on screen: *The same story — with a slightly lower ceiling*  
-File name: `52_neomResults.m4a` · 52 words (≈ 22 s spoken — the scene will be stretched to your recording)
+**53 · `neomResults` · starts 12:03.6 · 16 s** — on screen: *The same story — with a slightly lower ceiling*  
+File name: `53_neomResults.m4a` · 52 words (≈ 22 s spoken — the scene will be stretched to your recording)
 
 > The same story, with a slightly lower ceiling. Annual matching rises to about forty-two percent. With solar sized to annual use NEOM tops out just under ninety percent, so ninety percent there takes a quarter more solar — and then about a hundred and sixty megawatts of flexible load per hundred megawatts.
 
-**53 · `neomScale` · starts 12:01.6 · 18 s** — on screen: *What EEF would mean for the 1.5-GW Oxagon campus*  
-File name: `53_neomScale.m4a` · 42 words (fits)
+**54 · `neomScale` · starts 12:19.6 · 18 s** — on screen: *What EEF would mean for the 1.5-GW Oxagon campus*  
+File name: `54_neomScale.m4a` · 42 words (fits)
 
 > Scaled to the one-and-a-half-gigawatt Oxagon campus, that is about two point four gigawatts of contracted flexibility, eighteen gigawatt-hours of batteries avoided, and three point six megatonnes of CO2 a year below annual matching — at about fifty-eight percent of the storage cost.
 
 
 ## 08 · Implementation in KSA
 
-**54 · `c8` · starts 12:19.6 · 2.8 s** — on screen: *Chapter card*  
-File name: `54_c8.m4a` · 6 words (fits)
+**55 · `c8` · starts 12:37.6 · 2.8 s** — on screen: *Chapter card*  
+File name: `55_c8.m4a` · 6 words (fits)
 
 > Chapter eight: implementation in Saudi Arabia.
 
-**55 · `actors` · starts 12:22.4 · 18 s** — on screen: *Who is responsible for what*  
-File name: `55_actors.m4a` · 47 words (≈ 20 s spoken — the scene will be stretched to your recording)
+**56 · `actors` · starts 12:40.4 · 18 s** — on screen: *Who is responsible for what*  
+File name: `56_actors.m4a` · 47 words (≈ 20 s spoken — the scene will be stretched to your recording)
 
 > Who does what? The Ministry sets policy, SERA licenses and writes the rules, the Principal Buyer buys the solar, Saudi Energy supplies the data center, and the National Grid checks the schedules. EEF needs one new licence — the aggregator — one rulebook, and an hourly registry.
 
-**56 · `contracts` · starts 12:40.4 · 20 s** — on screen: *Six contracts — the data center’s supply never changes*  
-File name: `56_contracts.m4a` · 47 words (fits)
+**57 · `contracts` · starts 12:58.4 · 20 s** — on screen: *Six contracts — the data center’s supply never changes*  
+File name: `57_contracts.m4a` · 47 words (fits)
 
 > Six contracts make it work. The data center's supply contract never changes. The solar developer sells to the Principal Buyer. The data center buys an EEF service from the aggregator, who contracts the loads, schedules them with the grid operator, and settles hourly credits in a registry.
 
-**57 · `money` · starts 13:00.4 · 18 s** — on screen: *Who pays whom — per 100 MW at 90% displacement*  
-File name: `57_money.m4a` · 48 words (≈ 20 s spoken — the scene will be stretched to your recording)
+**58 · `money` · starts 13:18.4 · 18 s** — on screen: *Who pays whom — per 100 MW at 90% displacement*  
+File name: `58_money.m4a` · 48 words (≈ 20 s spoken — the scene will be stretched to your recording)
 
 > Who pays whom? The data center keeps paying its forty-eight dollar tariff. At ninety percent, EEF adds about twenty-five dollars per megawatt-hour, where storage would add forty-four. The flexible loads move consumption rather than add it, so their energy bill is unchanged — and they earn the payment.
 
-**58 · `implSteps` · starts 13:18.4 · 16 s** — on screen: *From the first contract to the first hourly credit*  
-File name: `58_implSteps.m4a` · 34 words (fits)
+**59 · `implSteps` · starts 13:36.4 · 16 s** — on screen: *From the first contract to the first hourly credit*  
+File name: `59_implSteps.m4a` · 34 words (fits)
 
 > Step by step: register, connect, sponsor the solar, build the portfolio — about two megawatts per megawatt, anywhere on the national grid — agree baselines, sign the service, and operate. Everything else already exists.
 
 
 ## 09 · Expected Results
 
-**59 · `c9` · starts 13:34.4 · 2.8 s** — on screen: *Chapter card*  
-File name: `59_c9.m4a` · 4 words (fits)
+**60 · `c9` · starts 13:52.4 · 2.8 s** — on screen: *Chapter card*  
+File name: `60_c9.m4a` · 4 words (fits)
 
 > Chapter nine: expected results.
 
-**60 · `expControl` · starts 13:37.2 · 15 s** — on screen: *Control should keep displacement near the planning bound*  
-File name: `60_expControl.m4a` · 38 words (fits)
+**61 · `expControl` · starts 13:55.2 · 15 s** — on screen: *Control should keep displacement near the planning bound*  
+File name: `61_expControl.m4a` · 38 words (fits)
 
 > Chapter four asks how much of the planning result survives real operation. The planning model is the upper bound; if the loads deliver nothing, the worst case is annual matching. Control should land close to the upper bound.
 
-**61 · `expDecision` · starts 13:52.2 · 15 s** — on screen: *A first slice of the decision map: when does EEF win?*  
-File name: `61_expDecision.m4a` · 31 words (fits)
+**62 · `expDecision` · starts 14:10.2 · 15 s** — on screen: *A first slice of the decision map: when does EEF win?*  
+File name: `62_expDecision.m4a` · 31 words (fits)
 
 > Chapter five draws decision maps. This first slice compares the break-even flexibility price with the battery's cost: EEF wins below the line, and the line rises as batteries get more expensive.
 
-**62 · `expSaturation` · starts 14:07.2 · 16 s** — on screen: *How far can external flexibility go?*  
-File name: `62_expSaturation.m4a` · 41 words (≈ 17 s spoken — the scene will be stretched to your recording)
+**63 · `expSaturation` · starts 14:25.2 · 16 s** — on screen: *How far can external flexibility go?*  
+File name: `63_expSaturation.m4a` · 41 words (≈ 17 s spoken — the scene will be stretched to your recording)
 
 > Chapter six asks how far external flexibility can go nationally. At ninety percent, each gigawatt of data centers needs about two gigawatts of flexible load — so the national potential would saturate somewhere between three and a half and fifteen gigawatts.
 
-**63 · `expHyp` · starts 14:23.2 · 14 s** — on screen: *Four hypotheses the remaining chapters will test*  
-File name: `63_expHyp.m4a` · 17 words (fits)
+**64 · `expHyp` · starts 14:41.2 · 14 s** — on screen: *Four hypotheses the remaining chapters will test*  
+File name: `64_expHyp.m4a` · 17 words (fits)
 
 > Four hypotheses follow, each with a measurable test — and the preliminary results already bound the answers.
 
 
 ## 10 · Research Plan
 
-**64 · `c10` · starts 14:37.2 · 2.8 s** — on screen: *Chapter card*  
-File name: `64_c10.m4a` · 5 words (fits)
+**65 · `c10` · starts 14:55.2 · 2.8 s** — on screen: *Chapter card*  
+File name: `65_c10.m4a` · 5 words (fits)
 
 > Chapter ten: the research plan.
 
-**65 · `plan` · starts 14:40.0 · 15 s** — on screen: *From one paper to a dissertation*  
-File name: `65_plan.m4a` · 31 words (fits)
+**66 · `plan` · starts 14:58.0 · 15 s** — on screen: *From one paper to a dissertation*  
+File name: `66_plan.m4a` · 31 words (fits)
 
 > Chapter two is complete. Chapter three has preliminary results for two sites and a paper for TPEC 2027. Chapters four to six follow: control, decision maps and contracts, and national saturation.
 
 
 ## 11 · Contributions & Conclusion
 
-**66 · `c11` · starts 14:55.0 · 2.8 s** — on screen: *Chapter card*  
-File name: `66_c11.m4a` · 5 words (fits)
+**67 · `c11` · starts 15:13.0 · 2.8 s** — on screen: *Chapter card*  
+File name: `67_c11.m4a` · 5 words (fits)
 
 > Chapter eleven: contributions and conclusion.
 
-**67 · `contrib` · starts 14:57.8 · 13 s** — on screen: *Five contributions*  
-File name: `67_contrib.m4a` · 34 words (≈ 14 s spoken — the scene will be stretched to your recording)
+**68 · `contrib` · starts 15:15.8 · 13 s** — on screen: *Five contributions*  
+File name: `68_contrib.m4a` · 34 words (≈ 14 s spoken — the scene will be stretched to your recording)
 
 > This work contributes a new supply concept with an hourly accounting rule, a planning model with a three-pillar comparison, a control design, decision maps with a contractual framework, and the limits of external flexibility.
 
-**68 · `verdict` · starts 15:10.8 · 16 s** — on screen: *Which configuration wins? — three pillars at 90% displacement*  
-File name: `68_verdict.m4a` · 44 words (≈ 18 s spoken — the scene will be stretched to your recording)
+**69 · `verdict` · starts 15:28.8 · 16 s** — on screen: *Which configuration wins? — three pillars at 90% displacement*  
+File name: `69_verdict.m4a` · 44 words (≈ 18 s spoken — the scene will be stretched to your recording)
 
 > So who wins? Scored on all three pillars at ninety percent displacement over twenty-five years: grid supply and annual matching fail on emissions, the battery fails on cost, and EEF is the only configuration that meets all three — in Riyadh and at NEOM.
 
-**69 · `recommend` · starts 15:26.8 · 12 s** — on screen: *When to choose EEF — and how to set it up*  
-File name: `69_recommend.m4a` · 43 words (≈ 18 s spoken — the scene will be stretched to your recording)
+**70 · `recommend` · starts 15:44.8 · 12 s** — on screen: *When to choose EEF — and how to set it up*  
+File name: `70_recommend.m4a` · 48 words (≈ 20 s spoken — the scene will be stretched to your recording)
 
-> My recommendations: use EEF for data centers from about eight megawatts up, at eighty-five to ninety-nine and a half percent displacement, with about ninety as the target — and add an aggregator licence, hourly certificates and a solar purchase-price rule to SERA's framework.
+> My recommendations: use EEF for data centers from about eight megawatts up — grouping smaller ones — at eighty-five to ninety-nine and a half percent displacement, with about ninety as the target — and add an aggregator licence, hourly certificates and a solar purchase-price rule to SERA's framework.
 
-**70 · `conclusion` · starts 15:38.8 · 19 s** — on screen: *Five-line conclusion and closing line*  
-File name: `70_conclusion.m4a` · 45 words (fits)
+**71 · `conclusion` · starts 15:56.8 · 19 s** — on screen: *Five-line conclusion and closing line*  
+File name: `71_conclusion.m4a` · 45 words (fits)
 
 > In conclusion: EEF keeps the data center's reliability identical to the grid's, cuts its emissions like a battery, costs less, and leaves room on the grid. In one line: the sun goes to the loads — and the night comes back to the data center.
 
-**71 · `end` · starts 15:57.8 · 9 s** — on screen: *Thank you*  
-File name: `71_end.m4a` · 6 words (fits)
+**72 · `end` · starts 16:15.8 · 9 s** — on screen: *Thank you*  
+File name: `72_end.m4a` · 6 words (fits)
 
 > Thank you. I welcome your questions.
 
