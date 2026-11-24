@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEF Prelim Film</title>
+<style>
+  :root { --maroon:#500000; --bg:#FAF8F5; --ink:#1E1E1E; --muted:#707373; --rule:#D8D4CE; }
+  html, body { margin:0; background:#1b1414; color:#eee; font-family:'Open Sans', Arial, sans-serif; }
+  body { min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:16px 16px 24px; box-sizing:border-box; }
+  #wrap { width:min(100%, 1600px); }
+  #frame { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; background:var(--bg); border-radius:6px; }
+  #film { position:absolute; left:0; top:0; width:100%; height:100%; display:block; }
+  .ctrl { display:flex; gap:12px; align-items:center; padding:12px 0 6px; font-weight:600; font-size:14px; }
+  .ctrl button { background:#3a1f1f; color:#fff; border:1px solid #6a3a3a; border-radius:8px; padding:7px 14px; font:inherit; cursor:pointer; }
+  .ctrl button:hover { background:var(--maroon); }
+  .ctrl input { flex:1; accent-color:#a33; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chips button { background:transparent; color:#ddd; border:1px solid #6a3a3a; border-radius:999px; padding:5px 12px; font:600 12px 'Open Sans', Arial; cursor:pointer; }
+  .chips button.on { background:var(--maroon); color:#fff; border-color:var(--maroon); }
+  body.rec { padding:0; background:var(--bg); display:block; }
+  body.rec #wrap { width:1920px; }
+  body.rec #frame { width:1920px; height:1080px; border-radius:0; }
+  body.rec .ctrl, body.rec .chips { display:none; }
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="frame"><svg id="film" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet"></svg></div>
+  <div class="ctrl"><button id="play">❚❚ Pause</button><input id="scrub" type="range" min="0" max="1" step="0.01" value="0"><span id="tc">0:00</span></div>
+  <div class="chips" id="chips"></div>
+</div>
+<script src="data.js"></script>
+<script src="equations.js"></script>
+<script src="engine.js"></script>
+<script src="scenes_intro.js"></script>
+<script src="scenes_sota.js"></script>
+<script src="scenes_method.js"></script>
+<script src="scenes_results.js"></script>
+<script src="timeline.js"></script>
+<script>
+(function () {
+  const REC = !!window.__RECORD__;
+  if (REC) document.body.classList.add('rec');
+  const scrub = document.getElementById('scrub'), tc = document.getElementById('tc'), btn = document.getElementById('play');
+  scrub.max = T_END;
+  const mmss = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  const chips = document.getElementById('chips');
+  const marks = [{ t: 0, n: 'Title' }].concat(SECTION_STARTS.map(s => ({ t: s.t, n: SECTIONS[s.sec - 1][1] })));
+  const cbs = marks.map(m => { const b = document.createElement('button'); b.textContent = m.n; b.onclick = () => { t = m.t + .01; last = null; }; chips.appendChild(b); return b; });
+  let t = 0, playing = !REC, last = null;
+  btn.onclick = () => { playing = !playing; btn.textContent = playing ? '❚❚ Pause' : '► Play'; last = null; };
+  scrub.oninput = () => { t = +scrub.value; render(t); };
+  function frame(ts) {
+    if (playing) { if (last != null) t += (ts - last) / 1000; last = ts; if (t >= T_END) t = 0; }
+    else last = null;
+    render(t);
+    scrub.value = t; tc.textContent = `${mmss(t)} / ${mmss(T_END)}`;
+    let k = 0; marks.forEach((m, i) => { if (t >= m.t) k = i; });
+    cbs.forEach((b, i) => b.classList.toggle('on', i === k));
+    requestAnimationFrame(frame);
+  }
+  window.render = render;
+  window.__READY__ = document.fonts ? document.fonts.ready.then(() => true) : Promise.resolve(true);
+  if (REC) render(0); else requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
