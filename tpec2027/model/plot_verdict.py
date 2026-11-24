@@ -74,7 +74,7 @@ for ax in (ax1, ax3):
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
 ax1.axhline(0, color="#333333", lw=1)
 ax1.set_ylim(-2, 26)
-ax1.text((r_lo + r_hi) / 2, 23.5, f"EEF works: {r_lo:.0f}–{r_hi:.0f}%", ha="center", color=MAROON, weight="bold", fontsize=12)
+ax1.text((r_lo + r_hi) / 2, 23.5, f"EEF works: {r_lo:.0f}–{r_hi:g}%", ha="center", color=MAROON, weight="bold", fontsize=12)
 ax1.set_title("(a) Displacement curve — 100-MW data center"); ax1.set_ylabel("EEF saving, US$ per MWh of DC load\n(25-yr annual equivalent; > 0 = EEF cheaper)")
 ax1.legend(frameon=False, fontsize=9, loc="upper left")
 ax3.axhline(100 * EVE_MIN, color="#333333", lw=1, ls=":")
@@ -97,7 +97,7 @@ ax2.text(S_MAX * .93, 7, "1.5 GW = largest single\ncampus planned (NEOM).\nLarge
 ax2.set_title(f"(c) Size curve — at {X_REC:.0%} displacement"); ax2.set_xlabel("Data-center size (one campus)")
 ax2.set_ylabel("EEF saving, US$ per MWh of DC load"); ax2.grid(axis="y", color="#E6E3DE", lw=.8)
 ax2.legend(frameon=False, fontsize=9, loc="lower center")
-fig.suptitle(f"Verdict: EEF is the best option for {r_lo:.0f}–{r_hi:.0f}% displacement and for data centers of ≈ {s_lo:.0f} MW "
+fig.suptitle(f"Verdict: EEF is the best option for {r_lo:.0f}–{r_hi:g}% displacement and for data centers of ≈ {s_lo:.0f} MW "
              f"to 1.5 GW — Riyadh and NEOM", x=.01, ha="left", fontsize=13, weight="bold")
 fig.text(.01, .012, "Value case: grid reinforcement avoided US$125/kW-yr + carbon US$50/t; flexibility US$50/MWh shifted; battery mid; "
          "PV sold at its cost;\nEEF overhead US$0.25 M/yr per contract; flexible load not limiting (one national grid; 7.1–29.9 GW potential). "
