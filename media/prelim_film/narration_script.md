@@ -1,7 +1,7 @@
 # Prelim film — narration script
 
 Film: `eef_prelim_film.mp4` (16:07, 11 chapters, 72 scenes). Read at a relaxed pace, about 140 words a minute.
-The whole script is ≈ 2588 words, ≈ 18 minutes of speech.
+The whole script is ≈ 2592 words, ≈ 19 minutes of speech.
 
 ## How to record
 
@@ -25,9 +25,9 @@ File name: `01_cold.m4a` · 22 words (fits)
 > An AI data center never sleeps. The sun does. So who supplies the night — cleanly, reliably, and at a fair cost?
 
 **02 · `title` · starts 0:10.0 · 12 s** — on screen: *Title card*  
-File name: `02_title.m4a` · 29 words (fits)
+File name: `02_title.m4a` · 33 words (≈ 14 s spoken — the scene will be stretched to your recording)
 
-> External Energy Flexibility: supplying an AI data center with clean energy, hour by hour, without touching its reliability. My name is Ali Nasser, Electrical and Computer Engineering, Texas A&M.
+> External Energy Flexibility: a smart-grid framework that supplies an AI data center with clean energy, hour by hour, without touching its reliability. My name is Ali Nasser, Electrical and Computer Engineering, Texas A&M.
 
 **03 · `roadmap` · starts 0:22.0 · 14 s** — on screen: *The path through this work*  
 File name: `03_roadmap.m4a` · 39 words (≈ 16 s spoken — the scene will be stretched to your recording)
@@ -267,7 +267,7 @@ File name: `46_whenBest.m4a` · 48 words (≈ 20 s spoken — the scene will be 
 
 > EEF wins when the data center needs grid-grade reliability, the target is high, flexibility is cheaper than storage, the site is at least about eight megawatts, and the grid room and carbon it saves are valued. Outside these conditions the answer is grouping, a hybrid, or plain supply.
 
-**47 · `dispCurve` · starts 10:40.8 · 18 s** — on screen: *From 40% to 100% — where EEF is the best option (100-MW data center, 25 years)*  
+**47 · `dispCurve` · starts 10:40.8 · 18 s** — on screen: *From 40% to 100% — where EEF is the best option*  
 File name: `47_dispCurve.m4a` · 91 words (≈ 38 s spoken — the scene will be stretched to your recording)
 
 > Where exactly does EEF work? I swept displacement from forty percent — what the solar plant alone already gives — to one hundred. From eighty-five percent the summer evenings are freed, and EEF stays the cheapest all the way to ninety-nine and a half. Up to ninety-eight needs only daily shifting and a quarter more solar; beyond that, two to three times the solar, or loads that shift across a week. One hundred percent is out of reach. Ninety percent frees the evenings with no oversizing — that is my recommendation.
@@ -390,7 +390,7 @@ File name: `67_c11.m4a` · 5 words (fits)
 **68 · `contrib` · starts 15:15.8 · 13 s** — on screen: *Five contributions*  
 File name: `68_contrib.m4a` · 34 words (≈ 14 s spoken — the scene will be stretched to your recording)
 
-> This work contributes a new supply concept with an hourly accounting rule, a planning model with a three-pillar comparison, a control design, decision maps with a contractual framework, and the limits of external flexibility.
+> This work contributes a new smart-grid service with an hourly accounting rule, a planning model with a three-pillar comparison, a control design, decision maps with a contractual framework, and the limits of external flexibility.
 
 **69 · `verdict` · starts 15:28.8 · 16 s** — on screen: *Which configuration wins? — three pillars at 90% displacement*  
 File name: `69_verdict.m4a` · 44 words (≈ 18 s spoken — the scene will be stretched to your recording)

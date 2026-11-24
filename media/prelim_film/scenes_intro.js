@@ -56,7 +56,7 @@ function sTitle(g, lt) {
   drawP(g, 'M140,330 H300', P(lt, .5, .9), { stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round' });
   const b = inG(g, lt, .8, 1, 24); T(b, 136, 440, 86, 'External Energy Flexibility', { f: F.slab, w: 700, c: '#fff' });
   const c = inG(g, lt, 1.5, 1, 18);
-  T(c, 140, 512, 36, 'A Grid-Mediated Supply Framework for Inflexible AI Data Centers', { w: 300, c: '#fff', op: .92 });
+  T(c, 140, 512, 36, 'A Smart-Grid Supply Framework for Inflexible AI Data Centers', { w: 300, c: '#fff', op: .92 });
   T(c, 140, 560, 36, 'Balancing Reliability, Cost, and Sustainability', { w: 300, c: '#fff', op: .92 });
   const d = inG(g, lt, 2.8, 1, 14);
   E('rect', { x: 140, y: 690, width: 6, height: 118, fill: '#fff', opacity: .8 }, d);

@@ -3,9 +3,11 @@
 > Summary of the decisions agreed so far, and the starting point for future sessions. v0 had three RQs; v1 has four RQs, a control chapter, the Saudi implementation framework, the NEOM case and an explicit project horizon.
 
 ## Title (proposed)
-**External Energy Flexibility: A Grid-Mediated Supply Framework for Inflexible AI Data Centers Balancing Reliability, Cost, and Sustainability**
+**External Energy Flexibility: A Smart-Grid Supply Framework for Inflexible AI Data Centers Balancing Reliability, Cost, and Sustainability**
 
-المرونة الخارجية للطاقة: إطار تغذية عبر الشبكة لمراكز الذكاء الاصطناعي غير المرنة يوازن بين الاعتمادية والتكلفة والاستدامة
+المرونة الخارجية للطاقة: إطار تغذية عبر الشبكة الذكية لمراكز الذكاء الاصطناعي غير المرنة يوازن بين الاعتمادية والتكلفة والاستدامة
+
+**Field:** smart grid. The work covers demand-side flexibility, aggregation, interval metering and hourly accounting, day-ahead and MPC control, and market design. Target venues: IEEE Transactions on Smart Grid, IEEE ISGT, IEEE SmartGridComm and TPEC.
 
 ## Concept
 - **AI data center (DC):**

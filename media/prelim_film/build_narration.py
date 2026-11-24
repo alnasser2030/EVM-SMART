@@ -5,7 +5,7 @@ import os
 FILM = os.path.dirname(os.path.abspath(__file__)) + "/"
 N = {
     "cold": "An AI data center never sleeps. The sun does. So who supplies the night — cleanly, reliably, and at a fair cost?",
-    "title": "External Energy Flexibility: supplying an AI data center with clean energy, hour by hour, without touching its reliability. My name is Ali Nasser, Electrical and Computer Engineering, Texas A&M.",
+    "title": "External Energy Flexibility: a smart-grid framework that supplies an AI data center with clean energy, hour by hour, without touching its reliability. My name is Ali Nasser, Electrical and Computer Engineering, Texas A&M.",
     "roadmap": "Here is the path: why this matters, what today's options leave unsolved, the state of the art and my questions, then the method, results for Riyadh and NEOM, implementation in Saudi Arabia, expected results, the plan, and the contributions.",
     "c1": "Chapter one: motivation.",
     "motGlobal": "Data centers used about four hundred and fifteen terawatt-hours in 2024, and that could more than double by 2030. AI is the main driver — and these facilities draw power around the clock.",
@@ -71,7 +71,7 @@ N = {
     "c10": "Chapter ten: the research plan.",
     "plan": "Chapter two is complete. Chapter three has preliminary results for two sites and a paper for TPEC 2027. Chapters four to six follow: control, decision maps and contracts, and national saturation.",
     "c11": "Chapter eleven: contributions and conclusion.",
-    "contrib": "This work contributes a new supply concept with an hourly accounting rule, a planning model with a three-pillar comparison, a control design, decision maps with a contractual framework, and the limits of external flexibility.",
+    "contrib": "This work contributes a new smart-grid service with an hourly accounting rule, a planning model with a three-pillar comparison, a control design, decision maps with a contractual framework, and the limits of external flexibility.",
     "verdict": "So who wins? Scored on all three pillars at ninety percent displacement over twenty-five years: grid supply and annual matching fail on emissions, the battery fails on cost, and EEF is the only configuration that meets all three — in Riyadh and at NEOM.",
     "recommend": "My recommendations: use EEF for data centers from about eight megawatts up — grouping smaller ones — at eighty-five to ninety-nine and a half percent displacement, with about ninety as the target — and add an aggregator licence, hourly certificates and a solar purchase-price rule to SERA's framework.",
     "conclusion": "In conclusion: EEF keeps the data center's reliability identical to the grid's, cuts its emissions like a battery, costs less, and leaves room on the grid. In one line: the sun goes to the loads — and the night comes back to the data center.",

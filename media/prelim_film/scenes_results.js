@@ -308,7 +308,7 @@ function sPlan(g, lt) {
 
 // ------------------------------------------------------------ contributions
 const CONTRIB = [
-  ['A new concept', 'External Energy Flexibility, with an internal-vs-external flexibility taxonomy and an hourly accounting rule'],
+  ['A smart-grid service', 'External Energy Flexibility: coordinated external loads, a flexibility taxonomy and an hourly accounting rule'],
   ['A planning model', 'and a three-pillar comparison against direct grid supply, annual matching and renewables + battery'],
   ['A control design', 'hierarchical, from planning to settlement, tested under forecast uncertainty'],
   ['Decision maps', 'generalized conditions for when EEF wins, and a contractual framework for single-buyer and liberalized markets'],
