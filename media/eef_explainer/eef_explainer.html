@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>EEF Explainer</title>
+<style>
+  :root{
+    --ink:#0f1222; --ink2:#4b5066; --muted:#8b90a3; --line:#e4e6ee; --bg:#f6f7fb; --card:#ffffff;
+    --sun:#eb6834; --grid:#6250d6; --dc:#2a78d6; --flex:#1baf7a; --ctrl:#d98c00; --acct:#c2457a; --res:#eb6834;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1080px;height:1350px;background:var(--bg);font-family:"Inter",system-ui,sans-serif;color:var(--ink);overflow:hidden}
+  .wrap{position:relative;width:1080px;height:1350px;padding:34px 44px}
+  .eyebrow{font-size:17px;font-weight:700;letter-spacing:.14em;color:var(--flex)}
+  h1{font-size:44px;line-height:1.08;font-weight:800;margin-top:8px;letter-spacing:-.01em}
+  h1 span{color:var(--flex)}
+  .sub{font-size:20px;color:var(--ink2);margin-top:10px;line-height:1.35}
+  .row{display:flex;gap:18px}
+  .card{background:var(--card);border:1.5px solid var(--line);border-radius:18px;position:relative}
+  .tag{position:absolute;top:-13px;right:16px;font-size:14px;font-weight:700;color:#fff;padding:4px 12px;border-radius:999px}
+  .top .card{flex:1;padding:18px 18px 14px}
+  .ttl{font-size:23px;font-weight:800;display:flex;align-items:center;gap:10px}
+  .ttl i{display:inline-block;width:14px;height:20px;border-radius:3px}
+  .desc{font-size:16px;color:var(--ink2);margin-top:5px;line-height:1.3}
+  .live{font-size:20px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums}
+  /* centre stage */
+  .stage{margin-top:24px;display:grid;grid-template-columns:236px 1fr 236px;gap:16px;align-items:stretch}
+  .side{padding:16px 16px}
+  .side .ttl{font-size:21px}
+  .side.on{border-color:var(--flex);box-shadow:0 0 0 3px rgba(27,175,122,.18)}
+  .side.off{opacity:.45}
+  .center{padding:14px 16px 12px}
+  .center svg{display:block}
+  .pill{margin:14px auto 0;width:max-content;max-width:100%;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:9px 20px;font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  /* layers */
+  .layers{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:26px 18px}
+  .layer{padding:16px 18px 14px}
+  .layer .ttl{font-size:21px}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;color:#fff;font-size:17px;font-weight:800;flex:none}
+  .items{margin-top:9px;font-size:16.5px;line-height:1.42;color:var(--ink2)}
+  .items b{color:var(--ink);font-weight:700}
+  .state{margin-top:8px;border-radius:10px;padding:7px 10px;font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;display:flex;justify-content:space-between}
+  .ok{color:#148a5f}
+  .res{border:2px solid var(--res)}
+  .kpi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin-top:8px;font-size:16.5px;color:var(--ink2)}
+  .kpi b{color:var(--ink)}
+  .foot{position:absolute;left:44px;right:44px;bottom:24px;display:flex;justify-content:space-between;font-size:15px;color:var(--muted)}
+  .foot b{color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">AI DATA CENTERS · HOURLY CLEAN SUPPLY</div>
+  <h1>What Does <span>External Energy Flexibility</span> Actually Look Like?</h1>
+  <div class="sub">The data center never touches the sun. Existing flexible loads absorb <b>all</b> of its PV output — and cut their own use by the data center's load, so the night comes back clean.</div>
+
+  <!-- top row -->
+  <div class="row top" style="margin-top:28px">
+    <div class="card"><span class="tag" style="background:var(--sun)">Source</span>
+      <div class="ttl"><i style="background:var(--sun)"></i>PV plant</div>
+      <div class="desc">all output injected to the grid</div>
+      <div class="live" id="pvLive" style="color:var(--sun)">0 MW</div></div>
+    <div class="card"><span class="tag" style="background:var(--grid)">Backbone</span>
+      <div class="ttl"><i style="background:var(--grid)"></i>Power grid</div>
+      <div class="desc">single buyer · supplies the DC 24/7</div>
+      <div class="live" style="color:var(--grid)">always on</div></div>
+    <div class="card"><span class="tag" style="background:var(--dc)">Load</span>
+      <div class="ttl"><i style="background:var(--dc)"></i>AI data center</div>
+      <div class="desc">constant, inflexible, never curtailed</div>
+      <div class="live" style="color:var(--dc)">100 MW from grid</div></div>
+  </div>
+
+  <!-- stage -->
+  <div class="stage">
+    <div class="card side" id="absorb">
+      <div class="ttl"><i style="background:var(--flex);width:14px;height:20px;border-radius:3px;display:inline-block"></i>ABSORB</div>
+      <div class="desc" style="margin-top:8px">Flexible loads take in <b>all</b> PV output while the sun shines.</div>
+      <div class="live" id="absLive" style="color:var(--flex)">+0 MW</div>
+    </div>
+    <div class="card center">
+      <svg id="chart" width="440" height="250" viewBox="0 0 440 250"></svg>
+    </div>
+    <div class="card side" id="release">
+      <div class="ttl"><i style="background:var(--flex);width:14px;height:20px;border-radius:3px;display:inline-block"></i>RELEASE</div>
+      <div class="desc" style="margin-top:8px">The same loads cut their use by the <b>DC load</b> — every hour.</div>
+      <div class="live" id="relLive" style="color:var(--flex)">−100 MW</div>
+    </div>
+  </div>
+  <div class="pill" id="pill">00:00 · …</div>
+
+  <!-- layers -->
+  <div class="layers">
+    <div class="card layer"><span class="tag" style="background:var(--flex)">Absorb &amp; release</span>
+      <div class="ttl"><span class="num" style="background:var(--flex)">1</span>Flexible loads</div>
+      <div class="items"><b>desalination</b> + water tanks · <b>district cooling</b> + TES · <b>pumping</b> · <b>industry</b><br>energy-neutral each day: they move consumption, never add it</div>
+      <div class="state" id="flexState" style="background:#e8f7f0"><span>net vs baseline</span><span id="flexNet">0 MW</span></div>
+    </div>
+    <div class="card layer"><span class="tag" style="background:var(--dc)">Reliability</span>
+      <div class="ttl"><span class="num" style="background:var(--dc)">2</span>AI data center</div>
+      <div class="items">connected to and supplied by the grid <b>at all times</b><br>if the loads fail, only clean matching drops — never the supply</div>
+      <div class="state" style="background:#eaf2fc"><span>load served</span><span class="ok">100% ✓ = grid availability</span></div>
+    </div>
+    <div class="card layer"><span class="tag" style="background:var(--ctrl)">Decide</span>
+      <div class="ttl"><span class="num" style="background:var(--ctrl)">3</span>Control layers</div>
+      <div class="items"><b>planning</b> sizes PV &amp; contracts · <b>day-ahead</b> schedules loads · <b>intraday</b> MPC corrects forecasts · <b>settlement</b> pays</div>
+    </div>
+    <div class="card layer"><span class="tag" style="background:var(--acct)">Verify</span>
+      <div class="ttl"><span class="num" style="background:var(--acct)">4</span>Hourly accounting</div>
+      <div class="items">PV credited to the <b>loads</b> that absorb it · freed grid supply credited to the <b>data center</b> · metered against baselines</div>
+      <div class="state" style="background:#fbecf2"><span>DC hourly match now</span><span class="ok" id="matchNow">✓</span></div>
+    </div>
+    <div class="card layer res" style="grid-column:1 / span 2"><span class="tag" style="background:var(--res)">Results · 100-MW DC, Riyadh, 80% hourly matching</span>
+      <div class="ttl"><span class="num" style="background:var(--res)">5</span>One combination of three pillars</div>
+      <div class="row" style="gap:26px;margin-top:6px">
+        <div class="kpi"><b>Reliability</b><span>= grid · 100% load served</span><b>Emissions</b><span>99.5 kt/yr — ⅓ of annual matching (296)</span></div>
+        <div class="kpi"><b>Cost</b><span>$17.3M/yr (at $50/MWh shifted) vs $30.2M battery</span><b>Storage</b><span>0 MWh built (battery: 1,027)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot"><span><b>[Author Name]</b> · Texas A&amp;M University · TPEC 2027</span><span>illustrative day · results from the Riyadh case study</span></div>
+</div>
+
+<script>
+// ---------- idealized day: PV daily energy = DC daily energy (annual matching), loads absorb all PV and release the DC load
+const L = 100, H = 24;
+function shape(h){ const x = (h - 6) / 12; return (x > 0 && x < 1) ? Math.pow(Math.sin(Math.PI * x), 1.5) : 0; }
+let S = 0; for (let k = 0; k < 2400; k++) S += shape(k / 100) / 100;      // hours-weighted integral
+const A = L * H / S;                                                     // so that ∫PV = 24·L
+const PV = h => A * shape(h);
+
+// ---------- chart
+const W = 440, Hc = 250, pad = {l: 40, r: 10, t: 14, b: 30};
+const xs = h => pad.l + (W - pad.l - pad.r) * h / 24;
+const yMax = Math.ceil(A / 50) * 50, yMin = -150;
+const ys = v => pad.t + (Hc - pad.t - pad.b) * (yMax - v) / (yMax - yMin);
+const svg = document.getElementById('chart');
+const NS = 'http://www.w3.org/2000/svg';
+function el(t, a){ const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; }
+// grid lines + labels
+[yMin, -100, 0, 100, 200, 300, yMax].forEach(v => {
+  if (v < yMin || v > yMax) return;
+  el('line', {x1: pad.l, x2: W - pad.r, y1: ys(v), y2: ys(v), stroke: v === 0 ? '#9aa0b4' : '#eceef4', 'stroke-width': v === 0 ? 1.4 : 1});
+  const t = el('text', {x: pad.l - 6, y: ys(v) + 4, 'text-anchor': 'end', 'font-size': 11, fill: '#8b90a3'}); t.textContent = v;
+});
+[0, 6, 12, 18, 24].forEach(h => { const t = el('text', {x: xs(h), y: Hc - 10, 'text-anchor': h === 24 ? 'end' : (h === 0 ? 'start' : 'middle'), 'font-size': 11, fill: '#8b90a3'}); t.textContent = String(h).padStart(2, '0') + ':00'; });
+const lab = el('text', {x: pad.l + 4, y: pad.t + 2, 'font-size': 11, fill: '#8b90a3'}); lab.textContent = 'MW';
+// static PV and DC traces
+let dPV = '', dNet = '';
+for (let k = 0; k <= 240; k++) { const h = k / 10; dPV += (k ? 'L' : 'M') + xs(h) + ',' + ys(PV(h)); }
+el('path', {d: dPV + `L${xs(24)},${ys(0)}L${xs(0)},${ys(0)}Z`, fill: 'rgba(235,104,52,.12)', stroke: 'none'});
+el('path', {d: dPV, fill: 'none', stroke: '#eb6834', 'stroke-width': 2.4});
+el('line', {x1: xs(0), x2: xs(24), y1: ys(L), y2: ys(L), stroke: '#2a78d6', 'stroke-width': 2.4});
+const tDC = el('text', {x: xs(24) - 2, y: ys(L) - 6, 'text-anchor': 'end', 'font-size': 11.5, fill: '#2a78d6', 'font-weight': 700}); tDC.textContent = 'DC load 100 MW';
+const tPV = el('text', {x: xs(12) + 30, y: ys(A) + 2, 'font-size': 11.5, fill: '#eb6834', 'font-weight': 700}); tPV.textContent = 'PV';
+// net deviation of loads (drawn progressively)
+const netPath = el('path', {d: '', fill: 'rgba(27,175,122,.28)', stroke: '#1baf7a', 'stroke-width': 2});
+const tNet = el('text', {x: xs(0.2), y: ys(0) - 7, 'font-size': 11.5, fill: '#148a5f', 'font-weight': 700}); tNet.textContent = 'flexible loads (net)';
+const cursor = el('line', {x1: 0, x2: 0, y1: pad.t, y2: Hc - pad.b, stroke: '#0f1222', 'stroke-width': 1.4, 'stroke-dasharray': '3 3'});
+const dot = el('circle', {cx: 0, cy: 0, r: 5.5, fill: '#1baf7a', stroke: '#fff', 'stroke-width': 2});
+
+const fmt = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(Math.round(v)) + ' MW';
+function render(h){
+  h = ((h % 24) + 24) % 24;
+  const pv = PV(h), net = pv - L;
+  // progressive net area up to h
+  let d = `M${xs(0)},${ys(0)}`;
+  for (let k = 0; k <= Math.round(h * 10); k++) { const hh = k / 10; d += `L${xs(hh)},${ys(PV(hh) - L)}`; }
+  d += `L${xs(h)},${ys(0)}Z`;
+  netPath.setAttribute('d', d);
+  cursor.setAttribute('x1', xs(h)); cursor.setAttribute('x2', xs(h));
+  dot.setAttribute('cx', xs(h)); dot.setAttribute('cy', ys(net));
+  const hh = Math.floor(h), mm = Math.floor((h - hh) * 60 / 15) * 15;
+  const clock = String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+  document.getElementById('pvLive').textContent = pv > 1 ? Math.round(pv) + ' MW → grid' : 'night · 0 MW';
+  document.getElementById('absLive').textContent = '+' + Math.round(pv) + ' MW';
+  document.getElementById('relLive').textContent = '−' + L + ' MW';
+  document.getElementById('flexNet').textContent = fmt(net) + (net > 0 ? '  (absorbing)' : '  (releasing)');
+  document.getElementById('absorb').className = 'card side ' + (pv > 1 ? 'on' : 'off');
+  document.getElementById('release').className = 'card side on';
+  document.getElementById('matchNow').textContent = '100 MW matched ✓';
+  document.getElementById('pill').innerHTML = pv > 1
+    ? `${clock} · loads absorb <span style="color:#eb6834">${Math.round(pv)} MW PV</span> and cut ${L} MW → net <span style="color:#148a5f">${fmt(net)}</span> · DC ${L} MW from grid ✓`
+    : `${clock} · no sun · loads cut <span style="color:#148a5f">${L} MW</span> → freed supply serves the DC ✓`;
+}
+window.render = render;
+// live preview loop (24 h in 12 s)
+if (!window.__RECORD__) { const t0 = performance.now(); (function loop(){ render(((performance.now() - t0) / 500) % 24); requestAnimationFrame(loop); })(); }
+else render(0);
+</script>
+</body>
+</html>
