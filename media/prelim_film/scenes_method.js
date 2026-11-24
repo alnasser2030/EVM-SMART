@@ -244,7 +244,7 @@ function sDesign(g, lt) {
   });
   const dg = inG(g, lt, 8.0, .8, 10);
   T(dg, 80, 892, 16, 'DATA', { w: 700, c: C.muted, ls: 3 });
-  const chips = ['Riyadh 24.7°N · PVGIS-SARAH3 hourly, 2020', 'CF 20.96% → 477 MWp for 100 MW', 'Tariff 18 halalas/kWh ≈ US$48/MWh', 'Grid factor 0.568 t CO₂/MWh', 'NREL 2025 battery costs'];
+  const chips = ['Riyadh 24.7°N · PVGIS-SARAH3 hourly, 2020', 'CF 20.96% → 477 MWp per 100 MW', 'Tariff ≈ US$48/MWh', 'Grid 0.568 t CO₂/MWh', 'NREL 2025 battery costs', 'Second site: NEOM–Oxagon'];
   let x = 160;
   chips.forEach(c => { x += pill(dg, x, 886, c, { s: 16, fill: C.paper, stroke: C.rule, c: C.ink2, px: 12, py: 7 }) + 10; });
   cap(g, lt, 10.0, 'Same PV plant, same grid connection — only the way the night is covered changes.', { y: 970 });

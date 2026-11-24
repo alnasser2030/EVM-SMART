@@ -29,12 +29,15 @@ ETA_BESS = 0.9                   # round trip
 WINDOW_START_HOUR = 6            # flexibility energy-neutral window 06:00 -> 05:59 next day
 
 
-def load_pv_per_kwp() -> np.ndarray:
-    return np.loadtxt(ROOT / "data/pv_riyadh_2020_local_per_kWp.csv")
+SITES = {"riyadh": "data/pv_riyadh_2020_local_per_kWp.csv", "neom": "data/pv_neom_2020_local_per_kWp.csv"}
 
 
-def base_profiles(pv_multiple: float = 1.0):
-    pv_kwp = load_pv_per_kwp()
+def load_pv_per_kwp(site: str = "riyadh") -> np.ndarray:
+    return np.loadtxt(ROOT / SITES[site])
+
+
+def base_profiles(pv_multiple: float = 1.0, site: str = "riyadh"):
+    pv_kwp = load_pv_per_kwp(site)
     cap_mw = pv_multiple * L_MW * T / pv_kwp.sum()      # MWp so that annual PV = annual load (x multiple)
     pv = cap_mw * pv_kwp
     load = np.full(T, L_MW)

@@ -67,30 +67,31 @@ function sTitle(g, lt) {
 
 // ------------------------------------------------------------ roadmap
 const ROAD = [
-  ['Motivation', 'Why this matters now'], ['Problem', 'What is missing'], ['State of the Art', '53 references, one gap'],
-  ['Questions & Objectives', 'Main RQ and RQ1–RQ4'], ['Methodology', 'Concept, control, model'], ['Preliminary Results', 'Riyadh case study'],
-  ['Research Plan', 'Chapters 3–6'], ['Contributions', 'and conclusion'],
+  ['Motivation', 'Why now'], ['Problem', 'What is missing'], ['State of the Art', '53 refs, one gap'],
+  ['Questions & Objectives', 'RQ1–RQ4, O1–O5'], ['Methodology', 'Concept and model'], ['Results: Riyadh', 'All four scenarios'],
+  ['Case: NEOM', 'Red Sea site'], ['Expected Results', 'Chapters 4–6'], ['Research Plan', 'Chapters, next steps'], ['Contributions', 'and conclusion'],
 ];
 function sRoadmap(g, lt) {
   head(g, lt, 'OUTLINE', 'The path through this work');
-  const x0 = 150, x1 = 1770, xs = i => 252 + i * 202, y = x => 600 + 80 * Math.cos(Math.PI * (x - 252) / 202);
+  const n = ROAD.length, x0 = 110, x1 = 1810, sp = 176, xs = i => 168 + i * sp, y = x => 600 + 80 * Math.cos(Math.PI * (x - 168) / sp);
   const pts = []; for (let x = x0; x <= x1; x += 6) pts.push([x, y(x)]);
-  const u = P(lt, .8, 6.2, eIO);
+  const u = P(lt, .8, 7.2, eIO);
   drawP(g, poly(pts), 1, { stroke: C.faint, 'stroke-width': 10, 'stroke-linecap': 'round' });
   drawP(g, poly(pts), u, { stroke: C.maroon, 'stroke-width': 4, 'stroke-linecap': 'round' });
   const hx = x0 + (x1 - x0) * u;
   if (u > 0 && u < 1) { E('circle', { cx: hx, cy: y(hx), r: 34, fill: 'url(#gGlow)' }, g); E('circle', { cx: hx, cy: y(hx), r: 8, fill: C.maroon }, g); }
   ROAD.forEach(([name, sub], i) => {
-    const x = xs(i), yy = y(x), tt = .8 + 6.2 * (x - x0) / (x1 - x0);
+    const x = xs(i), yy = y(x), tt = .8 + 7.2 * (x - x0) / (x1 - x0);
     const pg = popG(g, lt, tt - .15, x, yy);
-    E('circle', { r: 30, fill: C.paper, stroke: C.maroon, 'stroke-width': 4 }, pg);
-    T(pg, 0, 8, 22, String(i + 1).padStart(2, '0'), { a: 'middle', f: F.slab, w: 700, c: C.maroon });
+    E('circle', { r: 28, fill: C.paper, stroke: C.maroon, 'stroke-width': 4 }, pg);
+    T(pg, 0, 8, 20, String(i + 1).padStart(2, '0'), { a: 'middle', f: F.slab, w: 700, c: C.maroon });
     const lg = inG(g, lt, tt, .7, i % 2 ? -12 : 12);
-    const ly = i % 2 ? yy - 118 : yy + 78;
-    wrap(name, 24, 190, 700).forEach((l, k) => T(lg, x, ly + k * 30, 24, l, { a: 'middle', w: 700 }));
-    T(lg, x, ly + (wrap(name, 24, 190, 700).length) * 30 + 2, 19, sub, { a: 'middle', c: C.muted });
+    const lines = wrap(name, 21, 168, 700), lh = 26;
+    const ly = i % 2 ? yy - 70 - lines.length * lh : yy + 74;
+    lines.forEach((l, k) => T(lg, x, ly + k * lh, 21, l, { a: 'middle', w: 700 }));
+    T(lg, x, ly + lines.length * lh + 2, 17, sub, { a: 'middle', c: C.muted });
   });
-  cap(g, lt, 8, 'Eight stops — from why this matters to what this dissertation contributes.');
+  cap(g, lt, 9, 'Ten stops — from why this matters to what this dissertation contributes.');
 }
 
 // ------------------------------------------------------------ motivation 1: global demand

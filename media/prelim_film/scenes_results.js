@@ -268,7 +268,7 @@ function sPlan(g, lt) {
   const ch = [
     ['1', 'Introduction', 'Motivation, problem, questions', 'frame', ''],
     ['2', 'Literature Review', '53 references, the gap', 'done', ''],
-    ['3', 'EEF Concept & Planning', 'Model + three-pillar comparison', 'prelim', 'RQ1'],
+    ['3', 'EEF Concept & Planning', 'Model, four scenarios, Riyadh & NEOM', 'prelim', 'RQ1'],
     ['4', 'Operational Control', 'Day-ahead + MPC under uncertainty', 'plan', 'RQ2'],
     ['5', 'Decision Maps & Contracts', 'When EEF wins; market design', 'plan', 'RQ3'],
     ['6', 'Saturation & Expansion', 'Limits as capacity grows', 'plan', 'RQ4'],
@@ -335,21 +335,22 @@ function sConclusion(g, lt) {
     ['shield', 'RELIABILITY', 'Identical to direct grid supply — the data center is never touched.'],
     ['leaf', 'EMISSIONS', '99.5 kt CO₂/yr at 80% matching: the same as a battery, one third of annual matching.'],
     ['cost', 'COST', '≈ US$17 M/yr vs. US$30 M/yr for storage — whenever flexibility costs < ≈ US$87/MWh shifted.'],
+    ['pylon', 'LOCATION', 'Holds at NEOM–Oxagon: 134 MW of flexibility for 80%; ≈ 2 GW for the 1.5-GW campus.'],
   ];
-  const dim = 1 - .55 * P(lt, 8.6, 1.0, eIO);
+  const dim = 1 - .55 * P(lt, 9.4, 1.0, eIO);
   items.forEach(([ik, nm, txt], i) => {
-    const y = 230 + i * 130, rg = inG(g, lt, .5 + i * 1.6, .8, 0, -30);
+    const y = 214 + i * 112, rg = inG(g, lt, .5 + i * 1.5, .8, 0, -30);
     rg.setAttribute('opacity', (Number(rg.getAttribute('opacity')) * dim).toFixed(3));
     E('circle', { cx: 130, cy: y + 40, r: 44, fill: C.maroonT }, rg);
     ico(rg, ik, 130, y + 40, .5, C.maroon, 5);
     T(rg, 200, y + 26, 18, nm, { w: 800, c: C.maroon, ls: 4 });
     T(rg, 200, y + 66, 29, txt, { c: C.ink });
   });
-  const t1 = inG(g, lt, 9.0, 1.0, 18);
-  T(t1, 960, 760, 64, 'The sun goes to the loads.', { a: 'middle', f: F.slab, w: 700, c: C.ink });
-  const t2 = inG(g, lt, 10.4, 1.0, 18);
-  T(t2, 960, 850, 64, 'The night comes back to the data center.', { a: 'middle', f: F.slab, w: 700, c: C.maroon });
-  drawP(g, 'M760,900 H1160', P(lt, 11.4, 1.0, eIO), { stroke: C.maroon, 'stroke-width': 4, 'stroke-linecap': 'round' });
+  const t1 = inG(g, lt, 9.8, 1.0, 18);
+  T(t1, 960, 790, 64, 'The sun goes to the loads.', { a: 'middle', f: F.slab, w: 700, c: C.ink });
+  const t2 = inG(g, lt, 11.2, 1.0, 18);
+  T(t2, 960, 878, 64, 'The night comes back to the data center.', { a: 'middle', f: F.slab, w: 700, c: C.maroon });
+  drawP(g, 'M760,920 H1160', P(lt, 12.2, 1.0, eIO), { stroke: C.maroon, 'stroke-width': 4, 'stroke-linecap': 'round' });
 }
 
 // ------------------------------------------------------------ end card

@@ -319,7 +319,8 @@ function particles(p, pathEl, lt, n, speed, col, r = 6, op = 1) {
 // ---------------------------------------------------------------- chrome
 const SECTIONS = [
   ['01', 'Motivation'], ['02', 'Problem'], ['03', 'State of the Art'], ['04', 'Questions & Objectives'],
-  ['05', 'Methodology'], ['06', 'Preliminary Results'], ['07', 'Research Plan'], ['08', 'Contributions & Conclusion'],
+  ['05', 'Methodology'], ['06', 'Results: Riyadh'], ['07', 'Case: NEOM'], ['08', 'Expected Results'],
+  ['09', 'Research Plan'], ['10', 'Contributions & Conclusion'],
 ];
 function chrome(t, sc, alpha) {
   const g = G(stage, { opacity: alpha.toFixed(3) });
@@ -336,7 +337,7 @@ function chrome(t, sc, alpha) {
   E('line', { x1: x0, x2: X(t), y1: y, y2: y, stroke: C.maroon, 'stroke-width': 3, 'stroke-linecap': 'round' }, g);
   for (const s of SECTION_STARTS) E('circle', { cx: X(s.t), cy: y, r: 5, fill: t >= s.t ? C.maroon : C.bg, stroke: t >= s.t ? C.maroon : C.rule, 'stroke-width': 2 }, g);
   T(g, 80, 1056, 15, 'ALI NASSER  ·  ECEN  ·  TEXAS A&M UNIVERSITY', { w: 600, c: C.muted, ls: 2 });
-  if (sc.sec > 0) T(g, 1840, 1056, 15, `${SECTIONS[sc.sec - 1][0]} / 08`, { a: 'end', w: 700, c: C.maroon, ls: 2 });
+  if (sc.sec > 0) T(g, 1840, 1056, 15, `${SECTIONS[sc.sec - 1][0]} / ${SECTIONS.length}`, { a: 'end', w: 700, c: C.maroon, ls: 2 });
 }
 
 // ---------------------------------------------------------------- timeline
@@ -389,7 +390,7 @@ function chapterCard(n, title, sub) {
     T(cg, 1840, 860, 420, n, { a: 'end', f: F.slab, w: 700, c: '#fff', op: .07 });
     const tu = P(lt, .35, .8);
     const tg = G(cg, { opacity: tu.toFixed(3), transform: `translate(${(-(1 - tu) * 50).toFixed(1)} 0)` });
-    T(tg, 150, 470, 22, `${n}  /  08`, { w: 700, c: '#fff', ls: 6, op: .7 });
+    T(tg, 150, 470, 22, `${n}  /  ${SECTIONS.length}`, { w: 700, c: '#fff', ls: 6, op: .7 });
     T(tg, 144, 575, 96, title, { w: 800, c: '#fff' });
     drawP(tg, 'M150,622 H470', P(lt, .7, .9), { stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round' });
     if (sub) T(tg, 150, 690, 32, sub, { w: 300, c: '#fff', op: .88 });
