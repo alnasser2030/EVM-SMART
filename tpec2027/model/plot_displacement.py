@@ -63,7 +63,9 @@ def load_phys(site="riyadh"):
             phys.setdefault(X, []).append(dict(
                 design=r["design"], k=float(r["pv_multiple"]), pf=float(r["eef_PF_MW"]) / 100,
                 shifted=float(r["eef_shifted_GWh"]), cov_e=float(r["eef_summer_evening_cover"]),
-                E=float(r["bess_E_MWh"]), cov_b=float(r["bess_summer_evening_cover"])))
+                E=float(r["bess_E_MWh"]) if r["bess_E_MWh"] else float("inf"),
+                cov_b=float(r["bess_summer_evening_cover"]) if r["bess_summer_evening_cover"] else 0.0,
+                wd=int(float(r.get("window_days") or 1))))
     return phys
 
 
@@ -79,11 +81,21 @@ def bess_var(d, R, case="mid"):
     return em.bess_annual_cost(d["E"], case) / (E_DC * 1e3) + R / 8.76 * (1 - d["cov_b"])
 
 
+def allowed(X, ph):
+    """Designs considered at X: PV up to x1.25 (or the smallest PV that reaches X) with daily windows;
+    weekly windows only where no daily design reaches X."""
+    daily = [d for d in ph[X] if d["wd"] == 1]
+    pool = daily or ph[X]
+    kmax = max(1.25, min(d["k"] for d in pool))
+    return [d for d in pool if d["k"] <= kmax]
+
+
 def best(X, R, ph=None):
-    """Cheapest design (PV x1.0/06:00 or PV x1.25/09:00) for EEF and for the battery at displacement X."""
+    """Cheapest allowed design for EEF and for the battery at displacement X."""
     ph = ph or phys
-    e = min(ph[X], key=lambda d: eef_var(d, R))
-    b = min(ph[X], key=lambda d: bess_var(d, R))
+    cand = allowed(X, ph)
+    e = min(cand, key=lambda d: eef_var(d, R))
+    b = min(cand, key=lambda d: bess_var(d, R))
     return e, b
 
 
@@ -92,7 +104,7 @@ def costs(X, S, R, c, adder=0.0, ph=None, am_x=AM_X, pool=POOL):
     ph = ph or phys
     e, b = best(X, R, ph)
     if adder:
-        e = min(ph[X], key=lambda d: eef_var(d, R) - adder * d["k"])
+        e = min(allowed(X, ph), key=lambda d: eef_var(d, R) - adder * d["k"])
     f = min(1.0, pool / (e["pf"] * S))
     carbon_x = c * EF * (1 - X)
     eef = F_CONTRACT * 1e6 / (8760 * S) + f * (eef_var(e, R) - adder * e["k"]) + (1 - f) * bess_var(b, R) + carbon_x
@@ -109,7 +121,7 @@ def main():
             e, b = k["e"], k["b"]
             others = min(k["GRID"], k["AM"], k["Battery"])
             pv_needed = PV_PRICE + max(0.0, k["EEF"] - others) / e["k"]   # sale price that makes EEF the cheapest
-            rows.append([name, round(100 * X), e["design"], round(e["pf"], 2), round(e["cov_e"], 3),
+            rows.append([name, round(100 * X, 1), e["design"], round(e["pf"], 2), round(e["cov_e"], 3),
                          round(k["GRID"], 2), round(k["AM"], 2), round(k["Battery"], 2), round(k["EEF"], 2),
                          round(eef_var(e, R, PI["low"]) + F_CONTRACT * 1e6 / 876e3 + c * EF * (1 - X), 2),
                          round(eef_var(e, R, PI["high"]) + F_CONTRACT * 1e6 / 876e3 + c * EF * (1 - X), 2),
@@ -144,7 +156,7 @@ def main():
                     lab = "EEF + storage" if win == "EEF" and k["f"] < 1 else win
                     Z[i, j] = NAMES.index(lab)
                     if j % 8 == 0:
-                        w.writerow([panel, round(S, 1), round(100 * X), lab, round(k["f"], 3)])
+                        w.writerow([panel, round(S, 1), round(100 * X, 1), lab, round(k["f"], 3)])
             maps[panel] = Z
 
     # ------------------------------------------------------------------ figures
@@ -176,24 +188,24 @@ def main():
             if ends[n][0] - ends[n - 1][0] < 3:
                 ends[n] = (ends[n - 1][0] + 3,) + ends[n][1:]
         for y, lab, col in ends:
-            ax.text(98, y, lab, color=col, va="center", fontsize=9.5, weight="bold")
-        ax.set_xlim(48, 104); ax.set_ylim(0, 70); ax.set_xticks([50, 60, 70, 80, 90, 97])
+            ax.text(101, y, lab, color=col, va="center", fontsize=9.5, weight="bold")
+        ax.set_xlim(48, 109); ax.set_ylim(0, 70); ax.set_xticks([50, 60, 70, 80, 90, 100])
         ax.set_title(titles[name]); ax.set_xlabel("Displacement of the data center's use (%)")
         ax.grid(axis="y", color="#E6E3DE", lw=.8)
     axs[0][0].set_ylabel("US$ per MWh of DC load, on top of the\nUS$48/MWh tariff (25-yr annual equivalent)")
     # needs: flexibility per MW and summer-evening cover
     tg = [r for r in rows if r[0] == "grid"]
     ax = axs[1][0]
-    ax.bar(xp, [r[3] for r in tg], width=1.6, color=COL["EEF"], alpha=.85)
+    ax.bar(xp, [r[3] for r in tg], width=0.9, color=COL["EEF"], alpha=.85)
     for x, r in zip(xp, tg):
         ax.text(x, r[3] + .04, f"{r[3]:.1f}", ha="center", fontsize=8, color="#333333")
     ax.set_title("(d) Flexible load to contract per MW of data center"); ax.set_ylabel("MW per MW")
-    ax.set_xticks([50, 60, 70, 80, 90, 97]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 2.8)
+    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 3.2)
     ax = axs[1][1]
     ax.plot(xp, [100 * r[4] for r in tg], color=COL["EEF"], lw=2.6, marker="o", ms=4.5)
     ax.axhline(100, color="#9A9A9A", lw=.8, ls=":")
     ax.set_title("(e) Summer evenings (18:00–02:00) freed on the grid"); ax.set_ylabel("% of DC load")
-    ax.set_xticks([50, 60, 70, 80, 90, 97]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 105)
+    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 105)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
     knee = next(x for x, r in zip(xp, tg) if r[4] >= .95)
     ax.text(96, 40, f"≥ 95% freed from\n{knee:.0f}% displacement", color=COL["EEF"], weight="bold", ha="right", va="top")
@@ -201,15 +213,15 @@ def main():
     for name, ls in [("bill", "-"), ("grid", "--")]:
         tab = [r for r in rows if r[0] == name]
         ax.plot(xp, [r[14] for r in tab], color=COL["EEF"], lw=2.4, ls=ls, marker="o", ms=4)
-        ax.text(98, tab[-1][14], {"bill": "bill only", "grid": "+ grid\nreinforcement"}[name], color=COL["EEF"], fontsize=9, va="center")
+        ax.text(101, tab[-1][14], {"bill": "bill only", "grid": "+ grid\nreinforcement"}[name], color=COL["EEF"], fontsize=9, va="center")
     ax.axhline(TARIFF, color=COL["GRID"], lw=1.4); ax.text(50, TARIFF + 1.2, "grid purchase tariff US$48/MWh", color="#333333", fontsize=9)
     ax.axhline(PV_PRICE, color=COL["AM"], lw=1.4); ax.text(97, PV_PRICE - 3.2, "NREP benchmark US$13.6/MWh (= PV cost)", color="#333333", fontsize=9, ha="right")
     ax.set_title("(f) PV sale price that makes EEF the cheapest"); ax.set_ylabel("US$/MWh of PV sold")
-    ax.set_xticks([50, 60, 70, 80, 90, 97]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 60); ax.set_xlim(48, 108)
+    ax.set_xticks([50, 60, 70, 80, 90, 100]); ax.set_xlabel("Displacement (%)"); ax.set_ylim(0, 60); ax.set_xlim(48, 112)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
     fig.suptitle("Displacement curve — 100-MW data center, Riyadh, 25-year horizon\nflexibility US$50/MWh shifted (band US$25–75); battery mid (band low–high)",
                  x=.01, ha="left", fontsize=12, weight="bold")
-    fig.text(.01, .005, "Each level uses the cheaper design: PV x1.0 (window from 06:00) or PV x1.25 (window from 09:00; the only one above 90%). "
+    fig.text(.01, .005, "PV x1.0 (window from 06:00) or x1.25 (from 09:00) up to 97%; PV x1.5–3 at 98–99%; PV x2 with weekly shifting at 99.5%. "
              "PV sold at its cost nets to zero. Reinforcement, carbon and flexibility prices are assumptions.",
              fontsize=8.5, color="#555555")
     fig.tight_layout(rect=(0, .02, 1, .94))
@@ -221,7 +233,7 @@ def main():
     ptitles = {"clean": "(a) EEF vs. battery at the same displacement",
                "pv_rule": f"(b) All four, EEF-linked PV sold at US${PV_RULE:.0f}/MWh\n(below the US$48 tariff; nothing else valued)",
                "grid+carbon": "(c) All four, grid reinforcement (US$125/kW-yr)\n+ carbon (US$50/t) valued"}
-    yedges = np.r_[45, [(a + b) / 2 * 100 for a, b in zip(XS[:-1], XS[1:])], 98.5]
+    yedges = np.r_[45, [(a + b) / 2 * 100 for a, b in zip(XS[:-1], XS[1:])], 100.5]
     xedges = np.logspace(-0.0125, 4.0125, len(SIZES) + 1)
     for ax, (panel, Z) in zip(axs, maps.items()):
         ax.pcolormesh(xedges, yedges, Z, cmap=cmap, vmin=-.5, vmax=len(NAMES) - .5, shading="flat")

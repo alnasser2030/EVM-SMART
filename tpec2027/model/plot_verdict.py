@@ -45,7 +45,7 @@ for site in SITES:
     beat_b = [S for S, a in zip(SIZES, sz) if a[1] > 0]
     curves[site] = dict(xs=xs, adv=adv, eve=eve, sz=sz)
     i90 = xs.index(X_REC)
-    out.append([site, round(100 * min(ok)), round(100 * max(ok)), round(min(win), 1), round(max(win)),
+    out.append([site, round(100 * min(ok), 1), round(100 * max(ok), 1), round(min(win), 1), round(max(win)),
                 round(min(beat_b), 1), round(X_REC * 100), round(adv[i90][0], 2), round(adv[i90][1], 2)])
     print(site, "displacement", min(ok), "-", max(ok), "| size", round(min(win), 1), "-", round(max(win)),
           "| beats battery from", round(min(beat_b), 1), "| saving at 90%/100 MW", round(adv[i90][0], 2), round(adv[i90][1], 2))
@@ -70,7 +70,7 @@ for site, (lab, ls) in SITES.items():
     ax3.plot(xp, [100 * e for e in cv["eve"]], color=MAROON, lw=2.4, ls=ls, marker="o", ms=4, label=lab)
 for ax in (ax1, ax3):
     ax.axvspan(r_lo, r_hi, color=MAROON, alpha=.08, lw=0)
-    ax.set_xticks([50, 60, 70, 80, 85, 90, 95, 97]); ax.set_xlim(48, 99)
+    ax.set_xticks([50, 60, 70, 80, 85, 90, 95, 100]); ax.set_xlim(48, 101)
     ax.grid(axis="y", color="#E6E3DE", lw=.8)
 ax1.axhline(0, color="#333333", lw=1)
 ax1.set_ylim(-2, 26)

@@ -27,6 +27,7 @@ FOM = 0.025                      # fixed O&M share of capex per year
 BESS_CAPEX = {"low": 124.0, "mid": 207.0, "high": 338.0}   # US$/kWh, NREL 2025 update, 2030, 4-h
 ETA_BESS = 0.9                   # round trip
 WINDOW_START_HOUR = 6            # flexibility energy-neutral window 06:00 -> 05:59 next day
+WINDOW_DAYS = 1                  # window length in days (1 = daily, the base case)
 
 
 SITES = {"riyadh": "data/pv_riyadh_2020_local_per_kWp.csv", "neom": "data/pv_neom_2020_local_per_kWp.csv"}
@@ -50,6 +51,8 @@ def base_profiles(pv_multiple: float = 1.0, site: str = "riyadh"):
 def _window_starts():
     hours = np.arange(T) % 24
     start = hours == WINDOW_START_HOUR
+    if WINDOW_DAYS > 1:                  # energy-neutral windows of several days (loads with multi-day storage)
+        start &= (np.arange(T) // 24) % WINDOW_DAYS == 0
     start[0] = True
     end = np.roll(start, -1)
     end[-1] = True

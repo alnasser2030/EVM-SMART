@@ -18,9 +18,12 @@
 
 **المصطلح:** نستخدم **نسبة الإزاحة**، وهي نسبة استهلاك المركز اللي تنفضى لها على الشبكة ساعة بساعة. المركز نفسه ياخذ 100% من الشبكة دائمًا، والشمسي يُباع كله لـ SPPC، والأحمال المرنة تفضّي نفس الكمية. نفس الرقم تسميه الأدبيات المطابقة الساعية.
 
-**الحكم (25 سنة، الرياض ونيوم):** فكرتك هي الخيار الأفضل عند **إزاحة 85–97%** (الأمثل ≈ 90%)، ولمراكز من **≈ 8 ميجاواط إلى 1.5 جيجاواط** (أكبر مركز مخطط له؛ الأكبر مجموعات مراكز بنفس النتيجة). الشروط:
+**الحكم (25 سنة، الرياض ونيوم):** فكرتك هي الخيار الأفضل عند **إزاحة 85–99.5%** (الموصى به ≈ 90%)، ولمراكز من **≈ 8 ميجاواط إلى 1.5 جيجاواط** (أكبر مركز مخطط له؛ الأكبر مجموعات مراكز بنفس النتيجة). الشروط:
 1. يشترط المركز اعتمادية الشبكة الكاملة.
-2. الإزاحة 85–97%: ليالي الصيف تنفضى ≥ 93% والسقف ≈ 98% بشمسي ×1.25.
+2. الإزاحة 85–99.5%:
+   - حتى 98% بإزاحة يومية وشمسي ×1.25.
+   - من 98% إلى 99.5% يحتاج شمسي ×2–3، أو أحمال تزيح عبر أسبوع.
+   - 100% غير ممكنة: السقف ≈ 99.9% بسبب أيام الغبار.
 3. سعر المرونة أقل من ≈ 87 دولار/م.و.س مُزاحة.
 4. المركز ≥ 8 ميجاواط، أو تتجمّع المراكز الصغيرة في عقد واحد. الأحمال المرنة من أي مكان على الشبكة الوطنية عبر المشغل، والمتاح وطنيًا (7.1–29.9 جيجاواط) أكبر من المراكز المخطط لها.
 5. تُحسب قيمة تفضية الشبكة (125 دولار/ك.و/سنة) والكربون (50 دولار/طن)، أو تشتري SPPC الشمسي بـ ≈ 33 دولار/م.و.س (أقل من 48).
@@ -110,7 +113,7 @@ EEF dominates when **all** of the following hold. The thresholds come from the p
 | Condition | Threshold (Riyadh) | Source |
 |---|---|---|
 | The DC must keep grid-grade reliability | always grid-connected | concept |
-| Displacement target | **85–97%, best ≈ 90%** (summer evenings ≥ 93% freed; ceiling ≈ 98% with PV ×1.25 and the window from 09:00) | model |
+| Displacement target | **85–99.5%, recommended ≈ 90%** (summer evenings ≥ 93% freed). Up to 98%: daily shifting with PV ×1.25 and the window from 09:00. 98–99.5%: PV ×2–3 or loads that shift across a week. 100%: out of reach (ceiling ≈ 99.9%) | model |
 | Flexibility price | **< ≈ US$87/MWh shifted** (US$51–146 across battery cost cases), or **< ≈ US$215/kW-yr** of contracted power | model |
 | Flexible load on the national grid | **≈ 2.0 MW per MW of DC** at 90% (1.4 at 80%), shiftable for **≥ 8 h**, anywhere on the one national grid through the operator; the national potential (7.1–29.9 GW) exceeds planned DC capacity | model, KAPSARC 2026 |
 | Data-center size | **≈ 8 MW to 1.5 GW** (largest single campus planned); smaller sites grouped in one contract | model |
@@ -147,10 +150,19 @@ The planning LP is linear, so per-MW results do not depend on size. The verdict 
 | **90%** | 2.0 | 99% | 42.7 | 31.2 | 45.5 | **28.0** | US$33 |
 | **95%** | 2.05 | 99.5% | 42.7 | 31.2 | 48.1 | **28.6** | US$35 |
 | 97% | 2.3 | 99.8% | 42.7 | 31.2 | 50.3 | **28.9** | US$36 |
+| 98% (PV ×1.5) | 2.3 | 100% | 42.7 | 31.2 | 50.5 | **28.8** | US$32 |
+| 99% (PV ×3) | 2.1 | 100% | 42.7 | 31.2 | 49.2 | **28.0** | US$23 |
+| 99.5% (PV ×2, weekly shifting) | 2.6 | 100% | 42.7 | 31.2 | 67.7 | **28.6** | US$28 |
+| 100% | — | — | — | — | — | out of reach | — |
 
-Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the four **and** frees ≥ 90% of the DC's load on summer evenings. That holds at **85–97%**. The best point is ≈ 90%: the evenings are ≈ 100% freed and EEF saves ≈ US$3.2/MWh against the cheapest alternative and ≈ US$17/MWh against a battery.
+Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the four **and** frees ≥ 90% of the DC's load on summer evenings. That holds at **85–99.5%**. The recommended point is ≈ 90%: the evenings are ≈ 100% freed with no PV oversizing, and EEF saves ≈ US$3.2/MWh against the cheapest alternative and ≈ US$17/MWh against a battery. Above 98% EEF stays the cheapest, but it needs two to three times more PV, or loads that can carry energy across days.
 
 **Why not 100%?** Riyadh and NEOM have only ≈ 14 dusty or cloudy days a year in the 2020 data. With PV equal to annual use, the gap comes mostly from the 5% shifting loss and short winter days; those 14 days explain only 15–21% of it. With PV ×1.25 and the window from 09:00, displacement reaches 98.1% (Riyadh) and 98.4% (NEOM). Two-thirds of the remaining 2% falls on the 14 low-sun days.
+
+The sweep to 100% (`run_displacement.py`) shows the upper boundary:
+- With daily shifting, the ceiling is 98.7% at PV ×1.5, 99.2% at ×2 and 99.6% at ×3.
+- With loads that shift across a week (e.g. water storage) and PV ×2, it is 99.9%.
+- 100% is out of reach in every design. The first hours of the year come before any PV, and the dustiest days remain.
 
 **Size curve (at 90%).** The only size effect is the fixed contract overhead, which adds US$28.5/MWh ÷ size in MW.
 - **Below ≈ 8 MW:** the overhead dominates. Group small sites in one contract. EEF still beats a battery from ≈ 2 MW.
@@ -342,9 +354,12 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen displ
 ## 13. Recommendations
 
 1. **Size.** Use EEF for data centers from ≈ 8 MW up to the largest campus planned (1.5 GW). Group smaller sites under one aggregator contract; groups of campuses get the same result.
-2. **Displacement.** Target 85–97%, best at ≈ 90%: the summer evenings are then ≈ 100% freed and EEF is the cheapest of the four options over 25 years.
+2. **Displacement.** EEF is the cheapest of the four options over 25 years from 85% to 99.5%. Target ≈ 90%: the summer evenings are then ≈ 100% freed without oversizing PV.
 3. **Flexibility to contract.** About 2.0 MW of flexible load per MW of DC at 90% (1.4 at 80%), shiftable for ≥ 8 h within the day, anywhere on the national grid through the operator.
-4. **Shifting window and PV.** Start the daily energy-neutral window at ≈ 09:00 rather than 06:00. Above 90%, oversize PV by ≈ 25% (ceiling ≈ 98%).
+4. **Shifting window and PV.** Start the daily energy-neutral window at ≈ 09:00 rather than 06:00.
+   - Up to 98%: PV ×1.25.
+   - Up to 99.5%: PV ×2–3, or loads that shift across a week.
+   - 100% is out of reach.
 5. **Prices.**
    - Pay flexibility below ≈ US$87/MWh shifted (≈ US$215/kW-yr).
    - SPPC buys the EEF-linked PV at US$13.6/MWh (NREP benchmark). Raise it toward ≈ US$33/MWh only to pay for the grid room EEF frees. It always stays below the US$48/MWh purchase tariff.

@@ -30,7 +30,7 @@ function sShiftSplit(g, lt) {
   card(rg, 1150, 290, 690, 620, { fill: C.paper });
   T(rg, 1180, 336, 16, 'HOW THE THREE PILLARS ARE MET', { w: 800, c: C.maroon, ls: 2 });
   [['shield', 'Reliability — 100% always', 'the data center never depends on the shift'],
-    ['leaf', 'Emissions — set by the target X', '85–97% works; 90% is the base case'],
+    ['leaf', 'Emissions — set by the target X', '85–99.5% works; 90% is the base case'],
     ['cost', 'Cost — minimized for that X', 'the LP finds the smallest Pᶠ that delivers it']].forEach(([ik, a, b], i) => {
     const y = 388 + i * 84;
     ico(rg, ik, 1202, y + 4, .34, C.maroon, 6);

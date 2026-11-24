@@ -336,7 +336,7 @@ function sConclusion(g, lt) {
     ['leaf', 'EMISSIONS', '≈ 50 kt CO₂/yr at 90% displacement — like a battery, one sixth of annual matching.'],
     ['cost', 'COST', 'Cheapest over 25 years: US$28/MWh vs. 31 (AM), 43 (grid), 45 (battery), grid room and carbon counted.'],
     ['pylon', 'GRID ROOM', 'Frees ≈ 100% of the data center’s load on summer evenings — no new night load.'],
-    ['doc', 'WHERE', 'Best at 85–97% displacement, for data centers of ≈ 8 MW to 1.5 GW — in Riyadh and at NEOM.'],
+    ['doc', 'WHERE', 'Best at 85–99.5% displacement, for data centers of ≈ 8 MW to 1.5 GW — in Riyadh and at NEOM.'],
   ];
   const dim = 1 - .55 * P(lt, 10.2, 1.0, eIO);
   items.forEach(([ik, nm, txt], i) => {

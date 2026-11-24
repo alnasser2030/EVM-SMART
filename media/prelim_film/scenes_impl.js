@@ -53,7 +53,7 @@ function sWhenBest(g, lt) {
   head(g, lt, 'WHEN DOES EEF WIN?', 'Five conditions — the first four met in Riyadh and at NEOM');
   const conds = [
     ['Grid-grade reliability is required', 'the data center stays on the grid', 'always'],
-    ['Displacement target 85–97%', 'summer evenings ≥ 93% freed · ceiling ≈ 98% with PV × 1.25', '≈ 90%'],
+    ['Displacement target 85–99.5%', 'evenings ≥ 93% freed · above 98%: PV × 2–3 or weekly shifting', '≈ 90%'],
     ['Flexibility costs less than storage', '< ≈ US$87 per MWh shifted · < ≈ US$215 per kW-year', 'US$25–75'],
     ['Data center of ≈ 8 MW or more', 'or smaller sites grouped in one contract; flexible load anywhere on the grid', '8 MW+'],
     ['Grid room and hourly claims are valued', 'reinforcement + carbon, or a PV price ≈ US$33/MWh; hourly credits', 'needed'],

@@ -89,7 +89,7 @@ How can External Energy Flexibility enable a grid-connected, constant-load AI da
   - PV and inverter degradation, battery degradation, 6/8/10% discount rates and 20/30-year horizons are dissertation sensitivities.
 - **DC size:** 100 MW base (the LP is linear, so per-MW results do not depend on size); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
   - **Displacement** X = share of the DC's use freed on the grid hour by hour (= hourly matching in the literature); the DC always takes 100% from the grid.
-  - Verdict curves (`run_displacement.py`, `plot_verdict.py`; Riyadh and NEOM): over 25 years, with grid reinforcement (US$125/kW-yr) and carbon (US$50/t) valued, EEF is the best option at **85–97% displacement (best ≈ 90%)** for data centers of **≈ 8 MW to 1.5 GW** (the largest single campus planned; larger = groups of campuses).
+  - Verdict curves (`run_displacement.py`, `plot_verdict.py`; Riyadh and NEOM): over 25 years, with grid reinforcement (US$125/kW-yr) and carbon (US$50/t) valued, EEF is the best option at **85–99.5% displacement (recommended ≈ 90%; above 98% needs PV ×2–3 or weekly shifting; 100% out of reach)** for data centers of **≈ 8 MW to 1.5 GW** (the largest single campus planned; larger = groups of campuses).
   - Smaller sites are grouped in one contract (fixed overhead US$0.25 M/yr per contract). Flexible load is contracted anywhere on the one national grid and is not limiting today (7.1–29.9 GW potential); saturation is a Chapter 6 test.
   - On the bill alone, EEF wins if SPPC buys its PV at ≈ US$33/MWh at 90% (below the US$48 tariff).
 - **Prices in US$:** Saudi prices are converted at 3.75 SAR per US$.

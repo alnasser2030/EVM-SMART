@@ -61,37 +61,45 @@ function sDisplacement(g, lt) {
   const su = P(lt, 6.4, 1.2, eIO);
   E('rect', { x: sx0, y: sy - 12, width: (sx1 - sx0) * su, height: 24, rx: 12, fill: C.faint }, g);
   const bu = P(lt, 8.4, .8, eIO);
-  if (bu > 0) E('rect', { x: SX(85), y: sy - 12, width: (SX(97) - SX(85)) * bu, height: 24, rx: 12, fill: C.maroon }, g);
+  if (bu > 0) E('rect', { x: SX(85), y: sy - 12, width: (SX(99.5) - SX(85)) * bu, height: 24, rx: 12, fill: C.maroon }, g);
   [[0, 'GRID · 0%', 'all of its load is new load', C.grid, 6.8], [40.4, 'Annual I-RECs · 40.4%', 'clean on paper only', C.am, 7.2],
-    [91, 'EEF works · 85–97%', 'best at ≈ 90%', C.maroon, 8.6], [100, '100%', 'adds nothing, any hour', C.ink2, 9.0]].forEach(([v, l1, l2, col, at], i) => {
+    [92, 'EEF works · 85–99.5%', 'recommended ≈ 90%', C.maroon, 8.6], [100, '100%', 'adds nothing, any hour', C.ink2, 9.0]].forEach(([v, l1, l2, col, at], i) => {
     const mg = inG(g, lt, at, .5, 0);
     E('circle', { cx: SX(v), cy: sy, r: 9, fill: col, stroke: '#fff', 'stroke-width': 3 }, mg);
     const up = i % 2 === 1, a = v === 0 ? 'start' : v === 100 ? 'end' : 'middle';
     T(mg, SX(v), up ? sy - 30 : sy + 44, 18, l1, { a, w: 800, c: col === C.am ? C.grid : col });
     if (l2) T(mg, SX(v), up ? sy - 54 : sy + 68, 15, l2, { a, c: C.muted });
   });
-  cap(g, lt, 9.6, 'At 100% the data center would add nothing to the grid in any hour — EEF takes it to 85–97%.', { y: 976 });
+  cap(g, lt, 9.6, 'At 100% the data center would add nothing to the grid in any hour — EEF takes it to 85–99.5%.', { y: 976 });
 }
 
 // ------------------------------------------------------------ results: the displacement curve
 function sDispCurve(g, lt) {
   head(g, lt, 'THE DISPLACEMENT CURVE', 'Where EEF is the best option — 100-MW data center, 25 years');
   source(g, lt, .5, 'Model results; grid reinforcement (US$125/kW-yr) and carbon (US$50/t) are assumptions');
-  const D = DATA.disp.sites, x0 = 200, x1 = 1080, X = v => x0 + (x1 - x0) * (v - 48) / 52;
-  const yT = 630, yH = 330, Y = v => yT - (yT - yH) * (v + 2) / 24, yB = 870, yBH = 730, YB = v => yB - (yB - yBH) * v / 100;
+  const D = DATA.disp.sites, x0 = 200, x1 = 1080, X = v => x0 + (x1 - x0) * (v - 48) / 58;
+  const yT = 630, yH = 330, Y = v => yT - (yT - yH) * (Math.min(v, 30) + 2) / 32, HI = DATA.disp.verdict.riyadh.displacement_max_pct, yB = 870, yBH = 730, YB = v => yB - (yB - yBH) * v / 100;
   const ax = inG(g, lt, .3, .6, 0);
-  for (const v of [0, 5, 10, 15, 20]) { E('line', { x1: x0, x2: x1, y1: Y(v), y2: Y(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, Y(v) + 6, 15, v, { a: 'end', c: C.muted }); }
+  for (const v of [0, 10, 20, 30]) { E('line', { x1: x0, x2: x1, y1: Y(v), y2: Y(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, Y(v) + 6, 15, v, { a: 'end', c: C.muted }); }
   T(ax, x0 - 12, yH - 22, 15, 'EEF saving, US$ per MWh of DC load (> 0 = EEF cheaper)', { c: C.muted, w: 700 });
   for (const v of [0, 50, 100]) { E('line', { x1: x0, x2: x1, y1: YB(v), y2: YB(v), stroke: v ? C.faint : C.ink2, 'stroke-width': v ? 1.5 : 2 }, ax); T(ax, x0 - 12, YB(v) + 6, 15, `${v}%`, { a: 'end', c: C.muted }); }
   T(ax, x0 - 12, yBH - 22, 15, 'Summer evenings freed on the grid (18:00–02:00)', { c: C.muted, w: 700 });
-  [50, 60, 70, 80, 85, 90, 97].forEach(v => T(ax, X(v), yB + 28, 15, v, { a: 'middle', c: C.muted }));
+  [50, 60, 70, 80, 85, 90, 100].forEach(v => T(ax, X(v), yB + 28, 15, v, { a: 'middle', c: C.muted }));
   T(ax, (x0 + x1) / 2, yB + 56, 16, 'Displacement of the data center’s use (%)', { a: 'middle', c: C.ink2, w: 600 });
   const bu = P(lt, 6.0, .8);
   if (bu > 0) {
-    E('rect', { x: X(85), y: yH, width: X(97) - X(85), height: yT - yH + 20, fill: C.maroon, opacity: (.08 * bu).toFixed(3) }, g);
-    E('rect', { x: X(85), y: yBH, width: X(97) - X(85), height: yB - yBH, fill: C.maroon, opacity: (.08 * bu).toFixed(3) }, g);
-    T(G(g, { opacity: bu.toFixed(3) }), (X(85) + X(97)) / 2, yT + 12, 18, 'EEF WORKS', { a: 'middle', w: 800, c: C.maroon, ls: 2 });
+    E('rect', { x: X(85), y: yH, width: X(HI) - X(85), height: yT - yH + 20, fill: C.maroon, opacity: (.08 * bu).toFixed(3) }, g);
+    E('rect', { x: X(85), y: yBH, width: X(HI) - X(85), height: yB - yBH, fill: C.maroon, opacity: (.08 * bu).toFixed(3) }, g);
+    E('rect', { x: X(98), y: yH, width: X(HI) - X(98), height: yT - yH + 20, fill: 'url(#hM)', opacity: (.5 * bu).toFixed(3) }, g);
+    const bg = G(g, { opacity: bu.toFixed(3) });
+    T(bg, (X(85) + X(HI)) / 2, yT + 12, 18, `EEF WORKS · 85–${fmt(HI, 1)}%`, { a: 'middle', w: 800, c: C.maroon, ls: 2 });
   }
+  const zg = inG(g, lt, 7.2, .6, 0);
+  E('line', { x1: X(100), x2: X(100), y1: yH - 6, y2: yB, stroke: C.ink, 'stroke-width': 2, 'stroke-dasharray': '6 5' }, zg);
+  T(zg, X(100) + 8, yB - 34, 14, '100%', { w: 800, c: C.ink });
+  T(zg, X(100) + 8, yB - 16, 13, 'out of reach', { c: C.ink2 });
+  T(zg, X(98) - 6, yH + 50, 13, 'PV × 2–3 or', { a: 'end', c: C.maroon2, w: 700 });
+  T(zg, X(98) - 6, yH + 68, 13, 'weekly shifting →', { a: 'end', c: C.maroon2, w: 700 });
   E('line', { x1: x0, x2: x1, y1: YB(90), y2: YB(90), stroke: C.ink2, 'stroke-width': 1.2, 'stroke-dasharray': '3 5', opacity: P(lt, 4.6, .5).toFixed(3) }, g);
   const lines = [['riyadh', 'advB', C.bess, 3, null, 1.0], ['neom', 'advB', C.bess, 2.4, '8 6', 1.6], ['riyadh', 'adv', C.maroon, 4.5, null, 2.4], ['neom', 'adv', C.maroon, 3, '8 6', 3.0]];
   lines.forEach(([site, key, col, w, dash, at]) => {
@@ -104,8 +112,8 @@ function sDispCurve(g, lt) {
   });
   const lg = inG(g, lt, 3.6, .5, 0);
   const lr = D.riyadh[D.riyadh.length - 1];
-  T(lg, X(97) + 10, Y(lr.advB) + 6, 16, 'vs. battery', { w: 800, c: C.bess });
-  T(lg, X(97) + 10, Y(lr.adv) + 6, 16, 'vs. cheapest', { w: 800, c: C.maroon });
+  T(lg, X(100) + 14, Y(lr.advB) + 16, 16, 'vs. battery', { w: 800, c: C.bess });
+  T(lg, X(100) + 14, Y(lr.adv) + 6, 16, 'vs. cheapest', { w: 800, c: C.maroon });
   T(lg, X(50), Y(21), 15, '— Riyadh    - - NEOM', { c: C.ink2, w: 600 });
   // right card: costs at 90%
   const p9 = D.riyadh.find(p => p.X === 90);
@@ -124,8 +132,8 @@ function sDispCurve(g, lt) {
   T(ng, 1210, 676, 18, 'Bill only?', { w: 800, c: C.maroon });
   TP(ng, 1330, 676, 17, `EEF still wins if SPPC buys its PV at ≈ US$${fmt(p9.pv_bill, 0)}/MWh — below the US$48 tariff.`, 480, { c: C.ink, lh: 23 });
   T(ng, 1210, 772, 18, 'Why not 100%?', { w: 800, c: C.maroon });
-  TP(ng, 1370, 772, 17, 'Only ≈ 14 dusty or cloudy days a year. The gap is the 5% shifting loss and short winter days; PV × 1.25 reaches ≈ 98%.', 440, { c: C.ink, lh: 23 });
-  cap(g, lt, 10.4, 'From 85% the summer evenings are freed; up to 97% EEF stays the cheapest — best at ≈ 90%.', { y: 980 });
+  TP(ng, 1370, 772, 17, 'Daily shifting with PV × 1.25 reaches 98%. PV × 2–3, or loads that shift across a week, reach 99.5%. The last fraction falls on ≈ 14 dusty days a year: ≈ 99.9% is the ceiling.', 440, { c: C.ink, lh: 23 });
+  cap(g, lt, 10.4, 'EEF stays the cheapest from 85% to 99.5%; 90% frees the evenings with no PV oversizing.', { y: 980 });
 }
 
 // ------------------------------------------------------------ results: the size curve
@@ -178,9 +186,9 @@ function sRecommend(g, lt) {
   const p9 = DATA.disp.sites.riyadh.find(p => p.X === 90);
   const recs = [
     ['Size', 'Use EEF for data centers from ≈ 8 MW up to the largest campus (1.5 GW). Group smaller sites in one contract; groups of campuses work the same.'],
-    ['Displacement', 'Target 85–97%, best at ≈ 90%: the summer evenings are then ≈ 100% freed and EEF is the cheapest option.'],
+    ['Displacement', 'EEF is the cheapest from 85% to 99.5%. Target ≈ 90%: the summer evenings are freed without oversizing PV.'],
     ['Flexibility', `Contract ≈ ${fmt(p9.pf, 1)} MW of flexible load per MW at 90% (1.4 at 80%), shiftable ≥ 8 h — anywhere on the national grid, through the operator.`],
-    ['Window & PV', 'Start the daily window at ≈ 09:00 instead of 06:00; above 90%, oversize PV by ≈ 25% (ceiling ≈ 98%).'],
+    ['Window & PV', 'Start the daily window at ≈ 09:00. Up to 98%: PV × 1.25. Up to 99.5%: PV × 2–3 or loads that shift across a week.'],
     ['Prices', `Pay flexibility below ≈ US$87/MWh shifted. SPPC buys the EEF-linked PV at US$13.6–${fmt(p9.pv_bill, 0)}/MWh — always below the US$48/MWh tariff.`],
     ['Regulation (SERA)', 'Add an aggregator licence, baseline & M&V rules, hourly certificates, and a PV purchase-price rule that values the grid room EEF frees.'],
   ];
