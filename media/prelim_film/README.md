@@ -5,6 +5,7 @@ A 16-minute (16:07) educational film (1920×1080, 30 fps, no audio) for the PhD 
 - **Video:** `eef_prelim_film.mp4`
 - **Interactive version:** open `prelim_film.html` in a browser. It has play/pause, a scrubber and a button for each section. Use it to pause on any scene while presenting.
 - **Poster frame:** `poster.png`
+- **Narration script:** `narration_script.md`. It gives one block per scene, with timing and a file name for each recorded clip. `build_narration.py` rebuilds it from the timeline.
 
 ## Structure
 
