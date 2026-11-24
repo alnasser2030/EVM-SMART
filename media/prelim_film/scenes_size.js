@@ -63,7 +63,7 @@ function sDisplacement(g, lt) {
   const bu = P(lt, 8.4, .8, eIO);
   if (bu > 0) E('rect', { x: SX(85), y: sy - 12, width: (SX(97) - SX(85)) * bu, height: 24, rx: 12, fill: C.maroon }, g);
   [[0, 'GRID · 0%', 'all of its load is new load', C.grid, 6.8], [40.4, 'Annual I-RECs · 40.4%', 'clean on paper only', C.am, 7.2],
-    [80, 'TPEC base case · 80%', '', C.maroon2, 7.6], [91, 'EEF works · 85–97%', 'best at ≈ 90%', C.maroon, 8.6], [100, '100%', 'adds nothing, any hour', C.ink2, 9.0]].forEach(([v, l1, l2, col, at], i) => {
+    [91, 'EEF works · 85–97%', 'best at ≈ 90%', C.maroon, 8.6], [100, '100%', 'adds nothing, any hour', C.ink2, 9.0]].forEach(([v, l1, l2, col, at], i) => {
     const mg = inG(g, lt, at, .5, 0);
     E('circle', { cx: SX(v), cy: sy, r: 9, fill: col, stroke: '#fff', 'stroke-width': 3 }, mg);
     const up = i % 2 === 1, a = v === 0 ? 'start' : v === 100 ? 'end' : 'middle';

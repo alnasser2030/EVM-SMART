@@ -102,6 +102,37 @@ data["dmap"] = {}
 for d in rows("decision_map.csv"):
     data["dmap"].setdefault(d["target_pct"], []).append([int(d["bess_capex_USD_per_kWh"]), r(d["breakeven_USD_per_MWh"], 1)])
 
+# Results at the recommended displacement (run_base.py, 90%). The film presents its results at this level; the
+# paper's 80% base case stays in the CSVs above. These override the target-specific fields.
+bs = {}
+for row in rows("base_sites.csv"):
+    bs.setdefault(row["site"], {})[row["item"]] = r(row["value"], 2) if row["value"] else None
+data["BX"] = int(bs["all"]["X_pct"])
+for site in ("riyadh", "neom"):
+    for k in ("flex_MW", "bess_MWh", "shifted_GWh", "breakeven_mid", "breakeven_kWyr_mid", "pv_multiple", "window_start_h", "flex_MW_D4"):
+        if k in bs[site]:
+            sites[site][k + "_base"] = bs[site][k]
+data["pillars"] = [{
+    "config": p["config"], "served": r(p["dc_load_served_pct"], 1), "cfe": r(p["cfe_pct"], 1),
+    "em_kt": r(p["emissions_kt"], 1), "storage_MWh": r(p["new_storage_MWh"], 0),
+    "cost_lo": r(p["cost_lo_MUSD"], 1), "cost_mid": r(p["cost_mid_MUSD"], 1), "cost_hi": r(p["cost_hi_MUSD"], 1),
+} for p in rows("base_pillars.csv")]
+data["netload"] = {p["config"]: [r(p["evening_net_load_MW"], 1), r(p["night_net_load_MW"], 1)] for p in rows("base_pillars.csv")}
+data["monthly"] = [{"m": int(m["month"]), "AM": r(float(m["AM"]) * 100, 1), "EEF": r(float(m["EEF"]) * 100, 1),
+                    "BESS": r(float(m["BESS"]) * 100, 1)} for m in rows("base_monthly.csv")]
+data["site_pillars"] = {}
+for p in rows("base_sites_pillars.csv"):
+    data["site_pillars"].setdefault(p["site"], []).append({k: (p[k] if k in ("site", "config") else r(p[k], 2)) for k in p})
+for m in rows("base_sites_monthly.csv"):
+    entry = data["site_monthly"][m["site"]][int(m["month"]) - 1]
+    for k in ("AM", "EEF", "BESS"):
+        entry[k] = r(float(m[k]) * 100, 2)
+data["scen_day"] = {k: [] for k in ("pv", "direct", "ch", "dis", "soc", "up", "down", "S")}
+for hh in rows("base_scenario_day.csv"):
+    for k, col in (("pv", "pv_MW"), ("direct", "direct_MW"), ("ch", "bess_charge_MW"), ("dis", "bess_discharge_MW"),
+                   ("soc", "bess_soc_MWh"), ("up", "eef_up_MW"), ("down", "eef_down_MW"), ("S", "eef_shifted_MWh")):
+        data["scen_day"][k].append(max(0.0, r(hh[col], 1)))
+
 # Displacement curve, size curve and verdict (tpec2027/model/plot_displacement.py, plot_verdict.py)
 import sys
 sys.path.insert(0, os.path.join(ROOT, "tpec2027", "model"))

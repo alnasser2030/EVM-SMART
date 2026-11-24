@@ -122,7 +122,7 @@ function sScenarioDay(g, lt) {
   legend(lg, 1190, 196, [['PV, same hour', C.sun], ['battery discharge', C.bess]], 16);
   legend(lg, 1190, 228, [['loads’ reduction (credited)', C.maroon], ['grid mix', C.am]], 16);
   const pan = [['GRID', 'Direct grid supply', h => [0, 0]], ['AM', 'Annual matching', h => [sd.direct[h], 0]],
-    ['RE+BESS', 'PV + 1,027-MWh battery (sized for 80%)', h => [sd.direct[h], sd.dis[h]]], ['EEF', 'PV + 140 MW of flexible loads, 8 h (sized for 80%)', h => [sd.direct[h], sd.down[h]]]];
+    ['RE+BESS', `PV + ${fmt(DATA.sites.riyadh.bess_MWh_base)}-MWh battery (sized for ${DATA.BX}%)`, h => [sd.direct[h], sd.dis[h]]], ['EEF', `PV + ${fmt(DATA.sites.riyadh.flex_MW_base)} MW of flexible loads, 8 h (sized for ${DATA.BX}%)`, h => [sd.direct[h], sd.down[h]]]];
   pan.forEach(([k, sub, f], i) => {
     const px = 80 + (i % 2) * 900, py = 268 + Math.floor(i / 2) * 340, pw = 860, at = .5 + i * 2.4;
     const pg = inG(g, lt, at, .7, 18);
@@ -152,7 +152,7 @@ function sScenarioDay(g, lt) {
     if (k === 'GRID') T(sg, px + 24, sy0 + 20, 16, 'No clean procurement — all 24 hours come from the grid mix.', { c: C.ink2, it: true });
     if (k === 'AM') T(sg, px + 24, sy0 + 20, 16, 'PV is exported at midday; nothing covers the night.', { c: C.ink2, it: true });
     if (k === 'RE+BESS') {
-      const pts = sd.soc.map((v, h) => [cx0 + (cx1 - cx0) * (h + .5) / 24, sy0 + 34 - v / 1027 * 34]);
+      const pts = sd.soc.map((v, h) => [cx0 + (cx1 - cx0) * (h + .5) / 24, sy0 + 34 - v / DATA.sites.riyadh.bess_MWh_base * 34]);
       E('path', { d: poly(pts), fill: 'none', stroke: C.bess, 'stroke-width': 3 }, sg);
       T(sg, px + 24, sy0 + 48, 13, 'battery state of charge', { c: C.bess, w: 700 });
     }
@@ -166,7 +166,8 @@ function sScenarioDay(g, lt) {
       T(sg, px + 24, sy0 + 48, 13, 'flexible loads vs. baseline', { c: C.maroon, w: 700 });
     }
   });
-  cap(g, lt, 12.6, 'Battery and EEF both reach 84% on this day — one stores energy, the other moves demand that already exists.', { s: 25 });
+  const dpct = k => 100 * sd.direct.reduce((a, v, h) => a + v + (k === 'b' ? sd.dis[h] : sd.down[h]), 0) / 2400;
+  cap(g, lt, 12.6, `Battery ${fmt(dpct('b'))}% and EEF ${fmt(dpct('e'))}% on this day — one stores energy, the other moves demand that already exists.`, { s: 25 });
 }
 
 // ------------------------------------------------------------ results: the full comparison table
@@ -181,16 +182,16 @@ function sCompareTable(g, lt) {
     const sub = { GRID: 'today’s default', AM: 'today’s I-REC claim' }[k];
     if (sub) T(hg, xs[i], 338, 13, sub, { a: 'middle', w: 700, c: inkOf(k), it: true });
   });
-  T(hg, 80, 306, 15, '80% DISPLACEMENT TARGET · RIYADH', { w: 700, c: C.muted, ls: 2 });
+  T(hg, 80, 306, 15, `${DATA.BX}% DISPLACEMENT TARGET · RIYADH`, { w: 700, c: C.muted, ls: 2 });
   const rows = [
     ['RELIABILITY', 'Data-center load served', ['100%', '100%', '100%', '100%'], [0, 1, 2, 3]],
     ['', 'Energy bought by the data center', ['876 GWh', '876 GWh', '876 GWh', '876 GWh'], []],
-    ['EMISSIONS', 'Displacement', ['0%', `${fmt(pl.AM.cfe, 1)}%`, '80%', '80%'], [2, 3]],
+    ['EMISSIONS', 'Displacement', ['0%', `${fmt(pl.AM.cfe, 1)}%`, `${DATA.BX}%`, `${DATA.BX}%`], [2, 3]],
     ['', 'Emissions (kt CO₂ / yr)', CFGS.map(k => fmt(pl[k].em_kt, 1)), [2, 3]],
     ['COST', 'Cost of displacement (US$ M / yr)', ['—', '—', `${fmt(pl['RE+BESS'].cost_mid, 1)}  (${fmt(pl['RE+BESS'].cost_lo, 1)}–${fmt(pl['RE+BESS'].cost_hi, 1)})`, `${fmt(pl.EEF.cost_mid, 1)}  (${fmt(pl.EEF.cost_lo, 1)}–${fmt(pl.EEF.cost_hi, 1)})`], [3]],
     ['', 'New storage built', ['—', '—', `${fmt(pl['RE+BESS'].storage_MWh)} MWh`, 'none'], [3]],
-    ['', 'Contracted flexibility', ['—', '—', '—', '140 MW · 8 h'], []],
-    ['GRID IMPACT', 'Net grid load, evening 19–23 h (MW)', CFGS.map(k => fmt(nl[k][0], 1)), [2]],
+    ['', 'Contracted flexibility', ['—', '—', '—', `${fmt(DATA.sites.riyadh.flex_MW_base)} MW · 8 h`], []],
+    ['GRID IMPACT', 'Net grid load, evening 19–23 h (MW)', CFGS.map(k => fmt(nl[k][0], 1)), [nl.EEF[0] <= nl['RE+BESS'][0] ? 3 : 2]],
     ['', 'Net grid load, night 0–5 h (MW)', CFGS.map(k => fmt(nl[k][1], 1)), [3]],
   ];
   rows.forEach(([grp, lab, vals, best], r) => {
@@ -231,12 +232,12 @@ function sCostTargets(g, lt) {
   const le = inG(g, lt, 5.4, .6, 0);
   T(le, X(90) + 14, Y(last.shifted_GWh * .05) + 6, 17, 'EEF', { w: 700, c: C.maroon });
   T(le, X(90) + 14, Y(last.shifted_GWh * .05) + 26, 14, 'US$50/MWh (25–75)', { c: C.maroon });
-  const t80 = tg.find(t => t.X === 80), t50 = tg.find(t => t.X === 50), t90 = last;
+  const BX = DATA.BX, tB = tg.find(t => t.X === BX), t80 = tg.find(t => t.X === 80), t50 = tg.find(t => t.X === 50), t90 = last;
   const mk = inG(g, lt, 6.2, .6, 0);
-  E('line', { x1: X(80), x2: X(80), y1: Y(0), y2: Y(t80.bess_mid) - 10, stroke: C.ink2, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, mk);
-  [[t80.bess_mid, C.bess], [t80.shifted_GWh * .05, C.maroon]].forEach(([v, col]) => { E('circle', { cx: X(80), cy: Y(v), r: 8, fill: col, stroke: '#fff', 'stroke-width': 3 }, mk); T(mk, X(80) - 14, Y(v) - 12, 18, fmt(v, 1), { a: 'end', w: 800, c: col }); });
-  const tiles = [[`US$${fmt(t80.shifted_GWh * .05, 1)} M vs ${fmt(t80.bess_mid, 1)} M`, 'per year at 80% displacement'],
-    [`US$${fmt(t90.shifted_GWh * .05, 1)} M vs ${fmt(t90.bess_mid, 1)} M`, 'per year at 90%'],
+  E('line', { x1: X(BX), x2: X(BX), y1: Y(0), y2: Y(tB.bess_mid) - 10, stroke: C.ink2, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, mk);
+  [[tB.bess_mid, C.bess], [tB.shifted_GWh * .05, C.maroon]].forEach(([v, col]) => { E('circle', { cx: X(BX), cy: Y(v), r: 8, fill: col, stroke: '#fff', 'stroke-width': 3 }, mk); T(mk, X(BX) - 14, Y(v) - 12, 18, fmt(v, 1), { a: 'end', w: 800, c: col }); });
+  const tiles = [[`US$${fmt(tB.shifted_GWh * .05, 1)} M vs ${fmt(tB.bess_mid, 1)} M`, `per year at ${BX}% displacement (base case)`],
+    [`US$${fmt(t80.shifted_GWh * .05, 1)} M vs ${fmt(t80.bess_mid, 1)} M`, 'per year at 80% (the TPEC paper)'],
     [`+US$${fmt(t50.bess_mid - t50.shifted_GWh * .05, 1)} M → +${fmt(t90.bess_mid - t90.shifted_GWh * .05, 1)} M`, 'the yearly saving grows from 50% to 90% displacement']];
   tiles.forEach(([big, txt], i) => {
     const tg2 = inG(g, lt, 6.8 + i * 1.0, .7, 0, 30), y = 320 + i * 180;
@@ -318,22 +319,23 @@ function sNeomResults(g, lt) {
   });
   const an = inG(g, lt, 4.4, .6, 0);
   [['riyadh', C.maroon, -1], ['neom', NEO, 1]].forEach(([k, col, sgn]) => {
-    const s = S[k], fx = s.flex_MW_80 / 100;
+    const s = S[k], fx = s.flex_MW_base / 100, BX = DATA.BX;
     E('line', { x1: X(0), x2: X(3.2), y1: Y(s.max_eef_cfe_pct), y2: Y(s.max_eef_cfe_pct), stroke: col, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, an);
     T(an, X(3.2), Y(s.max_eef_cfe_pct) + (sgn < 0 ? -10 : 22), 15, `ceiling ${fmt(s.max_eef_cfe_pct, 1)}%`, { a: 'end', w: 700, c: col });
-    E('line', { x1: X(fx), x2: X(fx), y1: Y(80), y2: y0, stroke: col, 'stroke-width': 1.5, 'stroke-dasharray': '3 4' }, an);
-    E('circle', { cx: X(fx), cy: Y(80), r: 7, fill: col, stroke: '#fff', 'stroke-width': 2.5 }, an);
-    T(an, X(fx) + (sgn < 0 ? 12 : -12), Y(80) + (sgn < 0 ? 40 : -16), 15, `${fmt(s.flex_MW_80)} MW`, { a: sgn < 0 ? 'start' : 'end', w: 700, c: col });
+    if (k !== 'riyadh') return;
+    E('line', { x1: X(fx), x2: X(fx), y1: Y(BX), y2: y0, stroke: col, 'stroke-width': 1.5, 'stroke-dasharray': '3 4' }, an);
+    E('circle', { cx: X(fx), cy: Y(BX), r: 7, fill: col, stroke: '#fff', 'stroke-width': 2.5 }, an);
+    T(an, X(fx) + 12, Y(BX) + 40, 15, `Riyadh ${BX}%: ${fmt(s.flex_MW_base)} MW`, { a: 'start', w: 700, c: col });
   });
   legend(ax, 620, y0 - 26, [['Riyadh', C.maroon, 'line'], ['NEOM', NEO, 'line']], 16);
   const amg = inG(g, lt, 4.8, .6, 0);
   T(amg, X(1.75), Y(53), 15, 'Annual matching alone:', { c: C.ink2, w: 600 });
   TR(amg, X(1.75), Y(49.5), 15, [[`Riyadh ${fmt(S.riyadh.am_cfe_pct, 1)}%`, { c: C.maroon, w: 700 }], ['  ·  ', { c: C.muted }], [`NEOM ${fmt(S.neom.am_cfe_pct, 1)}%`, { c: NEO, w: 700 }]]);
   // NEOM monthly matching
-  const mx0 = 1120, mx1 = 1820, my0 = 740, my1 = 320, MX = m => mx0 + (mx1 - mx0) * (m - 1) / 11, MY = c => my0 - (my0 - my1) * (c - 30) / 60;
+  const mx0 = 1120, mx1 = 1820, my0 = 740, my1 = 320, MX = m => mx0 + (mx1 - mx0) * (m - 1) / 11, MY = c => my0 - (my0 - my1) * (c - 30) / 70;
   const mg = inG(g, lt, 5.2, .6, 0);
-  T(mg, mx0 - 20, 300, 16, 'NEOM · MONTHLY DISPLACEMENT AT 80%', { w: 700, c: C.muted, ls: 2 });
-  for (const c of [30, 45, 60, 75, 90]) { E('line', { x1: mx0 - 10, x2: mx1 + 10, y1: MY(c), y2: MY(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, mg); T(mg, mx0 - 20, MY(c) + 5, 13, `${c}%`, { a: 'end', c: C.muted }); }
+  T(mg, mx0 - 20, 300, 16, `NEOM · MONTHLY DISPLACEMENT AT ${DATA.BX}% (PV × 1.25)`, { w: 700, c: C.muted, ls: 2 });
+  for (const c of [30, 50, 70, 90, 100]) { E('line', { x1: mx0 - 10, x2: mx1 + 10, y1: MY(c), y2: MY(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, mg); T(mg, mx0 - 20, MY(c) + 5, 13, `${c}%`, { a: 'end', c: C.muted }); }
   'JFMAMJJASOND'.split('').forEach((l, i) => T(mg, MX(i + 1), my0 + 24, 14, l, { a: 'middle', c: C.muted, w: 700 }));
   const NM = DATA.site_monthly.neom;
   [['AM', C.am, 5.4], ['BESS', C.bess, 5.9], ['EEF', NEO, 6.4]].forEach(([k, col, at]) => {
@@ -345,13 +347,13 @@ function sNeomResults(g, lt) {
   legend(mg, mx0, my0 + 60, [['EEF', NEO, 'line'], ['RE+BESS', C.bess, 'dash'], ['AM', C.am, 'line']], 15);
   const ng = inG(g, lt, 8.2, .7, 8);
   E('rect', { x: 1110, y: 838, width: 730, height: 72, rx: 12, fill: NEOL }, ng);
-  TP(ng, 1132, 868, 18, `90% is beyond daily shifting at NEOM (ceiling ${fmt(S.neom.max_eef_cfe_pct, 1)}%) — PV oversizing or a small battery would close it.`, 690, { c: C.ink, w: 600, lh: 24 });
-  cap(g, lt, 9.6, `Later sun lifts annual matching to ${fmt(S.neom.am_cfe_pct, 1)}% and trims the flexibility needed for 80% to ${fmt(S.neom.flex_MW_80)} MW.`);
+  TP(ng, 1132, 868, 18, `With PV = annual use NEOM tops out at ${fmt(S.neom.max_eef_cfe_pct, 1)}%; ${DATA.BX}% takes PV × 1.25 and the window from 09:00 — ${fmt(S.neom.flex_MW_base)} MW.`, 690, { c: C.ink, w: 600, lh: 24 });
+  cap(g, lt, 9.6, `Later sun lifts annual matching to ${fmt(S.neom.am_cfe_pct, 1)}%; with PV × 1.25, ${DATA.BX}% needs ${fmt(S.neom.flex_MW_base)} MW of flexible load per 100 MW.`);
 }
 
 // ------------------------------------------------------------ NEOM 3: pillars and the 1.5-GW campus
 function sNeomScale(g, lt) {
-  head(g, lt, 'CASE 2 · NEOM AT 80% AND AT CAMPUS SCALE', 'What EEF would mean for the 1.5-GW Oxagon campus');
+  head(g, lt, `CASE 2 · NEOM AT ${DATA.BX}% AND AT CAMPUS SCALE`, 'What EEF would mean for the 1.5-GW Oxagon campus');
   const S = DATA.sites, R = Object.fromEntries(DATA.site_pillars.riyadh.map(p => [p.config, p])), N = Object.fromEntries(DATA.site_pillars.neom.map(p => [p.config, p]));
   const hg = inG(g, lt, .4, .6, 0);
   T(hg, 610, 316, 19, 'Riyadh', { a: 'middle', w: 800, c: C.maroon });
@@ -360,12 +362,12 @@ function sNeomScale(g, lt) {
   E('line', { x1: 80, x2: 900, y1: 332, y2: 332, stroke: C.rule, 'stroke-width': 2 }, hg);
   const rows = [
     ['Annual matching alone', `${fmt(S.riyadh.am_cfe_pct, 1)}%`, `${fmt(S.neom.am_cfe_pct, 1)}%`],
-    ['Flexibility for 80%', `${fmt(S.riyadh.flex_MW_80)} MW`, `${fmt(S.neom.flex_MW_80)} MW`],
-    ['Battery for 80%', `${fmt(S.riyadh.bess_MWh_80)} MWh`, `${fmt(S.neom.bess_MWh_80)} MWh`],
+    [`Flexibility for ${DATA.BX}%`, `${fmt(S.riyadh.flex_MW_base)} MW`, `${fmt(S.neom.flex_MW_base)} MW*`],
+    [`Battery for ${DATA.BX}%`, `${fmt(S.riyadh.bess_MWh_base)} MWh`, `${fmt(S.neom.bess_MWh_base)} MWh*`],
     ['Maximum EEF displacement', `${fmt(S.riyadh.max_eef_cfe_pct, 1)}%`, `${fmt(S.neom.max_eef_cfe_pct, 1)}%`],
     ['Emissions: AM → EEF (kt/yr)', `${fmt(R.AM.emissions_kt)} → ${fmt(R.EEF.emissions_kt, 1)}`, `${fmt(N.AM.emissions_kt)} → ${fmt(N.EEF.emissions_kt, 1)}`],
     ['Cost: EEF vs. battery (US$ M/yr)', `${fmt(R.EEF.cost_mid_MUSD, 1)} vs ${fmt(R['RE+BESS'].cost_mid_MUSD, 1)}`, `${fmt(N.EEF.cost_mid_MUSD, 1)} vs ${fmt(N['RE+BESS'].cost_mid_MUSD, 1)}`],
-    ['Break-even price (US$/MWh)', fmt(S.riyadh.breakeven_mid_80, 1), fmt(S.neom.breakeven_mid_80, 1)],
+    ['Break-even price (US$/MWh)', fmt(S.riyadh.breakeven_mid_base, 1), fmt(S.neom.breakeven_mid_base, 1)],
   ];
   rows.forEach(([lab, a, b], i) => {
     const y = 380 + i * 72, rg = inG(g, lt, .8 + i * .5, .6, 0, -24);
@@ -378,8 +380,8 @@ function sNeomScale(g, lt) {
   const sg = inG(g, lt, 5.0, .7, 0);
   E('rect', { x: 980, y: 290, width: 860, height: 56, rx: 12, fill: NEO }, sg);
   T(sg, 1004, 326, 19, 'SCALED TO THE 1.5-GW OXAGON CAMPUS  (× 15, linear model)', { w: 800, c: '#fff', ls: 1 });
-  const tiles = [[`≈ ${fmt(n.flex_MW_80 * k / 1000, 1)} GW`, 'of contracted flexibility for 80% displacement'],
-    [`≈ ${fmt(n.bess_MWh_80 * k / 1000, 1)} GWh`, 'of batteries avoided'],
+  const tiles = [[`≈ ${fmt(n.flex_MW_base * k / 1000, 1)} GW`, `of contracted flexibility for ${DATA.BX}% displacement`],
+    [`≈ ${fmt(n.bess_MWh_base * k / 1000, 1)} GWh`, 'of batteries avoided'],
     [`≈ ${fmt((N.AM.emissions_kt - ne.emissions_kt) * k / 1000, 1)} Mt CO₂`, 'per year below annual matching (hourly accounting)'],
     [`≈ US$${fmt(ne.cost_mid_MUSD * k)} M`, `per year, vs. ≈ US$${fmt(nb.cost_mid_MUSD * k)} M for storage (mid case)`]];
   tiles.forEach(([big, txt], i) => {
@@ -389,8 +391,8 @@ function sNeomScale(g, lt) {
     TP(tg2, x + 28, y + 132, 18, txt, 370, { c: C.ink2, lh: 25 });
   });
   const cv = inG(g, lt, 9.0, .7, 0);
-  TP(cv, 980, 870, 17, 'Linear scale-up of the 100-MW results. Whether ~2 GW of flexibility exists around Oxagon is the saturation question (RQ4).', 860, { it: true, c: C.muted });
-  cap(g, lt, 10.4, 'At NEOM, EEF again pairs grid reliability with battery-level emissions — at about 58% of the storage cost.');
+  TP(cv, 980, 870, 17, '* NEOM at 90% uses PV × 1.25 and the window from 09:00. Linear scale-up of the 100-MW results; the flexible load can sit anywhere on the national grid.', 860, { it: true, c: C.muted });
+  cap(g, lt, 10.4, `At NEOM, EEF again pairs grid reliability with battery-level emissions — at about ${fmt(100 * ne.cost_mid_MUSD / nb.cost_mid_MUSD)}% of the storage cost.`);
 }
 
 // ------------------------------------------------------------ expected 1: control (RQ2)
@@ -400,8 +402,8 @@ function sExpControl(g, lt) {
   const ax = inG(g, lt, .4, .6, 0);
   E('line', { x1: x0, x2: x1, y1: axY, y2: axY, stroke: C.ink2, 'stroke-width': 2 }, ax);
   for (const v of [30, 40, 50, 60, 70, 80, 90]) { E('line', { x1: X(v), x2: X(v), y1: axY, y2: axY + 8, stroke: C.ink2, 'stroke-width': 2 }, ax); T(ax, X(v), axY + 30, 15, `${v}%`, { a: 'middle', c: C.muted }); }
-  T(ax, (x0 + x1) / 2, axY + 60, 16, 'Annual displacement (Riyadh, sized for 80%)', { a: 'middle', c: C.ink2, w: 600 });
-  const bars = [['Planning model', 'perfect foresight · computed', 80, 'solid', .9], ['Day-ahead + intraday MPC', 'expected: close to the bound', 80, 'open', 2.4], ['Day-ahead schedule only', 'expected: lower', 80, 'open', 3.6], ['Flexible loads deliver nothing', 'worst case = annual matching · computed', 40.4, 'floor', 4.8]];
+  T(ax, (x0 + x1) / 2, axY + 60, 16, `Annual displacement (Riyadh, sized for ${DATA.BX}%)`, { a: 'middle', c: C.ink2, w: 600 });
+  const bars = [['Planning model', 'perfect foresight · computed', DATA.BX, 'solid', .9], ['Day-ahead + intraday MPC', 'expected: close to the bound', DATA.BX, 'open', 2.4], ['Day-ahead schedule only', 'expected: lower', DATA.BX, 'open', 3.6], ['Flexible loads deliver nothing', 'worst case = annual matching · computed', 40.4, 'floor', 4.8]];
   bars.forEach(([lab, sub, v, kind, at], i) => {
     const y = 320 + i * 108, bg = inG(g, lt, at, .7, 0, -20);
     T(bg, 80, y + 26, 19, lab, { w: 700 });
@@ -438,7 +440,7 @@ function sExpDecision(g, lt) {
   for (const v of [100, 150, 200, 250, 300, 350, 400]) T(ax, X(v), y0 + 28, 15, v, { a: 'middle', c: C.muted });
   T(ax, (x0 + x1) / 2, y0 + 58, 16, 'Battery capital cost (US$/kWh)', { a: 'middle', c: C.ink2, w: 600 });
   T(ax, x0 - 12, y1 - 20, 15, 'Flexibility price (US$/MWh shifted)', { c: C.muted, w: 700 });
-  const l80 = dm['80'], u = P(lt, .8, 1.6, eIO);
+  const l80 = dm[String(DATA.BX)], u = P(lt, .8, 1.6, eIO);
   if (u > 0) {
     const line = l80.map(q => [X(q[0]), Y(q[1])]);
     E('path', { d: poly(line) + ` L${X(400)},${Y(0)} L${X(100)},${Y(0)} Z`, fill: C.maroonT, opacity: (u * .9).toFixed(3) }, g);
@@ -449,7 +451,7 @@ function sExpDecision(g, lt) {
   const zl = inG(g, lt, 2.4, .6, 0);
   T(zl, X(330), Y(40), 24, 'EEF cheaper', { a: 'middle', w: 800, c: C.maroon });
   T(zl, X(160), Y(140), 24, 'battery cheaper', { a: 'middle', w: 800, c: C.bess });
-  T(zl, X(400) - 6, Y(l80[l80.length - 1][1]) - 10, 15, '80%', { a: 'end', w: 800, c: C.maroon });
+  T(zl, X(400) - 6, Y(l80[l80.length - 1][1]) - 10, 15, `${DATA.BX}%`, { a: 'end', w: 800, c: C.maroon });
   const nr = inG(g, lt, 4.0, .6, 0);
   [[124, 'low'], [207, 'mid'], [338, 'high']].forEach(([c, lab]) => { E('line', { x1: X(c), x2: X(c), y1: y0, y2: y1 + 30, stroke: C.ink2, 'stroke-width': 1.2, 'stroke-dasharray': '2 5' }, nr); T(nr, X(c), y1 + 20, 14, `NREL ${lab}`, { a: 'middle', c: C.ink2, w: 600 }); });
   const fb = inG(g, lt, 5.0, .6, 0);
@@ -458,7 +460,7 @@ function sExpDecision(g, lt) {
   const at207 = l80.reduce((a, q) => Math.abs(q[0] - 207) < Math.abs(a[0] - 207) ? q : a);
   const rg = inG(g, lt, 6.0, .8, 0, 30);
   card(rg, 1320, 300, 520, 300);
-  T(rg, 1350, 346, 16, 'COMPUTED (RIYADH, 80%)', { w: 800, c: C.maroon, ls: 3 });
+  T(rg, 1350, 346, 16, `COMPUTED (RIYADH, ${DATA.BX}%)`, { w: 800, c: C.maroon, ls: 3 });
   TP(rg, 1350, 386, 20, `The boundary rises linearly with battery cost: ≈ US$${fmt(l80[0][1])}/MWh at US$100/kWh → ≈ US$${fmt(l80[l80.length - 1][1])}/MWh at US$400/kWh.`, 460, { lh: 28 });
   TP(rg, 1350, 512, 18, 'The target barely moves it (60%, 80%, 90% lines).', 460, { c: C.muted, lh: 25 });
   const ng = inG(g, lt, 7.6, .8, 0, 30);
@@ -492,10 +494,10 @@ function sExpSaturation(g, lt) {
   pill(ll, X(17) + 12, Y(17 * k80) + 34, `80%: ${fmt(k80, 2)} × load`, { s: 16, fill: C.bg, stroke: C.maroon });
   T(ll, X(16.6), Y(34.0) + 4, 17, `90%: ${fmt(k90, 2)} × load`, { a: 'end', w: 800, c: C.maroon2 });
   const sat = inG(g, lt, 4.8, .7, 0);
-  const a = 7.1 / k80, b = 29.9 / k80;
+  const a = 7.1 / k90, b = 29.9 / k90;
   E('rect', { x: X(a), y: y1, width: X(b) - X(a), height: y0 - y1, fill: C.maroon, opacity: .06 }, sat);
   [[a, 7.1], [b, 29.9]].forEach(([xv, yv]) => { E('line', { x1: X(xv), x2: X(xv), y1: Y(yv), y2: y0, stroke: C.maroon, 'stroke-width': 1.5, 'stroke-dasharray': '4 5' }, sat); E('circle', { cx: X(xv), cy: Y(yv), r: 7, fill: C.maroon, stroke: '#fff', 'stroke-width': 2.5 }, sat); T(sat, X(xv), y0 - 12, 15, `${fmt(xv, 1)} GW`, { a: 'middle', w: 800, c: C.maroon }); });
-  T(sat, (X(a) + X(b)) / 2, Y(4), 16, '80% saturates somewhere here (first-order)', { a: 'middle', w: 700, c: C.maroon, it: true });
+  T(sat, (X(a) + X(b)) / 2, Y(4), 16, '90% saturates somewhere here (first-order)', { a: 'middle', w: 700, c: C.maroon, it: true });
   const tg = inG(g, lt, 6.2, .7, 0);
   E('line', { x1: X(1.5), x2: X(1.5), y1: y0, y2: Y(15.5), stroke: NEO, 'stroke-width': 2.5 }, tg);
   T(tg, X(1.5) + 8, Y(18), 15, '1.5 GW — national target', { w: 800, c: NEO });
@@ -504,7 +506,7 @@ function sExpSaturation(g, lt) {
   card(rg, 1320, 300, 520, 300);
   T(rg, 1350, 346, 16, 'FIRST-ORDER ESTIMATE', { w: 800, c: C.maroon, ls: 3 });
   TP(rg, 1350, 386, 20, `1.5 GW of data centers needs ≈ ${fmt(1.5 * k80, 1)} GW (80%) or ${fmt(1.5 * k90, 1)} GW (90%) of flexibility — below even the low potential estimate.`, 460, { lh: 28 });
-  TP(rg, 1350, 514, 18, `80% would saturate between ≈ ${fmt(a, 0)} and ≈ ${fmt(b, 0)} GW of data centers.`, 460, { c: C.ink2, lh: 25 });
+  TP(rg, 1350, 514, 18, `90% would saturate between ≈ ${fmt(a, 1)} and ≈ ${fmt(b, 0)} GW of data centers.`, 460, { c: C.ink2, lh: 25 });
   const ng = inG(g, lt, 8.6, .8, 0, 30);
   card(ng, 1320, 624, 520, 270, { fill: C.maroonT, stroke: C.maroonL });
   T(ng, 1350, 670, 16, 'CHAPTER 6 REPLACES THIS WITH', { w: 800, c: C.maroon, ls: 3 });

@@ -84,7 +84,7 @@ function sWhyLP(g, lt) {
 
 // ------------------------------------------------------------ methodology: 25-year project, annual cost basis
 function sLifetime(g, lt) {
-  head(g, lt, 'COST BASIS', 'A 25-year project, reported as a cost per year');
+  head(g, lt, 'COST BASIS', 'A 25-year project, reported as a cost per year — at 90% displacement');
   const x0 = 420, x1 = 1180, X = yv => x0 + (x1 - x0) * yv / 25;
   const ax = inG(g, lt, .3, .6, 0);
   E('line', { x1: x0, x2: x1, y1: 690, y2: 690, stroke: C.ink2, 'stroke-width': 2 }, ax);
@@ -93,8 +93,8 @@ function sLifetime(g, lt) {
   const rows = [
     ['PV plant', 'same 477 MWp in AM, RE+BESS, EEF', C.sun, 'bar', .6, 'cancels'],
     ['Grid tariff', '876 GWh/yr at the same price in all four', C.am, 'ticks', 1.4, 'cancels'],
-    ['Battery (RE+BESS)', 'bought at yr 0, replaced at yr 15', C.bess, 'battery', 2.2, 'US$30.2 M/yr'],
-    ['EEF contract', 'paid each year per MWh shifted — no capital', C.maroon, 'ticks', 3.0, 'US$17.3 M/yr'],
+    ['Battery (RE+BESS)', 'bought at yr 0, replaced at yr 15', C.bess, 'battery', 2.2, 'US$38.7 M/yr'],
+    ['EEF contract', 'paid each year per MWh shifted — no capital', C.maroon, 'ticks', 3.0, 'US$21.7 M/yr'],
   ];
   rows.forEach(([nm, sub, col, kind, at, res], i) => {
     const y = 300 + i * 96, rg = inG(g, lt, at, .6, 0, -20), u = P(lt, at + .2, 1.2, eIO);
@@ -106,7 +106,7 @@ function sLifetime(g, lt) {
       E('rect', { x: x0, y: y + 10, width: (X(15) - x0) * clamp(u * 25 / 15), height: 34, rx: 5, fill: col }, g);
       if (u > .6) E('rect', { x: X(15) + 2, y: y + 10, width: (X(25) - X(15) - 2) * clamp((u - .6) / .4), height: 34, rx: 5, fill: col, opacity: .75 }, g);
       const mg = inG(g, lt, at + 1.4, .5, 0);
-      T(mg, X(0) + 10, y + 33, 14, 'buy US$212.6 M', { w: 700, c: '#fff' });
+      T(mg, X(0) + 10, y + 33, 14, 'buy US$273.1 M', { w: 700, c: '#fff' });
       T(mg, X(15) + 10, y + 33, 14, 'replace', { w: 700, c: '#fff' });
       E('line', { x1: X(25), x2: X(25), y1: y + 4, y2: y + 50, stroke: C.ink, 'stroke-width': 2, 'stroke-dasharray': '3 3' }, mg);
       T(mg, X(25) - 6, y + 66, 13, '5 yr of life left → salvage', { a: 'end', c: C.ink2, it: true });
@@ -117,16 +117,16 @@ function sLifetime(g, lt) {
   const eg = inG(g, lt, 5.4, .7, 0, -20);
   E('rect', { x: 80, y: 790, width: 1300, height: 120, rx: 14, fill: C.paper, stroke: C.rule, 'stroke-width': 1.5 }, eg);
   EQN(eg, 'crf', 110, 806, eqH('crf', 30), C.ink);
-  TP(eg, 830, 832, 17, '8%, n = 15 yr → CRF = 0.1168; φ = 2.5% O&M. 1,027 MWh × US$207/kWh × 0.1418 = US$30.2 M/yr', 530, { c: C.ink2, lh: 23 });
+  TP(eg, 830, 832, 17, '8%, n = 15 yr → CRF = 0.1168; φ = 2.5% O&M. 1,320 MWh × US$207/kWh × 0.1418 = US$38.7 M/yr', 530, { c: C.ink2, lh: 23 });
   const rg = inG(g, lt, 7.2, .8, 0, 30);
   E('rect', { x: 1440, y: 290, width: 400, height: 620, rx: 16, fill: C.maroon, filter: 'url(#sh)' }, rg);
   T(rg, 1470, 340, 16, 'CHECKED OVER 25 YEARS', { w: 800, c: '#fff', ls: 2, op: .85 });
   TP(rg, 1470, 386, 18, 'Explicit cash flows, battery replaced at year 15, salvage at year 25:', 340, { c: '#fff', lh: 25 });
-  T(rg, 1470, 486, 38, 'US$30.5 M/yr', { f: F.slab, w: 700, c: '#fff' });
-  T(rg, 1470, 514, 16, '(+1% vs. the annualized US$30.2 M)', { c: '#fff', op: .8 });
+  T(rg, 1470, 486, 38, 'US$39.1 M/yr', { f: F.slab, w: 700, c: '#fff' });
+  T(rg, 1470, 514, 16, '(+1% vs. the annualized US$38.7 M)', { c: '#fff', op: .8 });
   T(rg, 1470, 580, 16, 'PRESENT VALUE, 25 YR AT 8%', { w: 800, c: '#fff', ls: 2, op: .85 });
-  T(rg, 1470, 628, 30, 'Battery ≈ US$326 M', { f: F.slab, w: 700, c: '#fff' });
-  T(rg, 1470, 672, 30, 'EEF ≈ US$185 M', { f: F.slab, w: 700, c: '#fff' });
+  T(rg, 1470, 628, 30, 'Battery ≈ US$419 M', { f: F.slab, w: 700, c: '#fff' });
+  T(rg, 1470, 672, 30, 'EEF ≈ US$232 M', { f: F.slab, w: 700, c: '#fff' });
   TP(rg, 1470, 740, 15, 'Next: PV and battery degradation, price escalation, discount rate 6/8/10% and 20/30-year horizons.', 340, { c: '#fff', op: .85, lh: 21 });
   cap(g, lt, 9.0, 'What all options share cancels out — the comparison is the yearly cost of covering the night.', { y: 972 });
 }

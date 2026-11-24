@@ -162,15 +162,16 @@ function sContracts(g, lt) {
 
 // ------------------------------------------------------------ implementation 3: prices and money flows
 function sMoney(g, lt) {
-  head(g, lt, 'IMPLEMENTATION · PRICES', 'Who pays whom — per 100 MW at 80% displacement');
+  head(g, lt, 'IMPLEMENTATION · PRICES', `Who pays whom — per 100 MW at ${DATA.BX}% displacement`);
+  const PL = Object.fromEntries(DATA.pillars.map(p => [p.config, p]));
   const N = { se: [180, 330, 'Saudi Energy', C.grid], dc: [180, 590, 'Data center', C.dc], agg: [640, 590, 'Aggregator', C.maroon],
     fl: [640, 850, 'Flexible loads', C.maroon2], reg: [180, 850, 'Hourly registry', C.maroonL], sppc: [1000, 330, 'SPPC', C.grid], pv: [1000, 590, 'PV developer', C.sunD] };
   const flows = [
     ['dc', 'se', ['tariff ≈ US$42.0 M/yr', 'unchanged'], C.am, 14, 1.0],
-    ['dc', 'agg', ['EEF fee ≈ US$17.3 M/yr', 'at US$50/MWh shifted'], C.maroon, 9, 2.4],
+    ['dc', 'agg', [`EEF fee ≈ US$${fmt(PL.EEF.cost_mid, 1)} M/yr`, 'at US$50/MWh shifted'], C.maroon, 9, 2.4],
     ['agg', 'fl', ['payments − margin', ''], C.maroonL, 7, 3.8],
     ['sppc', 'pv', ['PPA ≈ US$9.6–14.9 M/yr', ''], C.sun, 7, 5.2],
-    ['reg', 'dc', ['hourly credits', '≈ 701 GWh/yr'], C.maroon, 4, 6.6],
+    ['reg', 'dc', ['hourly credits', `≈ ${fmt(DATA.BX * 8.76)} GWh/yr`], C.maroon, 4, 6.6],
   ];
   flows.forEach(([a, b, [l1, l2], col, w, at]) => {
     const [x1, y1] = N[a], [x2, y2] = N[b];
@@ -189,11 +190,11 @@ function sMoney(g, lt) {
   const ng2 = inG(g, lt, 7.4, .6, 0);
   TP(ng2, 780, 836, 15, 'Loads move consumption, they do not add it — their energy bill is unchanged.', 330, { it: true, c: C.muted, lh: 20 });
   // price per kWh of the data center
-  const x0 = 1260, bw = 120, base = 820, s = 4.875;
+  const x0 = 1260, bw = 120, base = 820, s = 4.3;
   const rg = inG(g, lt, 8.0, .7, 0, 30);
   card(rg, 1220, 286, 620, 640, { flat: true });
   T(rg, 1250, 330, 16, 'WHAT THE DATA CENTER PAYS (US$/MWh)', { w: 800, c: C.maroon, ls: 2 });
-  const bars = [['Grid only', 48, 0, C.am], ['Battery', 48, 34.4, C.bess], ['EEF', 48, 19.8, C.maroon]];
+  const bars = [['Grid only', 48, 0, C.am], ['Battery', 48, PL['RE+BESS'].cost_mid / .876, C.bess], ['EEF', 48, PL.EEF.cost_mid / .876, C.maroon]];
   bars.forEach(([nm, t, extra, col], i) => {
     const x = x0 + 40 + i * 180, u = P(lt, 8.4 + i * .5, .9, eIO);
     E('rect', { x, y: base - t * s * u, width: bw, height: t * s * u, fill: C.am, opacity: .55 }, g);
@@ -206,8 +207,8 @@ function sMoney(g, lt) {
   const tl = inG(g, lt, 9.2, .5, 0);
   T(tl, x0 + 40 + bw / 2, base - 48 * s / 2, 14, 'tariff 48', { a: 'middle', c: C.ink2, w: 700 });
   const nt = inG(g, lt, 10.4, .6, 0);
-  TP(nt, 1250, 882, 14, 'Annual equivalents over a 25-year horizon (PV life); battery: 15-year life at 8%. Ceiling for EEF: ≈ US$87/MWh shifted or ≈ US$215/kW-yr.', 560, { c: C.muted, it: true, lh: 19 });
-  cap(g, lt, 11.4, 'The data center keeps paying its US$48/MWh tariff; EEF adds ≈ US$20/MWh where storage adds ≈ US$34.', { y: 976 });
+  TP(nt, 1250, 882, 14, `Annual equivalents over a 25-year horizon (PV life); battery: 15-year life at 8%. Ceiling for EEF: ≈ US$${fmt(DATA.sites.riyadh.breakeven_mid_base)}/MWh shifted or ≈ US$${fmt(DATA.sites.riyadh.breakeven_kWyr_mid_base)}/kW-yr.`, 560, { c: C.muted, it: true, lh: 19 });
+  cap(g, lt, 11.4, `The data center keeps paying its US$48/MWh tariff; EEF adds ≈ US$${fmt(PL.EEF.cost_mid / .876)}/MWh where storage adds ≈ US$${fmt(PL['RE+BESS'].cost_mid / .876)}.`, { y: 976 });
 }
 
 // ------------------------------------------------------------ implementation 4: steps and regulatory asks
@@ -216,7 +217,7 @@ function sImplSteps(g, lt) {
   const steps = [
     ['Register & connect', 'CST registration; connection via National Grid SA / Saudi Energy (C1)'],
     ['Size and sponsor PV', '≈ annual use; PPA with SPPC (C2)'],
-    ['Build the portfolio', '≈ 1.4 MW per MW of DC, shiftable ≥ 8 h, same grid region'],
+    ['Build the portfolio', '≈ 2 MW per MW of DC at 90%, shiftable ≥ 8 h, anywhere on the national grid'],
     ['Agree baselines and M&V', 'interval meters; SERA-approved rules'],
     ['Sign C3 and C4', 'price below break-even; water-security override'],
     ['Operate', 'day-ahead → network check (C5) → intraday MPC → settlement'],

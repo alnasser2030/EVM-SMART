@@ -1,6 +1,6 @@
 # External Energy Flexibility in Saudi Arabia: Status Quo, Comparison and Implementation Framework
 
-*Working document for Chapter 3 (concept and accounting) and Chapter 5 (contracts and decision maps). Model numbers refer to a 100-MW data center in Riyadh at an 80% hourly-matching target (TPEC 2027 model, `tpec2027/results`). Market facts were checked in November 2026; sources are listed at the end, and third-party analyses are flagged where no official source was found.*
+*Working document for Chapter 3 (concept and accounting) and Chapter 5 (contracts and decision maps). Model numbers refer to a 100-MW data center in Riyadh at **90% displacement**, the best point of the displacement curve (Section 4a; `tpec2027/model/run_base.py`). The TPEC 2027 paper reports an 80% base case, which is kept where it is labelled as such. Market facts were checked in November 2026; sources are listed at the end, and third-party analyses are flagged where no official source was found.*
 
 *Terminology: **displacement** X is the share of the data center's annual use freed on the grid hour by hour (PV injected in the same hour plus supply freed by flexible loads). The data center itself always takes 100% of its energy from the grid. The literature, and the TPEC paper, call the same number hourly matching (CFE).*
 
@@ -13,7 +13,7 @@
 **الوضع الحالي:** مراكز البيانات في المملكة تتغذى اليوم من الشبكة عبر **السعودية للطاقة** (الشركة السعودية للكهرباء سابقًا) بتعريفة منظّمة. تعريفة الحوسبة السحابية **48 دولار/م.و.س** (18 هللة/ك.و.س) منذ 2021، والصناعية 53 دولار (20 هللة) وتصير 61 دولار (23 هللة) من يناير 2027. التوصيل يتم عبر **الشبكة الوطنية** (National Grid SA)، والاحتياط عبر UPS ومولدات في الموقع. الشبكة نفسها شبه كلها وقود أحفوري (غاز ونفط)، والمتجددة فوق 5% بقليل في 2025. ادعاءات "الطاقة النظيفة" اليوم تتم بشهادات I-REC سنوية، وهي مطابقة سنوية فقط: نظيفة على الورق و**40% ساعيًا** في الواقع. البدائل كلها محدودة:
 - الاستهلاك الذاتي في نفس الموقع مسقوفه **50 ميجاواط**.
 - لا يوجد إطار نشط للعقود الثنائية المباشرة.
-- البطاريات مكلفة: 1,027 م.و.س لكل 100 ميجاواط عند 80%.
+- البطاريات مكلفة: 1,320 م.و.س لكل 100 ميجاواط عند إزاحة 90%.
 - لا يوجد إطار سعودي منشور لمجمّعي الأحمال أو الاستجابة للطلب.
 
 **المصطلح:** نستخدم **نسبة الإزاحة**، وهي نسبة استهلاك المركز اللي تنفضى لها على الشبكة ساعة بساعة. المركز نفسه ياخذ 100% من الشبكة دائمًا، والشمسي يُباع كله لـ SPPC، والأحمال المرنة تفضّي نفس الكمية. نفس الرقم تسميه الأدبيات المطابقة الساعية.
@@ -37,7 +37,7 @@
 - الأحمال المرنة: التحلية، التبريد المركزي، الضخ، الصناعة.
 - هيئة الاتصالات والفضاء والتقنية (CST): تسجيل المركز وخطة الاستدامة.
 
-يوقّع المركز ستة عقود (القسم 6). يدفع التعريفة كاملة كما هي، ويدفع **رسم خدمة EEF**: في الحالة الأساسية ≈ 17.3 مليون دولار/سنة، أي ≈ 19.8 دولار لكل م.و.س يستهلكها المركز (7.4 هللة/ك.و.س)، مقابل ≈ 30.2 مليون دولار (34.4 دولار/م.و.س) للبطارية. يحصل مقابلها على 80% إزاحة موثقة دون أي تغيير في اعتماديته (حالة ورقة TPEC؛ والموصى به 85–97%).
+يوقّع المركز ستة عقود (القسم 6). يدفع التعريفة كاملة كما هي، ويدفع **رسم خدمة EEF**: عند إزاحة 90% ≈ 21.7 مليون دولار/سنة، أي ≈ 24.8 دولار لكل م.و.س يستهلكها المركز (9.3 هللة/ك.و.س)، مقابل ≈ 38.7 مليون دولار (44.2 دولار/م.و.س) للبطارية. يحصل مقابلها على 90% إزاحة موثقة دون أي تغيير في اعتماديته.
 
 **حسب حجم المركز (القسم 4أ):**
 - أقل من ≈ 8 ميجاواط: التكاليف الثابتة للعقد تطغى. الحل تجميع عدة مراكز صغيرة في عقد EEF واحد. ومع ذلك يغلب EEF البطارية من ≈ 2 ميجاواط.
@@ -73,7 +73,7 @@
 1. **Clean on paper only.** Annual I-RECs equal to annual use leave the night on gas and oil. In our Riyadh model, annual matching is **40.4%** hourly and emits **296 kt CO₂/yr** per 100 MW on an hourly basis, against 497.6 kt for plain grid supply.
 2. **Hourly accounting is coming.** The GHG Protocol is revising Scope 2. One option adds hourly matching, deliverability and incrementality, and the new standard is expected in 2027. The outcome is contested (70% of 909 respondents opposed hourly matching), but large AI buyers already ask for 24/7 clean supply.
 3. **Self-supply does not scale.** On-site renewables are capped at 30–50 MW per facility and at the facility's contracted load, are tied to the same premises, and are limited nationally to 3% of peak for transmission-connected systems. An off-grid design needs about twice the PV of annual matching and wastes almost half of it. A 100-MW to multi-GW AI campus cannot cover itself, and there is no in-force wheeling regime.
-4. **Batteries are expensive at high matching.** Reaching 80% needs **1,027 MWh** per 100 MW (≈ 10 h of load), costing ≈ **US$30 M/yr** (US$18–49 M). Each further point of matching needs more storage.
+4. **Batteries are expensive at high displacement.** Reaching 90% needs **1,320 MWh** per 100 MW (≈ 13 h of load), costing ≈ **US$39 M/yr** (US$23–63 M). Each further point of matching needs more storage.
 5. **Off-grid campuses trade away grid-grade reliability or pay for it twice.** They need firm backup (hydrogen, gas) in addition to storage.
 6. **Grid stress.** The grid was built for air-conditioning peaks. Multi-GW constant loads raise evening and night demand exactly when solar is absent, and connection lead times and transformer backlogs are binding (KAPSARC).
    - **The Texas lesson.**
@@ -87,25 +87,27 @@
      - The DC's own connection must still be sized for its full load. The relief is at system level (night generation and the shared network upstream), not at the DC's substation.
 7. **Unused flexibility.** An estimated 7.1–29.9 GW of industrial demand response exists by 2030 (KAPSARC 2026). Reverse osmosis is about half of Saudi desalination capacity and can shift load (IEA). But **no Saudi demand-response or aggregator framework** was found, and DR is procured, if at all, only for system services.
 
-## 3. Status quo vs. EEF (per 100 MW, 80% target, Riyadh)
+## 3. Status quo vs. EEF (per 100 MW, 90% displacement, Riyadh)
 
 | | Grid only (today's default) | Grid + annual I-RECs (today's "green") | PV + battery | **EEF** |
 |---|---|---|---|---|
 | Data-center load served | 100% | 100% | 100% | **100%** |
-| Hourly matching | 0% | 40.4% | 80% | **80%** |
-| Emissions (kt CO₂/yr, hourly) | 497.6 | 296.4 | 99.5 | **99.5** |
-| New storage | — | — | 1,027 MWh | **none** |
-| Cost of hourly matching (US$ M/yr) | — | — | 30.2 (18.1–49.2) | **17.3 (8.7–26.0)** |
-| Net grid load, night 0–5 h (MW) | 100 | 100 | 50.8 | **40.7** |
+| Displacement | 0% | 40.4% | 90% | **90%** |
+| Emissions (kt CO₂/yr, hourly) | 497.6 | 296.4 | 49.8 | **49.8** |
+| New storage | — | — | 1,320 MWh | **none** |
+| Cost of displacement (US$ M/yr) | — | — | 38.7 (23.2–63.3) | **21.7 (10.9–32.6)** |
+| Contracted flexible load | — | — | — | **203 MW · 8 h** |
+| Net grid load, evening 19–23 h (MW) | 100 | 100 | 6.3 | **4.9** |
+| Net grid load, night 0–5 h (MW) | 100 | 100 | 23.9 | **10.5** |
 | Needs new regulation? | no | no | no (storage licence) | **yes: aggregator, M&V, hourly credits** |
 
-Every configuration buys the same 876 GWh/yr at the same tariff, so tariff changes (e.g., 2027) shift all of them equally and do not change the ranking.
+Every configuration buys the same 876 GWh/yr at the same tariff, so tariff changes (e.g., 2027) shift all of them equally and do not change the ranking. The TPEC paper's 80% case gives the same ranking: 1,027 MWh of battery at US$30.2 M/yr against 140 MW of flexible load at US$17.3 M/yr.
 
 ## 4. When is EEF the best choice?
 
 EEF dominates when **all** of the following hold. The thresholds come from the preliminary model.
 
-| Condition | Threshold (Riyadh, 80%) | Source |
+| Condition | Threshold (Riyadh) | Source |
 |---|---|---|
 | The DC must keep grid-grade reliability | always grid-connected | concept |
 | Displacement target | **85–97%, best ≈ 90%** (summer evenings ≥ 93% freed; ceiling ≈ 98% with PV ×1.25 and the window from 09:00) | model |
@@ -183,39 +185,41 @@ Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the fo
 | C5 | **Dispatch and settlement protocol** | Aggregator ↔ National Grid SA (and SPPC) | Day-ahead schedule submission, network check, intraday updates, data exchange, monthly settlement statement. |
 | C6 | **Registry and claims agreement** | Aggregator, DC ↔ registry (with SERA rules) | PV certificates to the absorbing loads; hourly freed-supply credits to the DC; cancellation for the DC's claims; no double counting with other services. |
 
-## 7. Prices and money flows (per 100 MW, Riyadh, 80%)
+## 7. Prices and money flows (per 100 MW, Riyadh, 90% displacement)
 
 ```
                  tariff US$48/MWh × 876 GWh ≈ US$42.0 M/yr (unchanged)
    Data center ─────────────────────────────────────────────► Saudi Energy
-        │  EEF fee: e.g. US$50/MWh × 346.7 GWh ≈ US$17.3 M/yr
+        │  EEF fee: e.g. US$50/MWh × 434.3 GWh ≈ US$21.7 M/yr
         └──────────────────────────► Aggregator ──(payments − margin)──► Flexible loads
                                                                           (energy bill unchanged:
    PV IPP ◄── PPA ≈ US$11–17/MWh × 876 GWh ≈ US$9.6–14.9 M/yr ── SPPC      they move, not add, MWh)
-   Registry ──► hourly credits for ≈ 700.8 GWh/yr (80%) ──► Data center
+   Registry ──► hourly credits for ≈ 788.4 GWh/yr (90%) ──► Data center
 ```
 
-- **What the DC pays:** the same tariff bill as today, plus the EEF fee. At US$50/MWh shifted that is ≈ US$17.3 M/yr, about **US$19.8 per MWh of DC consumption (7.4 halalas/kWh)**. The battery route costs ≈ US$34.4/MWh (12.9 halalas/kWh). From 2027 the tariff part may rise to US$61.3/MWh (23 halalas) if the industrial class applies, but it does so for every option.
-- **Ceiling price the DC should accept:** the break-even, ≈ US$87/MWh shifted or ≈ US$215/kW-yr for 140 MW (mid battery cost). Above it, the battery is cheaper.
+- **What the DC pays:** the same tariff bill as today, plus the EEF fee. At US$50/MWh shifted that is ≈ US$21.7 M/yr, about **US$24.8 per MWh of DC consumption (9.3 halalas/kWh)**. The battery route costs ≈ US$44.2/MWh (16.6 halalas/kWh). From 2027 the tariff part may rise to US$61.3/MWh (23 halalas) if the industrial class applies, but it does so for every option.
+- **Ceiling price the DC should accept:** the break-even, ≈ US$89/MWh shifted or ≈ US$191/kW-yr for 203 MW (mid battery cost). Above it, the battery is cheaper.
 - **What the flexible loads gain:** the payment share. Their annual energy use and tariff bill are unchanged because each window is energy-neutral. They need the ability to move consumption (storage of water or chilled water, process scheduling).
 - **PV:** its cost is recovered by the SPPC PPA price, so it adds no net cost to any configuration.
-- **Horizon:** results are annual equivalents over a **25-year horizon** (PV life). The battery is annualized over a 15-year life at 8% plus 2.5% fixed O&M. Re-computing over 25 years with one replacement at year 15 changes the battery cost by ≈ 1% (US$30.5 M vs US$30.2 M/yr).
+- **Horizon:** results are annual equivalents over a **25-year horizon** (PV life). The battery is annualized over a 15-year life at 8% plus 2.5% fixed O&M. Re-computing over 25 years with one replacement at year 15 changes the battery cost by ≈ 1% (US$39.1 M vs US$38.7 M/yr).
 
-### 7a. The data center's full bill, including PV sales (per 100 MW, 80%)
+### 7a. The data center's full bill, including PV sales (per 100 MW, 90% displacement)
 
 | US$ M/yr | GRID | AM | RE+BESS | EEF |
 |---|---|---|---|---|
 | Grid purchases (876 GWh × US$48/MWh) | 42.0 | 42.0 | 42.0 | 42.0 |
 | PV plant cost (annualized) | — | ≈ 11.9 | ≈ 11.9 | ≈ 11.9 |
 | PV sales to SPPC (876 GWh × US$13.6/MWh = 5.1 halalas/kWh) | — | −11.9 | −11.9 | −11.9 |
-| Cost of hourly matching | — | — | 30.2 | 17.3 |
-| **Net** | **42.0** | **42.0** | **72.2** | **59.4** |
-| Net per MWh of DC use | US$48.0 | US$48.0 | US$82.4 | US$67.8 |
+| Cost of displacement | — | — | 38.7 | 21.7 |
+| **Net** | **42.0** | **42.0** | **80.7** | **63.7** |
+| Net per MWh of DC use | US$48.0 | US$48.0 | US$92.2 | US$72.8 |
+
+This is the bill alone. Section 4a adds what GRID and AM leave to the system (grid reinforcement for the night load and carbon); with those counted, EEF is the cheapest of the four.
 
 - **PV sales:** selling the PV output pays for the PV plant. At NREP-level prices (US$11–17/MWh, i.e. US$9.6–14.9 M/yr), sales ≈ the plant's annualized cost, so the net is ≈ 0.
 - **Margin:** every US$1/MWh sold above the PV cost lowers the bill by ≈ US$0.9 M/yr.
 - **Ranking:** the same PV sits in AM, RE+BESS and EEF, so the sale lowers all three equally and the ranking does not change.
-- **Cost per tonne of CO₂ avoided relative to AM:** EEF ≈ US$88/t (US$50/MWh ÷ 0.568 t/MWh), battery ≈ US$153/t.
+- **Cost per tonne of CO₂ avoided relative to AM:** EEF ≈ US$88/t (US$50/MWh ÷ 0.568 t/MWh), battery ≈ US$157/t.
 
 ### 7c. Proposed rule for the PV purchase price (for the regulatory framework)
 
@@ -227,10 +231,10 @@ Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the fo
 
 **Proposed rule.** SPPC buys the output of the EEF-linked PV plant under a 25-year PPA at a price set in three tiers:
 
-| Tier | Price (US$/MWh; halalas/kWh in brackets) | Basis | Effect per 100 MW (EEF, 80%) |
+| Tier | Price (US$/MWh; halalas/kWh in brackets) | Basis | Effect per 100 MW (EEF, 90%) |
 |---|---|---|---|
-| **1. Base (recommended)** | **NREP benchmark: the latest competitively bid tariff for the same technology and region.** Round 6: US$11.0–14.9 (4.1–5.6); base case **US$13.6 (5.1)** | Cost-reflective: SPPC pays what it pays any NREP plant, so other consumers are neutral | Sales ≈ PV cost → DC net **US$59.4 M/yr (US$67.8/MWh)** |
-| **2. Optional system-value adder** | Up to **+US$19.8 → ≈ US$33.4 (12.5)** | Only if the grid benefits are shown to be worth at least the adder. Benefits: night net load cut by ≈ 59 MW per 100 MW, and midday PV absorbed instead of curtailed. To be quantified in Chapter 5 | At US$33.4 the DC pays **US$42.1 M/yr = the same as plain grid supply**, so 80% hourly clean supply costs it nothing extra |
+| **1. Base (recommended)** | **NREP benchmark: the latest competitively bid tariff for the same technology and region.** Round 6: US$11.0–14.9 (4.1–5.6); base case **US$13.6 (5.1)** | Cost-reflective: SPPC pays what it pays any NREP plant, so other consumers are neutral | Sales ≈ PV cost → DC net **US$63.7 M/yr (US$72.8/MWh)** |
+| **2. Optional system-value adder** | Up to **≈ +US$20 → ≈ US$33 (12.4)** with PV ×1.25; ≈ US$38 (14.4) with PV = annual use | Only if the grid benefits are shown to be worth at least the adder. Benefits: ≈ 100% of the DC's summer-evening load freed and midday PV absorbed instead of curtailed. To be quantified in Chapter 5 | At that price the DC pays **≈ US$42 M/yr = the same as plain grid supply**, so 90% displacement costs it nothing extra |
 | **3. Ceiling** | **Below the DC's own tariff:** US$48 (18) for cloud; US$61.3 (23) industrial from 2027 | Above it, the DC would profit from selling midday energy back above its purchase price, a cross-subsidy paid by other consumers | — |
 
 **Sensitivity:**
@@ -242,13 +246,13 @@ Costs are in US$/MWh of DC load. "EEF works" means EEF is the cheapest of the fo
 
 ### 7b. How much of the data center's use is shifted
 
-EEF does **not** shift 100% of the data center's consumption. For a chosen hourly-matching target X, the LP finds the smallest contracted flexibility that meets Σd ≥ X·ΣL − Σmin(L,P).
+EEF does **not** shift 100% of the data center's consumption. For a chosen displacement target X, the LP finds the smallest contracted flexibility that meets Σd ≥ X·ΣL − Σmin(L,P).
 
 | Target | Netted in the same hour | Shifted by the loads | Still from the grid mix | Pᶠ | Share of the night deficit shifted |
 |---|---|---|---|---|---|
 | 60% | 40.4% | 19.6% | 40.0% | 63 MW | 33% |
-| **80%** | **40.4%** | **39.6% (346.7 GWh)** | **20.0%** | **140 MW** | **66%** |
-| 90% | 40.4% | 49.6% | 10.0% | 203 MW | 83% |
+| 80% (TPEC paper) | 40.4% | 39.6% (346.7 GWh) | 20.0% | 140 MW | 66% |
+| **90% (recommended)** | **40.4%** | **49.6% (434.3 GWh)** | **10.0%** | **203 MW** | **83%** |
 | max | 40.4% | 50.7% | 8.8% | unlimited | 85% |
 
 - **The three pillars:** reliability is 100% by design, emissions follow from the chosen X, and cost is minimized for that X.
@@ -256,7 +260,7 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen hourl
   - each day must balance (cloudy and winter days fall short)
   - 5% of the shifted energy is lost (η = 0.95)
   - every extra point needs more contracted flexibility
-- **Load-side numbers at 80%:**
+- **Load-side numbers at 80% (TPEC paper case):**
   - the loads absorb 364.9 GWh/yr of midday surplus to release 346.7 GWh/yr at night
   - they use ≈ 85% of their daily shifting capacity (950 of 1,123 MWh/day)
   - 61% of the deficit hours are fully covered, the rest partly (mostly winter nights)
@@ -265,7 +269,7 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen hourl
 
 1. **Register** the DC with CST; request the grid connection (National Grid SA / Saudi Energy) and sign C1.
 2. **Size the PV** at about the DC's annual consumption (×1.0–1.25) and sponsor it through an SPPC PPA (C2).
-3. **Assemble the portfolio** with an aggregator: about 1.4 MW of flexible load per MW of DC for 80%, shiftable for ≥ 8 h, in the same grid region. Run the planning model (Chapter 3) for the exact numbers.
+3. **Assemble the portfolio** with an aggregator: about 2 MW of flexible load per MW of DC for 90%, shiftable for ≥ 8 h, anywhere on the national grid through the operator. Run the planning model (Chapter 3) for the exact numbers.
 4. **Agree baselines and M&V** with Saudi Energy (interval meters), under SERA-approved rules.
 5. **Sign the EEF service agreement** (C3) at a price below break-even, with the flexibility agreements (C4) behind it.
 6. **Operate:** day-ahead schedule → network check by National Grid SA (C5) → intraday MPC correction → monthly settlement and hourly credits (C6).
@@ -303,12 +307,12 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen hourl
 
 - **Horizon:** 25 years, the PV plant life. Results are reported as **annual equivalent costs**.
 - **Shared items cancel.** The PV plant (same 477 MWp in AM, RE+BESS and EEF) and the grid tariff (876 GWh/yr at the same price in all four) are identical across configurations. The comparison is therefore the yearly cost of covering the night.
-- **Battery:** C_B = c_E · E · (CRF + φ), where CRF = r / (1 − (1 + r)^−n), with r = 8%, n = 15 yr (CRF = 0.1168) and φ = 2.5%.
-  - Capital: 1,027 MWh × US$207/kWh = US$212.6 M.
-  - Annual cost: US$212.6 M × 0.1418 = **US$30.2 M/yr**.
-- **EEF:** no capital; 346.7 GWh/yr × US$50/MWh = **US$17.3 M/yr**.
-- **Check over 25 years:** explicit cash flows, with the battery replaced at year 15 and 5 years of remaining life salvaged at year 25, give US$30.5 M/yr (+1%).
-- **Present value at 8% over 25 years:** battery ≈ US$326 M, EEF ≈ US$185 M.
+- **Battery (90% displacement):** C_B = c_E · E · (CRF + φ), where CRF = r / (1 − (1 + r)^−n), with r = 8%, n = 15 yr (CRF = 0.1168) and φ = 2.5%.
+  - Capital: 1,320 MWh × US$207/kWh = US$273.1 M.
+  - Annual cost: US$273.1 M × 0.1418 = **US$38.7 M/yr**.
+- **EEF:** no capital; 434.3 GWh/yr × US$50/MWh = **US$21.7 M/yr**.
+- **Check over 25 years:** explicit cash flows, with the battery replaced at year 15 and 5 years of remaining life salvaged at year 25, give US$39.1 M/yr (+1%).
+- **Present value at 8% over 25 years:** battery ≈ US$419 M, EEF ≈ US$232 M. (At the paper's 80%: US$326 M and US$185 M.)
 - **Sensitivities in the dissertation:**
   - PV degradation (≈ 0.5–0.6%/yr; ≈ 85% of the original output after 25 yr in the 2024 Riyadh design)
   - battery degradation and replacement timing

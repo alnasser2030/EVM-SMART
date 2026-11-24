@@ -58,7 +58,7 @@ function sDispatch(g, lt) {
 
 // ------------------------------------------------------------ result 2: how much flexibility
 function sCurve(g, lt) {
-  head(g, lt, 'RESULT 2  ·  HOW MUCH FLEXIBILITY?', '≈ 1.4 MW of flexibility per MW of data center for 80%');
+  head(g, lt, 'RESULT 2  ·  HOW MUCH FLEXIBILITY?', `≈ ${fmt(DATA.sites.riyadh.flex_MW_base / 100, 1)} MW of flexibility per MW of data center for ${DATA.BX}%`);
   const x0 = 200, x1 = 1270, y0 = 860, y1 = 320, X = v => x0 + (x1 - x0) * v / 3.2, Y = c => y0 - (y0 - y1) * (c - 40) / 60;
   const ax = inG(g, lt, .3, .6, 0);
   for (const c of [40, 50, 60, 70, 80, 90, 100]) { E('line', { x1: x0, x2: x1, y1: Y(c), y2: Y(c), stroke: c === 40 ? C.ink2 : C.faint, 'stroke-width': c === 40 ? 2 : 1.5 }, ax); T(ax, x0 - 12, Y(c) + 6, 16, `${c}%`, { a: 'end', c: C.muted }); }
@@ -78,14 +78,14 @@ function sCurve(g, lt) {
   E('circle', { cx: X(0), cy: Y(40.4), r: 8, fill: C.am }, am);
   E('line', { x1: X(0) + 6, y1: Y(40.4) - 4, x2: X(.62), y2: Y(45.4), stroke: C.grid, 'stroke-width': 1.5 }, am);
   pill(am, X(.62), Y(45.4), '40.4% — annual matching alone', { s: 16, fill: C.paper, stroke: C.am, c: C.grid });
-  const g80 = inG(g, lt, 7.2, .6, 0);
-  E('path', { d: `M${X(0)},${Y(80)} H${X(1.4)} V${y0}`, fill: 'none', stroke: C.maroon, 'stroke-width': 2, 'stroke-dasharray': '4 5' }, g80);
-  E('circle', { cx: X(1.4), cy: Y(80), r: 9, fill: C.maroon, stroke: '#fff', 'stroke-width': 3 }, g80);
-  pill(g80, X(1.4) + 22, Y(80) + 40, '1.4× → 80%', { s: 19, fill: C.maroon, c: '#fff' });
+  const kB = DATA.sites.riyadh.flex_MW_base / 100, BX = DATA.BX, g80 = inG(g, lt, 7.2, .6, 0);
+  E('path', { d: `M${X(0)},${Y(BX)} H${X(kB)} V${y0}`, fill: 'none', stroke: C.maroon, 'stroke-width': 2, 'stroke-dasharray': '4 5' }, g80);
+  E('circle', { cx: X(kB), cy: Y(BX), r: 9, fill: C.maroon, stroke: '#fff', 'stroke-width': 3 }, g80);
+  pill(g80, X(kB) + 22, Y(BX) + 44, `${fmt(kB, 1)}× → ${BX}%`, { s: 19, fill: C.maroon, c: '#fff' });
   const gmx = inG(g, lt, 8.6, .6, 0);
   E('line', { x1: X(0), x2: X(3.2), y1: Y(91.2), y2: Y(91.2), stroke: C.ink2, 'stroke-width': 1.5, 'stroke-dasharray': '3 5' }, gmx);
   T(gmx, X(3.2), Y(91.2) - 14, 17, `${DATA.max_cfe}% ceiling — each 24-h window must be energy-neutral`, { a: 'end', c: C.ink2, w: 600 });
-  const tk = [['≈ 1.4 MW', 'of flexibility per MW of data center reaches 80% displacement'], ['8 h = 12 h', 'beyond 8 hours, duration barely matters — power is the binding resource'], ['≈ 1.7×', 'the power is needed if loads can shift for only 4 hours']];
+  const tk = [[`≈ ${fmt(kB, 1)} MW`, `of flexibility per MW of data center reaches ${BX}% displacement`], ['8 h = 12 h', 'beyond 8 hours, duration barely matters — power is the binding resource'], [`≈ ${fmt(DATA.sites.riyadh.flex_MW_D4_base / DATA.sites.riyadh.flex_MW_base, 1)}×`, 'the power is needed if loads can shift for only 4 hours']];
   tk.forEach(([big, txt], i) => {
     const tg = inG(g, lt, 3.2 + i * 2.6, .7, 0, 30);
     const y = 330 + i * 190;
@@ -97,13 +97,13 @@ function sCurve(g, lt) {
 
 // ------------------------------------------------------------ result 3: three pillars
 function sResPillars(g, lt) {
-  head(g, lt, 'RESULT 3  ·  THREE PILLARS AT 80% DISPLACEMENT', 'Grid reliability, battery-level emissions, lower cost');
+  head(g, lt, `RESULT 3  ·  THREE PILLARS AT ${DATA.BX}% DISPLACEMENT`, 'Grid reliability, battery-level emissions, lower cost');
   const pl = DATA.pillars, lg = inG(g, lt, .4, .6, 0);
   legend(lg, 80, 300, pl.map(p => [p.config, CC[p.config]]), 19);
   const panels = [
     ['(a) Reliability', 'data-center load served, %', p => p.served, 118, 1.0, v => `${fmt(v)}%`, 'Identical: the data center is always grid-supplied'],
-    ['(b) Emissions', 'hourly-accounted, kt CO₂ / yr', p => p.em_kt, 560, 4.4, v => fmt(v, 1), 'EEF = battery — one third of annual matching'],
-    ['(c) Cost of displacement', 'US$ million / yr (range: cost cases)', p => p.cost_mid, 52, 7.8, v => fmt(v, 1), `EEF ≈ ${fmt(100 * (1 - pl[3].cost_mid / pl[2].cost_mid))}% cheaper, with no new storage`],
+    ['(b) Emissions', 'hourly-accounted, kt CO₂ / yr', p => p.em_kt, 560, 4.4, v => fmt(v, 1), 'EEF = battery — one sixth of annual matching'],
+    ['(c) Cost of displacement', 'US$ million / yr (range: cost cases)', p => p.cost_mid, 70, 7.8, v => fmt(v, 1), `EEF ≈ ${fmt(100 * (1 - pl[3].cost_mid / pl[2].cost_mid))}% cheaper, with no new storage`],
   ];
   panels.forEach(([ttl, unit, get, vmax, at, lab, note], k) => {
     const px = 80 + k * 600, base = 790, hmax = 380;
@@ -192,11 +192,11 @@ function sBreakeven(g, lt) {
 // ------------------------------------------------------------ result 5: seasons and sensitivity
 function sSeasons(g, lt) {
   head(g, lt, 'RESULT 5  ·  SEASONS & SENSITIVITY', 'Summer is easy; winter is where the daily window binds');
-  const M = DATA.monthly, x0 = 200, x1 = 1170, y0 = 840, y1 = 330, X = m => x0 + (x1 - x0) * (m - 1) / 11, Y = c => y0 - (y0 - y1) * (c - 30) / 60;
+  const M = DATA.monthly, x0 = 200, x1 = 1170, y0 = 840, y1 = 330, X = m => x0 + (x1 - x0) * (m - 1) / 11, Y = c => y0 - (y0 - y1) * (c - 30) / 70;
   const ax = inG(g, lt, .3, .6, 0);
-  for (const c of [30, 45, 60, 75, 90]) { E('line', { x1: x0 - 20, x2: x1 + 20, y1: Y(c), y2: Y(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, ax); T(ax, x0 - 32, Y(c) + 6, 16, `${c}%`, { a: 'end', c: C.muted }); }
+  for (const c of [30, 50, 70, 90, 100]) { E('line', { x1: x0 - 20, x2: x1 + 20, y1: Y(c), y2: Y(c), stroke: c === 30 ? C.ink2 : C.faint, 'stroke-width': c === 30 ? 2 : 1.5 }, ax); T(ax, x0 - 32, Y(c) + 6, 16, `${c}%`, { a: 'end', c: C.muted }); }
   'JFMAMJJASOND'.split('').forEach((l, i) => T(ax, X(i + 1), y0 + 30, 16, l, { a: 'middle', c: C.muted, w: 700 }));
-  T(ax, x0 - 32, y1 - 44, 16, 'Monthly displacement (annual target 80%)', { c: C.muted, w: 700 });
+  T(ax, x0 - 32, y1 - 44, 16, `Monthly displacement (annual target ${DATA.BX}%)`, { c: C.muted, w: 700 });
   legend(ax, 620, y0 - 24, [['EEF', C.maroon, 'line'], ['RE+BESS', C.bess, 'line'], ['AM', C.am, 'line']], 17);
   [['AM', C.am, 3.5, .6], ['BESS', C.bess, 4, 1.4], ['EEF', C.maroon, 5, 2.2]].forEach(([k, col, sw, at]) => {
     const pts = M.map(r => [X(r.m), Y(r[k])]);
@@ -210,7 +210,7 @@ function sSeasons(g, lt) {
   pill(c1, X(6), Y(70), `Jun  ${fmt(jun.EEF, 1)}% vs ${fmt(jun.BESS, 1)}%`, { a: 'middle', s: 16, fill: C.paper, stroke: C.maroon });
   const c2 = inG(g, lt, 5.6, .6, 8);
   pill(c2, X(11.4), Y(dec.EEF) + 50, `Dec  ${fmt(dec.EEF, 1)}% vs ${fmt(dec.BESS, 1)}%`, { a: 'middle', s: 16, fill: C.paper, stroke: C.bess, c: C.bess });
-  const tiles = [['PV +25–50%', 'raises the EEF ceiling from 91.2% to 93.1–93.7%'], ['90% target', 'needs 151–162 MW instead of 203 MW with oversized PV'], ['η = 0.85', '163 MW for 80% (vs. 140 MW at η = 0.95)']];
+  const tiles = [['PV +25–50%', 'raises the EEF ceiling from 91.2% to 93.1–93.7%'], ['90% target', 'needs 151–162 MW instead of 203 MW with oversized PV'], ['η = 0.85', '90% then needs oversized PV; 80% needs 163 MW instead of 140 MW']];
   tiles.forEach(([big, txt], i) => {
     const tg = inG(g, lt, 6.4 + i * 1.2, .7, 0, 30), y = 320 + i * 180;
     card(tg, 1290, y, 550, 160);
