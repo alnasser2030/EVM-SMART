@@ -1,0 +1,568 @@
+panel,dc_MW,displacement_pct,cheapest,eef_share_of_target
+clean,1.0,50,Battery,1.0
+clean,1.6,50,Battery,1.0
+clean,2.5,50,Battery,1.0
+clean,4.0,50,Battery,1.0
+clean,6.3,50,Battery,1.0
+clean,10.0,50,EEF,1.0
+clean,15.8,50,EEF,1.0
+clean,25.1,50,EEF,1.0
+clean,39.8,50,EEF,1.0
+clean,63.1,50,EEF,1.0
+clean,100.0,50,EEF,1.0
+clean,158.5,50,EEF,1.0
+clean,251.2,50,EEF,1.0
+clean,398.1,50,EEF,1.0
+clean,631.0,50,EEF,1.0
+clean,1000.0,50,EEF,1.0
+clean,1584.9,50,EEF,1.0
+clean,2511.9,50,EEF,1.0
+clean,3981.1,50,EEF,1.0
+clean,6309.6,50,EEF,1.0
+clean,10000.0,50,EEF + storage,0.704
+clean,1.0,60,Battery,1.0
+clean,1.6,60,Battery,1.0
+clean,2.5,60,Battery,1.0
+clean,4.0,60,Battery,1.0
+clean,6.3,60,EEF,1.0
+clean,10.0,60,EEF,1.0
+clean,15.8,60,EEF,1.0
+clean,25.1,60,EEF,1.0
+clean,39.8,60,EEF,1.0
+clean,63.1,60,EEF,1.0
+clean,100.0,60,EEF,1.0
+clean,158.5,60,EEF,1.0
+clean,251.2,60,EEF,1.0
+clean,398.1,60,EEF,1.0
+clean,631.0,60,EEF,1.0
+clean,1000.0,60,EEF,1.0
+clean,1584.9,60,EEF,1.0
+clean,2511.9,60,EEF,1.0
+clean,3981.1,60,EEF + storage,0.805
+clean,6309.6,60,EEF + storage,0.508
+clean,10000.0,60,EEF + storage,0.321
+clean,1.0,70,Battery,1.0
+clean,1.6,70,Battery,1.0
+clean,2.5,70,Battery,1.0
+clean,4.0,70,EEF,1.0
+clean,6.3,70,EEF,1.0
+clean,10.0,70,EEF,1.0
+clean,15.8,70,EEF,1.0
+clean,25.1,70,EEF,1.0
+clean,39.8,70,EEF,1.0
+clean,63.1,70,EEF,1.0
+clean,100.0,70,EEF,1.0
+clean,158.5,70,EEF,1.0
+clean,251.2,70,EEF,1.0
+clean,398.1,70,EEF,1.0
+clean,631.0,70,EEF,1.0
+clean,1000.0,70,EEF,1.0
+clean,1584.9,70,EEF,1.0
+clean,2511.9,70,EEF + storage,0.807
+clean,3981.1,70,EEF + storage,0.509
+clean,6309.6,70,EEF + storage,0.321
+clean,10000.0,70,EEF + storage,0.203
+clean,1.0,80,Battery,1.0
+clean,1.6,80,Battery,1.0
+clean,2.5,80,EEF,1.0
+clean,4.0,80,EEF,1.0
+clean,6.3,80,EEF,1.0
+clean,10.0,80,EEF,1.0
+clean,15.8,80,EEF,1.0
+clean,25.1,80,EEF,1.0
+clean,39.8,80,EEF,1.0
+clean,63.1,80,EEF,1.0
+clean,100.0,80,EEF,1.0
+clean,158.5,80,EEF,1.0
+clean,251.2,80,EEF,1.0
+clean,398.1,80,EEF,1.0
+clean,631.0,80,EEF,1.0
+clean,1000.0,80,EEF,1.0
+clean,1584.9,80,EEF + storage,0.922
+clean,2511.9,80,EEF + storage,0.582
+clean,3981.1,80,EEF + storage,0.367
+clean,6309.6,80,EEF + storage,0.232
+clean,10000.0,80,EEF + storage,0.146
+clean,1.0,85,Battery,1.0
+clean,1.6,85,Battery,1.0
+clean,2.5,85,EEF,1.0
+clean,4.0,85,EEF,1.0
+clean,6.3,85,EEF,1.0
+clean,10.0,85,EEF,1.0
+clean,15.8,85,EEF,1.0
+clean,25.1,85,EEF,1.0
+clean,39.8,85,EEF,1.0
+clean,63.1,85,EEF,1.0
+clean,100.0,85,EEF,1.0
+clean,158.5,85,EEF,1.0
+clean,251.2,85,EEF,1.0
+clean,398.1,85,EEF,1.0
+clean,631.0,85,EEF,1.0
+clean,1000.0,85,EEF,1.0
+clean,1584.9,85,EEF + storage,0.806
+clean,2511.9,85,EEF + storage,0.509
+clean,3981.1,85,EEF + storage,0.321
+clean,6309.6,85,EEF + storage,0.203
+clean,10000.0,85,EEF + storage,0.128
+clean,1.0,90,Battery,1.0
+clean,1.6,90,Battery,1.0
+clean,2.5,90,EEF,1.0
+clean,4.0,90,EEF,1.0
+clean,6.3,90,EEF,1.0
+clean,10.0,90,EEF,1.0
+clean,15.8,90,EEF,1.0
+clean,25.1,90,EEF,1.0
+clean,39.8,90,EEF,1.0
+clean,63.1,90,EEF,1.0
+clean,100.0,90,EEF,1.0
+clean,158.5,90,EEF,1.0
+clean,251.2,90,EEF,1.0
+clean,398.1,90,EEF,1.0
+clean,631.0,90,EEF,1.0
+clean,1000.0,90,EEF,1.0
+clean,1584.9,90,EEF + storage,0.713
+clean,2511.9,90,EEF + storage,0.45
+clean,3981.1,90,EEF + storage,0.284
+clean,6309.6,90,EEF + storage,0.179
+clean,10000.0,90,EEF + storage,0.113
+clean,1.0,93,Battery,1.0
+clean,1.6,93,EEF,1.0
+clean,2.5,93,EEF,1.0
+clean,4.0,93,EEF,1.0
+clean,6.3,93,EEF,1.0
+clean,10.0,93,EEF,1.0
+clean,15.8,93,EEF,1.0
+clean,25.1,93,EEF,1.0
+clean,39.8,93,EEF,1.0
+clean,63.1,93,EEF,1.0
+clean,100.0,93,EEF,1.0
+clean,158.5,93,EEF,1.0
+clean,251.2,93,EEF,1.0
+clean,398.1,93,EEF,1.0
+clean,631.0,93,EEF,1.0
+clean,1000.0,93,EEF,1.0
+clean,1584.9,93,EEF + storage,0.661
+clean,2511.9,93,EEF + storage,0.417
+clean,3981.1,93,EEF + storage,0.263
+clean,6309.6,93,EEF + storage,0.166
+clean,10000.0,93,EEF + storage,0.105
+clean,1.0,95,Battery,1.0
+clean,1.6,95,EEF,1.0
+clean,2.5,95,EEF,1.0
+clean,4.0,95,EEF,1.0
+clean,6.3,95,EEF,1.0
+clean,10.0,95,EEF,1.0
+clean,15.8,95,EEF,1.0
+clean,25.1,95,EEF,1.0
+clean,39.8,95,EEF,1.0
+clean,63.1,95,EEF,1.0
+clean,100.0,95,EEF,1.0
+clean,158.5,95,EEF,1.0
+clean,251.2,95,EEF,1.0
+clean,398.1,95,EEF,1.0
+clean,631.0,95,EEF,1.0
+clean,1000.0,95,EEF + storage,0.974
+clean,1584.9,95,EEF + storage,0.615
+clean,2511.9,95,EEF + storage,0.388
+clean,3981.1,95,EEF + storage,0.245
+clean,6309.6,95,EEF + storage,0.154
+clean,10000.0,95,EEF + storage,0.097
+clean,1.0,97,Battery,1.0
+clean,1.6,97,EEF,1.0
+clean,2.5,97,EEF,1.0
+clean,4.0,97,EEF,1.0
+clean,6.3,97,EEF,1.0
+clean,10.0,97,EEF,1.0
+clean,15.8,97,EEF,1.0
+clean,25.1,97,EEF,1.0
+clean,39.8,97,EEF,1.0
+clean,63.1,97,EEF,1.0
+clean,100.0,97,EEF,1.0
+clean,158.5,97,EEF,1.0
+clean,251.2,97,EEF,1.0
+clean,398.1,97,EEF,1.0
+clean,631.0,97,EEF,1.0
+clean,1000.0,97,EEF + storage,0.868
+clean,1584.9,97,EEF + storage,0.547
+clean,2511.9,97,EEF + storage,0.345
+clean,3981.1,97,EEF + storage,0.218
+clean,6309.6,97,EEF + storage,0.138
+clean,10000.0,97,EEF + storage,0.087
+pv_rule,1.0,50,GRID / AM,1.0
+pv_rule,1.6,50,GRID / AM,1.0
+pv_rule,2.5,50,EEF,1.0
+pv_rule,4.0,50,EEF,1.0
+pv_rule,6.3,50,EEF,1.0
+pv_rule,10.0,50,EEF,1.0
+pv_rule,15.8,50,EEF,1.0
+pv_rule,25.1,50,EEF,1.0
+pv_rule,39.8,50,EEF,1.0
+pv_rule,63.1,50,EEF,1.0
+pv_rule,100.0,50,EEF,1.0
+pv_rule,158.5,50,EEF,1.0
+pv_rule,251.2,50,EEF,1.0
+pv_rule,398.1,50,EEF,1.0
+pv_rule,631.0,50,EEF,1.0
+pv_rule,1000.0,50,EEF,1.0
+pv_rule,1584.9,50,EEF,1.0
+pv_rule,2511.9,50,EEF,1.0
+pv_rule,3981.1,50,EEF,1.0
+pv_rule,6309.6,50,EEF,1.0
+pv_rule,10000.0,50,EEF + storage,0.704
+pv_rule,1.0,60,GRID / AM,1.0
+pv_rule,1.6,60,GRID / AM,1.0
+pv_rule,2.5,60,GRID / AM,1.0
+pv_rule,4.0,60,EEF,1.0
+pv_rule,6.3,60,EEF,1.0
+pv_rule,10.0,60,EEF,1.0
+pv_rule,15.8,60,EEF,1.0
+pv_rule,25.1,60,EEF,1.0
+pv_rule,39.8,60,EEF,1.0
+pv_rule,63.1,60,EEF,1.0
+pv_rule,100.0,60,EEF,1.0
+pv_rule,158.5,60,EEF,1.0
+pv_rule,251.2,60,EEF,1.0
+pv_rule,398.1,60,EEF,1.0
+pv_rule,631.0,60,EEF,1.0
+pv_rule,1000.0,60,EEF,1.0
+pv_rule,1584.9,60,EEF,1.0
+pv_rule,2511.9,60,EEF,1.0
+pv_rule,3981.1,60,EEF + storage,0.805
+pv_rule,6309.6,60,GRID / AM,0.508
+pv_rule,10000.0,60,GRID / AM,0.321
+pv_rule,1.0,70,GRID / AM,1.0
+pv_rule,1.6,70,GRID / AM,1.0
+pv_rule,2.5,70,GRID / AM,1.0
+pv_rule,4.0,70,GRID / AM,1.0
+pv_rule,6.3,70,EEF,1.0
+pv_rule,10.0,70,EEF,1.0
+pv_rule,15.8,70,EEF,1.0
+pv_rule,25.1,70,EEF,1.0
+pv_rule,39.8,70,EEF,1.0
+pv_rule,63.1,70,EEF,1.0
+pv_rule,100.0,70,EEF,1.0
+pv_rule,158.5,70,EEF,1.0
+pv_rule,251.2,70,EEF,1.0
+pv_rule,398.1,70,EEF,1.0
+pv_rule,631.0,70,EEF,1.0
+pv_rule,1000.0,70,EEF,1.0
+pv_rule,1584.9,70,EEF,1.0
+pv_rule,2511.9,70,EEF + storage,0.807
+pv_rule,3981.1,70,GRID / AM,0.509
+pv_rule,6309.6,70,GRID / AM,0.321
+pv_rule,10000.0,70,GRID / AM,0.203
+pv_rule,1.0,80,GRID / AM,1.0
+pv_rule,1.6,80,GRID / AM,1.0
+pv_rule,2.5,80,GRID / AM,1.0
+pv_rule,4.0,80,GRID / AM,1.0
+pv_rule,6.3,80,GRID / AM,1.0
+pv_rule,10.0,80,GRID / AM,1.0
+pv_rule,15.8,80,GRID / AM,1.0
+pv_rule,25.1,80,EEF,1.0
+pv_rule,39.8,80,EEF,1.0
+pv_rule,63.1,80,EEF,1.0
+pv_rule,100.0,80,EEF,1.0
+pv_rule,158.5,80,EEF,1.0
+pv_rule,251.2,80,EEF,1.0
+pv_rule,398.1,80,EEF,1.0
+pv_rule,631.0,80,EEF,1.0
+pv_rule,1000.0,80,EEF,1.0
+pv_rule,1584.9,80,GRID / AM,0.922
+pv_rule,2511.9,80,GRID / AM,0.582
+pv_rule,3981.1,80,GRID / AM,0.367
+pv_rule,6309.6,80,GRID / AM,0.232
+pv_rule,10000.0,80,GRID / AM,0.146
+pv_rule,1.0,85,GRID / AM,1.0
+pv_rule,1.6,85,GRID / AM,1.0
+pv_rule,2.5,85,GRID / AM,1.0
+pv_rule,4.0,85,GRID / AM,1.0
+pv_rule,6.3,85,GRID / AM,1.0
+pv_rule,10.0,85,GRID / AM,1.0
+pv_rule,15.8,85,GRID / AM,1.0
+pv_rule,25.1,85,GRID / AM,1.0
+pv_rule,39.8,85,GRID / AM,1.0
+pv_rule,63.1,85,GRID / AM,1.0
+pv_rule,100.0,85,GRID / AM,1.0
+pv_rule,158.5,85,GRID / AM,1.0
+pv_rule,251.2,85,GRID / AM,1.0
+pv_rule,398.1,85,GRID / AM,1.0
+pv_rule,631.0,85,GRID / AM,1.0
+pv_rule,1000.0,85,GRID / AM,1.0
+pv_rule,1584.9,85,GRID / AM,0.806
+pv_rule,2511.9,85,GRID / AM,0.509
+pv_rule,3981.1,85,GRID / AM,0.321
+pv_rule,6309.6,85,GRID / AM,0.203
+pv_rule,10000.0,85,GRID / AM,0.128
+pv_rule,1.0,90,GRID / AM,1.0
+pv_rule,1.6,90,GRID / AM,1.0
+pv_rule,2.5,90,GRID / AM,1.0
+pv_rule,4.0,90,GRID / AM,1.0
+pv_rule,6.3,90,GRID / AM,1.0
+pv_rule,10.0,90,GRID / AM,1.0
+pv_rule,15.8,90,GRID / AM,1.0
+pv_rule,25.1,90,GRID / AM,1.0
+pv_rule,39.8,90,GRID / AM,1.0
+pv_rule,63.1,90,GRID / AM,1.0
+pv_rule,100.0,90,GRID / AM,1.0
+pv_rule,158.5,90,GRID / AM,1.0
+pv_rule,251.2,90,GRID / AM,1.0
+pv_rule,398.1,90,GRID / AM,1.0
+pv_rule,631.0,90,GRID / AM,1.0
+pv_rule,1000.0,90,GRID / AM,1.0
+pv_rule,1584.9,90,GRID / AM,0.713
+pv_rule,2511.9,90,GRID / AM,0.45
+pv_rule,3981.1,90,GRID / AM,0.284
+pv_rule,6309.6,90,GRID / AM,0.179
+pv_rule,10000.0,90,GRID / AM,0.113
+pv_rule,1.0,93,GRID / AM,1.0
+pv_rule,1.6,93,GRID / AM,1.0
+pv_rule,2.5,93,GRID / AM,1.0
+pv_rule,4.0,93,GRID / AM,1.0
+pv_rule,6.3,93,GRID / AM,1.0
+pv_rule,10.0,93,GRID / AM,1.0
+pv_rule,15.8,93,GRID / AM,1.0
+pv_rule,25.1,93,GRID / AM,1.0
+pv_rule,39.8,93,GRID / AM,1.0
+pv_rule,63.1,93,GRID / AM,1.0
+pv_rule,100.0,93,GRID / AM,1.0
+pv_rule,158.5,93,GRID / AM,1.0
+pv_rule,251.2,93,GRID / AM,1.0
+pv_rule,398.1,93,GRID / AM,1.0
+pv_rule,631.0,93,GRID / AM,1.0
+pv_rule,1000.0,93,GRID / AM,1.0
+pv_rule,1584.9,93,GRID / AM,0.661
+pv_rule,2511.9,93,GRID / AM,0.417
+pv_rule,3981.1,93,GRID / AM,0.263
+pv_rule,6309.6,93,GRID / AM,0.166
+pv_rule,10000.0,93,GRID / AM,0.105
+pv_rule,1.0,95,GRID / AM,1.0
+pv_rule,1.6,95,GRID / AM,1.0
+pv_rule,2.5,95,GRID / AM,1.0
+pv_rule,4.0,95,GRID / AM,1.0
+pv_rule,6.3,95,GRID / AM,1.0
+pv_rule,10.0,95,GRID / AM,1.0
+pv_rule,15.8,95,GRID / AM,1.0
+pv_rule,25.1,95,GRID / AM,1.0
+pv_rule,39.8,95,GRID / AM,1.0
+pv_rule,63.1,95,GRID / AM,1.0
+pv_rule,100.0,95,GRID / AM,1.0
+pv_rule,158.5,95,GRID / AM,1.0
+pv_rule,251.2,95,GRID / AM,1.0
+pv_rule,398.1,95,GRID / AM,1.0
+pv_rule,631.0,95,GRID / AM,1.0
+pv_rule,1000.0,95,GRID / AM,0.974
+pv_rule,1584.9,95,GRID / AM,0.615
+pv_rule,2511.9,95,GRID / AM,0.388
+pv_rule,3981.1,95,GRID / AM,0.245
+pv_rule,6309.6,95,GRID / AM,0.154
+pv_rule,10000.0,95,GRID / AM,0.097
+pv_rule,1.0,97,GRID / AM,1.0
+pv_rule,1.6,97,GRID / AM,1.0
+pv_rule,2.5,97,GRID / AM,1.0
+pv_rule,4.0,97,GRID / AM,1.0
+pv_rule,6.3,97,GRID / AM,1.0
+pv_rule,10.0,97,GRID / AM,1.0
+pv_rule,15.8,97,GRID / AM,1.0
+pv_rule,25.1,97,GRID / AM,1.0
+pv_rule,39.8,97,GRID / AM,1.0
+pv_rule,63.1,97,GRID / AM,1.0
+pv_rule,100.0,97,GRID / AM,1.0
+pv_rule,158.5,97,GRID / AM,1.0
+pv_rule,251.2,97,GRID / AM,1.0
+pv_rule,398.1,97,GRID / AM,1.0
+pv_rule,631.0,97,GRID / AM,1.0
+pv_rule,1000.0,97,GRID / AM,0.868
+pv_rule,1584.9,97,GRID / AM,0.547
+pv_rule,2511.9,97,GRID / AM,0.345
+pv_rule,3981.1,97,GRID / AM,0.218
+pv_rule,6309.6,97,GRID / AM,0.138
+pv_rule,10000.0,97,GRID / AM,0.087
+grid+carbon,1.0,50,AM,1.0
+grid+carbon,1.6,50,AM,1.0
+grid+carbon,2.5,50,AM,1.0
+grid+carbon,4.0,50,AM,1.0
+grid+carbon,6.3,50,AM,1.0
+grid+carbon,10.0,50,AM,1.0
+grid+carbon,15.8,50,AM,1.0
+grid+carbon,25.1,50,EEF,1.0
+grid+carbon,39.8,50,EEF,1.0
+grid+carbon,63.1,50,EEF,1.0
+grid+carbon,100.0,50,EEF,1.0
+grid+carbon,158.5,50,EEF,1.0
+grid+carbon,251.2,50,EEF,1.0
+grid+carbon,398.1,50,EEF,1.0
+grid+carbon,631.0,50,EEF,1.0
+grid+carbon,1000.0,50,EEF,1.0
+grid+carbon,1584.9,50,EEF,1.0
+grid+carbon,2511.9,50,EEF,1.0
+grid+carbon,3981.1,50,EEF,1.0
+grid+carbon,6309.6,50,EEF,1.0
+grid+carbon,10000.0,50,EEF + storage,0.704
+grid+carbon,1.0,60,AM,1.0
+grid+carbon,1.6,60,AM,1.0
+grid+carbon,2.5,60,AM,1.0
+grid+carbon,4.0,60,AM,1.0
+grid+carbon,6.3,60,AM,1.0
+grid+carbon,10.0,60,AM,1.0
+grid+carbon,15.8,60,EEF,1.0
+grid+carbon,25.1,60,EEF,1.0
+grid+carbon,39.8,60,EEF,1.0
+grid+carbon,63.1,60,EEF,1.0
+grid+carbon,100.0,60,EEF,1.0
+grid+carbon,158.5,60,EEF,1.0
+grid+carbon,251.2,60,EEF,1.0
+grid+carbon,398.1,60,EEF,1.0
+grid+carbon,631.0,60,EEF,1.0
+grid+carbon,1000.0,60,EEF,1.0
+grid+carbon,1584.9,60,EEF,1.0
+grid+carbon,2511.9,60,EEF,1.0
+grid+carbon,3981.1,60,EEF + storage,0.805
+grid+carbon,6309.6,60,AM,0.508
+grid+carbon,10000.0,60,AM,0.321
+grid+carbon,1.0,70,AM,1.0
+grid+carbon,1.6,70,AM,1.0
+grid+carbon,2.5,70,AM,1.0
+grid+carbon,4.0,70,AM,1.0
+grid+carbon,6.3,70,AM,1.0
+grid+carbon,10.0,70,EEF,1.0
+grid+carbon,15.8,70,EEF,1.0
+grid+carbon,25.1,70,EEF,1.0
+grid+carbon,39.8,70,EEF,1.0
+grid+carbon,63.1,70,EEF,1.0
+grid+carbon,100.0,70,EEF,1.0
+grid+carbon,158.5,70,EEF,1.0
+grid+carbon,251.2,70,EEF,1.0
+grid+carbon,398.1,70,EEF,1.0
+grid+carbon,631.0,70,EEF,1.0
+grid+carbon,1000.0,70,EEF,1.0
+grid+carbon,1584.9,70,EEF,1.0
+grid+carbon,2511.9,70,EEF + storage,0.807
+grid+carbon,3981.1,70,AM,0.509
+grid+carbon,6309.6,70,AM,0.321
+grid+carbon,10000.0,70,AM,0.203
+grid+carbon,1.0,80,AM,1.0
+grid+carbon,1.6,80,AM,1.0
+grid+carbon,2.5,80,AM,1.0
+grid+carbon,4.0,80,AM,1.0
+grid+carbon,6.3,80,AM,1.0
+grid+carbon,10.0,80,EEF,1.0
+grid+carbon,15.8,80,EEF,1.0
+grid+carbon,25.1,80,EEF,1.0
+grid+carbon,39.8,80,EEF,1.0
+grid+carbon,63.1,80,EEF,1.0
+grid+carbon,100.0,80,EEF,1.0
+grid+carbon,158.5,80,EEF,1.0
+grid+carbon,251.2,80,EEF,1.0
+grid+carbon,398.1,80,EEF,1.0
+grid+carbon,631.0,80,EEF,1.0
+grid+carbon,1000.0,80,EEF,1.0
+grid+carbon,1584.9,80,EEF + storage,0.922
+grid+carbon,2511.9,80,AM,0.582
+grid+carbon,3981.1,80,AM,0.367
+grid+carbon,6309.6,80,AM,0.232
+grid+carbon,10000.0,80,AM,0.146
+grid+carbon,1.0,85,AM,1.0
+grid+carbon,1.6,85,AM,1.0
+grid+carbon,2.5,85,AM,1.0
+grid+carbon,4.0,85,AM,1.0
+grid+carbon,6.3,85,AM,1.0
+grid+carbon,10.0,85,EEF,1.0
+grid+carbon,15.8,85,EEF,1.0
+grid+carbon,25.1,85,EEF,1.0
+grid+carbon,39.8,85,EEF,1.0
+grid+carbon,63.1,85,EEF,1.0
+grid+carbon,100.0,85,EEF,1.0
+grid+carbon,158.5,85,EEF,1.0
+grid+carbon,251.2,85,EEF,1.0
+grid+carbon,398.1,85,EEF,1.0
+grid+carbon,631.0,85,EEF,1.0
+grid+carbon,1000.0,85,EEF,1.0
+grid+carbon,1584.9,85,AM,0.766
+grid+carbon,2511.9,85,AM,0.483
+grid+carbon,3981.1,85,AM,0.305
+grid+carbon,6309.6,85,AM,0.192
+grid+carbon,10000.0,85,AM,0.121
+grid+carbon,1.0,90,AM,1.0
+grid+carbon,1.6,90,AM,1.0
+grid+carbon,2.5,90,AM,1.0
+grid+carbon,4.0,90,AM,1.0
+grid+carbon,6.3,90,AM,1.0
+grid+carbon,10.0,90,EEF,1.0
+grid+carbon,15.8,90,EEF,1.0
+grid+carbon,25.1,90,EEF,1.0
+grid+carbon,39.8,90,EEF,1.0
+grid+carbon,63.1,90,EEF,1.0
+grid+carbon,100.0,90,EEF,1.0
+grid+carbon,158.5,90,EEF,1.0
+grid+carbon,251.2,90,EEF,1.0
+grid+carbon,398.1,90,EEF,1.0
+grid+carbon,631.0,90,EEF,1.0
+grid+carbon,1000.0,90,EEF + storage,0.986
+grid+carbon,1584.9,90,AM,0.622
+grid+carbon,2511.9,90,AM,0.392
+grid+carbon,3981.1,90,AM,0.248
+grid+carbon,6309.6,90,AM,0.156
+grid+carbon,10000.0,90,AM,0.099
+grid+carbon,1.0,93,AM,1.0
+grid+carbon,1.6,93,AM,1.0
+grid+carbon,2.5,93,AM,1.0
+grid+carbon,4.0,93,AM,1.0
+grid+carbon,6.3,93,AM,1.0
+grid+carbon,10.0,93,EEF,1.0
+grid+carbon,15.8,93,EEF,1.0
+grid+carbon,25.1,93,EEF,1.0
+grid+carbon,39.8,93,EEF,1.0
+grid+carbon,63.1,93,EEF,1.0
+grid+carbon,100.0,93,EEF,1.0
+grid+carbon,158.5,93,EEF,1.0
+grid+carbon,251.2,93,EEF,1.0
+grid+carbon,398.1,93,EEF,1.0
+grid+carbon,631.0,93,EEF,1.0
+grid+carbon,1000.0,93,EEF,1.0
+grid+carbon,1584.9,93,AM,0.661
+grid+carbon,2511.9,93,AM,0.417
+grid+carbon,3981.1,93,AM,0.263
+grid+carbon,6309.6,93,AM,0.166
+grid+carbon,10000.0,93,AM,0.105
+grid+carbon,1.0,95,AM,1.0
+grid+carbon,1.6,95,AM,1.0
+grid+carbon,2.5,95,AM,1.0
+grid+carbon,4.0,95,AM,1.0
+grid+carbon,6.3,95,AM,1.0
+grid+carbon,10.0,95,EEF,1.0
+grid+carbon,15.8,95,EEF,1.0
+grid+carbon,25.1,95,EEF,1.0
+grid+carbon,39.8,95,EEF,1.0
+grid+carbon,63.1,95,EEF,1.0
+grid+carbon,100.0,95,EEF,1.0
+grid+carbon,158.5,95,EEF,1.0
+grid+carbon,251.2,95,EEF,1.0
+grid+carbon,398.1,95,EEF,1.0
+grid+carbon,631.0,95,EEF,1.0
+grid+carbon,1000.0,95,EEF + storage,0.974
+grid+carbon,1584.9,95,AM,0.615
+grid+carbon,2511.9,95,AM,0.388
+grid+carbon,3981.1,95,AM,0.245
+grid+carbon,6309.6,95,AM,0.154
+grid+carbon,10000.0,95,AM,0.097
+grid+carbon,1.0,97,AM,1.0
+grid+carbon,1.6,97,AM,1.0
+grid+carbon,2.5,97,AM,1.0
+grid+carbon,4.0,97,AM,1.0
+grid+carbon,6.3,97,AM,1.0
+grid+carbon,10.0,97,AM,1.0
+grid+carbon,15.8,97,EEF,1.0
+grid+carbon,25.1,97,EEF,1.0
+grid+carbon,39.8,97,EEF,1.0
+grid+carbon,63.1,97,EEF,1.0
+grid+carbon,100.0,97,EEF,1.0
+grid+carbon,158.5,97,EEF,1.0
+grid+carbon,251.2,97,EEF,1.0
+grid+carbon,398.1,97,EEF,1.0
+grid+carbon,631.0,97,EEF,1.0
+grid+carbon,1000.0,97,AM,0.868
+grid+carbon,1584.9,97,AM,0.547
+grid+carbon,2511.9,97,AM,0.345
+grid+carbon,3981.1,97,AM,0.218
+grid+carbon,6309.6,97,AM,0.138
+grid+carbon,10000.0,97,AM,0.087
