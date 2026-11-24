@@ -156,6 +156,23 @@ Its worst case is annual matching with unchanged reliability, because control ne
 - **Ranking:** the same PV sits in AM, RE+BESS and EEF, so the sale lowers all three equally and the ranking does not change.
 - **Cost per tonne of CO₂ avoided relative to AM:** EEF ≈ US$88/t (US$50/MWh ÷ 0.568 t/MWh), battery ≈ US$153/t.
 
+### 7c. Proposed rule for the PV purchase price (for the regulatory framework)
+
+**Rule.** SPPC buys the output of the EEF-linked PV plant under a 25-year PPA at a price set in three tiers:
+
+| Tier | Price (halalas/kWh) | Basis | Effect per 100 MW (EEF, 80%) |
+|---|---|---|---|
+| **1. Base (recommended)** | **NREP benchmark: the latest competitively bid tariff for the same technology and region.** Round 6: 4.1–5.6; base case **5.1** (1.36 US¢) | Cost-reflective: SPPC pays what it pays any NREP plant, so other consumers are neutral | Sales ≈ PV cost → DC net **US$59.4 M/yr (US$67.8/MWh)** |
+| **2. Optional system-value adder** | Up to **+7.4 → ≈ 12.5** | Only if the grid benefits are shown to be worth at least the adder. Benefits: night net load cut by ≈ 59 MW per 100 MW, and midday PV absorbed instead of curtailed. To be quantified in Chapter 5 | At 12.5 the DC pays **US$42.1 M/yr = the same as plain grid supply**, so 80% hourly clean supply costs it nothing extra |
+| **3. Ceiling** | **Below the DC's own tariff** (18 cloud; 23 industrial from 2027) | Above it, the DC would profit from selling midday energy back above its purchase price, a cross-subsidy paid by other consumers | — |
+
+**Sensitivity:**
+- Every 1 halala/kWh of sale price is worth ≈ **US$2.3 M/yr (SAR 8.8 M)** per 100 MW to the DC.
+- Below the PV's own cost (e.g. 4.1 halalas), the DC loses ≈ US$2.3 M/yr.
+- The price **does not change which configuration wins**, because the same PV sits in AM, RE+BESS and EEF.
+
+**Why not net metering at the tariff?** Valuing midday PV at 18 halalas would make the DC's net bill ≈ US$29 M/yr while SPPC pays ≈ 3.5× the market value of midday solar. That is the "clean on paper" problem again, paid by other consumers.
+
 ### 7b. How much of the data center's use is shifted
 
 EEF does **not** shift 100% of the data center's consumption. For a chosen hourly-matching target X, the LP finds the smallest contracted flexibility that meets Σd ≥ X·ΣL − Σmin(L,P).
