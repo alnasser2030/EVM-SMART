@@ -84,6 +84,23 @@ html[dir="rtl"] .tile .big { margin-right: 0; margin-left: 5px; }
 .step { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 0 7px; }
 .step .n { width: 17px; height: 17px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font: 700 9.5px var(--font-display); grid-row: span 2; }
 
+/* motivations and problem */
+.mot { margin: 0; padding-inline-start: 12px; display: grid; gap: 2.5px; font-size: 9px; color: var(--ink-2); }
+.mot b { color: var(--ink); }
+.pstate { font-size: 9.5px; }
+.tri { width: 100%; border-collapse: collapse; font-size: 8.5px; }
+.tri th, .tri td { padding: 2px 4px; border-bottom: 1px solid var(--line); text-align: start; vertical-align: top; }
+.tri thead th { font-size: 8px; color: var(--ink-2); font-weight: 700; }
+.tri tbody th { font-weight: 600; white-space: nowrap; }
+.tri .ok { color: var(--money); font-weight: 600; }
+.tri .no { color: var(--accent-ink); }
+.tri tr.eef { background: var(--accent-soft); }
+.tri tr.eef th, .tri tr.eef td { font-weight: 700; }
+.gapline { font-size: 9.5px; border-inline-start: 3px solid var(--accent); padding-inline-start: 7px; }
+.gapline b { color: var(--accent-ink); }
+.how { font-size: 9px; color: var(--ink-2); }
+.how b { color: var(--ink); }
+
 /* system */
 .tabs { display: inline-flex; gap: 4px; }
 .tabs button { font: 600 9px var(--font-body); border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); padding: 2px 8px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
@@ -94,7 +111,7 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 .node { cursor: pointer; }
 .node rect.box { transition: stroke .2s, stroke-width .2s; }
 .node.sel rect.box, .node:hover rect.box { stroke: var(--accent); stroke-width: 2.4; }
-.info { background: var(--accent-soft); border-radius: 6px; padding: 3px 8px; font-size: 9px; min-height: calc(3 * 1.34em + 6px); }
+.info { background: var(--accent-soft); border-radius: 6px; padding: 3px 8px; font-size: 9px; min-height: calc(2 * 1.34em + 6px); }
 .info b { color: var(--accent-ink); }
 .impl { font-size: 9px; color: var(--ink-2); }
 .impl b { color: var(--ink); }
@@ -106,7 +123,7 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 .ctl button { font: 600 9px var(--font-body); background: var(--accent); color: #fff; border: 0; border-radius: 999px; padding: 3px 10px; cursor: pointer; min-width: 50px; }
 .ctl input[type="range"] { flex: 1 1 auto; accent-color: var(--accent); min-width: 0; height: 14px; }
 .ctl .data { font-size: 9.5px; }
-.state { font-size: 9px; min-height: calc(3 * 1.34em); }
+.state { font-size: 9px; min-height: calc(2 * 1.34em); }
 .state b { color: var(--accent-ink); }
 .chips { display: grid; gap: 5px; }
 .chip { border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; align-items: center; }
@@ -116,6 +133,7 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 .chip .k2 { font-size: 8.5px; color: var(--ink-2); display: block; }
 .chip.net { border-color: var(--accent-mid); background: var(--accent-soft); }
 .chip.net .v, .chip.net .k2 { color: var(--accent-ink); }
+.subh { font-family: var(--font-display); font-size: 10.5px; color: var(--accent-ink); margin-top: 3px; }
 .yr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 10px; }
 .yr .big { font-family: var(--font-display); font-size: 13px; color: var(--accent-ink); display: block; }
 .yr span:not(.big) { font-size: 8.5px; color: var(--ink-2); }
@@ -191,39 +209,48 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
       <div class="eyebrow" data-t="eyebrow">PhD preliminary examination · Electrical &amp; Computer Engineering · Texas A&amp;M University</div>
       <h1 data-t="h1">External Energy Flexibility</h1>
       <div class="sub" data-t="sub">A smart-grid supply framework for inflexible AI data centers</div>
-      <div class="byline"><b dir="ltr">Ali Nasser</b> · <span data-t="role">PhD Resident</span></div>
     </div>
-    <p class="lede" data-t="lede">An AI data center draws the same power day and night. Under EEF it takes 100% of its energy from the grid and none of its solar: the solar is sold and runs flexible loads at noon, and at night those loads step back by as much as the data center uses, leaving it room on the grid.</p>
+    <div class="byline" style="align-self:end;text-align:end"><b dir="ltr">Ali Nasser</b><br><span data-t="role">PhD Resident</span></div>
+    <p class="lede" data-t="lede">EEF supplies an inflexible AI data center 100% from the grid, sells its solar, and pays flexible loads elsewhere on the grid to leave it room, hour by hour.</p>
     <p class="tagline" data-t="tagline">As reliable as a grid-connected data center, as clean as a green one, and the cheapest of all: its solar is sold, and flexible loads replace the battery.</p>
   </header>
 
-  <div class="grid2">
+  <div class="grid2" style="grid-template-columns:minmax(0,1fr) minmax(0,1.08fr)">
     <section class="sec">
-      <h2 data-t="probH">The problem</h2>
-      <div class="tiles">
-        <div class="tile"><span class="big data">40%</span><h3 data-t="t1h">Clean on paper</h3><p data-t="t1p">Annual certificates cover only 40% hour by hour; nights run on gas and oil.</p></div>
-        <div class="tile"><span class="big data">1,320 MWh</span><h3 data-t="t2h">Batteries are costly</h3><p data-t="t2p">Needed per 100 MW to reach 90% displacement: about US$39 M a year.</p></div>
-        <div class="tile"><span class="big data">50 MW</span><h3 data-t="t3h">Self-supply is capped</h3><p data-t="t3p">SERA caps on-site renewables at 50 MW; a 100-MW campus needs 477 MWp of solar.</p></div>
-        <div class="tile"><span class="big data">474 GW</span><h3 data-t="t4h">Grids are filling up</h3><p data-t="t4p">Large loads queued in Texas by mid-2026, about 90% data centers.</p></div>
-      </div>
+      <h2 data-t="motH">Why this research: the motivations</h2>
+      <ul class="mot">
+        <li><b data-t="m1h">AI demand is surging.</b> <span data-t="m1">Worldwide 415 → ≈ 945 TWh by 2030 (IEA); Saudi Arabia 2.8 → 10–42 TWh (KAPSARC), HUMAIN 1.9 GW by 2030.</span></li>
+        <li><b data-t="m2h">The grid behind them is fossil.</b> <span data-t="m2">58% gas and 41% oil (2022); data-center emissions could rise from 1.6 to 5.8–24 Mt CO₂ by 2030.</span></li>
+        <li><b data-t="m3h">Grids are filling up.</b> <span data-t="m3">Texas's large-load queue went from 233 to 474 GW (Dec 2025 → mid-2026), ≈ 90% data centers; new large loads can now be curtailed (SB 6).</span></li>
+        <li><b data-t="m4h">Clean claims are moving to every hour.</b> <span data-t="m4">The GHG Protocol Scope 2 revision (2027) includes hourly matching; annual certificates overstate decarbonization.</span></li>
+        <li><b data-t="m5h">Saudi Arabia has what is needed.</b> <span data-t="m5">50% renewables by 2030, a midday net-load dip that triples, and 7.1–29.9 GW of demand response with no framework to use it.</span></li>
+        <li><b data-t="m6h">Reliability is non-negotiable.</b> <span data-t="m6">A data center cannot wait for the sun or depend on a battery's charge.</span></li>
+      </ul>
     </section>
     <section class="sec">
-      <h2 data-t="howH">How EEF works</h2>
-      <div class="steps">
-        <div class="step"><span class="n">1</span><h3 data-t="s1h">The data center stays on the grid</h3><p data-t="s1p">It buys 100% of its energy at the tariff, so its reliability is the grid's.</p></div>
-        <div class="step"><span class="n">2</span><h3 data-t="s2h">Its solar plant is sold to the grid</h3><p data-t="s2p">Sized to its annual use and sold to SPPC; the data center uses none of it.</p></div>
-        <div class="step"><span class="n">3</span><h3 data-t="s3h">Flexible loads leave room on the grid, hour by hour</h3><p data-t="s3p">Desalination, cooling, pumping and industry use the solar at noon and less at night, anywhere on the grid.</p></div>
-      </div>
+      <h2 data-t="probH">The problem</h2>
+      <p class="pstate" data-t="pstate">AI data centers are large loads that run 24/7 with almost no flexibility of their own (≈ 6% can be curtailed). Every way of supplying them today gives up at least one thing they need:</p>
+      <table class="tri">
+        <thead><tr><th></th><th data-t="cRel">Reliable</th><th data-t="cClean">Clean every hour</th><th data-t="cCost">Cost, US$/MWh*</th><th data-t="cRoom">Room on the grid</th></tr></thead>
+        <tbody>
+          <tr><th data-t="bGrid">Grid only</th><td class="ok">✓</td><td class="no">✗ 0%</td><td class="no">✗ 42.7</td><td class="no" data-t="xPeak">✗ adds a night peak</td></tr>
+          <tr><th data-t="bAm">Annual certificates</th><td class="ok">✓</td><td class="no">✗ 40%</td><td class="ok">31.2</td><td class="no" data-t="xPeak">✗ adds a night peak</td></tr>
+          <tr><th data-t="bBess">Solar + battery</th><td class="ok">✓</td><td class="ok">✓ 90%</td><td class="no" data-t="xBess">✗ 45.5 (1,320 MWh)</td><td class="ok">✓</td></tr>
+          <tr><th data-t="bSelf">On-site self-supply</th><td class="no" data-t="xSite">site only</td><td class="ok">✓</td><td class="no">✗</td><td class="no" data-t="xCap">✗ capped at 50 MW</td></tr>
+          <tr class="eef"><th data-t="bEef">EEF (this work)</th><td class="ok">✓</td><td class="ok">✓ 90%</td><td class="ok">✓ 28.0</td><td class="ok">✓</td></tr>
+        </tbody>
+      </table>
+      <p class="gapline" data-t="gap"><b>The gap:</b> no framework lets an inflexible data center use flexibility outside its fence for verifiable, hourly clean supply, without storage and without giving up reliability.</p>
     </section>
   </div>
 
   <section class="sec">
-    <h2><span data-t="sysH">The system: equipment and how it interacts</span>
+    <h2><span data-t="sysH">How EEF works: the system and how it interacts</span>
       <small class="layer-name" id="layerName"></small>
     </h2>
-    <div dir="ltr"><svg id="syssvg" viewBox="0 0 900 248" role="img" aria-label="System diagram: solar plant, SPPC, SERA, aggregator, national grid, data center, meters and hourly registry, flexible loads, with power, control and money flows."></svg></div>
+    <p class="how" data-t="howLine"><b>① The data center stays on the grid</b> (100% at the tariff) → <b>② its solar is sold to SPPC</b> (none used by the data center) → <b>③ flexible loads use that solar at noon and step back at night</b>, anywhere on the national grid, leaving room for the data center.</p>
+    <div dir="ltr"><svg id="syssvg" viewBox="0 0 900 230" role="img" aria-label="System diagram: solar plant, SPPC, SERA, aggregator, national grid, data center, meters and hourly registry, flexible loads, with power, control and money flows."></svg></div>
     <p class="info" id="info" aria-live="polite"></p>
-    <p class="impl" data-t="impl"><b>In Saudi Arabia:</b> SPPC, Saudi Energy and National Grid SA exist; EEF adds an aggregator licence, SERA settlement rules and an hourly registry.</p>
   </section>
 
   <div class="grid2" style="grid-template-columns:minmax(0,1.62fr) minmax(0,1fr)">
@@ -245,7 +272,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
         <div class="chip"><span class="k" id="kStore"></span><span class="v" id="eStore">0 MWh</span><span class="k2" data-t="cStoreNote">as desalinated or chilled water</span></div>
         <div class="chip net"><span class="k" data-t="cDc">Data center, from the grid</span><span class="v" id="eDc">100 MWh</span><span class="k2" id="nDc"></span></div>
       </div>
-      <h2 style="margin-top:3px" data-t="yearH">One year in energy (model, 90%)</h2>
+      <h2 class="subh" data-t="yearH">One year in energy (model, 90%)</h2>
       <div class="yr">
         <div><span class="big data">876 GWh</span><span data-t="y1">data center, from the grid</span></div>
         <div><span class="big data">876 GWh</span><span data-t="y2">solar, sold to the grid</span></div>
@@ -265,18 +292,11 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
         <div class="pillar"><span class="k" data-t="p3k">Grid room</span><span class="big data">≈ 100%</span><span data-t="p3p">summer evenings freed</span></div>
         <div class="pillar"><span class="k" data-t="p4k">Cost</span><span class="big data">US$28</span><span data-t="p4p">per MWh, lowest of four</span></div>
       </div>
-      <div class="bars" aria-label="Cost per MWh above the tariff">
-        <div class="bar-row"><span data-t="bGrid">Grid only</span><div class="bar-track"><div class="bar grid data" style="width:calc(42.7/46*100%)">42.7</div></div></div>
-        <div class="bar-row"><span data-t="bAm">Annual certificates</span><div class="bar-track"><div class="bar am data" style="width:calc(31.2/46*100%)">31.2</div></div></div>
-        <div class="bar-row"><span data-t="bBess">Solar + battery</span><div class="bar-track"><div class="bar bess data" style="width:calc(45.5/46*100%)">45.5</div></div></div>
-        <div class="bar-row"><span><b>EEF</b></span><div class="bar-track"><div class="bar eef data" style="width:calc(28.0/46*100%)">28.0</div></div></div>
-      </div>
-      <p class="muted" data-t="costNote">US$/MWh above the US$48 tariff, with grid reinforcement and carbon. On the bill alone, EEF wins if its solar sells at ≈ US$33/MWh.</p>
     </section>
     <section class="sec">
       <h2 data-t="whereH">Where it works</h2>
       <p class="muted" data-t="whereSub">Cheapest option for every target and size (Riyadh)</p>
-      <div dir="ltr"><svg id="mapsvg" viewBox="0 0 360 236" role="img" aria-label="Cheapest option by displacement target and data-center size; EEF is best from 85 to 99.5 percent for 8 megawatts to 1.5 gigawatts."></svg></div>
+      <div dir="ltr"><svg id="mapsvg" viewBox="0 0 360 198" role="img" aria-label="Cheapest option by displacement target and data-center size; EEF is best from 85 to 99.5 percent for 8 megawatts to 1.5 gigawatts."></svg></div>
       <div class="mlegend">
         <span><i style="background:var(--accent)"></i><span data-t="mEef">EEF best</span></span>
         <span><i style="background:var(--accent-mid)"></i><span data-t="mEefL">EEF cheaper, evenings not freed</span></span>
@@ -301,7 +321,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     </section>
   </div>
 
-  <footer data-t="foot">Preliminary results from a linear-programming planning model over all 8,760 hours of a year (Riyadh, 2020 solar data). Assumptions: flexibility US$50 per MWh shifted; battery at the NREL mid case; grid reinforcement US$125/kW-yr; carbon US$50/t; 8% discount rate; contract overhead US$0.25 M a year. The day is illustrative: the flexible loads' usual 100 MW is the smallest case, and the 5% shifting loss is not shown.</footer>
+  <footer data-t="foot">* Cost: US$ per MWh above the US$48 tariff at 90% displacement for a 100-MW data center, with grid reinforcement (US$125/kW-yr) and carbon (US$50/t); on the bill alone, EEF wins if its solar sells at ≈ US$33/MWh. Preliminary results from a linear-programming planning model over all 8,760 hours of a year (Riyadh, 2020 solar data). Assumptions: flexibility US$50 per MWh shifted; battery at the NREL mid case; grid reinforcement US$125/kW-yr; carbon US$50/t; 8% discount rate; contract overhead US$0.25 M a year. The day is illustrative: the flexible loads' usual 100 MW is the smallest case, and the 5% shifting loss is not shown.</footer>
 </div></div></div>
 
 <div class="toolbar screen-only" role="toolbar" aria-label="Controls">
@@ -325,9 +345,22 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
   const AR = {
     eyebrow: "اختبار الدكتوراه التأهيلي · الهندسة الكهربائية وهندسة الحاسب · جامعة تكساس إي أند إم",
     h1: "المرونة الخارجية للطاقة", sub: "إطار تغذية عبر الشبكة الذكية لمراكز بيانات الذكاء الاصطناعي غير المرنة", role: "باحث دكتوراه",
-    lede: "يسحب مركز بيانات الذكاء الاصطناعي القدرة نفسها ليلًا ونهارًا. في EEF يأخذ المركز 100% من طاقته من الشبكة ولا شيء من شمسيه: يُباع الشمسي فيشغّل أحمالًا مرنة ظهرًا، وفي الليل تخفض هذه الأحمال استهلاكها بقدر استهلاك المركز فتترك له مساحة على الشبكة.",
+    lede: "يغذي EEF مركز بيانات غير مرن 100% من الشبكة، ويبيع شمسيه، ويدفع لأحمال مرنة في أماكن أخرى من الشبكة لتترك له مساحة، ساعةً بساعة.",
     tagline: "اعتمادية مركز متصل بالشبكة، ونظافة مركز أخضر، وأقل تكلفة بين الخيارات: طاقته الشمسية تُباع، والأحمال المرنة تحل محل البطارية.",
     probH: "المشكلة",
+    motH: "لماذا هذا البحث: الدوافع",
+    m1h: "الطلب على الذكاء الاصطناعي يتسارع.", m1: "عالميًا 415 ← نحو 945 تيراواط ساعة بحلول 2030 (IEA)؛ وفي المملكة 2.8 ← 10–42 تيراواط ساعة (كابسارك)، وهيوماين 1.9 جيجاواط بحلول 2030.",
+    m2h: "الشبكة خلفها أحفورية.", m2: "58% غاز و41% نفط (2022)، وانبعاثات مراكز البيانات قد ترتفع من 1.6 إلى 5.8–24 مليون طن CO₂ بحلول 2030.",
+    m3h: "الشبكات تمتلئ.", m3: "طابور الأحمال الكبيرة في تكساس قفز من 233 إلى 474 جيجاواط (ديسمبر 2025 ← منتصف 2026)، نحو 90% مراكز بيانات، وصار يجوز فصل الأحمال الجديدة (SB 6).",
+    m4h: "الادعاءات النظيفة تتجه للساعة.", m4: "مراجعة بروتوكول GHG للنطاق 2 (2027) تتضمن المطابقة الساعية، والشهادات السنوية تبالغ في خفض الانبعاثات.",
+    m5h: "المملكة تملك ما يلزم.", m5: "50% متجددة بحلول 2030، وانخفاض صافي الحمل ظهرًا يتضاعف ثلاث مرات، و7.1–29.9 جيجاواط استجابة للطلب بلا إطار يستفيد منها.",
+    m6h: "الاعتمادية غير قابلة للتفاوض.", m6: "مركز البيانات لا يستطيع انتظار الشمس ولا الاعتماد على شحن بطارية.",
+    pstate: "مراكز بيانات الذكاء الاصطناعي أحمال كبيرة تعمل 24/7 وشبه بلا مرونة ذاتية (نحو 6% فقط قابلة للفصل). وكل طرق تغذيتها اليوم تتنازل عن شيء واحد على الأقل مما تحتاجه:",
+    cRel: "موثوقة", cClean: "نظيفة كل ساعة", cCost: "التكلفة، دولار/م.و.س*", cRoom: "مساحة على الشبكة",
+    xPeak: "✗ تضيف ذروة ليلية", xBess: "✗ 45.5 (1,320 م.و.س)", bSelf: "الاستهلاك الذاتي في الموقع", xSite: "داخل الموقع فقط", xCap: "✗ محدود بـ 50 ميجاواط", bEef: "EEF (هذا البحث)",
+    triNote: "* دولار/م.و.س فوق التعريفة عند إزاحة 90%، مركز 100 ميجاواط، شاملة تعزيز الشبكة والكربون.",
+    gap: "<b>الفجوة:</b> لا يوجد إطار يتيح لمركز بيانات غير مرن استخدام مرونة خارج أسواره للحصول على تغذية نظيفة ساعية قابلة للتحقق، دون تخزين ودون التنازل عن الاعتمادية.",
+    howLine: "<b>① المركز يبقى على الشبكة</b> (100% بالتعريفة) ← <b>② شمسيه يُباع لشركة شراء الطاقة</b> (لا يستخدم المركز منه شيئًا) ← <b>③ الأحمال المرنة تستهلك الشمسي ظهرًا وتتراجع ليلًا</b>، في أي مكان على الشبكة الوطنية، فتترك مساحة للمركز.",
     t1h: "نظيفة على الورق", t1p: "الشهادات السنوية تغطي 40% فقط ساعة بساعة، والليل على الغاز والنفط.",
     t2h: "البطاريات مكلفة", t2p: "المطلوب لكل 100 ميجاواط للوصول إلى إزاحة 90%: نحو 39 مليون دولار سنويًا.",
     t3h: "الاستهلاك الذاتي محدود", t3p: "تحدّ الهيئة الطاقة المتجددة في الموقع بـ 50 ميجاواط، والمركز 100 ميجاواط يحتاج 477 ميجاواط شمسية.",
@@ -336,7 +369,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     s1h: "المركز يبقى على الشبكة", s1p: "يشتري 100% من طاقته بالتعريفة، فاعتماديته هي اعتمادية الشبكة.",
     s2h: "إنتاج محطته الشمسية يُباع للشبكة", s2p: "بحجم استهلاكه السنوي ويُباع لشركة شراء الطاقة، ولا يستخدم المركز منه شيئًا.",
     s3h: "الأحمال المرنة تترك مساحة على الشبكة ساعة بساعة", s3p: "التحلية والتبريد والضخ والصناعة تستهلك الشمسي ظهرًا وأقل ليلًا، في أي مكان على الشبكة.",
-    sysH: "النظام: المعدات وكيف تتفاعل", tabPower: "الطاقة", tabControl: "التحكم", tabMoney: "المال",
+    sysH: "كيف يعمل EEF: النظام وتفاعل معداته", tabPower: "الطاقة", tabControl: "التحكم", tabMoney: "المال",
     impl: "<b>في المملكة:</b> شركة شراء الطاقة والسعودية للطاقة والشبكة الوطنية قائمة؛ ويضيف EEF ترخيص المُجمِّع وقواعد التسوية من الهيئة وسجلًا ساعيًا.",
     dayH: "يوم صيفي ساعة بساعة (توضيحي، مركز 100 ميجاواط)",
     lgSolar: "شمسي يُباع للشبكة", lgDc: "المركز، من الشبكة", lgFlex: "الأحمال المرنة: ما تستهلكه", lgFreed: "مساحة تحررت للمركز",
@@ -360,7 +393,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     why2: "أول هدف تتحرر فيه أمسيات الصيف تقريبًا كلها (99.2%): لا ذروة ليلية جديدة.",
     why3: "تكلفته قريبة من الأهداف الأقل: +0.3 دولار/م.و.س من 80% إلى 90%، والانبعاثات تنخفض للنصف.",
     why4: "فوق 98% يلزم 2–3 أضعاف الشمسي أو إزاحة أسبوعية، و100% غير ممكنة (فاقد التخزين، الأيام المغبرة، ترتيب الساعات).",
-    foot: "نتائج أولية من نموذج تخطيط بالبرمجة الخطية على جميع ساعات السنة (الرياض، بيانات شمسية 2020). الفرضيات: المرونة 50 دولارًا لكل م.و.س مُزاحة؛ البطارية وفق الحالة الوسطى من NREL؛ تعزيز الشبكة 125 دولارًا/ك.و/سنة؛ الكربون 50 دولارًا/طن؛ معدل خصم 8%؛ تكلفة العقد 0.25 مليون دولار سنويًا. اليوم توضيحي: الاستهلاك المعتاد للأحمال المرنة 100 ميجاواط هو أصغر حالة، ولا يظهر فاقد الإزاحة 5%.",
+    foot: "* التكلفة: دولار لكل م.و.س فوق تعريفة 48 دولارًا عند إزاحة 90% لمركز 100 ميجاواط، شاملة تعزيز الشبكة (125 دولارًا/ك.و/سنة) والكربون (50 دولارًا/طن)؛ وعلى الفاتورة وحدها يتفوق EEF إذا بيع شمسيه بنحو 33 دولارًا/م.و.س. نتائج أولية من نموذج تخطيط بالبرمجة الخطية على جميع ساعات السنة (الرياض، بيانات شمسية 2020). الفرضيات: المرونة 50 دولارًا لكل م.و.س مُزاحة؛ البطارية وفق الحالة الوسطى من NREL؛ تعزيز الشبكة 125 دولارًا/ك.و/سنة؛ الكربون 50 دولارًا/طن؛ معدل خصم 8%؛ تكلفة العقد 0.25 مليون دولار سنويًا. اليوم توضيحي: الاستهلاك المعتاد للأحمال المرنة 100 ميجاواط هو أصغر حالة، ولا يظهر فاقد الإزاحة 5%.",
     nDc: "مركز البيانات", nDc1: "100 ميجاواط · 24/7، غير مرن", nDc2: "كله من الشبكة، بدون شمسي",
     nSolar: "المحطة الشمسية", nSolar1: "477 ميجاواط · 876 ج.و.س", nSolar2: "كله يُباع للشبكة",
     nSppc: "SPPC", nSppc1: "المشتري الرئيس", nSppc2: "تشتري كل الشمسي",
@@ -482,9 +515,9 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     { id: "solar", x: 220, y: 16, w: 194, h: 66, icon: "pv", tag: "tExists" },
     { id: "sera", x: 432, y: 12, w: 152, h: 42, icon: "scale", tag: "tRules", one: true },
     { id: "agg", x: 602, y: 16, w: 282, h: 66, icon: "chip", tag: "tLicence" },
-    { id: "dc", x: 16, y: 166, w: 230, h: 66, icon: "rack" },
-    { id: "reg", x: 330, y: 170, w: 226, h: 62, icon: "ledger", tag: "tNew" },
-    { id: "flex", x: 634, y: 166, w: 250, h: 66, icon: "tanks", tag: "tExists" }
+    { id: "dc", x: 16, y: 154, w: 230, h: 66, icon: "rack" },
+    { id: "reg", x: 330, y: 158, w: 226, h: 60, icon: "ledger", tag: "tNew" },
+    { id: "flex", x: 634, y: 154, w: 250, h: 66, icon: "tanks", tag: "tExists" }
   ];
   const TKEY = { sppc: "nSppc", solar: "nSolar", sera: "nSera", agg: "nAgg", dc: "nDc", reg: "nReg", flex: "nFlex" };
   const live = {};
@@ -532,19 +565,19 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
 
   const FLOWS = [
     ["power", "sun", "M300,83 V119", 3, .55, h => pv(h) / PMAX],
-    ["power", "ink", "M135,130 V161", 3, .55, () => 1],
-    ["power", "accent", "M710,130 V161", 3, .55, h => pv(h) / PMAX],
+    ["power", "ink", "M135,130 V149", 3, .55, () => 1],
+    ["power", "accent", "M710,130 V149", 3, .55, h => pv(h) / PMAX],
     ["control", "ctrl", "M415,66 H598", 4, .35],
     ["control", "ctrl", "M660,83 V120", 3, .35],
-    ["control", "ctrl", "M840,83 V161", 3, .35],
-    ["control", "ctrl", "M247,190 H326", 3, .35],
-    ["control", "ctrl", "M632,204 H560", 3, .35],
-    ["control", "ctrl", "M370,83 C370,135 430,130 430,167", 4, .35],
-    ["control", "ctrl", "M326,220 H250", 3, .35],
+    ["control", "ctrl", "M840,83 V149", 3, .35],
+    ["control", "ctrl", "M247,178 H326", 3, .35],
+    ["control", "ctrl", "M632,192 H560", 3, .35],
+    ["control", "ctrl", "M370,83 C370,128 430,124 430,155", 4, .35],
+    ["control", "ctrl", "M326,208 H250", 3, .35],
     ["money", "money", "M177,49 H217", 2, .4],
-    ["money", "money", "M185,161 V130", 2, .4],
-    ["money", "money", "M228,163 V156 H700 V85", 7, .4],
-    ["money", "money", "M820,85 V161", 3, .4]
+    ["money", "money", "M185,149 V130", 2, .4],
+    ["money", "money", "M228,151 V145 H700 V85", 7, .4],
+    ["money", "money", "M820,85 V149", 3, .4]
   ];
   const flows = FLOWS.map(([layer, col, d, n, speed, rate]) => {
     const g = layers[layer];
@@ -556,19 +589,19 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
   const FL = { "font-size": 12.5, "font-weight": 600 };
   const mono = { "font-size": 13, "font-weight": 700, "font-family": "IBM Plex Mono, monospace" };
   const vP1 = mk(layers.power, "text", Object.assign({ x: 308, y: 106, fill: "var(--sun)" }, mono));
-  const vP2 = mk(layers.power, "text", Object.assign({ x: 143, y: 150, fill: "var(--ink)" }, mono)); vP2.textContent = "100 MW";
-  const vP3 = mk(layers.power, "text", Object.assign({ x: 718, y: 150, fill: "var(--accent-ink)" }, mono));
+  const vP2 = mk(layers.power, "text", Object.assign({ x: 143, y: 143, fill: "var(--ink)" }, mono)); vP2.textContent = "100 MW";
+  const vP3 = mk(layers.power, "text", Object.assign({ x: 718, y: 143, fill: "var(--accent-ink)" }, mono));
   label(layers.power, "fRest", Object.assign({}, FL, { x: 880, y: BUS - 12, fill: "var(--ink-2)", "text-anchor": "end" }));
-  label(layers.power, "fNoLink", Object.assign({}, FL, { x: 300, y: 152, fill: "var(--accent-ink)", "font-size": 12 }));
+  label(layers.power, "fNoLink", Object.assign({}, FL, { x: 300, y: 145, fill: "var(--accent-ink)", "font-size": 12 }));
   label(layers.control, "fForecast", Object.assign({}, FL, { x: 508, y: 82, fill: "var(--ctrl)", "text-anchor": "middle" }));
   label(layers.control, "fSchedule", Object.assign({}, FL, { x: 668, y: 106, fill: "var(--ctrl)" }));
-  label(layers.control, "fSetpoints", Object.assign({}, FL, { x: 832, y: 150, fill: "var(--ctrl)", "text-anchor": "end" }));
-  label(layers.control, "fMeter", Object.assign({}, FL, { x: 287, y: 184, fill: "var(--ctrl)", "text-anchor": "middle" }));
-  label(layers.control, "fMeter", Object.assign({}, FL, { x: 596, y: 198, fill: "var(--ctrl)", "text-anchor": "middle" }));
-  label(layers.control, "fCredits", Object.assign({}, FL, { x: 288, y: 238, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fSetpoints", Object.assign({}, FL, { x: 832, y: 142, fill: "var(--ctrl)", "text-anchor": "end" }));
+  label(layers.control, "fMeter", Object.assign({}, FL, { x: 287, y: 172, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fMeter", Object.assign({}, FL, { x: 596, y: 186, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fCredits", Object.assign({}, FL, { x: 288, y: 225, fill: "var(--ctrl)", "text-anchor": "middle" }));
   label(layers.money, "fPays", Object.assign({}, FL, { x: 197, y: 42, fill: "var(--money)", "text-anchor": "middle" }));
-  label(layers.money, "fTariff", Object.assign({}, FL, { x: 193, y: 146, fill: "var(--money)" }));
-  label(layers.money, "fFee", Object.assign({}, FL, { x: 464, y: 150, fill: "var(--money)", "text-anchor": "middle" }));
+  label(layers.money, "fTariff", Object.assign({}, FL, { x: 178, y: 141, fill: "var(--money)", "text-anchor": "end" }));
+  label(layers.money, "fFee", Object.assign({}, FL, { x: 464, y: 139, fill: "var(--money)", "text-anchor": "middle" }));
   label(layers.money, "fShift", Object.assign({}, FL, { x: 812, y: 106, fill: "var(--money)", "text-anchor": "end" }));
 
   let layer = "power", selected = null;
@@ -635,7 +668,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
   const P = [[42,42.67,31.21,30.96,31.03,1.9],[45,42.67,31.21,31.57,30.73,8.6],[50,42.67,31.21,32.43,30.21,19.8],[60,42.67,31.21,34.65,28.92,44],[70,42.67,31.21,37.26,27.52,68.9],[80,42.67,31.21,41.03,27.72,82.7],[85,42.67,31.21,43.1,27.84,92.9],[90,42.67,31.21,45.45,28.02,99.2],[93,42.67,31.21,46.96,28.28,98.4],[95,42.67,31.21,48.09,28.56,99.5],[97,42.67,31.21,50.29,28.94,99.8],[98,42.67,31.21,50.53,28.79,100],[99,42.67,31.21,49.16,28.04,100],[99.5,42.67,31.21,67.71,28.61,100]];
   const F28 = 0.25e6 / 8760;
   const map = $("mapsvg");
-  const MX0 = 46, MX1 = 352, MY0 = 204, MY1 = 8, SMIN = .1, SMAX = 1500;
+  const MX0 = 46, MX1 = 352, MY0 = 172, MY1 = 6, SMIN = .1, SMAX = 1500;
   const MX = s => MX0 + (MX1 - MX0) * Math.log10(s / SMIN) / Math.log10(SMAX / SMIN);
   const MY = v => MY0 - (MY0 - MY1) * (v - 30) / 70.5;
   const edges = [40.4].concat(P.slice(0, -1).map((p, i) => (p[0] + P[i + 1][0]) / 2), [99.9]);
