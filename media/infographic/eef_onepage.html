@@ -1,0 +1,675 @@
+<title>EEF at a Glance</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Roboto+Slab:wght@600;700&display=swap">
+<style>
+/* One screen, poster-style: header; left = the interactive system and the day curve (one shared hour); right = problem, results at 90%, where it works and why 90%, a year in energy. Stacks on narrow screens. */
+:root {
+  --bg: #faf7f6; --surface: #ffffff; --ink: #1f1a1a; --ink-2: #5d5354; --line: #e6dcda;
+  --accent: #500000; --accent-ink: #500000; --accent-soft: #f2e4e4; --accent-mid: #c99aa0;
+  --sun: #d9962b; --sun-soft: #f6e2bb; --grid: #6b6e70; --am: #a7a9ab; --bess: #2e6db4; --hatch: #cfc8c6;
+  --ctrl: #17808a; --money: #3a7d2c;
+  --font-display: "Roboto Slab", Georgia, "Times New Roman", serif;
+  --font-body: "Open Sans", "Segoe UI", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --font-ar: "IBM Plex Sans Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141011; --surface: #1d1617; --ink: #f1ebea; --ink-2: #bdb1b0; --line: #3a2e2f;
+    --accent: #8e1f2c; --accent-ink: #eaa3aa; --accent-soft: #2d1a1c; --accent-mid: #6b3a40;
+    --sun: #e6a843; --sun-soft: #3b2b12; --grid: #9b9ea0; --am: #6f7173; --bess: #6ca2e2; --hatch: #4a3f40;
+    --ctrl: #5cc4cc; --money: #8fd07a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141011; --surface: #1d1617; --ink: #f1ebea; --ink-2: #bdb1b0; --line: #3a2e2f;
+  --accent: #8e1f2c; --accent-ink: #eaa3aa; --accent-soft: #2d1a1c; --accent-mid: #6b3a40;
+  --sun: #e6a843; --sun-soft: #3b2b12; --grid: #9b9ea0; --am: #6f7173; --bess: #6ca2e2; --hatch: #4a3f40;
+  --ctrl: #5cc4cc; --money: #8fd07a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.45; margin: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+html[lang="ar"] body, html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3 { font-family: var(--font-ar); }
+h1, h2, h3 { margin: 0; line-height: 1.15; text-wrap: balance; }
+h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 2.6vw, 2.3rem); color: var(--accent-ink); }
+h2 { font-family: var(--font-display); font-size: 1.02rem; }
+h3 { font-size: .9rem; }
+p { margin: 0; }
+.data, .chip .v, .bar { font-family: var(--font-data); font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; }
+html[dir="rtl"] .data, html[dir="rtl"] .chip .v { text-align: right; }
+.page { max-width: 1880px; margin: 0 auto; display: grid; gap: 12px; padding-block: 12px 16px; }
+
+/* header */
+.top { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px 18px; align-items: center; }
+.eyebrow { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; }
+html[lang="ar"] .eyebrow { letter-spacing: 0; font-size: .8rem; }
+.titleline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.sub { font-weight: 600; font-size: 1rem; }
+.byline { color: var(--ink-2); font-size: .85rem; }
+.byline b { color: var(--ink); font-family: var(--font-display); }
+.tagline { grid-column: 2; grid-row: 1; color: var(--ink); font-size: .86rem; border-inline-start: 3px solid var(--accent); padding-inline-start: 10px; }
+.lang { grid-column: 3; grid-row: 1; }
+.tagline b { color: var(--accent-ink); }
+.lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--surface); align-self: start; }
+.lang button { font: 600 .8rem var(--font-body); border: 0; background: transparent; color: var(--ink-2); padding: 5px 12px; cursor: pointer; }
+.lang button:last-child { font-family: var(--font-ar); }
+.lang button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--sun); outline-offset: 2px; }
+
+/* layout */
+.main { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (min-width: 1101px) { #syssvg { max-height: 30vh; } #daysvg { max-height: 22vh; } #mapsvg { max-height: 21vh; } .page { gap: 10px; padding-block: 10px 12px; } .col, .main { gap: 10px; } }
+.swipe { display: none; font-size: .74rem; color: var(--ink-2); }
+.col { display: grid; gap: 12px; min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px 12px; display: grid; gap: 8px; min-width: 0; }
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 6px 12px; flex-wrap: wrap; }
+.muted { color: var(--ink-2); font-size: .8rem; }
+
+/* system diagram */
+.tabs { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.tabs button { font: 600 .78rem var(--font-body); border: 1px solid var(--line); background: var(--bg); color: var(--ink-2); padding: 4px 11px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--font-ar); }
+.tabs button i { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.tabs button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.diagram-scroll { overflow-x: auto; }
+.diagram-scroll svg { width: 100%; height: auto; display: block; min-width: 600px; }
+.node { cursor: pointer; }
+.node rect.box { transition: stroke .2s, stroke-width .2s; }
+.node.sel rect.box, .node:hover rect.box { stroke: var(--accent); stroke-width: 2.4; }
+.info { background: var(--accent-soft); border-radius: 10px; padding: 8px 12px; font-size: .86rem; min-height: 3.1em; }
+.info b { color: var(--accent-ink); }
+
+/* day curve */
+.legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .74rem; color: var(--ink-2); }
+.legend i { display: inline-block; width: 16px; height: 4px; border-radius: 2px; vertical-align: middle; margin-inline-end: 5px; }
+.svgbox svg { width: 100%; height: auto; display: block; }
+.ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ctl button { font: 600 .82rem var(--font-body); background: var(--accent); color: #fff; border: 0; border-radius: 999px; padding: 5px 14px; cursor: pointer; min-width: 72px; }
+.ctl input[type="range"] { flex: 1 1 180px; accent-color: var(--accent); min-width: 0; }
+.ctl .data { font-size: .9rem; min-width: 7.5em; }
+.chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.chip { border: 1px solid var(--line); border-radius: 10px; padding: 6px 9px; min-width: 0; }
+.chip .k { font-size: .7rem; color: var(--ink-2); display: block; }
+.chip .v { font-size: 1rem; display: block; }
+.chip .k2 { font-size: .68rem; color: var(--ink-2); display: block; }
+.chip.net { border-color: var(--accent-mid); background: var(--accent-soft); }
+.chip.net .v, .chip.net .k2 { color: var(--accent-ink); }
+
+/* right column */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stats.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat { display: grid; gap: 2px; align-content: start; min-width: 0; }
+.stat .big { font-family: var(--font-display); font-size: 1.35rem; color: var(--accent-ink); line-height: 1.1; }
+.stat span:not(.big) { font-size: .76rem; color: var(--ink-2); }
+.stat .k { font-size: .68rem !important; letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+html[lang="ar"] .stat .k { letter-spacing: 0; font-size: .78rem !important; }
+.pillar { background: var(--accent-soft); border-radius: 10px; padding: 7px 9px; }
+.bars { display: grid; gap: 4px; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 128px) minmax(0, 1fr); gap: 8px; align-items: center; font-size: .78rem; }
+.bar-track { height: 18px; }
+.bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-inline: 6px; font-size: .74rem; color: #fff; min-width: 3em; }
+.bar.grid { background: var(--grid); } .bar.am { background: var(--am); color: #1f1a1a; } .bar.bess { background: var(--bess); } .bar.eef { background: var(--accent); }
+.where { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.where svg { width: 100%; height: auto; display: block; }
+.mlegend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 8px; font-size: .68rem; color: var(--ink-2); margin-top: 4px; }
+.mlegend span { display: flex; gap: 5px; align-items: center; min-width: 0; }
+.mlegend i { flex: 0 0 10px; height: 10px; border-radius: 2px; }
+.ranges { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.why { margin: 0; padding-inline-start: 18px; display: grid; gap: 4px; font-size: .78rem; color: var(--ink-2); }
+.why b { color: var(--ink); }
+footer { font-size: .72rem; color: var(--ink-2); border-top: 1px solid var(--line); padding-top: 8px; }
+
+@media (max-width: 1100px) {
+  .main { grid-template-columns: minmax(0, 1fr); }
+  .top { grid-template-columns: minmax(0, 1fr) auto; }
+  .tagline { grid-column: 1 / -1; grid-row: auto; }
+  .lang { grid-column: 2; }
+  body { font-size: 15px; }
+}
+@media (max-width: 640px) {
+  .chips, .stats, .stats.four, .ranges { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .where { grid-template-columns: minmax(0, 1fr); }
+  .swipe { display: block; }
+  .bar-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+}
+@media print { body { font-size: 11px; } .ctl, .tabs, .lang { display: none; } }
+</style>
+
+<div class="page">
+  <header class="top">
+    <div>
+      <div class="eyebrow" data-t="eyebrow">PhD preliminary examination · Electrical &amp; Computer Engineering · Texas A&amp;M University</div>
+      <div class="titleline">
+        <h1 data-t="h1">External Energy Flexibility</h1>
+        <span class="sub" data-t="sub">A smart-grid supply framework for inflexible AI data centers</span>
+      </div>
+      <div class="byline"><b dir="ltr">Ali Nasser</b> · <span data-t="role">PhD Resident</span></div>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="lang-en" type="button" aria-pressed="true">EN</button>
+      <button id="lang-ar" type="button" aria-pressed="false">عربي</button>
+    </div>
+    <p class="tagline" data-t="tagline">The data center takes 100% of its energy from the grid and uses none of its solar. The solar is sold to the grid and runs flexible loads at noon; at night those loads step back by as much as the data center uses. Hour by hour, the room they leave on the grid carries the data center.</p>
+  </header>
+
+  <div class="main">
+    <div class="col">
+      <section class="card" aria-labelledby="sys-h">
+        <div class="card-head">
+          <h2 id="sys-h" data-t="sysH">The system: equipment and how it interacts</h2>
+          <div class="tabs" role="group" aria-label="Layer">
+            <button type="button" data-layer="power" aria-pressed="true"><i style="background:var(--sun)"></i><span data-t="tabPower">Power</span></button>
+            <button type="button" data-layer="control" aria-pressed="false"><i style="background:var(--ctrl)"></i><span data-t="tabControl">Control</span></button>
+            <button type="button" data-layer="money" aria-pressed="false"><i style="background:var(--money)"></i><span data-t="tabMoney">Money</span></button>
+          </div>
+        </div>
+        <p class="swipe" data-t="swipe">Swipe sideways to see the whole system.</p>
+        <div class="diagram-scroll" dir="ltr"><svg id="syssvg" viewBox="0 0 900 384" role="img" aria-label="System diagram: solar plant, SPPC, SERA, aggregator, national grid, data center, meters and hourly registry, flexible loads, with power, control and money flows."></svg></div>
+        <p class="info" id="info" aria-live="polite"></p>
+      </section>
+
+      <section class="card" aria-labelledby="day-h">
+        <div class="card-head">
+          <h2 id="day-h" data-t="dayH">One summer day, hour by hour (illustrative, 100-MW data center)</h2>
+          <div class="legend" aria-hidden="true">
+            <span><i style="background:var(--sun)"></i><span data-t="lgSolar">Solar sold to the grid</span></span>
+            <span><i style="background:repeating-linear-gradient(90deg,var(--ink) 0 6px,transparent 6px 9px)"></i><span data-t="lgDc">Data center, from the grid</span></span>
+            <span><i style="background:var(--accent)"></i><span data-t="lgFlex">Flexible loads: what they use</span></span>
+            <span><i style="height:9px;background:repeating-linear-gradient(45deg,var(--ink-2) 0 2px,transparent 2px 5px)"></i><span data-t="lgFreed">Freed for the data center</span></span>
+          </div>
+        </div>
+        <div class="svgbox" dir="ltr"><svg id="daysvg" viewBox="0 0 960 322" role="img" aria-label="Day curve: the data center draws 100 MW from the grid every hour; all the solar is sold and the flexible loads run on it, dropping below their usual 100 MW at night to free that room for the data center."></svg></div>
+        <div class="ctl">
+          <button id="play" type="button">Pause</button>
+          <input id="hour" dir="ltr" type="range" min="0" max="23.9" step="0.1" value="20" aria-label="Hour of day">
+          <span class="data" id="vTime">20:00–21:00</span>
+        </div>
+        <div class="chips">
+          <div class="chip"><span class="k" data-t="cSolar">Solar sold, this hour</span><span class="v" id="eSolar">0 MWh</span><span class="k2" id="nSolar"></span></div>
+          <div class="chip"><span class="k" data-t="cDc">Data center from the grid, this hour</span><span class="v" id="eDc">100 MWh</span><span class="k2" id="nDc"></span></div>
+          <div class="chip"><span class="k" data-t="cFlex">Flexible loads use, this hour</span><span class="v" id="eFlex">0 MWh</span><span class="k2" id="nFlex"></span></div>
+          <div class="chip net"><span class="k" data-t="cFreed">Freed for the data center, this hour</span><span class="v" id="eFreed">100 MWh</span><span class="k2" id="nFreed"></span></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card" aria-labelledby="prob-h">
+        <h2 id="prob-h" data-t="probH">The problem: clean, reliable supply for a load that never stops</h2>
+        <div class="stats">
+          <div class="stat"><span class="big data">40%</span><span data-t="pr1">of the data center's hours covered by annual certificates; nights still run on gas and oil</span></div>
+          <div class="stat"><span class="big data">1,320 MWh</span><span data-t="pr2">of batteries per 100 MW to reach 90%: about US$39 M a year</span></div>
+          <div class="stat"><span class="big data">50 MW</span><span data-t="pr3">SERA cap on on-site renewables; 100 MW needs 477 MWp of solar</span></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="res-h">
+        <div class="card-head"><h2 id="res-h" data-t="resH">Results at 90% displacement</h2><span class="muted" data-t="resSub">100-MW data center · Riyadh · 25 years</span></div>
+        <div class="stats four">
+          <div class="stat pillar"><span class="k" data-t="p1k">Reliability</span><span class="big data">100%</span><span data-t="p1p">same as any grid-connected data center</span></div>
+          <div class="stat pillar"><span class="k" data-t="p2k">Emissions</span><span class="big data">−90%</span><span data-t="p2p">497.6 → 49.8 kt CO₂ a year, as clean as solar + battery</span></div>
+          <div class="stat pillar"><span class="k" data-t="p3k">Grid room</span><span class="big data">≈ 100%</span><span data-t="p3p">of summer evenings freed: no new night peak</span></div>
+          <div class="stat pillar"><span class="k" data-t="p4k">Cost</span><span class="big data">US$28</span><span data-t="p4p">per MWh: the lowest of the four options</span></div>
+        </div>
+        <div class="bars" aria-label="Cost per MWh above the tariff">
+          <div class="bar-row"><span data-t="bGrid">Grid only</span><div class="bar-track"><div class="bar grid data" style="width:calc(42.7/48*100%)">42.7</div></div></div>
+          <div class="bar-row"><span data-t="bAm">Annual certificates</span><div class="bar-track"><div class="bar am data" style="width:calc(31.2/48*100%)">31.2</div></div></div>
+          <div class="bar-row"><span data-t="bBess">Solar + battery</span><div class="bar-track"><div class="bar bess data" style="width:calc(45.5/48*100%)">45.5</div></div></div>
+          <div class="bar-row"><span><b>EEF</b></span><div class="bar-track"><div class="bar eef data" style="width:calc(28.0/48*100%)">28.0</div></div></div>
+        </div>
+        <p class="muted" data-t="costNote">US$ per MWh above the US$48/MWh tariff, counting grid reinforcement for night load (US$125/kW-yr) and carbon (US$50/t). The solar is sold, so it pays for itself; flexible loads cost less than a battery.</p>
+      </section>
+
+      <section class="card" aria-labelledby="where-h">
+        <h2 id="where-h" data-t="whereH">Where it works, and why 90%</h2>
+        <div class="where">
+          <div>
+            <div dir="ltr"><svg id="mapsvg" viewBox="0 0 360 236" role="img" aria-label="Cheapest option by displacement target and data-center size; EEF is best from 85 to 99.5 percent for 8 megawatts to 1.5 gigawatts."></svg></div>
+            <div class="mlegend">
+              <span><i style="background:var(--accent)"></i><span data-t="mEef">EEF best</span></span>
+              <span><i style="background:var(--accent-mid)"></i><span data-t="mEefL">EEF cheaper, evenings not freed</span></span>
+              <span><i style="background:var(--am)"></i><span data-t="mAm">Annual certificates</span></span>
+              <span><i style="background:var(--bess)"></i><span data-t="mBess">Battery</span></span>
+              <span><i style="background:var(--sun-soft);outline:1px solid var(--sun)"></i><span data-t="mSun">Solar alone enough</span></span>
+              <span><i style="background:var(--hatch)"></i><span data-t="mOut">Out of reach</span></span>
+            </div>
+          </div>
+          <div style="display:grid;gap:8px">
+            <div class="ranges">
+              <div class="stat"><span class="big data">85–99.5%</span><span data-t="rg1">displacement</span></div>
+              <div class="stat"><span class="big data">8 MW–1.5 GW</span><span data-t="rg2">data-center size; larger = groups of campuses</span></div>
+            </div>
+            <ol class="why">
+              <li data-t="why1">Highest target the same solar plant can reach: solar equal to annual use with daily shifting tops out at 91.2%.</li>
+              <li data-t="why2">First target that frees almost all summer evenings (99.2%), so the data center adds no night peak.</li>
+              <li data-t="why3">Costs about the same as lower targets: +US$0.3/MWh from 80% to 90%, while emissions halve.</li>
+              <li data-t="why4">100% is out of reach: storage losses, dusty days and hour order cap it near 99.9%.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="year-h">
+        <h2 id="year-h" data-t="yearH">One year in energy (model, 90%)</h2>
+        <div class="stats four">
+          <div class="stat"><span class="big data">876 GWh</span><span data-t="y1">data center, all from the grid</span></div>
+          <div class="stat"><span class="big data">876 GWh</span><span data-t="y2">solar, all sold to the grid</span></div>
+          <div class="stat"><span class="big data">788 GWh</span><span data-t="y3">displaced: 90% of the data center's use</span></div>
+          <div class="stat"><span class="big data">434 GWh</span><span data-t="y4">moved night → noon by 203 MW of flexibility (≈ 2 MW per MW)</span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer data-t="foot">Preliminary results from a linear-programming planning model over all 8,760 hours of a year (Riyadh). Assumptions: flexibility US$50 per MWh shifted, battery at the NREL mid case, grid reinforcement US$125/kW-yr, carbon US$50/t, 8% discount rate, contract overhead US$0.25 M a year. The day is illustrative: the flexible loads' usual 100 MW is the smallest case, and the 5% shifting loss is not shown.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  const AR = {
+    eyebrow: "اختبار الدكتوراه التأهيلي · الهندسة الكهربائية وهندسة الحاسب · جامعة تكساس إي أند إم",
+    h1: "المرونة الخارجية للطاقة", sub: "إطار تغذية عبر الشبكة الذكية لمراكز بيانات الذكاء الاصطناعي غير المرنة", role: "باحث دكتوراه",
+    swipe: "اسحب جانبًا لرؤية النظام كاملًا.",
+    tagline: "يأخذ المركز 100% من طاقته من الشبكة ولا يستخدم شيئًا من طاقته الشمسية. تُباع الطاقة الشمسية للشبكة وتشغّل أحمالًا مرنة وقت الظهيرة، وفي الليل تخفض هذه الأحمال استهلاكها بقدر استهلاك المركز. وساعةً بساعة، المساحة التي تتركها على الشبكة تحمل مركز البيانات.",
+    sysH: "النظام: المعدات وكيف تتفاعل", tabPower: "الطاقة", tabControl: "التحكم", tabMoney: "المال",
+    dayH: "يوم صيفي ساعة بساعة (توضيحي، مركز 100 ميجاواط)",
+    lgSolar: "شمسي يُباع للشبكة", lgDc: "المركز، من الشبكة", lgFlex: "الأحمال المرنة: ما تستهلكه", lgFreed: "مساحة تحررت للمركز",
+    play: "تشغيل", pause: "إيقاف",
+    cSolar: "شمسي يُباع، هذه الساعة", cDc: "المركز من الشبكة، هذه الساعة", cFlex: "الأحمال المرنة، هذه الساعة", cFreed: "تحرّر للمركز، هذه الساعة",
+    today: "اليوم:", usualShort: "المعتاد", noSolar: "بدون شمسي",
+    probH: "المشكلة: تغذية نظيفة وموثوقة لحمل لا يتوقف",
+    pr1: "من ساعات المركز تغطيها الشهادات السنوية، وفي الليل يبقى على الغاز والنفط",
+    pr2: "بطاريات لكل 100 ميجاواط للوصول إلى 90%: نحو 39 مليون دولار سنويًا",
+    pr3: "حدّ الهيئة للطاقة المتجددة في الموقع، والمركز 100 ميجاواط يحتاج 477 ميجاواط شمسية",
+    resH: "النتائج عند إزاحة 90%", resSub: "مركز 100 ميجاواط · الرياض · 25 سنة",
+    p1k: "الاعتمادية", p1p: "مثل أي مركز متصل بالشبكة",
+    p2k: "الانبعاثات", p2p: "من 497.6 إلى 49.8 ألف طن CO₂ سنويًا، بنظافة الشمسي مع البطارية",
+    p3k: "سعة الشبكة", p3p: "من أمسيات الصيف تتحرر: لا ذروة ليلية جديدة",
+    p4k: "التكلفة", p4p: "لكل م.و.س: الأقل بين الخيارات الأربعة",
+    bGrid: "الشبكة فقط", bAm: "الشهادات السنوية", bBess: "شمسي + بطارية",
+    costNote: "بالدولار لكل م.و.س فوق تعريفة 48 دولارًا، شاملة تعزيز الشبكة للحمل الليلي (125 دولارًا/ك.و/سنة) والكربون (50 دولارًا/طن). الشمسي يُباع فيغطي تكلفته، والأحمال المرنة أرخص من البطارية.",
+    whereH: "أين يعمل، ولماذا 90%",
+    mEef: "EEF الأفضل", mEefL: "EEF أرخص، الأمسيات لم تتحرر", mAm: "الشهادات السنوية", mBess: "البطارية", mSun: "الشمسي وحده يكفي", mOut: "غير ممكن",
+    rg1: "الإزاحة", rg2: "حجم المركز، والأكبر مجموعات مراكز",
+    why1: "أعلى هدف تصله المحطة الشمسية نفسها: شمسي بحجم الاستهلاك السنوي مع إزاحة يومية سقفه 91.2%.",
+    why2: "أول هدف تتحرر فيه أمسيات الصيف تقريبًا كلها (99.2%)، فلا يضيف المركز ذروة ليلية.",
+    why3: "تكلفته قريبة من الأهداف الأقل: +0.3 دولار/م.و.س من 80% إلى 90%، والانبعاثات تنخفض للنصف.",
+    why4: "100% غير ممكنة: فاقد التخزين والأيام المغبرة وترتيب الساعات تحدّها قرب 99.9%.",
+    yearH: "سنة كاملة بالطاقة (النموذج، 90%)",
+    y1: "المركز، كلها من الشبكة", y2: "الشمسي، كله يُباع للشبكة", y3: "مُزاحة: 90% من استهلاك المركز", y4: "تُنقل من الليل للظهيرة بمرونة 203 ميجاواط (نحو 2 لكل 1)",
+    foot: "نتائج أولية من نموذج تخطيط بالبرمجة الخطية على جميع ساعات السنة (الرياض). الفرضيات: المرونة 50 دولارًا لكل م.و.س مُزاحة، البطارية وفق الحالة الوسطى من NREL، تعزيز الشبكة 125 دولارًا/ك.و/سنة، الكربون 50 دولارًا/طن، معدل خصم 8%، تكلفة العقد 0.25 مليون دولار سنويًا. اليوم توضيحي: الاستهلاك المعتاد للأحمال المرنة 100 ميجاواط هو أصغر حالة، ولا يظهر فاقد الإزاحة 5%.",
+    // system diagram
+    nDc: "مركز البيانات", nDc1: "100 ميجاواط · 24/7، غير مرن", nDc2: "كله من الشبكة، بدون شمسي",
+    nSolar: "المحطة الشمسية", nSolar1: "477 ميجاواط · 876 ج.و.س", nSolar2: "كله يُباع للشبكة",
+    nSppc: "SPPC", nSppc1: "المشتري الرئيس", nSppc2: "تشتري كل الشمسي",
+    nSera: "الهيئة", nSera1: "القواعد والتراخيص",
+    nAgg: "المُجمِّع · تحكم EEF", nAgg1: "توقع ← جدول اليوم التالي ← تحكم ساعي", nAgg2: "يدفع للأحمال ويتحمّل المخاطر",
+    nReg: "العدادات والسجل الساعي", nReg1: "يطابق كل ساعة", nReg2: "يصدر شهادات نظيفة بالساعة",
+    nFlex: "الأحمال المرنة", nFlex1: "تحلية · تبريد مركزي · ضخ", nFlex2: "في أي مكان على الشبكة الوطنية",
+    nGrid: "الشبكة الوطنية", tNew: "جديد", tRules: "قواعد جديدة",
+    fRest: "بقية الشبكة: 100 ميجاواط كالمعتاد", fNoLink: "لا خط مباشر بين الشمسي والمركز",
+    fForecast: "توقع الشمسي", fSchedule: "جدول اليوم التالي", fSetpoints: "أوامر ساعية", fMeter: "بيانات العدادات", fCredits: "شهادات ساعية",
+    fPays: "تدفع", fTariff: "التعريفة، 100% من الاستهلاك", fFee: "رسوم المرونة", fShift: "يدفع مقابل الإزاحة",
+    lPower: "<b>الطاقة:</b> المركز يسحب 100 ميجاواط من الشبكة كل ساعة. الشمسي كله يُباع للشبكة وتستهلكه الأحمال المرنة، وتبقى بقية الشبكة تغذي 100 ميجاواط كالمعتاد. اضغط على أي معدّة لترى دورها.",
+    lControl: "<b>التحكم:</b> المُجمِّع يتوقع الشمسي، ويرسل جدول اليوم التالي لمشغّل الشبكة وأوامر ساعية للأحمال المرنة. العدادات ترسل بيانات كل ساعة للسجل، والسجل يصدر للمركز شهادات طاقة نظيفة بالساعة.",
+    lMoney: "<b>المال:</b> المركز يدفع التعريفة عن كل استهلاكه ويدفع رسوم المرونة للمُجمِّع. شركة شراء الطاقة تدفع ثمن كل م.و.س شمسية، والمُجمِّع يدفع للأحمال المرنة مقابل الإزاحة.",
+    iDc: "<b>مركز البيانات:</b> 100 ميجاواط تعمل على مدار الساعة ولا تقدر تزيح حملها. يشتري 100% من طاقته من الشبكة بالتعريفة (48 دولارًا/م.و.س) ولا يستخدم شيئًا من الشمسي، فاعتماديته هي اعتمادية الشبكة.",
+    iSolar: "<b>المحطة الشمسية:</b> 477 ميجاواط ذروة في الرياض تنتج 876 جيجاواط ساعة سنويًا، بقدر استهلاك المركز. يُباع كل إنتاجها لشركة شراء الطاقة بسعر تكلفتها، فتغطي نفسها.",
+    iSppc: "<b>شركة شراء الطاقة (SPPC):</b> المشتري الرئيس في المملكة، تشتري كامل إنتاج الشمسي وتضخه في الشبكة.",
+    iSera: "<b>الهيئة السعودية لتنظيم الكهرباء:</b> ترخّص المُجمِّع وتضع قواعد خط الأساس والقياس والتسوية والشهادات الساعية.",
+    iAgg: "<b>المُجمِّع (ترخيص جديد):</b> يتوقع الشمسي والأحمال، ويضع جدول اليوم التالي، ويصححه كل ساعة بالتحكم التنبؤي (MPC). يتعاقد مع الأحمال المرنة ويدفع لها ويتحمّل مخاطر التنفيذ.",
+    iReg: "<b>العدادات والسجل الساعي (جديد):</b> عدادات ساعية في كل موقع. يطابق السجل كل ساعة بين استهلاك المركز والمساحة المحررة، ويصدر شهادات نظيفة بالساعة دون احتساب مزدوج.",
+    iFlex: "<b>الأحمال المرنة:</b> تحلية وتبريد مركزي وضخ مياه وصناعة، في أي مكان على الشبكة الوطنية. تخزّن الشمسي ماءً أو برودة، فتستهلك أكثر ظهرًا وأقل ليلًا. المطلوب نحو 2 ميجاواط مرونة لكل 1 ميجاواط مركز (203 ميجاواط هنا).",
+    iGrid: "<b>الشبكة الوطنية:</b> نظام واحد مترابط (السعودية للطاقة والشبكة الوطنية). لذلك يمكن أن يكون المركز في الشمال والأحمال المرنة في الجنوب، والإزاحة تُحسب على مستوى الشبكة كلها.",
+    gA: "جانب الشبكة: الشمسي المبيع وتغذية المركز", gPv: "شمسي يُباع للشبكة", gDc: "المركز: 100 ميجاواط", gB: "الأحمال المرنة: ما تستهلكه",
+    gExtra: "استهلاك إضافي على الشمسي", gUsual: "المعتاد: 100 ميجاواط", gFreed: "↓ مساحة للمركز", works: "EEF يعمل هنا"
+  };
+  const EN = {
+    play: "Play", pause: "Pause", today: "today:", usualShort: "usual", noSolar: "no solar",
+    nDc: "AI data center", nDc1: "100 MW · 24/7, inflexible", nDc2: "all from the grid, no solar",
+    nSolar: "Solar plant", nSolar1: "477 MWp · 876 GWh/yr", nSolar2: "all sold to the grid",
+    nSppc: "SPPC", nSppc1: "Principal Buyer", nSppc2: "buys all the solar",
+    nSera: "SERA", nSera1: "rules & licences",
+    nAgg: "Aggregator · EEF control", nAgg1: "forecast → day-ahead plan → hourly MPC", nAgg2: "pays the loads, carries the risk",
+    nReg: "Meters & hourly registry", nReg1: "matches every hour", nReg2: "issues hourly clean credits",
+    nFlex: "Flexible loads", nFlex1: "desalination · cooling · pumping", nFlex2: "anywhere on the national grid",
+    nGrid: "National grid", tNew: "new", tRules: "new rules",
+    fRest: "rest of the grid: 100 MW, as usual", fNoLink: "no direct line from the solar to the data center",
+    fForecast: "solar forecast", fSchedule: "day-ahead schedule", fSetpoints: "hourly set-points", fMeter: "meter data", fCredits: "hourly credits",
+    fPays: "pays", fTariff: "tariff, 100% of use", fFee: "flexibility fee", fShift: "pays for shifting",
+    lPower: "<b>Power:</b> the data center draws 100 MW from the grid every hour. All the solar is sold to the grid and the flexible loads use it, so the rest of the grid supplies the same 100 MW as usual. Click any piece of equipment to see its role.",
+    lControl: "<b>Control:</b> the aggregator forecasts the solar, sends a day-ahead schedule to the grid operator and hourly set-points to the flexible loads. Meters send every hour to the registry, which issues the data center hourly clean-energy credits.",
+    lMoney: "<b>Money:</b> the data center pays the tariff on all of its use and a flexibility fee to the aggregator. SPPC pays for every solar MWh, and the aggregator pays the flexible loads for shifting.",
+    iDc: "<b>AI data center:</b> 100 MW, running 24/7, unable to shift its load. It buys 100% of its energy from the grid at the tariff (US$48/MWh) and uses none of the solar, so its reliability is the grid's.",
+    iSolar: "<b>Solar plant:</b> 477 MWp in Riyadh, producing 876 GWh a year, as much as the data center uses. Every MWh is sold to SPPC at its cost, so the plant pays for itself.",
+    iSppc: "<b>SPPC:</b> the Saudi Power Procurement Company, the Principal Buyer. It buys all of the solar output and puts it on the grid.",
+    iSera: "<b>SERA:</b> the electricity regulator. It licenses the aggregator and sets the baseline, measurement, settlement and hourly-credit rules.",
+    iAgg: "<b>Aggregator (new licence):</b> forecasts solar and loads, sets the day-ahead schedule and corrects it every hour with model predictive control. It contracts and pays the flexible loads and carries the delivery risk.",
+    iReg: "<b>Meters & hourly registry (new):</b> interval meters at every site. The registry matches, hour by hour, the data center's use with the room freed for it, and issues hourly clean-energy credits with no double counting.",
+    iFlex: "<b>Flexible loads:</b> desalination, district cooling, water pumping and industry, anywhere on the national grid. They store the solar as water or cold, using more at noon and less at night. About 2 MW of flexibility per MW of data center (203 MW here).",
+    iGrid: "<b>National grid:</b> one interconnected system (Saudi Energy and National Grid SA). The data center can be in the north and the flexible loads in the south; displacement is counted across the whole grid.",
+    gA: "Grid side: solar sold and data center supplied", gPv: "Solar sold to the grid", gDc: "Data center: 100 MW", gB: "Flexible loads: what they use",
+    gExtra: "Extra use, on the solar", gUsual: "Usual use: 100 MW", gFreed: "↓ Room for the data center", works: "EEF WORKS"
+  };
+  document.querySelectorAll("[data-t]").forEach(el => { EN[el.dataset.t] = el.innerHTML.trim(); });
+  let lang = "en";
+  const tr = k => (lang === "ar" ? AR[k] : EN[k]) || EN[k] || "";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = id => document.getElementById(id);
+  const NS = "http://www.w3.org/2000/svg";
+  const mk = (parent, tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  const svgLabels = [];
+  const label = (parent, key, attrs) => { const t = mk(parent, "text", attrs); svgLabels.push([t, key, attrs["text-anchor"] || "start"]); return t; };
+
+  // ------------------------------------------------------------------ the day model (illustrative)
+  const DC = 100, FU = 100, RISE = 5.2, SET = 18.9;
+  const shape = h => (h > RISE && h < SET) ? Math.pow(Math.sin(Math.PI * (h - RISE) / (SET - RISE)), 1.25) : 0;
+  let integ = 0; for (let h = 0; h < 24; h += .01) integ += shape(h) * .01;
+  const PMAX = DC * 24 / integ;
+  const pv = h => PMAX * shape(((h % 24) + 24) % 24);
+  let t0 = RISE; while (pv(t0) < DC) t0 += .01;
+  const STEP = .05, bankArr = []; let acc = 0, peak = 0;
+  for (let k = 0; k < 24 / STEP; k++) { bankArr.push(acc); acc += (pv(t0 + k * STEP) - DC) * STEP; peak = Math.max(peak, acc); }
+  const bankAt = h => Math.max(0, bankArr[Math.floor((((h - t0) % 24) + 24) % 24 / STEP) % bankArr.length] / peak);
+  const ESTEP = .02, cumPV = [0];
+  for (let k = 1; k * ESTEP <= 24.0001; k++) cumPV.push(cumPV[k - 1] + pv((k - .5) * ESTEP) * ESTEP);
+  const ePV = h => cumPV[Math.min(cumPV.length - 1, Math.round(h / ESTEP))];
+
+  // ------------------------------------------------------------------ the system diagram
+  const sys = $("syssvg");
+  const defs = mk(sys, "defs", {});
+  const COLS = { sun: "var(--sun)", ink: "var(--ink)", accent: "var(--accent)", ctrl: "var(--ctrl)", money: "var(--money)" };
+  for (const c in COLS) {
+    const m = mk(defs, "marker", { id: "arr-" + c, viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto-start-reverse" });
+    mk(m, "path", { d: "M0,0 L10,5 L0,10 z", fill: COLS[c] });
+  }
+  const BUS = 190;
+  const layers = { power: mk(sys, "g", {}), control: mk(sys, "g", {}), money: mk(sys, "g", {}) };
+  // the national grid (always shown)
+  const gridNode = mk(sys, "g", { class: "node", tabindex: 0, role: "button", "data-node": "grid" });
+  mk(gridNode, "rect", { class: "box", x: 14, y: BUS - 9, width: 872, height: 18, rx: 9, fill: "transparent", stroke: "transparent" });
+  mk(gridNode, "line", { x1: 20, x2: 880, y1: BUS, y2: BUS, stroke: "var(--grid)", "stroke-width": 6, "stroke-linecap": "round" });
+  [470, 590].forEach(x => mk(gridNode, "path", { d: `M${x - 9},${BUS + 14} L${x},${BUS - 20} L${x + 9},${BUS + 14} M${x - 12},${BUS - 12} H${x + 12} M${x - 9},${BUS - 2} H${x + 9}`, fill: "none", stroke: "var(--grid)", "stroke-width": 1.6 }));
+  label(gridNode, "nGrid", { x: 530, y: BUS - 14, "font-size": 13, fill: "var(--ink-2)", "font-weight": 700, "text-anchor": "middle" });
+
+  // equipment
+  const NODES = [
+    { id: "sppc", x: 16, y: 34, w: 160, h: 88, icon: "bank" },
+    { id: "solar", x: 220, y: 34, w: 194, h: 88, icon: "pv" },
+    { id: "sera", x: 432, y: 26, w: 152, h: 58, icon: "scale", tag: "tRules", one: true },
+    { id: "agg", x: 602, y: 34, w: 282, h: 88, icon: "chip", tag: "tNew" },
+    { id: "dc", x: 16, y: 256, w: 230, h: 112, icon: "rack" },
+    { id: "reg", x: 330, y: 268, w: 226, h: 98, icon: "ledger", tag: "tNew" },
+    { id: "flex", x: 634, y: 256, w: 250, h: 112, icon: "tanks" }
+  ];
+  const TKEY = { sppc: "nSppc", solar: "nSolar", sera: "nSera", agg: "nAgg", dc: "nDc", reg: "nReg", flex: "nFlex" };
+  const live = {};
+  NODES.forEach(n => {
+    const g = mk(sys, "g", { class: "node", tabindex: 0, role: "button", "data-node": n.id });
+    mk(g, "rect", { class: "box", x: n.x, y: n.y, width: n.w, height: n.h, rx: 12, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 1.5 });
+    const ix = n.x + 10, iy = n.y + (n.h - 40) / 2, ic = mk(g, "g", { transform: `translate(${ix},${iy})` });
+    if (n.icon === "rack") {
+      mk(ic, "rect", { width: 34, height: 40, rx: 4, fill: "var(--ink)" });
+      live.leds = [];
+      for (let i = 0; i < 4; i++) { mk(ic, "rect", { x: 5, y: 5 + i * 8.5, width: 17, height: 4, rx: 1, fill: "var(--surface)", opacity: .4 }); live.leds.push(mk(ic, "circle", { cx: 27.5, cy: 7 + i * 8.5, r: 1.9, fill: "var(--sun)" })); }
+    } else if (n.icon === "pv") {
+      live.sunIcon = mk(ic, "circle", { cx: 30, cy: 6, r: 7, fill: "var(--sun)" });
+      for (let i = 0; i < 3; i++) mk(ic, "path", { d: `M${i * 12},40 L${i * 12 + 5},20 L${i * 12 + 15},20 L${i * 12 + 10},40 Z`, fill: "var(--bess)", opacity: .85 });
+    } else if (n.icon === "bank") {
+      mk(ic, "path", { d: "M0,12 L18,2 L36,12 Z M2,38 H34 M4,34 H32", fill: "var(--ink-2)", stroke: "var(--ink-2)", "stroke-width": 2 });
+      [6, 15, 24].forEach(x => mk(ic, "rect", { x, y: 15, width: 5, height: 18, fill: "var(--ink-2)" }));
+    } else if (n.icon === "scale") {
+      mk(ic, "path", { d: "M18,4 V36 M8,36 H28 M4,10 H32 M4,10 L0,22 H8 Z M32,10 L28,22 H36 Z", fill: "none", stroke: "var(--ink-2)", "stroke-width": 2 });
+    } else if (n.icon === "chip") {
+      mk(ic, "rect", { x: 4, y: 4, width: 32, height: 32, rx: 5, fill: "none", stroke: "var(--ctrl)", "stroke-width": 2.4 });
+      mk(ic, "path", { d: "M11,24 L16,17 L21,21 L29,12", fill: "none", stroke: "var(--ctrl)", "stroke-width": 2.4, "stroke-linecap": "round" });
+      [10, 20, 30].forEach(p => mk(ic, "path", { d: `M${p},0 V4 M${p},36 V40 M0,${p} H4 M36,${p} H40`, stroke: "var(--ctrl)", "stroke-width": 2 }));
+    } else if (n.icon === "ledger") {
+      mk(ic, "path", { d: "M4,0 H26 L34,8 V40 H4 Z", fill: "none", stroke: "var(--ink-2)", "stroke-width": 2 });
+      [12, 18, 24].forEach(y => mk(ic, "line", { x1: 9, x2: 28, y1: y, y2: y, stroke: "var(--ink-2)", "stroke-width": 1.6 }));
+      mk(ic, "path", { d: "M10,32 L15,36 L26,28", fill: "none", stroke: "var(--accent)", "stroke-width": 2.6, "stroke-linecap": "round" });
+    } else if (n.icon === "tanks") {
+      live.tanks = [];
+      for (let i = 0; i < 3; i++) {
+        mk(ic, "rect", { x: i * 13, y: 0, width: 11, height: 40, rx: 3, fill: "none", stroke: "var(--accent)", "stroke-width": 1.8 });
+        live.tanks.push(mk(ic, "rect", { x: i * 13 + 2, width: 7, rx: 1.5, fill: "var(--accent)" }));
+      }
+    }
+    const tx = n.x + 56, tY = n.y + n.h / 2 - (n.one ? 2 : 10);
+    label(g, TKEY[n.id], { x: tx, y: tY, "font-size": 14, fill: "var(--ink)", "font-weight": 700 });
+    label(g, TKEY[n.id] + "1", { x: tx, y: tY + 18, "font-size": 12, fill: "var(--ink-2)" });
+    if (!n.one) label(g, TKEY[n.id] + "2", { x: tx, y: tY + 34, "font-size": 12, fill: "var(--ink-2)" });
+    if (n.tag) {
+      const tg = mk(g, "g", {});
+      mk(tg, "rect", { x: n.x + n.w - 78, y: n.y - 9, width: 74, height: 18, rx: 9, fill: "var(--accent)" });
+      label(tg, n.tag, { x: n.x + n.w - 41, y: n.y + 4.5, "font-size": 11, fill: "#fff", "font-weight": 700, "text-anchor": "middle" });
+    }
+  });
+
+  // flows: [layer, colour, path, number of dots, speed, rate(hour) or null]
+  const FLOWS = [
+    ["power", "sun", "M300,123 V185", 4, .55, h => pv(h) / PMAX],
+    ["power", "ink", "M135,196 V252", 4, .55, () => 1],
+    ["power", "accent", "M710,196 V252", 4, .55, h => pv(h) / PMAX],
+    ["control", "ctrl", "M415,104 H598", 4, .35],
+    ["control", "ctrl", "M660,123 V186", 3, .35],
+    ["control", "ctrl", "M840,123 V252", 4, .35],
+    ["control", "ctrl", "M247,300 H326", 3, .35],
+    ["control", "ctrl", "M632,318 H560", 3, .35],
+    ["control", "ctrl", "M370,123 C370,205 430,205 430,265", 4, .35],
+    ["control", "ctrl", "M326,346 H250", 3, .35],
+    ["money", "money", "M177,78 H217", 2, .4],
+    ["money", "money", "M185,252 V196", 3, .4],
+    ["money", "money", "M228,252 V234 H700 V125", 7, .4],
+    ["money", "money", "M820,125 V252", 4, .4]
+  ];
+  const flows = FLOWS.map(([layer, col, d, n, speed, rate]) => {
+    const g = layers[layer];
+    const p = mk(g, "path", { d, fill: "none", stroke: COLS[col], "stroke-width": layer === "power" ? 3.5 : 2.2, "stroke-dasharray": layer === "control" ? "7 5" : layer === "money" ? "2 6" : "none", "stroke-linecap": "round", "marker-end": `url(#arr-${col})` });
+    const len = p.getTotalLength();
+    const dots = []; for (let i = 0; i < n; i++) dots.push(mk(g, "circle", { r: layer === "power" ? 5 : 4, fill: COLS[col] }));
+    return { layer, p, len, dots, speed, rate };
+  });
+  // flow labels
+  const FL = { x: 0, y: 0, "font-size": 12.5, "font-weight": 600 };
+  const vP1 = mk(layers.power, "text", { x: 308, y: 160, "font-size": 13, fill: "var(--sun)", "font-weight": 700, "font-family": "IBM Plex Mono, monospace" });
+  const vP2 = mk(layers.power, "text", { x: 143, y: 230, "font-size": 13, fill: "var(--ink)", "font-weight": 700, "font-family": "IBM Plex Mono, monospace" }); vP2.textContent = "100 MW";
+  const vP3 = mk(layers.power, "text", { x: 718, y: 230, "font-size": 13, fill: "var(--accent-ink)", "font-weight": 700, "font-family": "IBM Plex Mono, monospace" });
+  label(layers.power, "fRest", Object.assign({}, FL, { x: 880, y: BUS - 14, fill: "var(--ink-2)", "text-anchor": "end" }));
+  label(layers.power, "fNoLink", Object.assign({}, FL, { x: 300, y: BUS + 44, fill: "var(--accent-ink)", "font-size": 12 }));
+  label(layers.control, "fForecast", Object.assign({}, FL, { x: 508, y: 98, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fSchedule", Object.assign({}, FL, { x: 668, y: 160, fill: "var(--ctrl)" }));
+  label(layers.control, "fSetpoints", Object.assign({}, FL, { x: 832, y: 230, fill: "var(--ctrl)", "text-anchor": "end" }));
+  label(layers.control, "fMeter", Object.assign({}, FL, { x: 287, y: 292, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fMeter", Object.assign({}, FL, { x: 596, y: 310, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.control, "fCredits", Object.assign({}, FL, { x: 288, y: 362, fill: "var(--ctrl)", "text-anchor": "middle" }));
+  label(layers.money, "fPays", Object.assign({}, FL, { x: 197, y: 68, fill: "var(--money)", "text-anchor": "middle" }));
+  label(layers.money, "fTariff", Object.assign({}, FL, { x: 193, y: 222, fill: "var(--money)" }));
+  label(layers.money, "fFee", Object.assign({}, FL, { x: 464, y: 228, fill: "var(--money)", "text-anchor": "middle" }));
+  label(layers.money, "fShift", Object.assign({}, FL, { x: 812, y: 160, fill: "var(--money)", "text-anchor": "end" }));
+
+  let layer = "power", selected = null;
+  const info = $("info");
+  const INFO = { dc: "iDc", solar: "iSolar", sppc: "iSppc", sera: "iSera", agg: "iAgg", reg: "iReg", flex: "iFlex", grid: "iGrid" };
+  const LAYINFO = { power: "lPower", control: "lControl", money: "lMoney" };
+  function showInfo() {
+    info.innerHTML = tr(selected ? INFO[selected] : LAYINFO[layer]);
+    sys.querySelectorAll(".node").forEach(g => g.classList.toggle("sel", g.dataset.node === selected));
+  }
+  function setLayer(l) {
+    layer = l; selected = null;
+    for (const k in layers) layers[k].style.display = k === l ? "" : "none";
+    document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.layer === l)));
+    showInfo(); placeDots();
+  }
+  document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => setLayer(b.dataset.layer)));
+  sys.querySelectorAll(".node").forEach(g => {
+    const pick = () => { selected = selected === g.dataset.node ? null : g.dataset.node; showInfo(); };
+    g.addEventListener("click", pick);
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(); } });
+  });
+
+  // ------------------------------------------------------------------ the day curve
+  const day = $("daysvg");
+  const X0 = 84, X1 = 930, X = h => X0 + (X1 - X0) * h / 24;
+  const K = 0.3, ZA = 128, ZB = 262, AX = 278;
+  const YA = v => ZA - K * v, YB = v => ZB - K * v;
+  const pts = []; for (let h = 0; h <= 24.0001; h += .1) pts.push(h);
+  const line = f => pts.map(h => `${X(h).toFixed(1)},${f(h).toFixed(1)}`).join(" ");
+  const ddefs = mk(day, "defs", {});
+  const pat = mk(ddefs, "pattern", { id: "hatch", width: 7, height: 7, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
+  mk(pat, "line", { x1: 0, y1: 0, x2: 0, y2: 7, stroke: "var(--ink-2)", "stroke-width": 2.2, opacity: .6 });
+  const dayLabels = [];
+  const dl = (key, attrs) => { const t = label(day, key, attrs); dayLabels.push(t); return t; };
+  mk(day, "polygon", { points: `${X(0)},${ZA} ${line(h => YA(pv(h)))} ${X(24)},${ZA}`, fill: "var(--sun-soft)" });
+  mk(day, "polyline", { points: line(h => YA(pv(h))), fill: "none", stroke: "var(--sun)", "stroke-width": 3 });
+  mk(day, "line", { x1: X0, x2: X1, y1: YA(DC), y2: YA(DC), stroke: "var(--ink)", "stroke-width": 3, "stroke-dasharray": "10 6" });
+  mk(day, "line", { x1: X0, x2: X1, y1: ZA, y2: ZA, stroke: "var(--ink-2)", "stroke-width": 1.2 });
+  dl("gA", { x: X0, y: 22, "font-size": 18, fill: "var(--ink-2)", "font-weight": 600 });
+  dl("gPv", { x: X(15.6), y: YA(PMAX) + 14, "font-size": 18, fill: "var(--sun)", "font-weight": 700 });
+  dl("gDc", { x: X(0.2), y: YA(DC) - 9, "font-size": 18, fill: "var(--ink)", "font-weight": 600 });
+  mk(day, "polygon", { points: `${X(0)},${YB(FU)} ${line(h => YB(Math.min(pv(h), FU)))} ${X(24)},${YB(FU)}`, fill: "url(#hatch)" });
+  mk(day, "polygon", { points: `${X(0)},${ZB} ${line(h => YB(pv(h)))} ${X(24)},${ZB}`, fill: "var(--accent)", opacity: .85 });
+  mk(day, "polyline", { points: line(h => YB(pv(h))), fill: "none", stroke: "var(--accent)", "stroke-width": 2.5 });
+  mk(day, "line", { x1: X0, x2: X1, y1: YB(FU), y2: YB(FU), stroke: "var(--ink-2)", "stroke-width": 2, "stroke-dasharray": "8 6" });
+  mk(day, "line", { x1: X0, x2: X1, y1: ZB, y2: ZB, stroke: "var(--ink-2)", "stroke-width": 1.2 });
+  dl("gB", { x: X0, y: 152, "font-size": 18, fill: "var(--ink-2)", "font-weight": 600 });
+  dl("gExtra", { x: X(15.6), y: YB(PMAX) + 26, "font-size": 17, fill: "var(--accent-ink)", "font-weight": 600 });
+  dl("gUsual", { x: X(19.4), y: YB(FU) - 8, "font-size": 16, fill: "var(--ink-2)", "font-weight": 600 });
+  dl("gFreed", { x: X(0.3), y: YB(FU) - 8, "font-size": 16, fill: "var(--ink)", "font-weight": 700 });
+  const sideLbls = [];
+  const sideLbl = (y, s) => { const t = mk(day, "text", { x: X0 - 8, y: y + 6, "font-size": 16, "text-anchor": "end", fill: "var(--ink-2)", "font-family": "IBM Plex Mono, monospace" }); t.textContent = s; sideLbls.push(t); };
+  sideLbl(ZA, "0"); sideLbl(YA(DC), "100"); sideLbl(ZB, "0"); sideLbl(YB(FU), "100");
+  const axLbls = [];
+  mk(day, "line", { x1: X0, x2: X1, y1: AX, y2: AX, stroke: "var(--line)" });
+  [0, 6, 12, 18, 24].forEach(h => {
+    mk(day, "line", { x1: X(h), x2: X(h), y1: AX, y2: AX + 7, stroke: "var(--ink-2)" });
+    const t = mk(day, "text", { x: X(h), y: AX + 30, "font-size": 20, fill: "var(--ink-2)", "text-anchor": h === 0 ? "start" : h === 24 ? "end" : "middle", "font-family": "IBM Plex Mono, monospace" });
+    t.textContent = String(h).padStart(2, "0") + ":00"; axLbls.push(t);
+  });
+  const cur = mk(day, "line", { y1: 30, y2: AX, stroke: "var(--ink)", "stroke-width": 1.5, "stroke-dasharray": "4 4" });
+  const curA = mk(day, "circle", { r: 6, fill: "var(--sun)", stroke: "var(--surface)", "stroke-width": 2.5 });
+  const curB = mk(day, "circle", { r: 6, fill: "var(--accent)", stroke: "var(--surface)", "stroke-width": 2.5 });
+  function fit() {
+    const narrow = day.getBoundingClientRect().width < 560;
+    dayLabels.forEach(t => { t.style.display = narrow ? "none" : ""; });
+    axLbls.forEach(t => { t.setAttribute("font-size", narrow ? 36 : 20); t.setAttribute("y", AX + (narrow ? 42 : 30)); });
+    sideLbls.forEach(t => t.setAttribute("font-size", narrow ? 26 : 16));
+  }
+  fit(); addEventListener("resize", fit);
+
+  // ------------------------------------------------------------------ the boundary map (model results, Riyadh)
+  const P = [[42,42.67,31.21,30.96,31.03,1.9],[45,42.67,31.21,31.57,30.73,8.6],[50,42.67,31.21,32.43,30.21,19.8],[60,42.67,31.21,34.65,28.92,44],[70,42.67,31.21,37.26,27.52,68.9],[80,42.67,31.21,41.03,27.72,82.7],[85,42.67,31.21,43.1,27.84,92.9],[90,42.67,31.21,45.45,28.02,99.2],[93,42.67,31.21,46.96,28.28,98.4],[95,42.67,31.21,48.09,28.56,99.5],[97,42.67,31.21,50.29,28.94,99.8],[98,42.67,31.21,50.53,28.79,100],[99,42.67,31.21,49.16,28.04,100],[99.5,42.67,31.21,67.71,28.61,100]];
+  const F28 = 0.25e6 / 8760;
+  const map = $("mapsvg");
+  const MX0 = 44, MX1 = 352, MY0 = 204, MY1 = 8, SMIN = .1, SMAX = 1500;
+  const MX = s => MX0 + (MX1 - MX0) * Math.log10(s / SMIN) / Math.log10(SMAX / SMIN);
+  const MY = v => MY0 - (MY0 - MY1) * (v - 30) / 70.5;
+  const edges = [40.4].concat(P.slice(0, -1).map((p, i) => (p[0] + P[i + 1][0]) / 2), [99.9]);
+  const NC = 40, sw = Array.from({ length: NC + 1 }, (_, j) => SMIN * Math.pow(SMAX / SMIN, j / NC));
+  for (let j = 0; j < NC; j++) {
+    const S = Math.sqrt(sw[j] * sw[j + 1]);
+    P.forEach((p, i) => {
+      const eef = p[4] - F28 / 100 + F28 / S, alt = Math.min(p[1], p[2], p[3]);
+      let col = "var(--am)";
+      if (eef < alt) col = p[5] >= 90 ? "var(--accent)" : "var(--accent-mid)";
+      else if (p[3] < Math.min(p[1], p[2])) col = "var(--bess)";
+      mk(map, "rect", { x: MX(sw[j]), y: MY(edges[i + 1]), width: MX(sw[j + 1]) - MX(sw[j]) + .6, height: MY(edges[i]) - MY(edges[i + 1]) + .6, fill: col });
+    });
+  }
+  mk(map, "rect", { x: MX0, y: MY(40.4), width: MX1 - MX0, height: MY0 - MY(40.4), fill: "var(--sun-soft)" });
+  mk(map, "rect", { x: MX0, y: MY1, width: MX1 - MX0, height: MY(99.9) - MY1, fill: "var(--hatch)" });
+  const zx = MX(8.3), zy = MY(99.9), zw = MX1 - zx, zh = MY(82.5) - zy;
+  mk(map, "rect", { x: zx, y: zy, width: zw, height: zh, fill: "none", stroke: "var(--surface)", "stroke-width": 4 });
+  const zone = mk(map, "rect", { x: zx, y: zy, width: zw, height: zh, fill: "none", stroke: "var(--ink)", "stroke-width": 2, "stroke-dasharray": "6 4" });
+  if (!reduce) mk(zone, "animate", { attributeName: "stroke-dashoffset", from: "0", to: "-20", dur: "1.2s", repeatCount: "indefinite" });
+  const mt = (x, y, s, a) => { const t = mk(map, "text", { x, y, "font-size": 12, "text-anchor": a || "middle", fill: "var(--ink-2)", "font-family": "IBM Plex Mono, monospace" }); t.textContent = s; };
+  [[.1, "100 kW", "start"], [1, "1 MW"], [10, "10 MW"], [100, "100 MW"], [1500, "1.5 GW", "end"]].forEach(([s, l, a]) => mt(MX(s), MY0 + 17, l, a));
+  [40, 60, 80, 90, 100].forEach(v => mt(MX0 - 5, MY(v) + 4, v + "%", "end"));
+  label(map, "works", { x: zx + zw / 2, y: MY(91) + 5, "font-size": 13, "text-anchor": "middle", fill: "#fff", "font-weight": 700 });
+
+  // ------------------------------------------------------------------ state, readouts and motion
+  const playBtn = $("play"), slider = $("hour"), vT = $("vTime");
+  const eS = $("eSolar"), eD = $("eDc"), eF = $("eFlex"), eR = $("eFreed"), nS = $("nSolar"), nD = $("nDc"), nF = $("nFlex"), nR = $("nFreed");
+  const mwh = v => `${Math.round(v).toLocaleString("en-US")} MWh`;
+  let hour = 20, playing = !reduce, phase = 0, last = 0;
+
+  function placeDots() {
+    flows.forEach(f => {
+      if (f.layer !== layer) return;
+      const r = f.rate ? f.rate(hour) : 1;
+      f.dots.forEach((d, i) => {
+        const q = ((phase * f.speed + i / f.dots.length) % 1 + 1) % 1, pt = f.p.getPointAtLength(q * f.len);
+        d.setAttribute("cx", pt.x); d.setAttribute("cy", pt.y); d.setAttribute("opacity", r > .02 ? Math.min(1, .35 + r) : 0);
+      });
+    });
+  }
+  function update(h) {
+    hour = h;
+    const p = pv(h), x = X(h);
+    cur.setAttribute("x1", x); cur.setAttribute("x2", x);
+    curA.setAttribute("cx", x); curA.setAttribute("cy", YA(p));
+    curB.setAttribute("cx", x); curB.setAttribute("cy", YB(p));
+    vP1.textContent = `${Math.round(p)} MW`; vP3.textContent = `${Math.round(p)} MW`;
+    live.sunIcon.setAttribute("opacity", .15 + .85 * p / PMAX);
+    const lv = .08 + .84 * bankAt(h);
+    live.tanks.forEach((r, i) => { const hh = 36 * lv * (1 - i * .06); r.setAttribute("y", 38 - hh); r.setAttribute("height", hh); });
+    const k = Math.min(23, Math.floor(h)), hourPV = ePV(k + 1) - ePV(k), pad = n => String(n).padStart(2, "0");
+    const DAY = Math.round(ePV(24)).toLocaleString("en-US");
+    const soFar = v => `${tr("today")} <bdi dir="ltr">${Math.round(v).toLocaleString("en-US")} / ${DAY} MWh</bdi>`;
+    vT.textContent = `${pad(k)}:00–${pad(k + 1)}:00`;
+    eS.textContent = mwh(hourPV); eF.textContent = mwh(hourPV); eD.textContent = mwh(DC); eR.textContent = mwh(DC);
+    nS.innerHTML = soFar(ePV(h));
+    nD.innerHTML = `${soFar(DC * h)} · ${tr("noSolar")}`;
+    nF.innerHTML = `${tr("usualShort")} <bdi dir="ltr">${FU} MWh</bdi> · ${soFar(ePV(h))}`;
+    nR.innerHTML = `<bdi dir="ltr">= 100%</bdi> · ${soFar(DC * h)}`;
+    slider.value = h.toFixed(1);
+    placeDots();
+  }
+  function frame(t) {
+    if (last) {
+      const dt = Math.min(.1, (t - last) / 1000);
+      phase = (phase + dt) % 1000;
+      if (playing) hour = (hour + dt * 1.2) % 24;
+      update(hour);
+      live.leds.forEach((d, i) => d.setAttribute("opacity", Math.sin(phase * 9 + i * 1.7) > 0 ? 1 : .35));
+    }
+    last = t;
+    requestAnimationFrame(frame);
+  }
+  playBtn.addEventListener("click", () => { playing = !playing; playBtn.textContent = tr(playing ? "pause" : "play"); });
+  slider.addEventListener("input", () => { playing = false; playBtn.textContent = tr("play"); update(Number(slider.value)); });
+
+  // ------------------------------------------------------------------ language
+  function setLang(l) {
+    lang = l;
+    const root = document.documentElement;
+    root.lang = l; root.dir = l === "ar" ? "rtl" : "ltr";
+    document.querySelectorAll("[data-t]").forEach(el => { el.innerHTML = tr(el.dataset.t); });
+    svgLabels.forEach(([el, k, anchor]) => {
+      el.textContent = tr(k);
+      el.setAttribute("font-family", l === "ar" ? "IBM Plex Sans Arabic, Tahoma, sans-serif" : "Open Sans, sans-serif");
+      el.setAttribute("direction", l === "ar" ? "rtl" : "ltr");
+      if (anchor === "start") el.setAttribute("text-anchor", l === "ar" ? "end" : "start");
+      if (anchor === "end") el.setAttribute("text-anchor", l === "ar" ? "start" : "end");
+    });
+    $("lang-en").setAttribute("aria-pressed", String(l === "en"));
+    $("lang-ar").setAttribute("aria-pressed", String(l === "ar"));
+    playBtn.textContent = tr(playing ? "pause" : "play");
+    showInfo(); update(hour);
+    try { localStorage.setItem("eef-lang", l); } catch (e) { /* storage unavailable */ }
+  }
+  $("lang-en").addEventListener("click", () => setLang("en"));
+  $("lang-ar").addEventListener("click", () => setLang("ar"));
+  let saved = "en"; try { saved = localStorage.getItem("eef-lang") || "en"; } catch (e) { /* storage unavailable */ }
+  setLayer("power");
+  setLang(saved === "ar" ? "ar" : "en");
+  if (!reduce) requestAnimationFrame(frame);
+})();
+</script>
