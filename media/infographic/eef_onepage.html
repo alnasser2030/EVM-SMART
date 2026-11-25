@@ -140,6 +140,35 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 
 footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; font-size: 7.5px; color: var(--ink-2); }
 
+/* control bar: full size, outside the scaled sheet, hidden in print */
+body { padding-bottom: 104px; }
+.toolbar {
+  position: fixed; left: 50%; bottom: max(12px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 10;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px;
+  width: max-content; max-width: calc(100vw - 24px); padding: 8px 12px; border-radius: 16px;
+  background: var(--surface); border: 1px solid var(--line); box-shadow: 0 6px 24px rgba(0,0,0,.18); font-family: var(--font-body);
+}
+.toolbar .primary { font: 700 14px var(--font-body); background: var(--accent); color: #fff; border: 0; border-radius: 999px; padding: 8px 18px; cursor: pointer; min-width: 84px; }
+html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-family: var(--font-ar); }
+.toolbar input[type="range"] { width: min(240px, 46vw); accent-color: var(--accent); }
+.toolbar .clock { font-size: 14px; min-width: 3.2em; }
+.toolbar .tabs { display: inline-flex; gap: 5px; }
+.toolbar .tabs button { font: 600 13px var(--font-body); border: 1px solid var(--line); background: var(--bg); color: var(--ink-2); padding: 6px 11px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.toolbar .tabs button i { width: 14px; height: 4px; border-radius: 2px; display: inline-block; }
+.toolbar .tabs button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.toolbar .lang button { font-size: 13px; padding: 6px 12px; }
+.layer-name { font-family: var(--font-body); font-size: 9px; color: var(--ink-2); font-weight: 600; }
+@media (max-width: 600px) {
+  body { padding-bottom: 124px; }
+  .toolbar { gap: 6px 8px; padding: 7px 10px; border-radius: 14px; }
+  .toolbar .primary { font-size: 13px; padding: 6px 14px; min-width: 72px; }
+  .toolbar .clock { font-size: 13px; }
+  .toolbar .tabs { gap: 4px; }
+  .toolbar .tabs button { font-size: 12px; padding: 5px 8px; gap: 4px; }
+  .toolbar .tabs button i { width: 10px; height: 3px; }
+  .toolbar .lang button { font-size: 12px; padding: 5px 9px; }
+}
+
 @page { size: A4; margin: 0; }
 @media print {
   :root, :root:not([data-theme="light"]) {
@@ -162,10 +191,6 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
       <h1 data-t="h1">External Energy Flexibility</h1>
       <div class="sub" data-t="sub">A smart-grid supply framework for inflexible AI data centers</div>
       <div class="byline"><b dir="ltr">Ali Nasser</b> · <span data-t="role">PhD Resident</span></div>
-    </div>
-    <div class="lang screen-only" role="group" aria-label="Language">
-      <button id="lang-en" type="button" aria-pressed="true">EN</button>
-      <button id="lang-ar" type="button" aria-pressed="false">عربي</button>
     </div>
     <p class="lede" data-t="lede">An AI data center draws the same power day and night. Under EEF it takes 100% of its energy from the grid and none of its solar: the solar is sold and runs flexible loads at noon, and at night those loads step back by as much as the data center uses, leaving it room on the grid.</p>
     <p class="tagline" data-t="tagline">As reliable as a grid-connected data center, as clean as a green one, and the cheapest of all: its solar is sold, and flexible loads replace the battery.</p>
@@ -193,11 +218,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
 
   <section class="sec">
     <h2><span data-t="sysH">The system: equipment and how it interacts</span>
-      <span class="tabs screen-only" role="group" aria-label="Layer">
-        <button type="button" data-layer="power" aria-pressed="true"><i style="background:var(--sun)"></i><span data-t="tabPower">Power</span></button>
-        <button type="button" data-layer="control" aria-pressed="false"><i style="background:var(--ctrl)"></i><span data-t="tabControl">Control</span></button>
-        <button type="button" data-layer="money" aria-pressed="false"><i style="background:var(--money)"></i><span data-t="tabMoney">Money</span></button>
-      </span>
+      <small class="layer-name" id="layerName"></small>
     </h2>
     <div dir="ltr"><svg id="syssvg" viewBox="0 0 900 248" role="img" aria-label="System diagram: solar plant, SPPC, SERA, aggregator, national grid, data center, meters and hourly registry, flexible loads, with power, control and money flows."></svg></div>
     <p class="info" id="info" aria-live="polite"></p>
@@ -214,10 +235,6 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
         <span><i style="height:7px;background:repeating-linear-gradient(45deg,var(--ink-2) 0 1.5px,transparent 1.5px 4px)"></i><span data-t="lgFreed">Freed for the data center</span></span>
       </div>
       <div dir="ltr"><svg id="daysvg" viewBox="0 0 960 300" role="img" aria-label="Day curve: the data center draws 100 MW from the grid every hour; all the solar is sold and the flexible loads run on it, dropping below their usual 100 MW at night to free that room for the data center."></svg></div>
-      <div class="ctl screen-only">
-        <button id="play" type="button">Pause</button>
-        <input id="hour" dir="ltr" type="range" min="0" max="23.9" step="0.1" value="13" aria-label="Hour of day">
-      </div>
       <p class="state" id="state"></p>
     </section>
     <section class="sec">
@@ -285,6 +302,21 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
 
   <footer data-t="foot">Preliminary results from a linear-programming planning model over all 8,760 hours of a year (Riyadh, 2020 solar data). Assumptions: flexibility US$50 per MWh shifted; battery at the NREL mid case; grid reinforcement US$125/kW-yr; carbon US$50/t; 8% discount rate; contract overhead US$0.25 M a year. The day is illustrative: the flexible loads' usual 100 MW is the smallest case, and the 5% shifting loss is not shown.</footer>
 </div></div>
+
+<div class="toolbar screen-only" role="toolbar" aria-label="Controls">
+  <button id="play" type="button" class="primary">Pause</button>
+  <input id="hour" dir="ltr" type="range" min="0" max="23.9" step="0.1" value="13" aria-label="Hour of day">
+  <span class="data clock" id="tbTime">13:00</span>
+  <span class="tabs" role="group" aria-label="Layer">
+    <button type="button" data-layer="power" aria-pressed="true"><i style="background:var(--sun)"></i><span data-t="tabPower">Power</span></button>
+    <button type="button" data-layer="control" aria-pressed="false"><i style="background:var(--ctrl)"></i><span data-t="tabControl">Control</span></button>
+    <button type="button" data-layer="money" aria-pressed="false"><i style="background:var(--money)"></i><span data-t="tabMoney">Money</span></button>
+  </span>
+  <span class="lang" role="group" aria-label="Language">
+    <button id="lang-en" type="button" aria-pressed="true">EN</button>
+    <button id="lang-ar" type="button" aria-pressed="false">عربي</button>
+  </span>
+</div>
 
 <script>
 (function () {
@@ -369,7 +401,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
     fRest: "rest of the grid: 100 MW, as usual", fNoLink: "no direct line from the solar to the data center",
     fForecast: "solar forecast", fSchedule: "day-ahead schedule", fSetpoints: "hourly set-points", fMeter: "meter data", fCredits: "hourly credits",
     fPays: "pays", fTariff: "tariff, 100% of use", fFee: "flexibility fee", fShift: "pays for shifting",
-    lPower: "<b>Power:</b> the data center draws 100 MW from the grid every hour. All the solar is sold to the grid and the flexible loads use it, so the rest of the grid supplies the same 100 MW as usual. Click any piece of equipment to see its role.",
+    lPower: "<b>Power:</b> the data center draws 100 MW from the grid every hour. All the solar is sold to the grid and the flexible loads use it, so the rest of the grid supplies the same 100 MW as usual. Tap any piece of equipment to see its role.",
     lControl: "<b>Control:</b> the aggregator forecasts the solar, sends a day-ahead schedule to the grid operator and hourly set-points to the flexible loads. Meters report every hour to the registry, which issues the data center hourly clean-energy credits.",
     lMoney: "<b>Money:</b> the data center pays the tariff on all of its use and a flexibility fee to the aggregator. SPPC pays for every solar MWh, and the aggregator pays the flexible loads for shifting.",
     iDc: "<b>AI data center:</b> 100 MW, running 24/7, unable to shift its load. It buys 100% of its energy from the grid at the tariff (US$48/MWh) and uses none of the solar, so its reliability is the grid's.",
@@ -541,6 +573,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
     for (const k in layers) layers[k].style.display = k === l ? "" : "none";
     document.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.layer === l)));
     showInfo(); placeDots();
+    if (layerName) layerName.textContent = tr({ power: "tabPower", control: "tabControl", money: "tabMoney" }[l]);
   }
   document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => setLayer(b.dataset.layer)));
   sys.querySelectorAll(".node").forEach(g => {
@@ -621,7 +654,9 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
   const playBtn = $("play"), slider = $("hour"), vT = $("vTime"), stateEl = $("state");
   const eS = $("eSolar"), nS = $("nSolar"), kSt = $("kStore"), eSt = $("eStore"), nD = $("nDc");
   const mwh = v => `${Math.round(v).toLocaleString("en-US")} MWh`;
-  let hour = 13, playing = !reduce, phase = 0, last = 0, lastDay = null;
+  let hour = 13, playing = !reduce, phase = 0, last = 0, lastDay = null, looping = false;
+  const tbT = $("tbTime"), layerName = $("layerName");
+  const ensureLoop = () => { if (!looping) { looping = true; last = 0; requestAnimationFrame(frame); } };
 
   function placeDots() {
     flows.forEach(f => {
@@ -648,6 +683,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
     const DAY = Math.round(ePV(24)).toLocaleString("en-US");
     const soFar = v => `${tr("today")} <bdi dir="ltr">${Math.round(v).toLocaleString("en-US")} / ${DAY} MWh</bdi>`;
     vT.textContent = `${pad(k)}:00–${pad(k + 1)}:00`;
+    tbT.textContent = `${pad(Math.floor(h))}:${pad(Math.floor((h % 1) * 6) * 10)}`;
     eS.textContent = mwh(hourPV);
     nS.innerHTML = `${tr("usualShort")} <bdi dir="ltr">${FU} MWh</bdi> · ${soFar(ePV(h))}`;
     kSt.textContent = tr(st >= 0 ? "cStore" : "cDraw"); eSt.textContent = mwh(Math.abs(st));
@@ -667,7 +703,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
     last = t;
     requestAnimationFrame(frame);
   }
-  playBtn.addEventListener("click", () => { playing = !playing; playBtn.textContent = tr(playing ? "pause" : "play"); });
+  playBtn.addEventListener("click", () => { playing = !playing; playBtn.textContent = tr(playing ? "pause" : "play"); if (playing) ensureLoop(); });
   slider.addEventListener("input", () => { playing = false; playBtn.textContent = tr("play"); update(Number(slider.value)); });
 
   // ------------------------------------------------------------------ language
@@ -687,6 +723,7 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
     $("lang-ar").setAttribute("aria-pressed", String(l === "ar"));
     playBtn.textContent = tr(playing ? "pause" : "play");
     lastDay = null; showInfo(); update(hour);
+    layerName.textContent = tr({ power: "tabPower", control: "tabControl", money: "tabMoney" }[layer]);
     try { localStorage.setItem("eef-lang", l); } catch (e) { /* storage unavailable */ }
   }
   $("lang-en").addEventListener("click", () => setLang("en"));
@@ -694,6 +731,6 @@ footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4px; 
   let saved = "en"; try { saved = localStorage.getItem("eef-lang") || "en"; } catch (e) { /* storage unavailable */ }
   setLayer("power");
   setLang(saved === "ar" ? "ar" : "en");
-  if (!reduce) requestAnimationFrame(frame);
+  if (!reduce) ensureLoop();
 })();
 </script>
