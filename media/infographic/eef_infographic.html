@@ -212,11 +212,11 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
         <input id="hour" dir="ltr" type="range" min="0" max="23.9" step="0.1" value="20">
       </div>
       <div class="chips">
-        <div class="chip"><span class="k" data-t="cTime">Time</span><span class="v" id="vTime">20:00</span><span class="k2" data-t="cTimeNote">energy counted from 00:00</span></div>
-        <div class="chip"><span class="k" data-t="cSolar">Solar sold to the grid</span><span class="v" id="eSolar">0 MWh</span><span class="k2" id="nSolar"></span></div>
-        <div class="chip"><span class="k" data-t="cDc">Data center, from the grid</span><span class="v" id="eDc">0 MWh</span><span class="k2" data-t="cDcNote">now 100 MW · no solar</span></div>
-        <div class="chip"><span class="k" data-t="cFlex">Flexible loads use</span><span class="v" id="eFlex">0 MWh</span><span class="k2" id="nFlex"></span></div>
-        <div class="chip net"><span class="k" data-t="cFreed">Freed for the data center</span><span class="v" id="eFreed">0 MWh</span><span class="k2" data-t="cFreedNote">now 100 MW · 100% of its use</span></div>
+        <div class="chip"><span class="k" data-t="cTime">Hour</span><span class="v" id="vTime">20:00–21:00</span><span class="k2" data-t="cTimeNote">displacement is counted hour by hour</span></div>
+        <div class="chip"><span class="k" data-t="cSolar">Solar sold, this hour</span><span class="v" id="eSolar">0 MWh</span><span class="k2" id="nSolar"></span></div>
+        <div class="chip"><span class="k" data-t="cDc">Data center from the grid, this hour</span><span class="v" id="eDc">100 MWh</span><span class="k2" id="nDc"></span></div>
+        <div class="chip"><span class="k" data-t="cFlex">Flexible loads use, this hour</span><span class="v" id="eFlex">0 MWh</span><span class="k2" id="nFlex"></span></div>
+        <div class="chip net"><span class="k" data-t="cFreed">Freed for the data center, this hour</span><span class="v" id="eFreed">100 MWh</span><span class="k2" id="nFreed"></span></div>
       </div>
       <p class="state" id="state"></p>
       <div class="year">
@@ -340,7 +340,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
     dayTitle: "يوم صيفي في الرياض لمركز بيانات بقدرة 100 ميجاواط (توضيحي)",
     lgSolar: "شمسي يُباع للشبكة", lgDc: "المركز، من الشبكة", lgFlex: "الأحمال المرنة: ما تستهلكه", lgUsual: "استهلاكها المعتاد", lgFreed: "مساحة تحررت للمركز",
     pause: "إيقاف", play: "تشغيل", hourLabel: "ساعة اليوم",
-    cTime: "الوقت", cTimeNote: "الطاقة محسوبة من 00:00", cSolar: "شمسي يُباع للشبكة", cDc: "المركز، من الشبكة", cDcNote: "الآن 100 ميجاواط · بدون شمسي", cFlex: "الأحمال المرنة تستهلك", cFreed: "تحرّر للمركز", cFreedNote: "الآن 100 ميجاواط · 100% من استهلاكه", now: "الآن", usualShort: "المعتاد",
+    cTime: "الساعة", cTimeNote: "الإزاحة تُحسب ساعة بساعة", cSolar: "شمسي يُباع، هذه الساعة", cDc: "المركز من الشبكة، هذه الساعة", cFlex: "الأحمال المرنة تستهلك، هذه الساعة", cFreed: "تحرّر للمركز، هذه الساعة", now: "الآن", usualShort: "المعتاد", today: "اليوم:", noSolar: "بدون شمسي",
     yearH: "على مدى سنة كاملة: نتائج النموذج عند إزاحة 90%", y1: "المركز، كلها من الشبكة", y2: "الشمسي، كله يُباع للشبكة", y3: "مُزاحة: 90% من استهلاك المركز", y4: "تنقلها الأحمال المرنة من الليل إلى الظهيرة",
     yNote: "وباقي الطاقة المُزاحة (354 جيجاواط ساعة) في ساعات الشمس، حين تعمل الأحمال المرنة على الشمسي في الساعة نفسها.",
     tagline: "اعتمادية مركز متصل بالشبكة، ونظافة مركز أخضر، وأقل تكلفة بين الخيارات: طاقته الشمسية تُباع، والأحمال المرنة تحل محل البطارية.",
@@ -388,7 +388,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
   const EN = {
     play: "Play", pause: "Pause",
     sDc: "Data center · grid only", sPv: "Solar plant", sFl: "Flexible loads",
-    gA: "Grid side: solar sold and data center supplied", gPv: "Solar sold to the grid", gDc: "Data center: 100 MW", gB: "Flexible loads: what they use", now: "now", usualShort: "usual",
+    gA: "Grid side: solar sold and data center supplied", gPv: "Solar sold to the grid", gDc: "Data center: 100 MW", gB: "Flexible loads: what they use", now: "now", usualShort: "usual", today: "today:", noSolar: "no solar",
     gExtra: "Extra use, on the solar", gUsual: "Usual use: 100 MW", gFreed: "↓ Room for the data center",
     works: "EEF WORKS",
     stDay: "<b>Daytime:</b> all the solar is sold to the grid and the flexible loads run on it alone. They take nothing else from the grid, so the 100 MW they usually draw is free for the data center, which uses none of the solar.",
@@ -500,7 +500,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
 
   const playBtn = document.getElementById("play"), slider = document.getElementById("hour"), stateEl = document.getElementById("state");
   const $ = id => document.getElementById(id);
-  const vT = $("vTime"), eS = $("eSolar"), eD = $("eDc"), eF = $("eFlex"), eR = $("eFreed"), nS = $("nSolar"), nF = $("nFlex");
+  const vT = $("vTime"), eS = $("eSolar"), eD = $("eDc"), eF = $("eFlex"), eR = $("eFreed"), nS = $("nSolar"), nD = $("nDc"), nF = $("nFlex"), nR = $("nFreed");
   const mwh = v => `${Math.round(v).toLocaleString("en-US")} MWh`;
   let hour = 20, playing = !reduce, last = 0, phase = 0, lastDay = null;
 
@@ -524,12 +524,16 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
       const q = ((phase * 1.3 + i / sunDots.length) % 1 + 1) % 1;
       d.setAttribute("cx", X(12) + 58 + (800 - X(12) - 58) * q); d.setAttribute("opacity", sunUp ? 1 : 0);
     });
-    const hh = Math.floor(h), mm = Math.floor((h - hh) * 6) * 10;
-    vT.textContent = `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
-    // energy since 00:00: the solar sold equals what the flexible loads use; the data center's use equals the room freed for it
-    eS.textContent = mwh(ePV(h)); eF.textContent = mwh(ePV(h)); eD.textContent = mwh(DC * h); eR.textContent = mwh(DC * h);
-    nS.innerHTML = `${tr("now")} <bdi>${Math.round(p)} MW</bdi>`;
-    nF.innerHTML = `${tr("now")} <bdi>${Math.round(p)} MW</bdi> · ${tr("usualShort")} <bdi>${FU} MW</bdi>`;
+    // energy in the current hour (the model's time step) and, below it, the day so far
+    const k = Math.min(23, Math.floor(h)), hourPV = ePV(k + 1) - ePV(k), pad = n => String(n).padStart(2, "0");
+    const DAY = Math.round(ePV(24)).toLocaleString("en-US");
+    const soFar = v => `${tr("today")} <bdi dir="ltr">${Math.round(v).toLocaleString("en-US")} / ${DAY} MWh</bdi>`;
+    vT.textContent = `${pad(k)}:00–${pad(k + 1)}:00`;
+    eS.textContent = mwh(hourPV); eF.textContent = mwh(hourPV); eD.textContent = mwh(DC); eR.textContent = mwh(DC);
+    nS.innerHTML = soFar(ePV(h));
+    nD.innerHTML = `${soFar(DC * h)} · ${tr("noSolar")}`;
+    nF.innerHTML = `${tr("usualShort")} <bdi dir="ltr">${FU} MWh</bdi> · ${soFar(ePV(h))}`;
+    nR.innerHTML = `<bdi dir="ltr">= 100%</bdi> · ${soFar(DC * h)}`;
     if (sunUp !== lastDay) { stateEl.innerHTML = tr(sunUp ? "stDay" : "stNight"); lastDay = sunUp; }
     slider.value = h.toFixed(1);
   }
