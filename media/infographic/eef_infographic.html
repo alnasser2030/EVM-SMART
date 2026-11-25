@@ -192,12 +192,12 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
         <h3 id="day-title" data-t="dayTitle">One summer day in Riyadh, for a 100-MW data center (illustrative)</h3>
         <div class="legend" aria-hidden="true">
           <span><i style="background:var(--sun)"></i><span data-t="lgSolar">Solar, all sold to the grid</span></span>
-          <span><i style="background:var(--accent-mid)"></i><span data-t="lgFlex">Flexible loads: use vs. usual</span></span>
-          <span><i style="background:var(--ink)"></i><span data-t="lgDc">Data center: from the grid</span></span>
-          <span><i style="background:var(--accent)"></i><span data-t="lgFlexGrid">Flexible loads: from the grid vs. usual</span></span>
+          <span><i style="background:var(--accent)"></i><span data-t="lgFlexGrid">Flexible loads, from the grid</span></span>
+          <span><i style="background:var(--ink)"></i><span data-t="lgDc">Data center, from the grid</span></span>
+          <span><i style="background:repeating-linear-gradient(90deg,var(--ink-2) 0 5px,transparent 5px 8px)"></i><span data-t="lgUsual">Usual</span></span>
         </div>
       </div>
-      <div class="svgbox" dir="ltr"><svg id="daysvg" viewBox="0 0 960 640" role="img" aria-label="Over one day: all the solar is sold to the grid and runs the flexible loads; the flexible loads use more at noon and less at night; every hour they draw 100 MW less from the grid while the data center draws 100 MW, so the net change on the grid is zero. The data center uses none of the solar."></svg></div>
+      <div class="svgbox" dir="ltr"><svg id="daysvg" viewBox="0 0 960 660" role="img" aria-label="Over one day: all the solar is sold to the grid and runs the flexible loads, which use more than usual at noon and less at night while taking only 150 MW from the grid instead of their usual 250 MW. The 100 MW they leave carries the data center, so the rest of the grid supplies the same 250 MW every hour. The data center uses none of the solar."></svg></div>
       <div class="ctl">
         <button id="play" type="button">Pause</button>
         <label for="hour" data-t="hourLabel">Hour of day</label>
@@ -206,10 +206,10 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
       <div class="chips">
         <div class="chip"><span class="k" data-t="cTime">Time</span><span class="v" id="vTime">20:00</span></div>
         <div class="chip"><span class="k" data-t="cSolar">Solar sold to the grid</span><span class="v" id="vSolar">0 MW</span></div>
-        <div class="chip"><span class="k" data-t="cFlex">Flexible loads: use vs. usual</span><span class="v" id="vFlex">−100 MW</span></div>
-        <div class="chip"><span class="k" data-t="cFlexGrid">Flexible loads: from the grid</span><span class="v">−100 MW</span></div>
+        <div class="chip"><span class="k" data-t="cFlex">Flexible loads: use</span><span class="v" id="vFlex">150 MW</span><span class="k2" data-t="cUsual">usual: 250 MW</span></div>
+        <div class="chip"><span class="k" data-t="cFlexGrid">Flexible loads: from the grid</span><span class="v">150 MW</span><span class="k2" data-t="cUsual">usual: 250 MW</span></div>
         <div class="chip"><span class="k" data-t="cDc">Data center: from the grid</span><span class="v">100 MW</span><span class="k2" data-t="cDcNote">solar used: 0 MW</span></div>
-        <div class="chip net"><span class="k" data-t="cNet">Net change on the grid</span><span class="v">0 MW</span></div>
+        <div class="chip net"><span class="k" data-t="cNet">Grid supply, total</span><span class="v">250 MW</span><span class="k2" data-t="cNetNote">same as usual</span></div>
       </div>
       <p class="state" id="state"></p>
     </section>
@@ -307,7 +307,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
 
   <footer>
     <p data-t="f1">Preliminary results from a linear-programming planning model over all 8,760 hours of a year, for Riyadh and NEOM.</p>
-    <p data-t="f2">Assumptions: flexibility US$50 per MWh shifted, battery at the NREL mid case, grid reinforcement US$125/kW-yr, carbon US$50/t, 8% discount rate, contract overhead US$0.25 M a year. The day diagram is illustrative and leaves out the 5% shifting loss.</p>
+    <p data-t="f2">Assumptions: flexibility US$50 per MWh shifted, battery at the NREL mid case, grid reinforcement US$125/kW-yr, carbon US$50/t, 8% discount rate, contract overhead US$0.25 M a year. The day diagram is illustrative (the flexible loads' usual 250 MW is an example) and leaves out the 5% shifting loss.</p>
   </footer>
 </div>
 
@@ -321,9 +321,9 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
     role: "باحث دكتوراه · قسم الهندسة الكهربائية وهندسة الحاسب",
     lede: "يسحب مركز بيانات الذكاء الاصطناعي القدرة نفسها ليلًا ونهارًا. في EEF يأخذ المركز كامل طاقته من الشبكة ولا يستخدم شيئًا من طاقته الشمسية. تبيع المحطة الشمسية كل إنتاجها للشبكة فيشغّل الأحمال المرنة وقت الظهيرة، وفي الليل تخفض هذه الأحمال استهلاكها بقدر استهلاك المركز. وفي كل ساعة، المساحة التي تتركها على الشبكة تحمل مركز البيانات.",
     dayTitle: "يوم صيفي في الرياض لمركز بيانات بقدرة 100 ميجاواط (توضيحي)",
-    lgSolar: "طاقة شمسية، كلها تُباع للشبكة", lgFlex: "الأحمال المرنة: الاستهلاك مقارنة بالمعتاد", lgDc: "المركز: من الشبكة", lgFlexGrid: "الأحمال المرنة: السحب من الشبكة مقارنة بالمعتاد",
+    lgSolar: "طاقة شمسية، كلها تُباع للشبكة", lgFlexGrid: "الأحمال المرنة، من الشبكة", lgDc: "المركز، من الشبكة", lgUsual: "المعتاد",
     pause: "إيقاف", play: "تشغيل", hourLabel: "ساعة اليوم",
-    cTime: "الوقت", cSolar: "شمسي يُباع للشبكة", cFlex: "الأحمال المرنة: الاستهلاك مقارنة بالمعتاد", cFlexGrid: "الأحمال المرنة: من الشبكة", cDc: "المركز: من الشبكة", cDcNote: "الشمسي المستخدم: 0 ميجاواط", cNet: "صافي التغيّر على الشبكة",
+    cTime: "الوقت", cSolar: "شمسي يُباع للشبكة", cFlex: "الأحمال المرنة: الاستهلاك", cUsual: "المعتاد: 250 ميجاواط", cFlexGrid: "الأحمال المرنة: من الشبكة", cDc: "المركز: من الشبكة", cDcNote: "الشمسي المستخدم: 0 ميجاواط", cNet: "التغذية من الشبكة، الإجمالي", cNetNote: "نفس المعتاد",
     tagline: "اعتمادية مركز متصل بالشبكة، ونظافة مركز أخضر، وأقل تكلفة بين الخيارات: طاقته الشمسية تُباع، والأحمال المرنة تحل محل البطارية.",
     whyEye: "المشكلة", whyH: "لماذا لا تكفي الحلول الحالية",
     t1h: "نظيفة على الورق", t1p: "الشهادات السنوية للطاقة المتجددة تغطي 40% فقط من استهلاك المركز ساعة بساعة، وفي الليل يبقى معتمدًا على الغاز والنفط.",
@@ -358,22 +358,22 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
     a6h: "السجل الساعي", a6p: "يصدر شهادات طاقة نظيفة بالساعة، دون احتساب مزدوج.",
     tRules: "قواعد جديدة", tExists: "قائم", tLicence: "ترخيص جديد", tNew: "جديد",
     f1: "نتائج أولية من نموذج تخطيط بالبرمجة الخطية على جميع ساعات السنة (8,760 ساعة)، للرياض ونيوم.",
-    f2: "الفرضيات: المرونة 50 دولارًا لكل م.و.س مُزاحة، البطارية وفق الحالة الوسطى من NREL، تعزيز الشبكة 125 دولارًا/ك.و/سنة، الكربون 50 دولارًا/طن، معدل خصم 8%، تكلفة العقد 0.25 مليون دولار سنويًا. الرسم اليومي توضيحي ولا يُظهر فاقد الإزاحة البالغ 5%.",
+    f2: "الفرضيات: المرونة 50 دولارًا لكل م.و.س مُزاحة، البطارية وفق الحالة الوسطى من NREL، تعزيز الشبكة 125 دولارًا/ك.و/سنة، الكربون 50 دولارًا/طن، معدل خصم 8%، تكلفة العقد 0.25 مليون دولار سنويًا. الرسم اليومي توضيحي (الاستهلاك المعتاد للأحمال المرنة 250 ميجاواط مثال) ولا يُظهر فاقد الإزاحة البالغ 5%.",
     sDc: "المركز · من الشبكة فقط", sPv: "المحطة الشمسية", sFl: "الأحمال المرنة",
-    gA: "1  المحطة الشمسية: كل الإنتاج يُباع للشبكة", gB: "2  الأحمال المرنة: الاستهلاك مقارنة بالمعتاد", gC: "3  السحب من الشبكة مقارنة بالمعتاد: الصافي صفر",
-    gUp: "أكثر، على الطاقة الشمسية", gDown: "أقل ليلًا",
-    gDcBand: "المركز: ⁦+100⁩ ميجاواط من الشبكة، كل ساعة", gFlBand: "الأحمال المرنة: ⁦−100⁩ ميجاواط من الشبكة، كل ساعة", works: "EEF يعمل هنا",
-    stDay: "<b>نهارًا:</b> تُباع الطاقة الشمسية كلها للشبكة وتشغّل الأحمال المرنة، فتسحب هذه الأحمال 100 ميجاواط أقل من بقية الشبكة. هذه المساحة تحمل مركز البيانات، الذي لا يستخدم شيئًا من الطاقة الشمسية.",
-    stNight: "<b>ليلًا:</b> تستهلك الأحمال المرنة 100 ميجاواط أقل من المعتاد، فتترك هذه المساحة على الشبكة لمركز البيانات. وفي كل ساعة يبقى صافي التغيّر على الشبكة صفرًا."
+    gA: "1  المحطة الشمسية: كل الإنتاج يُباع للشبكة", gB: "2  الأحمال المرنة: ما تستهلكه", gC: "3  التغذية من بقية الشبكة: 250 ميجاواط، نفس المعتاد",
+    gSolarPart: "من الطاقة الشمسية", gGridPart: "من الشبكة: 150 ميجاواط", gUsual: "المعتاد: 250 ميجاواط",
+    gDcBand: "المركز: 100 ميجاواط", gFlBand: "الأحمال المرنة: 150 ميجاواط", works: "EEF يعمل هنا",
+    stDay: "<b>نهارًا:</b> تُباع الطاقة الشمسية كلها للشبكة وتشغّل الأحمال المرنة، فتستهلك أكثر من المعتاد لكنها لا تسحب من بقية الشبكة إلا 150 ميجاواط بدل 250. الـ 100 ميجاواط التي تتركها تحمل مركز البيانات، الذي لا يستخدم شيئًا من الطاقة الشمسية.",
+    stNight: "<b>ليلًا:</b> تستهلك الأحمال المرنة 150 ميجاواط بدل المعتاد 250، وكلها من الشبكة. الـ 100 ميجاواط التي تتركها تحمل مركز البيانات، فتغذي الشبكة نفس الـ 250 ميجاواط المعتادة."
   };
   const EN = {
     play: "Play", pause: "Pause",
     sDc: "Data center · grid only", sPv: "Solar plant", sFl: "Flexible loads",
-    gA: "1  Solar plant: all output sold to the grid", gB: "2  Flexible loads: use vs. usual", gC: "3  Grid supply vs. usual: net zero",
-    gUp: "More, on solar", gDown: "Less at night",
-    gDcBand: "Data center: +100 MW from the grid, every hour", gFlBand: "Flexible loads: −100 MW from the grid, every hour", works: "EEF WORKS",
-    stDay: "<b>Daytime:</b> all the solar is sold to the grid and runs the flexible loads, so they draw 100 MW less from the rest of the grid. That room carries the data center, which uses none of the solar.",
-    stNight: "<b>At night:</b> the flexible loads use 100 MW less than usual, leaving that room on the grid for the data center. Every hour, the net change on the grid is zero."
+    gA: "1  Solar plant: all output sold to the grid", gB: "2  Flexible loads: what they use", gC: "3  Supply from the rest of the grid: 250 MW, the same as usual",
+    gSolarPart: "from the solar", gGridPart: "from the grid: 150 MW", gUsual: "usual: 250 MW",
+    gDcBand: "Data center: 100 MW", gFlBand: "Flexible loads: 150 MW", works: "EEF WORKS",
+    stDay: "<b>Daytime:</b> all the solar is sold to the grid and runs the flexible loads. They use more than usual but take only 150 MW from the rest of the grid instead of 250. The 100 MW they leave carries the data center, which uses none of the solar.",
+    stNight: "<b>At night:</b> the flexible loads use 150 MW instead of their usual 250, all from the grid. The 100 MW they leave carries the data center, so the grid supplies the same 250 MW as usual."
   };
   document.querySelectorAll("[data-t]").forEach(el => { EN[el.dataset.t] = el.textContent; });
   let lang = "en";
@@ -400,8 +400,9 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
   const day = document.getElementById("daysvg");
   const X0 = 84, X1 = 930;
   const X = h => X0 + (X1 - X0) * h / 24;
-  const K = 0.36;                                           // px per MW, all three rows
-  const ZA = 315, ZB = 420, ZC = 530, AX = 580;             // zero lines: 1 solar, 2 flexible loads' use, 3 grid supply; time axis
+  const K = 0.3;                                            // px per MW, all three rows
+  const FB = 250, FG = FB - DC;                             // flexible loads: usual use (an example), and what they take from the grid under EEF
+  const ZA = 300, ZB = 473, ZC = 590, AX = 604;             // zero lines: 1 solar, 2 flexible loads' use, 3 supply from the grid; time axis
   const YA = v => ZA - K * v, YB = v => ZB - K * v, YC = v => ZC - K * v;
 
   // scene band: data center (left, grid only), solar plant (centre), flexible loads (right)
@@ -437,23 +438,26 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
   mk(day, "polyline", { points: line(h => YA(pv(h))), fill: "none", stroke: "var(--sun)", "stroke-width": 3 });
   mk(day, "line", { x1: X0, x2: X1, y1: ZA, y2: ZA, stroke: "var(--ink-2)", "stroke-width": 1.2 });
   label(day, "gA", { x: X0, y: 196, "font-size": 19, fill: "var(--ink-2)", "font-weight": 600 });
-  // row 2: the flexible loads' use against their usual use (more on solar at noon, less at night)
-  mk(day, "polygon", { points: `${X(0)},${ZB} ${line(h => YB(flex(h)))} ${X(24)},${ZB}`, fill: "var(--accent-mid)" });
-  mk(day, "polyline", { points: line(h => YB(flex(h))), fill: "none", stroke: "var(--accent)", "stroke-width": 2 });
+  // row 2: what the flexible loads use = 150 MW from the grid + the solar (usual: 250 MW, all from the grid)
+  mk(day, "rect", { x: X0, y: YB(FG), width: X1 - X0, height: K * FG, fill: "var(--accent)" });
+  mk(day, "polygon", { points: `${X(0)},${YB(FG)} ${line(h => YB(FG + pv(h)))} ${X(24)},${YB(FG)}`, fill: "var(--sun-soft)" });
+  mk(day, "polyline", { points: line(h => YB(FG + pv(h))), fill: "none", stroke: "var(--sun)", "stroke-width": 3 });
+  mk(day, "line", { x1: X0, x2: X1, y1: YB(FB), y2: YB(FB), stroke: "var(--ink-2)", "stroke-width": 2, "stroke-dasharray": "8 6" });
   mk(day, "line", { x1: X0, x2: X1, y1: ZB, y2: ZB, stroke: "var(--ink-2)", "stroke-width": 1.2 });
-  label(day, "gB", { x: X0, y: 344, "font-size": 19, fill: "var(--ink-2)", "font-weight": 600 });
-  label(day, "gUp", { x: X(15.4), y: YB(PMAX - DC) + 26, "font-size": 18, fill: "var(--accent-ink)", "font-weight": 600 });
-  label(day, "gDown", { x: X(19.4), y: ZB + K * DC + 20, "font-size": 18, fill: "var(--accent-ink)", "font-weight": 600 });
-  // row 3: grid supply against usual. The data center takes 100 MW every hour; the flexible loads take 100 MW less every hour.
-  mk(day, "rect", { x: X0, y: YC(DC), width: X1 - X0, height: K * DC, fill: "var(--ink)" });
-  mk(day, "rect", { x: X0, y: ZC, width: X1 - X0, height: K * DC, fill: "var(--accent)" });
-  mk(day, "line", { x1: X0, x2: X1, y1: ZC, y2: ZC, stroke: "var(--surface)", "stroke-width": 1.5 });
-  label(day, "gC", { x: X0, y: 476, "font-size": 19, fill: "var(--ink-2)", "font-weight": 600 });
-  label(day, "gDcBand", { x: X(0.3), y: ZC - K * DC / 2 + 6, "font-size": 17, fill: "var(--surface)", "font-weight": 600 });
-  label(day, "gFlBand", { x: X(0.3), y: ZC + K * DC / 2 + 6, "font-size": 17, fill: "#fff", "font-weight": 600 });
+  label(day, "gB", { x: X0, y: 330, "font-size": 19, fill: "var(--ink-2)", "font-weight": 600 });
+  label(day, "gSolarPart", { x: X(12), y: YB(FG + 172), "font-size": 18, fill: "var(--ink)", "font-weight": 600, "text-anchor": "middle" });
+  label(day, "gGridPart", { x: X(0.3), y: ZB - K * FG / 2 + 6, "font-size": 17, fill: "#fff", "font-weight": 600 });
+  label(day, "gUsual", { x: X(19.6), y: YB(FB) - 9, "font-size": 17, fill: "var(--ink-2)", "font-weight": 600 });
+  // row 3: supply from the rest of the grid = flexible loads 150 + data center 100 = the usual 250 MW
+  mk(day, "rect", { x: X0, y: YC(FG), width: X1 - X0, height: K * FG, fill: "var(--accent)" });
+  mk(day, "rect", { x: X0, y: YC(FB), width: X1 - X0, height: K * DC, fill: "var(--ink)" });
+  mk(day, "line", { x1: X0, x2: X1, y1: YC(FG), y2: YC(FG), stroke: "var(--surface)", "stroke-width": 1.5 });
+  label(day, "gC", { x: X0, y: 503, "font-size": 19, fill: "var(--ink-2)", "font-weight": 600 });
+  label(day, "gDcBand", { x: X(0.3), y: YC(FG + DC / 2) + 6, "font-size": 17, fill: "var(--surface)", "font-weight": 600 });
+  label(day, "gFlBand", { x: X(0.3), y: YC(FG / 2) + 6, "font-size": 17, fill: "#fff", "font-weight": 600 });
   svgLabels.forEach(([el]) => el.classList.add("desc"));   // descriptive labels, hidden when the chart is phone-sized
   const sideLbl = (y, s) => { const t = mk(day, "text", { class: "side", x: X0 - 8, y: y + 6, "font-size": 17, "text-anchor": "end", fill: "var(--ink-2)", "font-family": "IBM Plex Mono, monospace" }); t.textContent = s; };
-  sideLbl(ZA, "0"); sideLbl(ZB, "0"); sideLbl(YC(DC), "+100"); sideLbl(YC(-DC), "−100");
+  sideLbl(ZA, "0"); sideLbl(ZB, "0"); sideLbl(YB(FB), "250"); sideLbl(ZC, "0"); sideLbl(YC(FB), "250");
   mk(day, "line", { x1: X0, x2: X1, y1: AX, y2: AX, stroke: "var(--line)" });
   [0, 6, 12, 18, 24].forEach(h => {
     mk(day, "line", { x1: X(h), x2: X(h), y1: AX, y2: AX + 8, stroke: "var(--ink-2)" });
@@ -479,10 +483,10 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
 
   function update(h) {
     hour = h;
-    const p = pv(h), f = flex(h), x = X(h), sunUp = p > .5;
+    const p = pv(h), x = X(h), sunUp = p > .5;
     cur.setAttribute("x1", x); cur.setAttribute("x2", x);
     curA.setAttribute("cx", x); curA.setAttribute("cy", YA(p));
-    curB.setAttribute("cx", x); curB.setAttribute("cy", YB(f));
+    curB.setAttribute("cx", x); curB.setAttribute("cy", YB(FG + p));
     const up = h > RISE && h < SET, u = up ? (h - RISE) / (SET - RISE) : 0;
     sun.setAttribute("cx", (1 - u) * (1 - u) * X(RISE) + 2 * (1 - u) * u * X(12) + u * u * X(SET));
     sun.setAttribute("cy", (1 - u) * (1 - u) * 140 + 2 * (1 - u) * u * -80 + u * u * 140);
@@ -500,7 +504,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
     const hh = Math.floor(h), mm = Math.floor((h - hh) * 6) * 10;
     vT.textContent = `${String(hh).padStart(2, "0")}:${String(mm).padStart(2, "0")}`;
     vS.textContent = `${Math.round(p)} MW`;
-    vF.textContent = `${f >= 0 ? "+" : "−"}${Math.round(Math.abs(f))} MW`;
+    vF.textContent = `${Math.round(FG + p)} MW`;
     if (sunUp !== lastDay) { stateEl.innerHTML = tr(sunUp ? "stDay" : "stNight"); lastDay = sunUp; }
     slider.value = h.toFixed(1);
   }
