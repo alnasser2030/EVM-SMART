@@ -32,6 +32,7 @@
   --ctrl: #5cc4cc; --money: #8fd07a; color-scheme: dark;
 }
 * { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   background: var(--bg); color: var(--ink); margin: 0; font-family: var(--font-body);
   padding: 16px max(16px, env(safe-area-inset-right, 0px)) 24px max(16px, env(safe-area-inset-left, 0px));
@@ -46,9 +47,9 @@ button:focus-visible, input:focus-visible, [tabindex]:focus-visible { outline: 2
 .wrap { position: relative; margin: 0 auto; overflow: hidden; border-radius: 4px; box-shadow: 0 6px 28px rgba(0,0,0,.18); }
 .sheet {
   position: absolute; left: 0; top: 0; width: 794px; height: 1123px; transform-origin: 0 0;
-  background: var(--surface); padding: 18px 26px 14px; font-size: 10px; line-height: 1.34;
-  display: flex; flex-direction: column; gap: 6px; overflow: hidden;
+  background: var(--surface); font-size: 10px; line-height: 1.34; overflow: hidden;
 }
+.content { position: absolute; left: 26px; top: 18px; width: 742px; min-height: 1091px; transform-origin: 0 0; display: flex; flex-direction: column; gap: 6px; }
 .grid2 { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px; }
 .grid3 { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .92fr) minmax(0, 1fr); gap: 14px; }
 .sec { border-top: 2px solid var(--accent); padding-top: 5px; display: grid; gap: 5px; align-content: start; min-width: 0; }
@@ -93,7 +94,7 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 .node { cursor: pointer; }
 .node rect.box { transition: stroke .2s, stroke-width .2s; }
 .node.sel rect.box, .node:hover rect.box { stroke: var(--accent); stroke-width: 2.4; }
-.info { background: var(--accent-soft); border-radius: 6px; padding: 3px 8px; font-size: 9px; min-height: 2.8em; }
+.info { background: var(--accent-soft); border-radius: 6px; padding: 3px 8px; font-size: 9px; min-height: calc(3 * 1.34em + 6px); }
 .info b { color: var(--accent-ink); }
 .impl { font-size: 9px; color: var(--ink-2); }
 .impl b { color: var(--ink); }
@@ -105,7 +106,7 @@ html[lang="ar"] .tabs button, html[lang="ar"] .ctl button { font-family: var(--f
 .ctl button { font: 600 9px var(--font-body); background: var(--accent); color: #fff; border: 0; border-radius: 999px; padding: 3px 10px; cursor: pointer; min-width: 50px; }
 .ctl input[type="range"] { flex: 1 1 auto; accent-color: var(--accent); min-width: 0; height: 14px; }
 .ctl .data { font-size: 9.5px; }
-.state { font-size: 9px; min-height: 2.7em; }
+.state { font-size: 9px; min-height: calc(3 * 1.34em); }
 .state b { color: var(--accent-ink); }
 .chips { display: grid; gap: 5px; }
 .chip { border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 8px; align-items: center; }
@@ -159,7 +160,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
 .toolbar .lang button { font-size: 13px; padding: 6px 12px; }
 .layer-name { font-family: var(--font-body); font-size: 9px; color: var(--ink-2); font-weight: 600; }
 @media (max-width: 600px) {
-  body { padding-bottom: 124px; }
+  body { padding-bottom: 150px; }
   .toolbar { gap: 6px 8px; padding: 7px 10px; border-radius: 14px; }
   .toolbar .primary { font-size: 13px; padding: 6px 14px; min-width: 72px; }
   .toolbar .clock { font-size: 13px; }
@@ -184,7 +185,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
 }
 </style>
 
-<div class="wrap" id="wrap"><div class="sheet" id="sheet">
+<div class="wrap" id="wrap"><div class="sheet" id="sheet"><div class="content" id="content">
   <header class="head">
     <div>
       <div class="eyebrow" data-t="eyebrow">PhD preliminary examination · Electrical &amp; Computer Engineering · Texas A&amp;M University</div>
@@ -301,7 +302,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
   </div>
 
   <footer data-t="foot">Preliminary results from a linear-programming planning model over all 8,760 hours of a year (Riyadh, 2020 solar data). Assumptions: flexibility US$50 per MWh shifted; battery at the NREL mid case; grid reinforcement US$125/kW-yr; carbon US$50/t; 8% discount rate; contract overhead US$0.25 M a year. The day is illustrative: the flexible loads' usual 100 MW is the smallest case, and the 5% shifting loss is not shown.</footer>
-</div></div>
+</div></div></div>
 
 <div class="toolbar screen-only" role="toolbar" aria-label="Controls">
   <button id="play" type="button" class="primary">Pause</button>
@@ -435,6 +436,16 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     wrap.style.width = `${794 * s}px`; wrap.style.height = `${1123 * s}px`;
   }
   fitSheet(); addEventListener("resize", fitSheet);
+  // if fonts on this device make the content taller than the A4 page, shrink it to fit (never clip)
+  const content = $("content"), INNER_W = 742, INNER_H = 1091;
+  function fitContent() {
+    content.style.transform = ""; content.style.width = `${INNER_W}px`; content.style.minHeight = `${INNER_H}px`;
+    for (let i = 0; i < 3; i++) {
+      const r = Math.min(1, INNER_H / content.scrollHeight);
+      if (r > .999) break;
+      content.style.width = `${INNER_W / r}px`; content.style.minHeight = `${INNER_H / r}px`; content.style.transform = `scale(${r})`;
+    }
+  }
 
   // ------------------------------------------------------------------ the day model (illustrative)
   const DC = 100, FU = 100, RISE = 5.2, SET = 18.9;
@@ -722,7 +733,7 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
     $("lang-en").setAttribute("aria-pressed", String(l === "en"));
     $("lang-ar").setAttribute("aria-pressed", String(l === "ar"));
     playBtn.textContent = tr(playing ? "pause" : "play");
-    lastDay = null; showInfo(); update(hour);
+    lastDay = null; showInfo(); update(hour); fitContent();
     layerName.textContent = tr({ power: "tabPower", control: "tabControl", money: "tabMoney" }[layer]);
     try { localStorage.setItem("eef-lang", l); } catch (e) { /* storage unavailable */ }
   }
@@ -731,6 +742,8 @@ html[lang="ar"] .toolbar .primary, html[lang="ar"] .toolbar .tabs button { font-
   let saved = "en"; try { saved = localStorage.getItem("eef-lang") || "en"; } catch (e) { /* storage unavailable */ }
   setLayer("power");
   setLang(saved === "ar" ? "ar" : "en");
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitContent);
+  addEventListener("load", fitContent);
   if (!reduce) ensureLoop();
 })();
 </script>
