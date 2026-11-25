@@ -95,6 +95,32 @@ MANUAL_BIB = r"""
   year         = {2025},
   howpublished = {[Online]. Available: https://www.neom.com/en-us/newsroom/datavolt-signs-agreement-with-neom}
 }
+
+@techreport{r54,
+  author      = {Gopstein, Avi and Nguyen, Cuong and O'Fallon, Cheyney and Hastings, Nelson and Wollman, David},
+  title       = {{NIST} Framework and Roadmap for Smart Grid Interoperability Standards, Release 4.0},
+  institution = {National Institute of Standards and Technology},
+  address     = {Gaithersburg, MD, USA},
+  type        = {NIST Special Publication},
+  number      = {1108r4},
+  month       = feb,
+  year        = {2021},
+  note        = {doi: 10.6028/NIST.SP.1108r4}
+}
+
+@misc{r55,
+  title        = {{IEEE} Guide for Smart Grid Interoperability of Energy Technology and Information Technology Operation with the Electric Power System ({EPS}), End-Use Applications, and Loads},
+  howpublished = {IEEE Std 2030-2011},
+  year         = {2011},
+  note         = {doi: 10.1109/IEEESTD.2011.6018239}
+}
+
+@misc{r63,
+  title        = {{IEEE} Standard for the Specification of Microgrid Controllers},
+  howpublished = {IEEE Std 2030.7-2017},
+  year         = {2018},
+  note         = {doi: 10.1109/IEEESTD.2018.8340204}
+}
 """
 MANUAL_KEYS = set(re.findall(r"@\w+\{(r\d+),", MANUAL_BIB))
 
@@ -173,10 +199,11 @@ def tex_inline(cell: str) -> str:
 
 
 TABLE_COLS = {  # column specs per table number (must sum to \textwidth)
-    "2.1": r">{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X"
+    "2.2": r">{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}X"
            r">{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{2.6cm}",
-    "2.2": r">{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}"
+    "2.3": r">{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}p{2.4cm}"
            r">{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{2.4cm}",
+    "2.1": r">{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X",
 }
 
 
@@ -185,7 +212,7 @@ def table_block(m) -> str:
     lines = [l for l in rows.strip().splitlines() if l.strip()]
     cells = [[c for c in l.strip().strip("|").split("|")] for l in lines]
     head, body = cells[0], [r for r in cells[2:]]
-    size = r"\scriptsize" if num == "2.1" else r"\small"
+    size = r"\scriptsize" if num == "2.2" else r"\small"
     out = [r"\begin{table}[!htbp]", r"\centering", f"\\caption{{{tex_inline(cap)}}}", f"\\label{{tab:{num}}}",
            size, r"\renewcommand{\arraystretch}{1.2}", f"\\begin{{tabularx}}{{\\textwidth}}{{{TABLE_COLS[num]}}}",
            r"\toprule", " & ".join(r"\textbf{" + tex_inline(h) + "}" for h in head) + r" \\", r"\midrule"]

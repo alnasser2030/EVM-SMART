@@ -146,7 +146,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 ## Status (Nov 2026)
 | Item | Status |
 |---|---|
-| Ch. 2 literature review | complete (53 refs, TAMU format PDF) |
+| Ch. 2 literature review | complete (53 screened studies + 10 smart-grid/microgrid foundations = 63 refs, TAMU format PDF; Section 2.9 smart-grid context) |
 | Ch. 3 planning model | preliminary results: Riyadh + NEOM, four scenarios, sensitivities |
 | TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
 | Prelim film | `media/prelim_film/` (11 sections, ≈ 16 min, with an interactive HTML version) |

@@ -8,14 +8,14 @@
 
 Electricity demand from data centers is growing rapidly, and the newest facilities, dedicated to training and serving artificial-intelligence (AI) models, add large blocks of nearly constant load to power systems [1], [8], [24]. Three research streams address how such loads can be reconciled with decarbonizing grids. The first studies the *flexibility of the data center itself*: whether its computing workload, servers, cooling or backup assets can be scheduled to support the grid. The second studies *clean-energy procurement*: how a large consumer can claim, and actually cause, low-carbon supply. The third, *demand-side flexibility in the power system*, investigates how other consumers' loads can be shifted to balance variable renewable generation.
 
-Section 2.2 describes how the literature was identified. Sections 2.3–2.5 review the background: AI data center energy demand, the reliability that data centers require, and the configurations used to supply them. Sections 2.6–2.8 review the three research streams, Section 2.9 the Saudi context and Section 2.10 the methods used to assess supply options against multiple objectives. Section 2.11 compares the studies closest to this dissertation, Section 2.12 states the research gap and Section 2.13 summarizes the chapter. The review shows that although each stream is mature, their intersection—using the flexibility of *other* grid-connected loads to deliver hourly clean supply to an *inflexible* AI data center—has not been studied. This gap motivates the concept of **External Energy Flexibility (EEF)** proposed in this dissertation.
+Section 2.2 describes how the literature was identified. Sections 2.3–2.5 review the background: AI data center energy demand, the reliability that data centers require, and the configurations used to supply them. Sections 2.6–2.8 review the three research streams, and Section 2.9 places them in the smart-grid context and distinguishes smart grids from microgrids. Section 2.10 covers the Saudi context and Section 2.11 the methods used to assess supply options against multiple objectives. Section 2.12 compares the studies closest to this dissertation, Section 2.13 states the research gap and Section 2.14 summarizes the chapter. The review shows that although each stream is mature, their intersection—using the flexibility of *other* grid-connected loads to deliver hourly clean supply to an *inflexible* AI data center—has not been studied. This gap motivates the concept of **External Energy Flexibility (EEF)** proposed in this dissertation.
 
 
 ## 2.2 Review Methodology
 
 The review followed a structured search-and-screen procedure. Searches were run in November 2026 in Crossref, which indexes IEEE, Elsevier, Springer, ACM, IOP and MDPI publications (with an IEEE-only filter for the core themes), and in IEEE Xplore, Semantic Scholar and arXiv. Authoritative grey literature from the International Energy Agency (IEA), Lawrence Berkeley National Laboratory (LBNL), the King Abdullah Petroleum Studies and Research Center (KAPSARC), standards bodies and government agencies was added. Queries combined terms for seven themes: (1) AI data center energy demand; (2) data center reliability and supply configurations, including storage sizing; (3) internal data center flexibility and demand response; (4) clean-energy procurement and hourly (24/7) matching; (5) demand-side flexibility, its procurement and baselines; (6) multi-objective and multi-criteria assessment; and (7) the Saudi power sector. Publications from 2010 to 2026 were considered, and earlier foundational works were added through backward citation tracking.
 
-The database searches returned 1,365 records (1,217 unique). Title and abstract screening retained about 85 records for closer assessment, of which about 45 were examined in full text. Studies were included if they (i) addressed the electricity supply or flexibility of data centers or other large loads; (ii) proposed or evaluated a means of hourly clean-energy matching; (iii) characterized demand-side flexibility resources or their procurement; or (iv) provided methods or Saudi-specific evidence used later in this dissertation. Peer-reviewed publications were preferred; preprints were included only when they reported recent evidence not yet available in journals. Fig. 2.1 shows the distribution of the cited references by publication year: more than half were published in 2024–2026, reflecting how recently AI data center loads have become a power-system concern.
+The database searches returned 1,365 records (1,217 unique). Title and abstract screening retained about 85 records for closer assessment, of which about 45 were examined in full text. Studies were included if they (i) addressed the electricity supply or flexibility of data centers or other large loads; (ii) proposed or evaluated a means of hourly clean-energy matching; (iii) characterized demand-side flexibility resources or their procurement; or (iv) provided methods or Saudi-specific evidence used later in this dissertation. Peer-reviewed publications were preferred; preprints were included only when they reported recent evidence not yet available in journals. Ten foundational smart-grid and microgrid references (standards and surveys) were added outside the screened corpus to frame the contribution in Section 2.9. Fig. 2.1 shows the distribution of the cited references by publication year. Nearly half of the screened studies (25 of 53) were published in 2024–2026, which reflects how recently AI data center loads have become a power-system concern. The foundational smart-grid references added for Section 2.9 date from 2007–2021.
 
 ![Fig](figures/fig2_3_references_by_year.png)
 
@@ -89,7 +89,29 @@ The value of flexibility is not constant. As variable renewable penetration grow
 
 **Critical appraisal.** The literature quantifies flexibility potential and designs procurement for system operators, but does not link procured flexibility to a specific consumer's renewable supply, nor examine how such a consumer could contract flexibility in a single-buyer market.
 
-## 2.9 The Saudi Arabian Context
+## 2.9 The Smart-Grid Context: Coordination, Aggregation and Microgrids
+
+The three streams meet in the smart grid. The NIST framework describes the smart grid as a power system in which information, communication and control are added across its domains so that resources in all of them can be coordinated. These domains are generation, transmission, distribution, customers, markets, operations and service providers [54]. IEEE Std 2030 frames the same idea as interoperability between the power-system, communications and information-technology layers [55]. Surveys identify demand-side management and the integration of variable renewables as two of the smart grid's central functions [56].
+
+**Demand response and aggregation.** Demand response is a core smart-grid application: metered changes in consumption, driven by prices or incentives and coordinated through communication and control [57]. Data-center demand response belongs to this literature [4], [5]. Individual flexible loads are small relative to market products and carry fixed transaction costs. Aggregators and virtual power plants therefore pool distributed resources into a single controllable portfolio [58]. A review of the value of aggregators finds that their fundamental value comes from economies of scale and scope, such as spreading fixed transaction costs over many resources, and from managing risk. Other value is transitory or exploits flaws in regulation [59]. Model predictive control is the established method for operating flexible loads such as buildings under forecast uncertainty [60].
+
+**Microgrids.** A microgrid is a group of interconnected loads and distributed energy resources within clearly defined electrical boundaries. It acts as a single controllable entity and can operate either connected to the grid or islanded [61], [62]. IEEE Std 2030.7 specifies the controller that manages these modes [63]. On-site renewables with storage and off-grid data-center designs (Section 2.5) are microgrid solutions: they seek clean, reliable supply by enclosing the data center with its own generation and storage.
+
+*Table 2.1. Smart grid and microgrid compared.*
+
+| Aspect | Smart grid | Microgrid |
+|---|---|---|
+| Scope | The interconnected power system, national or regional | One site or campus within defined electrical boundaries |
+| Coordination | Distributed: system operator, aggregators and markets | One local controller |
+| Relation to the grid | Relies on interconnection | Can disconnect and operate islanded |
+| Typical functions | Demand response, aggregation, renewable integration, metering and settlement | Local reliability and self-supply |
+| Data-center example | Grid-interactive data center; contracted external flexibility | On-site PV with battery; off-grid campus |
+
+**Common assumption.** Smart-grid flexibility is coordinated for system services or for the flexible consumer's own bill [57], [59]. Clean, reliable supply for a single large consumer is pursued instead with a microgrid around that consumer [61].
+
+**Critical appraisal.** EEF belongs to the smart-grid tradition but changes the beneficiary. It keeps the data center grid-connected rather than islanding it. It uses aggregation, metering and scheduling across the customer, service-provider, operations and markets domains [54] to deliver hourly clean supply to a named, inflexible consumer. The scale economies of aggregation [59] also imply that EEF needs a minimum contract size, which the preliminary results quantify.
+
+## 2.10 The Saudi Arabian Context
 
 Saudi Arabia targets 50% of its electricity from renewable sources by 2030; an expert-based multi-criteria assessment ranked solar as the most suitable resource, with cost-effectiveness the dominant criterion (31%), followed by low intermittency (24%) and resource potential (22%) [36]. Utility-scale PV siting across the Kingdom has been mapped with GIS and the analytic hierarchy process using real climatology and land-use constraints [37], and reviews of the Vision 2030 programme identify solar as the leading renewable resource, backed by large public investment [48].
 
@@ -101,7 +123,7 @@ Emission accounting is a critical issue. A Saudi power-system model using the ma
 
 **Implication for this work.** The Saudi grid is a strong case for EEF: rapidly growing solar, a large pool of potentially flexible industrial and desalination load, and an undefined market role for flexibility. It also requires the sustainability assessment to use a future high-solar grid and to report both average and marginal emission effects.
 
-## 2.10 Methods for Multi-Objective Assessment of Supply Options
+## 2.11 Methods for Multi-Objective Assessment of Supply Options
 
 **Reliability indices.** Supply-system studies quantify reliability with the loss of power supply probability (LPSP) [31], the loss of load expectation (LOLE) and the loss of energy expectation (LOEE) [32], and energy-reliability indicators such as the fraction of load served by on-site renewables [39].
 
@@ -113,11 +135,11 @@ Emission accounting is a critical issue. A Saudi power-system model using the ma
 
 **Implication for this work.** The three pillars—reliability, cost and sustainability—can be handled by constraining reliability (e.g., data center availability) while tracing cost–emission Pareto fronts, and the four supply configurations can then be ranked with AHP-TOPSIS under alternative stakeholder weightings.
 
-## 2.11 Critical Comparison of the Closest Studies
+## 2.12 Critical Comparison of the Closest Studies
 
-Table 2.1 compares the ten studies closest to this dissertation by how they treat the data center load, the means used to match supply or provide flexibility, their objective and method, and their region.
+Table 2.2 compares the ten studies closest to this dissertation by how they treat the data center load, the means used to match supply or provide flexibility, their objective and method, and their region.
 
-*Table 2.1. Critical comparison of the studies closest to this dissertation.*
+*Table 2.2. Critical comparison of the studies closest to this dissertation.*
 
 | Study | Data center / load | Means of matching or flexibility | Objective and method | Region | Gap relative to EEF |
 |---|---|---|---|---|---|
@@ -133,21 +155,21 @@ Table 2.1 compares the ten studies closest to this dissertation by how they trea
 | Khanal et al. [27] | Firm, flexible or interruptible DC tiers | DC's own shifting and curtailment | System cost; capacity expansion | PJM, Korea | System-planner view; DC's own flexibility |
 | **This work (EEF)** | **Inflexible (constant) AI DC** | **Grid-injected PV; portfolio of external flexible loads; contract** | **Hourly matching, reliability and cost** | **Saudi Arabia (generalizable)** | **—** |
 
-Three patterns emerge from Table 2.1. Studies that achieve hourly matching either rely on supply-side assets whose storage requirements escalate near 100% matching [11], [14]–[16], or on the data center's own flexibility [8], [9], which constant AI loads lack [26]. Studies of data center flexibility evaluate it from the system planner's perspective rather than as a means of supplying the data center itself [27]. And none is set in a single-buyer market such as Saudi Arabia's.
+Three patterns emerge from Table 2.2. Studies that achieve hourly matching either rely on supply-side assets whose storage requirements escalate near 100% matching [11], [14]–[16], or on the data center's own flexibility [8], [9], which constant AI loads lack [26]. Studies of data center flexibility evaluate it from the system planner's perspective rather than as a means of supplying the data center itself [27]. And none is set in a single-buyer market such as Saudi Arabia's.
 
 Among these, the study closest to this dissertation integrates a data center with a seawater desalination plant [22]. A flexible data center, a reverse-osmosis plant, photovoltaics and storage are co-located behind one substation; data center waste heat preheats seawater, lowering desalination energy use, and investment and operation are co-optimized with two-stage stochastic programming, reducing annualized cost by 86.5% (17% from heat synergy). The work is motivated by the coexistence of data centers and desalination on arid coasts such as Saudi Arabia's.
 
 EEF differs from [22] in five respects: (1) the data center in [22] is *flexible* (workload scheduling within daily task totals), whereas EEF targets an *inflexible* AI data center; (2) [22] couples one *co-located, co-planned* plant, whereas EEF draws on a *portfolio of existing grid-connected* flexible loads; (3) the coupling in [22] is *physical* (waste heat), whereas EEF's is *contractual*, through the grid; (4) [22] minimizes cost, whereas EEF targets *hourly clean-energy matching* jointly with reliability and cost; and (5) EEF is benchmarked against direct grid supply, renewable-plus-storage supply and annual matching, and analyzed for saturation as data center capacity grows. Similarly, studies of renewable-colocated AI data centers [8] and spatio-temporal 24/7 matching [9] depend on internal workload flexibility that constant-load AI facilities lack [26].
 
-## 2.12 Research Gap
+## 2.13 Research Gap
 
-Fig. 2.3 maps the reviewed literature by the source of flexibility and its purpose, and Table 2.2 details the positioning. Every cell except one is occupied: no study uses the flexibility of other loads on the grid to provide a buyer's hourly clean supply.
+Fig. 2.3 maps the reviewed literature by the source of flexibility and its purpose, and Table 2.3 details the positioning. Every cell except one is occupied: no study uses the flexibility of other loads on the grid to provide a buyer's hourly clean supply.
 
 ![Fig](figures/fig2_2_positioning_map.png)
 
-*Fig. 2.3. Positioning of this research. Columns show where flexibility comes from; rows show what it is used for. References for each cell are listed in Table 2.2.*
+*Fig. 2.3. Positioning of this research. Columns show where flexibility comes from; rows show what it is used for. References for each cell are listed in Table 2.3.*
 
-*Table 2.2. Positioning of this work relative to the literature.*
+*Table 2.3. Positioning of this work relative to the literature.*
 
 | Stream | Flexibility source | Who procures it | Purpose | Applicable to inflexible AI DC? |
 |---|---|---|---|---|
@@ -160,7 +182,7 @@ Fig. 2.3 maps the reviewed literature by the source of flexibility and its purpo
 
 No study was found that (i) treats a constant-load AI data center as inflexible; (ii) pairs it with grid-injected PV sized to its annual consumption; and (iii) achieves hourly clean-energy matching by contracting the flexibility of external loads already connected to the grid—evaluated jointly on reliability, cost and sustainability against direct grid supply, renewable-plus-storage supply and annual matching, and analyzed for the saturation of available flexibility. Addressing this gap is the objective of this dissertation.
 
-## 2.13 Chapter Summary
+## 2.14 Chapter Summary
 
 This chapter reviewed the literature on supplying AI data centers with clean electricity. Four findings motivate the remainder of this dissertation. First, AI data centers are large, nearly constant loads whose internal flexibility is small [1], [26], [40], so solutions that depend on shifting their workloads have limited reach. Second, annual matching overstates decarbonization [10], [12], [13], while hourly matching through procured generation and storage becomes costly as the matched share approaches 100% [11], [15]. Third, demand-side flexibility from other loads is substantial—an estimated 7.1–29.9 GW of industrial DR potential in Saudi Arabia by 2030 [23]—but it is procured only by system operators for system services, and its value declines as it is used more intensively [23], [44]. Fourth, no study combines these elements by contracting the flexibility of external loads to deliver hourly clean supply to an inflexible data center, evaluated jointly on reliability, cost and sustainability. The next chapter formalizes this concept, External Energy Flexibility, and the supply configurations against which it is assessed.
 
@@ -222,3 +244,14 @@ This chapter reviewed the literature on supplying AI data centers with clean ele
 [51] EnergyTag, "Granular Certificate Scheme Standard," Version 2, 2023. [Online]. Available: https://energytag.org
 [52] U.S. International Trade Administration, "Saudi Arabia ICT: New data center strategy to accelerate AI and cloud expansion," Market Intelligence, 2025. [Online]. Available: https://www.trade.gov/market-intelligence/saudi-arabia-ict-new-data-center-strategy-accelerate-ai-and-cloud-expansion
 [53] NEOM, "DataVolt signs agreement with NEOM to design and develop the region's first net-zero AI factory campus in Oxagon," Feb. 2025. [Online]. Available: https://www.neom.com/en-us/newsroom/datavolt-signs-agreement-with-neom
+
+[54] A. Gopstein, C. Nguyen, C. O'Fallon, N. Hastings, and D. Wollman, "NIST framework and roadmap for smart grid interoperability standards, release 4.0," National Institute of Standards and Technology, Gaithersburg, MD, USA, NIST Spec. Publ. 1108r4, Feb. 2021, doi: 10.6028/NIST.SP.1108r4.
+[55] *IEEE Guide for Smart Grid Interoperability of Energy Technology and Information Technology Operation with the Electric Power System (EPS), End-Use Applications, and Loads*, IEEE Std 2030-2011, 2011, doi: 10.1109/IEEESTD.2011.6018239.
+[56] X. Fang, S. Misra, G. Xue, and D. Yang, "Smart grid—The new and improved power grid: A survey," *IEEE Commun. Surveys Tuts.*, vol. 14, no. 4, pp. 944–980, 2012, doi: 10.1109/SURV.2011.101911.00087.
+[57] P. Siano, "Demand response and smart grids—A survey," *Renew. Sustain. Energy Rev.*, vol. 30, pp. 461–478, 2014, doi: 10.1016/j.rser.2013.10.022.
+[58] D. Pudjianto, C. Ramsay, and G. Strbac, "Virtual power plant and system integration of distributed energy resources," *IET Renew. Power Gener.*, vol. 1, no. 1, pp. 10–16, 2007, doi: 10.1049/iet-rpg:20060023.
+[59] S. Burger, J. P. Chaves-Ávila, C. Batlle, and I. J. Pérez-Arriaga, "A review of the value of aggregators in electricity systems," *Renew. Sustain. Energy Rev.*, vol. 77, pp. 395–405, 2017, doi: 10.1016/j.rser.2017.04.014.
+[60] J. Drgoňa, J. Arroyo, I. Cupeiro Figueroa et al., "All you need to know about model predictive control for buildings," *Annu. Rev. Control*, vol. 50, pp. 190–232, 2020, doi: 10.1016/j.arcontrol.2020.09.001.
+[61] N. Hatziargyriou, H. Asano, R. Iravani, and C. Marnay, "Microgrids," *IEEE Power Energy Mag.*, vol. 5, no. 4, pp. 78–94, 2007, doi: 10.1109/MPAE.2007.376583.
+[62] D. T. Ton and M. A. Smith, "The U.S. Department of Energy's microgrid initiative," *Electr. J.*, vol. 25, no. 8, pp. 84–94, 2012, doi: 10.1016/j.tej.2012.09.013.
+[63] *IEEE Standard for the Specification of Microgrid Controllers*, IEEE Std 2030.7-2017, 2018, doi: 10.1109/IEEESTD.2018.8340204.

@@ -56,3 +56,22 @@ Note: the uploaded copy is stamped "EMBARGOED REPORT: DO NOT DISTRIBUTE" (pre-re
 | [53] NEOM newsroom (Feb 2025) | 1.5 GW net-zero AI campus at Oxagon; initially powered by thermal plants | Search summaries of NEOM release and news coverage | ⚠️ confirm page text |
 
 Review-methodology numbers (Section 2.2): 1,365 records retrieved / 1,217 unique from the Crossref queries logged in this session; ~85 screened in detail; ~45 full texts examined; 53 references cited.
+
+
+## Added 2026-11-25: Section 2.9, smart-grid context (refs [54]–[63])
+
+Method: the bibliographic metadata of every new reference (authors, title, venue, volume, issue, pages, year and DOI) was checked against Crossref. The claims were checked against the publisher or agency pages. The ten references are foundational standards and surveys added outside the screened corpus.
+
+| Ref | Claim in Section 2.9 | Check |
+|---|---|---|
+| [54] NIST SP 1108r4 (2021) | Smart grid adds information, communication and control across seven domains: generation (incl. DER), transmission, distribution, customer, markets, operations, service provider | ✅ The NIST page and SP 1108r4 list the seven-domain conceptual model |
+| [55] IEEE Std 2030-2011 | Interoperability of the power, communications and IT layers | ✅ The standard's scope (its SGIRM has three perspectives) |
+| [56] Fang et al. 2012 | Demand-side management and renewable integration are central smart-grid functions | ✅ Survey scope (smart infrastructure, management and protection systems) |
+| [57] Siano 2014 | Demand response is a core smart-grid application | ✅ Title and scope |
+| [58] Pudjianto et al. 2007 | A VPP pools distributed resources into one controllable portfolio | ✅ Title and scope |
+| [59] Burger et al. 2017 | Fundamental value comes from economies of scale and scope and from risk management; other value is transitory or opportunistic | ✅ CEEPR working paper and RePEc abstract; wording aligned (✏️) |
+| [60] Drgoňa et al. 2020 | MPC is the established method for operating flexible building loads under uncertainty | ✅ Review scope |
+| [61] Hatziargyriou et al. 2007; [62] Ton & Smith 2012 | Microgrid definition: interconnected loads and DERs within clearly defined electrical boundaries, a single controllable entity, grid-connected or islanded | ✅ DOE definition (Ton & Smith; DOE Grid Deployment Office fact sheet) |
+| [63] IEEE Std 2030.7-2017 | Specifies the microgrid controller that manages these modes | ✅ Title and scope. The DOI was corrected to 10.1109/IEEESTD.2018.8340204 |
+
+Also corrected: Section 2.2 said "more than half" of the references date from 2024–2026. The figure script's count gives 25 of the 53 screened studies, so it now reads "nearly half (25 of 53)".
