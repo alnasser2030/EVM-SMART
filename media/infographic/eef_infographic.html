@@ -70,6 +70,9 @@ html[dir="rtl"] .data, html[dir="rtl"] .chip .v { text-align: right; }
 .hero { display: grid; gap: 18px; }
 .sub { font-size: clamp(1.05rem, 2.2vw, 1.3rem); font-weight: 600; max-width: 46ch; }
 .lede { color: var(--ink-2); max-width: 68ch; }
+.byline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding-inline-start: 12px; border-inline-start: 3px solid var(--accent); }
+.byline .name { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; color: var(--ink); }
+.byline .role { font-size: .92rem; color: var(--ink-2); }
 .tagline { font-family: var(--font-display); font-size: 1.15rem; color: var(--accent-ink); }
 html[lang="ar"] .tagline { font-family: var(--font-ar); font-weight: 700; }
 
@@ -180,6 +183,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
   <header class="hero">
     <h1 data-t="h1">External Energy Flexibility</h1>
     <p class="sub" data-t="sub">A smart-grid supply framework for inflexible AI data centers</p>
+    <p class="byline"><span class="name" dir="ltr">Ali Nasser</span><span class="role" data-t="role">PhD Resident · Department of Electrical &amp; Computer Engineering</span></p>
     <p class="lede" data-t="lede">An AI data center draws the same power day and night. EEF keeps it fully on the grid, sells the output of a solar plant to the grid, and pays existing flexible loads to use that solar at noon and to step back at night by as much as the data center uses.</p>
 
     <section class="day" aria-labelledby="day-title">
@@ -311,6 +315,7 @@ footer { border-top: 1px solid var(--line); padding-top: 16px; font-size: .82rem
     h1: "المرونة الخارجية للطاقة",
     sub: "إطار تغذية عبر الشبكة الذكية لمراكز بيانات الذكاء الاصطناعي غير المرنة",
     lede: "يسحب مركز بيانات الذكاء الاصطناعي القدرة نفسها ليلًا ونهارًا. يُبقيه EEF على الشبكة بالكامل، ويبيع إنتاج محطة شمسية للشبكة، ويدفع لأحمال مرنة قائمة كي تستهلك الطاقة الشمسية وقت الظهيرة وتخفض استهلاكها ليلًا بقدر استهلاك المركز.",
+    role: "باحث دكتوراه · قسم الهندسة الكهربائية وهندسة الحاسب",
     dayTitle: "يوم صيفي في الرياض لمركز بيانات بقدرة 100 ميجاواط (توضيحي)",
     lgSolar: "طاقة شمسية مبيعة للشبكة", lgDc: "مركز البيانات", lgFlex: "الأحمال المرنة مقارنة باستهلاكها المعتاد",
     pause: "إيقاف", play: "تشغيل", hourLabel: "ساعة اليوم",
