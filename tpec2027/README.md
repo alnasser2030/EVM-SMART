@@ -46,6 +46,9 @@ cd paper && pdflatex eef_tpec2027 && bibtex eef_tpec2027 && pdflatex eef_tpec202
 | 90% pillars: emissions 49.8 kt; battery 38.7 (23.2–63.3) M$/yr; EEF 21.7 (10.9–32.6); evening load 6/5 MW; night 24/10 MW | results/base_pillars.csv (model/run_base.py) | ✓ |
 | Monthly at 90%: Jun 95.9 vs 96.2; Dec 77.7 vs 78.7; within 2 points every month | results/base_monthly.csv | ✓ |
 | NEOM 90%: PV ×1.25, 157 MW or 1,223 MWh, break-even 86.1; works 85–99.5% from 8.5 MW | results/base_sites.csv, verdict_ranges.csv | ✓ |
+| Per-MW results identical at 10, 100 and 1,000 MW; 2.03 MW of flexibility per MW; 1.5 GW → 3.0 GW; 7.1-GW pool reached at 3.5 GW | results/scaling_check.csv, scenarios_size.csv | 2.0288; 3.043; 7.1/2.0288 = 3.50 |
+| Saudi grid: ≈ 90 GW installed; peak 62.3 GW (2020) → 77.1 GW (2025), ≈ 3 GW/yr; margin ≈ 13 GW | results/saudi_grid_context.csv | 2.96 GW/yr; 12.9 GW |
+| 6 GW on grid supply alone: 7.8% of the 2025 peak, nearly half the margin; EEF 45 MW | results/grid_context_dc.csv | 7.78%; 46.4%; 45.0 MW |
 
 
 ## Scenarios along both curves, and the national grid
@@ -60,6 +63,8 @@ The Saudi grid already has its own growth to serve. Installed capacity is about 
 | Evening load a 6 GW center leaves on the grid | 6,000 MW (7.8% of the peak, 46% of the margin, 2 years of national growth) | 278 MW | 45 MW (0.06%) |
 | Emissions, 6 GW | 29.9 Mt/yr | 3.0 Mt/yr | 3.0 Mt/yr |
 
-With the small flexible-load pool (7.1 GW), EEF stays the cheapest up to 3 GW. At 4.5–6 GW part of the target falls to a battery, AM becomes cheaper, and the center still leaves only 73–142 MW on the grid on summer evenings.
+EEF needs 2.03 MW of flexible load per MW at 90%, so the small pool (7.1 GW) is fully used at 3.5 GW. Up to there EEF is the cheapest with every pool; at 4.5–6 GW with the small pool, part of the target falls to a battery, AM becomes cheaper, and the center still leaves only 73–142 MW on the grid on summer evenings. The large pool (29.9 GW) lasts to about 14.7 GW.
+
+`model/check_scaling.py` → `results/scaling_check.csv`: re-solving 90% at 10, 100 and 1,000 MW gives identical results per MW (2.0288 MW of flexibility, 13.195 MWh of battery, 49.57% of the load shifted), which is why size enters only through the contract overhead and the pool. The full write-up is dissertation Chapter 3 (`docs/thesis/chapter3_planning_model.pdf`).
 
 Sources: [KAPSARC DP00535, 2026](https://www.kapsarc.org/media/4pclfn4u/dp00535-evaluation-and-role-of-industrial-demand-response-in-saudi-arabia_ar-updated-to-kapsarc-8-6-26.pdf) (r23); [MEES, 1 May 2026](https://www.mees.com/2026/5/1/power-water/saudi-arabia-advances-power-system-upgrades/3f0e7c60-4560-11f1-9788-03a57d8a2e9f) (paywalled; the 77.08 GW figure is from its summary); [vision2030.ai](https://vision2030.ai/encyclopedia/saudi-arabia-electricity-consumption/) (secondary source, for the 90 GW).

@@ -1,0 +1,45 @@
+% Chapter 3 standalone build in Texas A&M (OGAPS) thesis format with IEEE citations.
+% Build: pdflatex main_ch3 && bibtex main_ch3 && pdflatex main_ch3 && pdflatex main_ch3
+\documentclass[12pt,letterpaper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath}          % Times-style text and math
+\usepackage[margin=1in]{geometry}         % TAMU: 1-inch margins
+\usepackage{setspace}
+\doublespacing                            % TAMU: double-spaced body text
+\usepackage{graphicx}
+\usepackage{amsmath}
+\graphicspath{{../../tpec2027/figures/}}
+\usepackage{booktabs,tabularx,array}
+\usepackage{cite}                         % IEEE-style compressed numeric citations [1]-[4]
+\usepackage[labelsep=period,font={singlespacing}]{caption}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% --- TAMU-style headings: centered, all-caps chapter title; numbered sections
+\titleformat{\chapter}[block]{\normalfont\bfseries\centering}{\thechapter.}{0.5em}{\MakeUppercase}
+\titleformat{name=\chapter,numberless}[block]{\normalfont\bfseries\centering}{}{0pt}{\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{12pt}
+\titleformat{\section}{\normalfont\bfseries}{\thesection}{0.75em}{}
+\titlespacing*{\section}{0pt}{12pt}{0pt}
+\renewcommand{\bibname}{References}
+
+% Float pages: start floats at the top of the page
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{12pt}
+\makeatother
+
+% TAMU: figure/table numbering by chapter (Figure 2.1, Table 2.1)
+\renewcommand{\figurename}{Figure}
+
+\begin{document}
+\setcounter{chapter}{2}   % this file is Chapter 3 of the dissertation
+\input{chapter3}
+
+\begin{singlespace}
+\bibliographystyle{IEEEtran}
+\bibliography{refs,../../tpec2027/paper/refs_extra,refs_ch3}
+\end{singlespace}
+\end{document}

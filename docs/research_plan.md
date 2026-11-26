@@ -45,7 +45,8 @@ AI data centers are large, nearly constant loads with little internal flexibilit
    - 7.1–29.9 GW of industrial demand-response potential
    - an undefined role for flexibility in the single-buyer market
 5. **Reliability is non-negotiable**, so any solution must keep grid-level reliability.
-6. **Grid burden (the Texas lesson).** ERCOT's large-load queue grew from > 233 GW (Dec 2025) to ≈ 474 GW (mid-2026), ≈ 90% data centers, and Texas SB 6 (2025) now allows new large loads to be curtailed in emergencies. EEF supplies the DC without adding its night load to the system: it cuts the net night load by ≈ 59% of DC size, against ≈ 49% for a battery. The DC's own connection is still sized for its full load.
+6. **Grid burden (the Texas lesson).** ERCOT's large-load queue grew from > 233 GW (Dec 2025) to ≈ 474 GW (mid-2026), ≈ 90% data centers, and Texas SB 6 (2025) now allows new large loads to be curtailed in emergencies. EEF supplies the DC without adding its load to the system's peak: at 90% it leaves 10 MW of every 100 MW on the grid at night (battery 24 MW) and about 1% on summer evenings. The DC's own connection is still sized for its full load.
+7. **Saudi grid room.** Installed capacity ≈ 90 GW; the summer peak rose from 62.3 GW (2020) to a record 77.1 GW (2025), ≈ 3 GW a year, faster than consumption, leaving a nominal margin of ≈ 13 GW that giga-projects, industry, cooling and desalination already compete for. A 6-GW DC on grid supply alone would add 7.8% of the peak on summer evenings (46% of the margin); under EEF, 45 MW.
 
 ## Main research question
 How can External Energy Flexibility enable a grid-connected, constant-load AI data center to achieve hourly clean-energy matching while maintaining reliability and minimizing cost, compared with conventional supply configurations?
@@ -89,7 +90,7 @@ How can External Energy Flexibility enable a grid-connected, constant-load AI da
   - Present value over 25 years at 8%: battery ≈ US$326 M, EEF ≈ US$185 M.
   - Shared items (the PV plant and the grid tariff) cancel across configurations.
   - PV and inverter degradation, battery degradation, 6/8/10% discount rates and 20/30-year horizons are dissertation sensitivities.
-- **DC size:** 100 MW base (the LP is linear, so per-MW results do not depend on size); 50, 300 and 1,000 MW plus the 1.5-GW NEOM campus as scale cases.
+- **DC size:** 100 MW base (the LP is linear, so per-MW results do not depend on size; checked at 10, 100 and 1,000 MW by `check_scaling.py`); scenarios from 0.1 MW to 6 GW (`run_scenarios.py`) with three flexible-load pools (unlimited, 29.9 GW, 7.1 GW), and the national grid context (`grid_context.py`).
   - **Displacement** X = share of the DC's use freed on the grid hour by hour (= hourly matching in the literature); the DC always takes 100% from the grid.
   - Verdict curves (`run_displacement.py`, `plot_verdict.py`; Riyadh and NEOM): over 25 years, with grid reinforcement (US$125/kW-yr) and carbon (US$50/t) valued, EEF is the best option at **85–99.5% displacement (recommended ≈ 90%; above 98% needs PV ×2–3 or weekly shifting; 100% out of reach)** for data centers of **≈ 8 MW to 1.5 GW** (the largest single campus planned; larger = groups of campuses).
   - Smaller sites are grouped in one contract (fixed overhead US$0.25 M/yr per contract). Flexible load is contracted anywhere on the one national grid and is not limiting today (7.1–29.9 GW potential); saturation is a Chapter 6 test.
@@ -147,7 +148,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 | Item | Status |
 |---|---|
 | Ch. 2 literature review | complete (53 screened studies + 10 smart-grid/microgrid foundations = 63 refs, TAMU format PDF; Section 2.9 smart-grid context) |
-| Ch. 3 planning model | preliminary results: Riyadh + NEOM, four scenarios, sensitivities |
+| Ch. 3 planning model | drafted in LaTeX (`docs/thesis/chapter3_planning_model.pdf`, 26 pp): concept, LPs, cost rule, derivation of 90% and the size range, scenarios along both curves (42–100%, 0.1 MW–6 GW), Saudi grid context, code |
 | TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
 | Prelim film | `media/prelim_film/` (11 sections, ≈ 16 min, with an interactive HTML version) |
 | Implementation framework | `docs/implementation/eef_saudi_framework.md` |

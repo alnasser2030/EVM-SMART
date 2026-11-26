@@ -47,7 +47,7 @@
 - من ≈ 8 ميجاواط إلى 1.5 جيجاواط: **EEF الأفضل**. يوفّر ≈ 3.2 دولار/م.و.س مقابل أرخص بديل، و≈ 17 دولار/م.و.س مقابل البطارية (عند 90%).
 - فوق 1.5 جيجاواط: مجموعات مراكز، والمنحنى ثابت فالنتيجة نفسها.
 
-**لماذا الفكرة مهمة (درس تكساس):** طلبات ربط الأحمال الكبيرة في ERCOT قفزت من 233 جيجاواط (ديسمبر 2025) إلى ≈ 474 جيجاواط (منتصف 2026)، ≈ 90% منها مراكز بيانات. في أبريل 2026 كان 22 جيجاواط فقط قد استوفى متطلبات الدراسة. صدر قانون SB 6 (يونيو 2025) الذي يسمح بفصل الأحمال الكبيرة الجديدة في الطوارئ ويفرض دراسات ربط جديدة. EEF يحافظ على اعتمادية الشبكة الكاملة للمركز، ويخفض صافي حمل الليل على المنظومة بنحو 59% من حجم المركز (البطارية 49%). تنبيه: توصيلة المركز نفسها تبقى بكامل قدرته، لكن العبء على التوليد ليلًا يقل.
+**لماذا الفكرة مهمة (درس تكساس):** طلبات ربط الأحمال الكبيرة في ERCOT قفزت من 233 جيجاواط (ديسمبر 2025) إلى ≈ 474 جيجاواط (منتصف 2026)، ≈ 90% منها مراكز بيانات. في أبريل 2026 كان 22 جيجاواط فقط قد استوفى متطلبات الدراسة. صدر قانون SB 6 (يونيو 2025) الذي يسمح بفصل الأحمال الكبيرة الجديدة في الطوارئ ويفرض دراسات ربط جديدة. EEF يحافظ على اعتمادية الشبكة الكاملة للمركز، وعند إزاحة 90% لا يترك على الشبكة إلا 10 ميجاواط من كل 100 ميجاواط بين منتصف الليل و06:00 (24 ميجاواط مع البطارية)، ونحو 1% من حمله في أمسيات الصيف. والشبكة السعودية (≈ 90 جيجاواط مركّبة، وذروة 77.1 جيجاواط في 2025 تنمو ≈ 3 جيجاواط سنويًا) تحتاج هامشها للنمو القائم أصلًا. تنبيه: توصيلة المركز نفسها تبقى بكامل قدرته، لكن العبء على التوليد ليلًا يقل.
 
 **سعر بيع الطاقة الشمسية:** لا يوجد سعر منشور لهذه الحالة. أسعار مناقصات NREP مرجع فقط، وسعر الفائض في إطار الاستهلاك الذاتي "تحدده الهيئة" ولم يُنشر. لذلك:
 - نعتمد في الأطروحة **فرضية 13.6 دولار/م.و.س** (5.1 هللة)، وهي أقل بكثير من سعر الشراء من الشبكة (48 دولار).
@@ -86,7 +86,8 @@
      - The queue figures differ across sources and dates and are not forecasts of what will be built.
    - **What EEF changes.**
      - EEF keeps the data center fully grid-connected, so it keeps grid-grade reliability.
-     - It also cuts the system's net night load by ≈ 59% of the DC's size (battery: ≈ 49%), because the freed supply comes from loads that already exist.
+     - At 90% it leaves only 10 MW of every 100 MW on the grid between midnight and 06:00 (battery: 24 MW) and about 1% on summer evenings, because the freed supply comes from loads that already exist.
+     - Saudi context: installed capacity ≈ 90 GW; the summer peak rose from 62.3 GW (2020) to a record 77.1 GW (2025), ≈ 3 GW a year, leaving a nominal margin of ≈ 13 GW that other new load already competes for. A 6-GW center on grid supply alone would add 7.8% of the peak on summer evenings; under EEF it adds 45 MW (`tpec2027/model/grid_context.py`; dissertation Chapter 3, Section 3.11).
      - The DC's own connection must still be sized for its full load. The relief is at system level (night generation and the shared network upstream), not at the DC's substation.
 7. **Unused flexibility.** An estimated 7.1–29.9 GW of industrial demand response exists by 2030 (KAPSARC 2026). Reverse osmosis is about half of Saudi desalination capacity and can shift load (IEA). But **no Saudi demand-response or aggregator framework** was found, and DR is procured, if at all, only for system services.
 
@@ -114,7 +115,7 @@ EEF dominates when **all** of the following hold. The thresholds come from the p
 |---|---|---|
 | The DC must keep grid-grade reliability | always grid-connected | concept |
 | Displacement target | **85–99.5%, recommended ≈ 90%** (summer evenings ≥ 93% freed). Up to 98%: daily shifting with PV ×1.25 and the window from 09:00. 98–99.5%: PV ×2–3 or loads that shift across a week. 100%: out of reach (ceiling ≈ 99.9%) | model |
-| Flexibility price | **< ≈ US$87/MWh shifted** (US$51–146 across battery cost cases), or **< ≈ US$215/kW-yr** of contracted power | model |
+| Flexibility price | **< ≈ US$89/MWh shifted** at 90% (US$53–146 across battery cost cases), or **< ≈ US$191/kW-yr** of contracted power | model |
 | Flexible load on the national grid | **≈ 2.0 MW per MW of DC** at 90% (1.4 at 80%), shiftable for **≥ 8 h**, anywhere on the one national grid through the operator; the national potential (7.1–29.9 GW) exceeds planned DC capacity | model, KAPSARC 2026 |
 | Data-center size | **≈ 8 MW to 1.5 GW** (largest single campus planned); smaller sites grouped in one contract | model |
 | Grid room and carbon valued | reinforcement US$125/kW-yr + carbon US$50/t, or SPPC buys the EEF-linked PV at ≈ US$33/MWh | model, Section 7c |
@@ -363,7 +364,7 @@ EEF does **not** shift 100% of the data center's consumption. For a chosen displ
    - Up to 99.5%: PV ×2–3, or loads that shift across a week.
    - 100% is out of reach.
 5. **Prices.**
-   - Pay flexibility below ≈ US$87/MWh shifted (≈ US$215/kW-yr).
+   - Pay flexibility below ≈ US$89/MWh shifted at 90% (≈ US$191/kW-yr).
    - SPPC buys the EEF-linked PV at US$13.6/MWh (NREP benchmark). Raise it toward ≈ US$33/MWh only to pay for the grid room EEF frees. It always stays below the US$48/MWh purchase tariff.
 6. **Grid.** Report the summer-evening load freed next to emissions and cost, because it is EEF's main system benefit. Still size the DC's own connection for its full load, and have the operator check inter-regional transfers.
 7. **Regulation (SERA).** Add four things to the framework:

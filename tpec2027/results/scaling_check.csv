@@ -1,0 +1,4 @@
+dc_MW,pv_MWp_per_MW,flex_MW_per_MW,battery_MWh_per_MW,shifted_pct_of_load,cfe_EEF_pct,cfe_BESS_pct,solve_s_EEF,solve_s_BESS
+10.0,4.7706,2.0288,13.195,49.57,90.0,90.0,1.24,0.52
+100.0,4.7706,2.0288,13.195,49.57,90.0,90.0,0.96,0.53
+1000.0,4.7706,2.0288,13.195,49.57,90.0,90.0,0.91,0.52
