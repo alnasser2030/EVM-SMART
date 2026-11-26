@@ -47,3 +47,19 @@ cd paper && pdflatex eef_tpec2027 && bibtex eef_tpec2027 && pdflatex eef_tpec202
 | Monthly at 90%: Jun 95.9 vs 96.2; Dec 77.7 vs 78.7; within 2 points every month | results/base_monthly.csv | ✓ |
 | NEOM 90%: PV ×1.25, 157 MW or 1,223 MWh, break-even 86.1; works 85–99.5% from 8.5 MW | results/base_sites.csv, verdict_ranges.csv | ✓ |
 
+
+## Scenarios along both curves, and the national grid
+- `model/run_scenarios.py` → `results/scenarios_displacement.csv` (40–99.9% at 100 MW), `results/scenarios_size.csv` (0.1 MW–6 GW at 90%, three flexible-load pools) and `figures/fig_scenarios.{pdf,png}`. Every scenario serves 100% of the data center's load; the four configurations differ in cost, emissions and the load they leave on the grid on summer evenings (June–September, 18:00–02:00).
+- `model/grid_context.py` (run after `run_scenarios.py`) → `results/saudi_grid_context.csv` (national figures, each with its source), `results/grid_context_dc.csv` (the evening load of each configuration as a share of the national peak, of the margin and of one year of peak growth) and `figures/fig_grid_context.{pdf,png}`.
+
+The Saudi grid already has its own growth to serve. Installed capacity is about 90 GW. The summer peak was 62.3 GW in 2020 and 74.8 GW in 2024 (SERA data, KAPSARC DP00535, Fig. 1b) and reached a record 77.1 GW in 2025 (MEES, May 2026; hatched bar). That is +14.8 GW in five years, about 3 GW a year, and the peak grows faster than annual consumption (+8.2% in 2022–23). The observed peak has exceeded the 2025 forecast made in 2021 (69.2 GW) since 2023. The nominal margin is therefore about 13 GW, and less is available on a hot evening. Giga-projects, industry, cooling and desalination keep using that margin before any data center connects. For 2030, KAPSARC plans 100–130 GW of variable renewables with about 110 GW of gas, 48 GWh of batteries and 7.4 GW of interconnection, and puts all Saudi data centers at 10–20 TWh/yr (1.1–2.3 GW of constant load).
+
+| At 90% | GRID | RE+BESS | EEF |
+|---|---|---|---|
+| Evening load a 1.5 GW center leaves on the grid | 1,500 MW (1.9% of the 2025 peak) | 70 MW | 11 MW |
+| Evening load a 6 GW center leaves on the grid | 6,000 MW (7.8% of the peak, 46% of the margin, 2 years of national growth) | 278 MW | 45 MW (0.06%) |
+| Emissions, 6 GW | 29.9 Mt/yr | 3.0 Mt/yr | 3.0 Mt/yr |
+
+With the small flexible-load pool (7.1 GW), EEF stays the cheapest up to 3 GW. At 4.5–6 GW part of the target falls to a battery, AM becomes cheaper, and the center still leaves only 73–142 MW on the grid on summer evenings.
+
+Sources: [KAPSARC DP00535, 2026](https://www.kapsarc.org/media/4pclfn4u/dp00535-evaluation-and-role-of-industrial-demand-response-in-saudi-arabia_ar-updated-to-kapsarc-8-6-26.pdf) (r23); [MEES, 1 May 2026](https://www.mees.com/2026/5/1/power-water/saudi-arabia-advances-power-system-upgrades/3f0e7c60-4560-11f1-9788-03a57d8a2e9f) (paywalled; the 77.08 GW figure is from its summary); [vision2030.ai](https://vision2030.ai/encyclopedia/saudi-arabia-electricity-consumption/) (secondary source, for the 90 GW).

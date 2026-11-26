@@ -1,0 +1,20 @@
+quantity,value,unit,year,source
+Installed generation capacity,more than 90,GW,2025,"vision2030.ai, 'Saudi Arabia electricity consumption' (secondary source)"
+"Summer peak load, record",77.08,GW,2025,"MEES, 1 May 2026, 'Saudi Arabia advances power system upgrades' (+3% on 2024)"
+"Summer peak load, observed",62.3,GW,2020,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Summer peak load, observed",64.2,GW,2021,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Summer peak load, observed",65.3,GW,2022,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Summer peak load, observed",70.7,GW,2023,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Summer peak load, observed",74.8,GW,2024,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+Peak forecast for 2025 made in 2021,69.2,GW,2025,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]; exceeded by the observed peak since 2023"
+Peak growth 2022-2023,8.2,%,2023,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]; faster than annual consumption"
+Annual demand growth since 2020,more than 2,%/yr,2025,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+Variable renewable capacity,4.1,GW,2024,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23] (SERA 2025)"
+"Variable renewable capacity, plan",100-130,GW,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Gas capacity, plan",110,GW,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Battery storage, plan",48,GWh,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+Interconnection,1.6 to 7.4,GW,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23]"
+"Data-center demand, business as usual",10,TWh/yr,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23] citing Alshehri et al. 2026"
+"Data-center demand, moderate AI",20,TWh/yr,2030,"KAPSARC DP00535 (2026), Fig. 1b and Sec. 2 [r23] citing Alshehri et al. 2026"
+"Peak growth 2020-2025, average (derived)",2.96,GW/yr,2025,from the rows above
+"Nominal margin, capacity minus peak (derived)",12.9,GW,2025,from the rows above
