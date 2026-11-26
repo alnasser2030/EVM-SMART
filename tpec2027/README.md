@@ -1,7 +1,7 @@
 # TPEC 2027 paper — External Energy Flexibility (EEF)
 
 - `paper/eef_tpec2027.pdf` — compiled paper (IEEE conference format, 6 pages; limit 6). Results are at the derived 90% target (Section IV-D and Fig. 3); a companion review paper is in `review_paper/`.
-- `paper/eef_tpec2027.tex` — source. Author names and email are placeholders: `[Author Name]`, `[Advisor Name]`, `[email]`.
+- `paper/eef_tpec2027.tex` — source. Authors: Ali Awad Ali Nasser and Mehrdad Ehsani (Texas A&M ECE).
 - `model/eef_model.py` — LP models (EEF minimum flexibility / maximum CFE; RE+BESS minimum storage), HiGHS via SciPy.
 - `model/run_experiments.py` — runs all scenarios → `results/*.csv`.
 - `figures/make_figures.py` — Figs. 1–4 from the results.

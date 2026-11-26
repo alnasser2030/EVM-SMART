@@ -1,7 +1,7 @@
 # TPEC 2027 review paper — internal and external flexibility for inflexible AI data centers
 
 - `eef_review_tpec2027.pdf` — compiled paper (IEEE conference format, 6 pages including references; limit 6).
-- `eef_review_tpec2027.tex` — source. Author names and email are placeholders, as in the companion paper: `[Author Name]`, `[Advisor Name]`, `[email]`.
+- `eef_review_tpec2027.tex` — source. Authors as in the companion paper: Ali Awad Ali Nasser and Mehrdad Ehsani (Texas A&M ECE).
 - Diagrams are TikZ inside the `.tex`: Fig. 1 review protocol, Fig. 4 microgrid vs smart-grid supply, Fig. 5 positioning model.
 - `make_review_figures.py` — data figures: Fig. 2 references by year (from `docs/thesis/refs.bib`), Fig. 3 illustrative hourly mismatch.
 - References: `docs/thesis/refs.bib` (the 63 verified Chapter 2 references; all are cited).

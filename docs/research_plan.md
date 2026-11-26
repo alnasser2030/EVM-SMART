@@ -149,7 +149,7 @@ Full framework: [`docs/implementation/eef_saudi_framework.md`](implementation/ee
 |---|---|
 | Ch. 2 literature review | complete (53 screened studies + 10 smart-grid/microgrid foundations = 63 refs, TAMU format PDF; Section 2.9 smart-grid context) |
 | Ch. 3 planning model | drafted in LaTeX (`docs/thesis/chapter3_planning_model.pdf`, 26 pp): concept, LPs, cost rule, derivation of 90% and the size range, scenarios along both curves (42–100%, 0.1 MW–6 GW), Saudi grid context, code |
-| TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (author block to fill) |
+| TPEC 2027 paper | 6 pages, ready for advisor review; submit by **30 Nov 2026** (authors: Ali Awad Ali Nasser, Mehrdad Ehsani) |
 | Prelim film | `media/prelim_film/` (11 sections, ≈ 16 min, with an interactive HTML version) |
 | Implementation framework | `docs/implementation/eef_saudi_framework.md` |
 | Ch. 4–6 | planned (control, decision maps and contracts, saturation) |

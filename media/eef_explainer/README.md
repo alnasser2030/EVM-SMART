@@ -8,4 +8,4 @@
   `ffmpeg -framerate 30 -i <frameDir>/f_%04d.png -c:v libx264 -pix_fmt yuv420p -crf 18 eef_explainer.mp4`
 
 Story: all PV output is injected and absorbed by existing flexible loads; the same loads cut their consumption by the data center load every hour; the data center is always supplied by the grid. Illustrative day: PV daily energy = DC daily energy. Results card numbers come from the TPEC 2027 Riyadh case study (80% hourly matching).
-Replace `[Author Name]` in the HTML before publishing.
+Author: Ali Awad Ali Nasser (Texas A&M University).
