@@ -150,21 +150,21 @@ def fig_cost():
 
 # ---------------------------------------------------------------- Fig. 5 monthly CFE
 def fig_monthly():
-    rows = rd("monthly_cfe.csv")
+    rows = rd("base_monthly.csv")      # 90% target (model/run_base.py)
     m = [int(r["month"]) for r in rows]
     fig, ax = plt.subplots(figsize=(W1, 1.85))
-    ax.plot(m, [100 * float(r["BESS"]) for r in rows], color=BLUE, lw=1.6, marker="o", ms=2.5, label="RE+BESS (1,027 MWh)")
-    ax.plot(m, [100 * float(r["EEF"]) for r in rows], color=AQUA, lw=1.6, marker="s", ms=2.5, label="EEF (140 MW, 8 h)")
+    ax.plot(m, [100 * float(r["BESS"]) for r in rows], color=BLUE, lw=1.6, marker="o", ms=2.5, label="RE+BESS (1,320 MWh)")
+    ax.plot(m, [100 * float(r["EEF"]) for r in rows], color=AQUA, lw=1.6, marker="s", ms=2.5, label="EEF (203 MW, 8 h)")
     ax.plot(m, [100 * float(r["AM"]) for r in rows], color=MUTED, lw=1.2, ls=(0, (2, 2)), label="AM only")
     ax.set_xticks(m); ax.set_xticklabels(list("JFMAMJJASOND"))
-    ax.set_ylabel("Monthly CFE (%)"); ax.set_ylim(30, 95)
+    ax.set_ylabel("Monthly CFE (%)"); ax.set_ylim(30, 100)
     style(ax); ax.legend(fontsize=6.3, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 1.0), handlelength=1.6)
     save(fig, "fig5_monthly")
 
 
 # ---------------------------------------------------------------- Fig. 6 three pillars
 def fig_pillars():
-    rows = {r["config"]: r for r in rd("three_pillars.csv")}
+    rows = {r["config"]: r for r in rd("base_pillars.csv")}   # 90% target (model/run_base.py)
     cfg = ["GRID", "AM", "RE+BESS", "EEF"]
     col = {"GRID": "#52514e", "AM": "#b5b4ae", "RE+BESS": BLUE, "EEF": AQUA}
     fig, axes = plt.subplots(1, 3, figsize=(7.16, 2.0))
@@ -192,6 +192,58 @@ def fig_pillars():
     save(fig, "fig6_pillars")
 
 
+# ---------------------------------------------------------------- Fig. 4 choice of target and size
+def fig_target_size():
+    """(a) cost per MWh of data-center load above the tariff across hourly-matching targets (value case:
+    grid reinforcement US$125/kW-yr + carbon US$50/t; 100-MW data center) with the share of summer evenings
+    freed by EEF; (b) EEF's saving against the cheapest alternative and against the battery across sizes at 90%."""
+    rows = [r for r in rd("displacement_costs.csv") if r["value_case"] == "grid+carbon"]
+    X = [float(r["displacement_pct"]) for r in rows]
+    g = {k: [float(r[k]) for r in rows] for k in ("grid", "am", "battery_mid", "eef_mid", "summer_evening_cover")}
+    lo, hi = 85.0, 99.5
+    fig, (a, b) = plt.subplots(2, 1, figsize=(W1, 3.55), gridspec_kw=dict(height_ratios=[1.25, 1], hspace=.55))
+    a.axvspan(lo, hi, color=AQUA, alpha=.12, lw=0)
+    a.plot(X, g["grid"], color="#52514e", lw=1.2, label="GRID")
+    a.plot(X, g["am"], color="#b5b4ae", lw=1.4, label="AM")
+    a.plot(X, g["battery_mid"], color=BLUE, lw=1.5, marker="o", ms=2, label="RE+BESS")
+    a.plot(X, g["eef_mid"], color=AQUA, lw=1.8, marker="s", ms=2, label="EEF")
+    a.axvline(90, color=INK, lw=.7, ls=(0, (3, 2)))
+    a.text(90.6, 3, "90%", fontsize=6.5, color=INK)
+    a.text((lo + hi) / 2, 12, "EEF\nworks", ha="center", fontsize=6.5, color="#0f7a55")
+    a.set_xlim(40, 100.5); a.set_ylim(0, 76)
+    a.set_xlabel("Hourly matching target (CFE, %)", labelpad=1); a.set_ylabel(r"US\$/MWh of DC load")
+    style(a); a.legend(fontsize=6, loc="upper left", ncol=2, handlelength=1.5)
+    t = a.twinx()
+    t.plot(X, [100 * v for v in g["summer_evening_cover"]], color=ORANGE, lw=1.1, ls=(0, (1.5, 1.5)))
+    t.plot([78, 100.5], [90, 90], color=ORANGE, lw=.6, alpha=.7)
+    t.text(78, 92, "90% freed", fontsize=5.8, color=ORANGE)
+    t.set_ylim(0, 110); t.set_ylabel("Summer evenings freed (%)", color=ORANGE, fontsize=6.8)
+    t.tick_params(axis="y", colors=ORANGE, labelsize=6.3)
+    for sp in ("top",): t.spines[sp].set_visible(False)
+    a.set_title("(a) Cost and summer evenings freed across targets (100 MW)", fontsize=7, loc="left")
+    # (b) size at 90%: a fixed EEF contract overhead F spreads over the data-center size S
+    r90 = next(r for r in rows if float(r["displacement_pct"]) == 90.0)
+    F = 0.25e6 / 8760                               # US$/MWh for a 1-MW data center
+    e_var = float(r90["eef_mid"]) - F / 100          # EEF cost without the overhead
+    cheapest = min(float(r90["grid"]), float(r90["am"]), float(r90["battery_mid"]))
+    import numpy as np
+    S = np.logspace(-1, np.log10(1500), 300)
+    sv = cheapest - (e_var + F / S); sb = float(r90["battery_mid"]) - (e_var + F / S)
+    b.axhline(0, color=INK, lw=.7)
+    b.plot(S, sb, color=BLUE, lw=1.3, label="vs. RE+BESS")
+    b.plot(S, sv, color=AQUA, lw=1.8, label="vs. cheapest alternative (AM)")
+    s0 = F / (cheapest - e_var)
+    b.axvspan(s0, 1500, color=AQUA, alpha=.12, lw=0)
+    b.text(np.sqrt(s0 * 1500), -22, f"EEF works: {s0:.0f} MW – 1.5 GW", ha="center", fontsize=6.5, color="#0f7a55")
+    b.set_xscale("log"); b.set_xlim(.1, 1500); b.set_ylim(-30, 25)
+    b.set_xticks([.1, 1, 10, 100, 1500]); b.set_xticklabels(["0.1", "1", "10", "100", "1,500"])
+    b.set_xlabel("Data-center size (MW)", labelpad=1); b.set_ylabel(r"EEF saving (US\$/MWh)")
+    style(b); b.legend(fontsize=6, loc="upper left", handlelength=1.5)
+    b.set_title("(b) Saving across data-center sizes at 90%", fontsize=7, loc="left")
+    save(fig, "fig4_target_size")
+    print("size threshold vs cheapest", round(s0, 1), "MW; vs battery", round(F / (float(r90["battery_mid"]) - e_var), 1), "MW")
+
+
 if __name__ == "__main__":
-    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost(); fig_monthly(); fig_pillars()
+    fig_architecture(); fig_dispatch(); fig_cfe_curve(); fig_cost(); fig_monthly(); fig_pillars(); fig_target_size()
     print("figures written")

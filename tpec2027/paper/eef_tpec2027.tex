@@ -20,7 +20,7 @@ Email: [email]}}
 \maketitle
 
 \begin{abstract}
-Artificial-intelligence (AI) data centers are large, nearly constant loads with little internal flexibility. They can be supplied with renewable energy that matches their consumption over a year, but such annual matching leaves most night-time consumption supplied by fossil generation, while achieving hourly matching with batteries is costly. This paper proposes External Energy Flexibility (EEF): the data center procures photovoltaic (PV) energy equal to its annual consumption, injects all of it into the grid, and, through contracts with the grid, has existing flexible loads elsewhere absorb that PV output; in return, the loads reduce their consumption by the data center's load, so that the data center's supply is displaced rather than stored. We define the actors, an hourly accounting rule and a hierarchical control architecture, formulate linear programs, and compare EEF with direct grid supply, annual matching and PV-plus-battery supply on the data center's reliability, emissions and cost. For a 100-MW data center in Riyadh, annual matching achieves only 40.4\% hourly matching. At an 80\% target, EEF keeps the data center's reliability equal to that of the grid, since a failure of the flexible loads only lowers matching; matches the battery's emissions, a third of those under annual matching; and needs 140~MW of flexible power instead of 1{,}027~MWh of batteries. It is cheaper whenever flexibility costs less than about US\$87 per MWh shifted: at US\$50/MWh it costs US\$17.3 million per year versus US\$30.2 million for the battery.
+Artificial-intelligence (AI) data centers are large, nearly constant loads with little internal flexibility. They can be supplied with renewable energy that matches their consumption over a year, but such annual matching leaves most night-time consumption supplied by fossil generation, while achieving hourly matching with batteries is costly. This paper proposes External Energy Flexibility (EEF): the data center procures photovoltaic (PV) energy equal to its annual consumption, injects all of it into the grid, and, through contracts with the grid, has existing flexible loads elsewhere absorb that PV output; in return, the loads reduce their consumption by the data center's load, so that the data center's supply is displaced rather than stored. We define the actors, an hourly accounting rule and a hierarchical control architecture, formulate linear programs, and compare EEF with direct grid supply, annual matching and PV-plus-battery supply. Rather than assuming a target, we sweep the hourly-matching target from 42\% to 99.9\% and the data-center size from 0.1~MW to 1.5~GW. For Riyadh, EEF is the cheapest option that also frees the data center's summer-evening load for targets of 85--99.5\% and sizes from about 8~MW; 90\% is the highest target reachable with PV equal to the annual consumption and daily shifting, and the first at which summer evenings are fully freed. At 90\%, EEF keeps the grid's reliability, matches the battery's emissions, a sixth of those under annual matching, and needs 203~MW of flexible power instead of 1{,}320~MWh of batteries; it is cheaper whenever flexibility costs less than about US\$89 per MWh shifted.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -32,7 +32,7 @@ Data centers used about 415~TWh, or 1.5\% of global electricity, in 2024, and th
 
 Large consumers usually claim clean supply through \emph{annual matching}: procuring renewable energy equal to annual consumption. Evidence shows that this overstates real mitigation~\cite{r12} and that hourly (24/7) matching is required for system-level emission reductions~\cite{r10,r11}; revisions of carbon-accounting rules toward hourly matching are under consultation~\cite{r50}. Hourly matching, however, has so far relied on procured generation and storage~\cite{r11,r14,r16}, whose cost escalates as the matched share approaches 100\%~\cite{r15}, or on the buyer's own load flexibility~\cite{r9,r10}, which AI data centers largely lack~\cite{r26}. Meanwhile, other grid loads---desalination, district cooling, pumping and industry---can shift consumption~\cite{r19,r20,r23}, but their flexibility is procured by system operators for system services~\cite{r17,r18}, not by a consumer to secure its own clean supply.
 
-This paper proposes \emph{External Energy Flexibility} (EEF) to close this gap. Its contributions are: (i) the EEF concept, with its actors, an hourly accounting rule and a hierarchical control architecture; (ii) linear-programming formulations that quantify the hourly matching achievable with external flexibility and the storage it replaces; and (iii) a case study for Riyadh, Saudi Arabia, that compares four supply configurations on the data center's reliability, emissions and cost, and derives the break-even price of flexibility against battery storage.
+This paper proposes \emph{External Energy Flexibility} (EEF) to close this gap. Its contributions are: (i) the EEF concept, with its actors, an hourly accounting rule and a hierarchical control architecture; (ii) linear-programming formulations that quantify the hourly matching achievable with external flexibility and the storage it replaces; (iii) a sweep of hourly-matching targets and data-center sizes that shows where EEF is the best option and why 90\% is the natural target; and (iv) a case study for Riyadh, Saudi Arabia, that compares four supply configurations on reliability, emissions and cost at that target, with the break-even price of flexibility against storage.
 
 \section{Related Work}
 \emph{Internal data center flexibility} has been studied extensively: workload shifting with local generation~\cite{r2}, server provisioning with power procurement~\cite{r5}, spatio-temporal workload migration for 24/7 matching~\cite{r9}, and AI workload scheduling with colocated renewables~\cite{r8}; reviews organize these methods~\cite{r3}. All draw flexibility from inside the data center. \emph{Hourly matching} studies optimize portfolios of clean generation and storage under uncertainty~\cite{r14,r16} or with power purchase agreements~\cite{r15}, and assess system impacts~\cite{r10,r11}. \emph{Demand-side flexibility} research quantifies the flexibility of loads such as desalination~\cite{r19,r20}, designs procurement by grid operators~\cite{r18}, and relies on customer baselines for verification~\cite{r17}. In Saudi Arabia, industrial demand-response potential is estimated at 7.1--29.9~GW by 2030, but its role in the single-buyer market is undefined~\cite{r23}. The closest work co-locates a \emph{flexible} data center with one desalination plant and uses waste heat to cut cost~\cite{r22}. No study uses the flexibility of existing external loads to provide hourly clean supply to an \emph{inflexible} data center. Table~\ref{tab:lit} contrasts the closest studies.
@@ -111,6 +111,15 @@ Because both configurations share the same PV plant and grid supply, their cost 
 \pi^\ast(X) = C^B(X)\,\big/\,\textstyle\sum_t d_t(X).
 \end{equation}
 
+\subsection{Choice of Target and Data-Center Size}
+The target and the range of data-center sizes are derived rather than assumed. Targets $X$ from 42\% to 99.9\% are swept. For each $X$, the PV plant is a multiple $k\in\{1,1.25,1.5,2,3\}$ of the annual-matching plant and the shifting window starts at 06:00 or 09:00; the cheapest design is chosen among $k\le\max(1.25,k_{\min}(X))$, where $k_{\min}(X)$ is the smallest multiple that reaches $X$, and week-long windows are allowed only where no daily design reaches $X$. Since all configurations pay the same tariff and PV is sold at its cost, configuration $j$ is compared by its cost per MWh of consumption above the tariff,
+\begin{align}
+c_j(X,S)={}&\frac{C^M_j(X)}{E}+\frac{R\,(1-\rho_j)}{8.76}\nonumber\\
+&+\kappa\,e\,(1-X_j)+\frac{F_j}{8760\,S},
+\label{eq:unitcost}
+\end{align}
+where $C^M_j$ is the annual matching cost (zero for GRID and AM, $C^B$ for RE+BESS, $\pi\sum_t d_t$ for EEF), $E$ the annual consumption (MWh), $R$ the grid-reinforcement cost (US\$/kW-yr) charged on the share $1-\rho_j$ of the data center's summer-evening load (June--September, 18:00--02:00) that is not freed, $\kappa$ the carbon price, $e$ the emission factor, $X_j$ the hourly matching, and $F_j$ a fixed annual EEF contract overhead spread over the data-center size $S$ (MW). EEF \emph{works} at $(X,S)$ when it has the lowest $c_j$ and frees at least 90\% of the summer-evening load.
+
 \section{Case Study}
 Four supply configurations are compared: \emph{GRID}, direct grid supply without clean procurement; \emph{AM}, annual matching, in which a PV plant sized to the data center's annual consumption injects all its output and no flexibility or storage is used; \emph{RE+BESS}, the same PV plant with a battery (Section~IV-B); and \emph{EEF}, the same PV plant with external flexibility (Section~IV-A). In all four, the data center buys its entire consumption from the grid.
 
@@ -120,7 +129,8 @@ A 100-MW AI data center in Riyadh (24.71$^\circ$N, 46.68$^\circ$E) consumes 876~
 \centering
 \caption{Case-Study Parameters}
 \label{tab:params}
-\small
+\footnotesize
+\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lr@{}}
 \toprule
 Parameter & Value \\
@@ -130,8 +140,12 @@ PV plant (annual matching) & 477 MWp; CF 20.96\% \cite{pvgis} \\
 Grid tariff (cloud computing) & 0.18 SAR/kWh \cite{kapsarcdc} \\
 Battery capital cost, 2030 (4-h) & US\$124/207/338 per kWh \cite{nrelbess2025} \\
 Battery round-trip efficiency & 90\% \\
-Discount, battery life, O\&M, horizon & 8\%, 15 yr, 2.5\%/yr, 25 yr \\
+Discount; battery life; O\&M; horizon & 8\%; 15 yr; 2.5\%; 25 yr \\
 Flexibility shifting efficiency $\eta$ & 0.95 \\
+Flexibility price $\pi$ & US\$50 (25--75)/MWh \\
+Grid reinforcement $R$ & US\$125/kW-yr \\
+Carbon price $\kappa$ & US\$50/t \\
+EEF contract overhead $F$ & US\$0.25~M/yr \\
 Shifting duration $D$ & 4, 8, 12 h \\
 Grid emission factor (average) & 0.568 tCO$_2$/MWh \cite{kfupmghg} \\
 \bottomrule
@@ -140,17 +154,7 @@ Grid emission factor (average) & 0.568 tCO$_2$/MWh \cite{kfupmghg} \\
 
 \section{Results}
 \subsection{Annual Matching Baseline}
-Although annual PV energy equals annual consumption, only 40.4\% of the data center's consumption is matched hour by hour. The remaining 521.9~GWh/yr of shortfall equals the net excess of PV output over the data center's consumption around midday (Fig.~\ref{fig:dispatch}).
-
-\subsection{Dispatch Under EEF}
-Fig.~\ref{fig:dispatch} shows two days with 150~MW of contracted flexibility and $D=8$~h. The loads' net consumption rises by up to 150~MW around noon and falls by 100~MW at night, raising the annual CFE to 82.0\% with 364.6~GWh/yr shifted.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{fig2_dispatch.pdf}
-\caption{Net deviation of the flexible loads from their baseline on a summer and a winter day ($P^F=150$~MW, $D=8$~h). Net decreases are plotted as negative.}
-\label{fig:dispatch}
-\end{figure}
+Although annual PV energy equals annual consumption, only 40.4\% of the data center's consumption is matched hour by hour. The remaining 521.9~GWh/yr of shortfall equals the net excess of PV output over the data center's consumption around midday.
 
 \subsection{Hourly Matching Versus Contracted Flexibility}
 Fig.~\ref{fig:cfe} shows the maximum CFE as a function of contracted flexible power. CFE rises almost linearly to about 80\% at $P^F/L=1.4$ and saturates at 91.2\% above $P^F/L\approx 2.4$; the remaining gap arises on days when PV output is too low to cover the night, since each window must be energy-neutral. With $D\ge 8$~h, the binding constraint is flexible power rather than duration: 8~h and 12~h give identical results, whereas 4~h requires about 1.7 times the power for the same CFE. EEF therefore needs flexible power comparable to the data center load but only moderate shifting duration.
@@ -162,20 +166,32 @@ Fig.~\ref{fig:cfe} shows the maximum CFE as a function of contracted flexible po
 \label{fig:cfe}
 \end{figure}
 
-\subsection{Three-Pillar Comparison at 80\% Hourly Matching}
-Table~\ref{tab:pillars} and Fig.~\ref{fig:pillars} compare the four configurations on the three pillars at an 80\% target; grid energy purchases, US\$42.0~million per year at the cloud-computing tariff, are identical in all of them because the data center always buys its full consumption from the grid.
+\subsection{Choice of the Target and the Data-Center Size}
+Fig.~\ref{fig:target}a shows the unit costs (\ref{eq:unitcost}) for a 100-MW data center. GRID and AM cost US\$42.7 and US\$31.2 per MWh in reinforcement and carbon. The battery's cost rises from US\$31 to US\$68/MWh with the target, while EEF stays between US\$27.5 and US\$31/MWh and is the cheapest option from 45\% upward. Below 85\%, however, EEF leaves part of the summer-evening load on the grid (83\% is freed at 80\%), so EEF works for targets of 85--99.5\%. Within this range, 90\% is the natural target: it is the highest reachable with PV equal to the annual consumption and daily shifting, whose ceiling is 91.2\% (Fig.~\ref{fig:cfe}); it is the first at which the summer evenings are almost fully freed (99.2\%); and it costs only US\$0.3/MWh more than 80\% while halving emissions. Above about 93\%, the PV plant must be enlarged (1.25 to 3 times) or the loads must shift across a week, and 100\% cannot be reached because of the shifting loss, low-solar days and the first hours of the year.
+
+Fig.~\ref{fig:target}b shows the effect of size at 90\%. The contract overhead makes EEF cheaper than the battery from 1.6~MW and the cheapest of all four configurations from about 8~MW; the saving then levels off at US\$3.2--3.5/MWh against annual matching and US\$17.4--17.7/MWh against the battery, up to 1.5~GW, the largest single campus planned in Saudi Arabia~\cite{r53}. Smaller sites can share one contract, and larger demands are groups of campuses.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\columnwidth]{fig4_target_size.pdf}
+\caption{Choice of target and size (Riyadh; $R=$ US\$125/kW-yr, $\kappa=$ US\$50/t, $\pi=$ US\$50/MWh, battery mid case). (a) Cost per MWh of data-center consumption above the tariff, and the share of summer evenings freed by EEF; (b) EEF's saving across data-center sizes at 90\%.}
+\label{fig:target}
+\end{figure}
+
+\subsection{Three-Pillar Comparison at 90\% Hourly Matching}
+Table~\ref{tab:pillars} compares the four configurations on the three pillars at the 90\% target; grid purchases, US\$42.0~million per year, are identical in all of them.
 
 \emph{Reliability.} The data center is connected to and supplied by the grid at all times in every configuration, so its reliability under EEF is identical to that of direct grid supply: no energy goes unserved, and its availability equals that of the grid. EEF never acts on the data center; if the flexible loads fail to deliver, only hourly matching falls, at worst to the annual-matching level, while the data center's supply is unaffected.
 
-\emph{Sustainability.} EEF and the battery reach the same 80\% matching and the same hourly-accounted emissions, 99.5~kt\,CO$_2$/yr, a third of those under annual matching (296~kt) and a fifth of those under direct grid supply (498~kt). EEF achieves this without building 1{,}027~MWh of new batteries.
+\emph{Sustainability.} EEF and the battery reach the same 90\% matching and the same hourly-accounted emissions, 49.8~kt\,CO$_2$/yr, a sixth of those under annual matching (296~kt) and a tenth of those under direct grid supply (498~kt). EEF achieves this without building 1{,}320~MWh of new batteries.
 
-\emph{Cost.} The battery costs US\$30.2~million per year (US\$18.1--49.2~million across cost cases), whereas EEF costs US\$17.3~million at US\$50/MWh shifted (US\$8.7--26.0~million at US\$25--75/MWh). EEF is therefore the combination that matches the grid's reliability and the battery's emissions at lower cost, provided that flexibility costs less than the break-even price of about US\$87/MWh shifted.
+\emph{Cost.} The battery costs US\$38.7~million per year (US\$23.2--63.3~million across cost cases), whereas EEF costs US\$21.7~million at US\$50/MWh shifted (US\$10.9--32.6~million at US\$25--75/MWh). EEF is therefore the combination that matches the grid's reliability and the battery's emissions at lower cost, provided that flexibility costs less than the break-even price of about US\$89/MWh shifted.
 
-\emph{Additional grid benefit.} Beyond the three pillars, EEF also relieves the grid: like the battery, it removes most of the load that the data center adds in the evening (16 and 13~MW instead of 100~MW between 19:00 and 23:00), and it removes more after midnight (41 versus 51~MW).
+\emph{Grid benefit.} EEF also removes almost all of the data center's evening load (5 instead of 100~MW at 19:00--23:00; 6~MW with the battery).
 
 \begin{table}[!t]
 \centering
-\caption{Three-Pillar Comparison at an 80\% Hourly Matching Target (100-MW Data Center, Riyadh)}
+\caption{Three-Pillar Comparison at a 90\% Hourly Matching Target (100-MW Data Center, Riyadh)}
 \label{tab:pillars}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -190,66 +206,49 @@ Energy not served & 0 & 0 & 0 & 0 \\
 If resource fails & -- & -- & CFE falls & CFE $\to$ AM \\
 \midrule
 \multicolumn{5}{@{}l}{\emph{Sustainability}} \\
-CFE (\%) & 0 & 40.4 & 80.0 & 80.0 \\
-Emissions (kt CO$_2$/yr) & 498 & 296 & 99.5 & 99.5 \\
-New storage (MWh) & 0 & 0 & 1{,}027 & 0 \\
+CFE (\%) & 0 & 40.4 & 90.0 & 90.0 \\
+Emissions (kt CO$_2$/yr) & 498 & 296 & 49.8 & 49.8 \\
+New storage (MWh) & 0 & 0 & 1{,}320 & 0 \\
 \midrule
 \multicolumn{5}{@{}l}{\emph{Cost}} \\
-Matching cost (M\$/yr) & 0 & ${\approx}0$ & 30.2 & 17.3$^\ast$ \\
-Range (M\$/yr) & -- & -- & 18.1--49.2 & 8.7--26.0$^\ast$ \\
+Matching cost (M\$/yr) & 0 & ${\approx}0$ & 38.7 & 21.7$^\ast$ \\
+Range (M\$/yr) & -- & -- & 23.2--63.3 & 10.9--32.6$^\ast$ \\
 \midrule
 \multicolumn{5}{@{}l}{\emph{Additional: impact on the grid}} \\
-Load 19--23 h (MW) & 100 & 100 & 13 & 16 \\
-Load 00--06 h (MW) & 100 & 100 & 51 & 41 \\
+Load 19--23 h (MW) & 100 & 100 & 6 & 5 \\
+Load 00--06 h (MW) & 100 & 100 & 24 & 10 \\
 \bottomrule
 \multicolumn{5}{@{}p{8.2cm}@{}}{\scriptsize $^\ast$At US\$50 (25--75) per MWh shifted. Load: load added to the grid by the data center and its resources. PV is sold at a price that recovers its cost, so AM adds no net cost. Emissions use the hourly unmatched energy and 0.568~tCO$_2$/MWh~\cite{kfupmghg}.}
 \end{tabular}
 \end{table}
 
-\begin{figure*}[!t]
-\centering
-\includegraphics[width=0.95\textwidth]{fig6_pillars.pdf}
-\caption{Three-pillar comparison at an 80\% hourly matching target: (a) reliability, as the share of the data center's load served, which is identical in all four configurations because the data center is always supplied by the grid; (b) hourly-accounted emissions; and (c) annual cost of hourly matching (battery: mid case with low--high range; EEF: US\$50/MWh shifted with US\$25--75 range).}
-\label{fig:pillars}
-\end{figure*}
-
 \subsection{Cost Across Matching Targets}
-Reaching 60\%, 80\% and 90\% matching requires 63, 140 and 203~MW of flexibility, or 501, 1{,}027 and 1{,}320~MWh of batteries; at 80\% the battery equals 10.3~h of the data center load. The break-even flexibility price is about US\$86--89/MWh shifted in the mid battery-cost case, rising slightly with the target, and US\$51--146/MWh across the low and high cases; in capacity terms, the mid case corresponds to US\$191--235 per kW-year of contracted flexibility. Fig.~\ref{fig:cost} shows the annual cost of both options across targets. The low-case break-even, about US\$52/MWh, is close to the cloud-computing tariff of US\$48/MWh (18~halalas/kWh) and the industrial tariff of US\$53/MWh~\cite{kapsarcdc}.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=\columnwidth]{fig4_cost.pdf}
-\caption{Annual cost of reaching a CFE target with a battery (band: low--high cost) and with EEF at three flexibility prices.}
-\label{fig:cost}
-\end{figure}
+Reaching 60\%, 80\% and 90\% requires 63, 140 and 203~MW of flexibility, or 501, 1{,}027 and 1{,}320~MWh of batteries. The break-even flexibility price is US\$86--89/MWh shifted in the mid battery-cost case (US\$51--146 across cases; US\$191--235 per kW-year), and its low-case value, about US\$52/MWh, is close to the cloud-computing tariff of US\$48/MWh~\cite{kapsarcdc}.
 
 \subsection{Seasonal Performance}
-Fig.~\ref{fig:monthly} shows the monthly CFE at an annual target of 80\%. EEF and the battery perform similarly from March to October, and EEF is slightly better in summer (86.6\% versus 85.1\% in June). In winter EEF falls behind (68.6\% versus 71.5\% in December) because external loads shift energy only within a day, whereas the battery can carry energy across days. Annual-matching CFE alone ranges from 34.9\% in December to 44.5\% in June.
+Fig.~\ref{fig:monthly} shows the monthly CFE at an annual target of 90\%. EEF and the battery stay within two points of each other in every month (95.9\% versus 96.2\% in June, 77.7\% versus 78.7\% in December). Both fall in winter, when PV output is lowest; the battery can carry energy across days, whereas external loads shift energy only within a day.
 
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{fig5_monthly.pdf}
-\caption{Monthly hourly matching at an 80\% annual target.}
+\caption{Monthly hourly matching at a 90\% annual target.}
 \label{fig:monthly}
 \end{figure}
 
 \subsection{Sensitivity to PV Size and Shifting Efficiency}
-Varying the PV plant size and the shifting efficiency $\eta$ shows the following. Oversizing PV by 25--50\% raises the maximum EEF matching from 91.2\% to 93.1--93.7\% and cuts the flexibility needed for 90\% from 203~MW to 162--151~MW, while the battery needed for 90\% falls only from 1{,}320 to 1{,}252--1{,}227~MWh. Lower shifting efficiency increases the flexible power required for 80\% from 140~MW at $\eta=0.95$ to 163~MW at $\eta=0.85$ (132~MW at $\eta=1$) and lowers the maximum matching to 89.3\%, but leaves the energy shifted, and hence the break-even price per MWh shifted, unchanged.
+Oversizing PV by 25--50\% raises the maximum EEF matching from 91.2\% to 93.1--93.7\% and cuts the flexibility needed for 90\% from 203 to 162--151~MW, while the battery falls only from 1{,}320 to 1{,}252--1{,}227~MWh. A shifting efficiency of 0.85 instead of 0.95 raises the flexible power for 80\% from 140 to 163~MW and lowers the maximum matching to 89.3\%, but leaves the break-even price per MWh shifted unchanged.
 
 
-\subsection{Sensitivity to Location}
-Repeating the analysis for the NEOM--Oxagon area on the Red Sea coast (27.40$^\circ$N, 35.60$^\circ$E; PV capacity factor 21.37\%) gives nearly identical results: annual matching yields 41.5\% hourly matching; 80\% requires 134~MW of flexibility or a 995-MWh battery; and the mid-case break-even price is US\$86.7/MWh shifted. The maximum CFE reachable with EEF is slightly lower, 89.5\%, so a 90\% target cannot be met by daily shifting alone at this site. The concept and its economics are therefore not specific to one location.
-
-\subsection{National Scale}
-At 90\% matching, hourly-accounted emissions fall further to 49.8~kt\,CO$_2$/yr. Scaled to the national target of 1.5~GW of data centers~\cite{r52}, 80\% and 90\% matching would require about 2.1 and 3.0~GW of contracted flexibility, which is within the 7.1--29.9~GW industrial demand-response potential estimated for 2030~\cite{r23}, although that potential is assessed for peak shaving rather than daily shifting.
+\subsection{Sensitivity to Location and National Scale}
+Repeating the analysis for the NEOM--Oxagon area on the Red Sea coast (27.40$^\circ$N, 35.60$^\circ$E; PV capacity factor 21.37\%) gives nearly identical results. Annual matching yields 41.5\% hourly matching, and with PV equal to the annual consumption and daily shifting EEF reaches at most 89.5\%, so 90\% requires a PV plant 1.25 times larger; it then needs 157~MW of flexibility or a 1{,}223-MWh battery, with a mid-case break-even price of US\$86.1/MWh shifted. EEF works there for the same targets, 85--99.5\%, from about 8.5~MW, so the concept is not specific to one location. Scaled to the national target of 1.5~GW of data centers~\cite{r52}, 90\% would require about 3.0~GW of contracted flexibility, within the 7.1--29.9~GW industrial demand-response potential estimated for 2030~\cite{r23}, although that potential is assessed for peak shaving rather than daily shifting.
 
 \section{Discussion and Limitations}
-The results show EEF as a combination of the three pillars. On \emph{reliability}, it keeps the data center's supply identical to direct grid supply, and a failure of the flexible loads only lowers matching. On \emph{sustainability}, it delivers the same hourly matching and emissions as a battery and cuts hourly-accounted emissions to a third of those under annual matching, which overstates mitigation~\cite{r12}. On \emph{cost}, it is cheaper than storage whenever flexibility costs less than about US\$87/MWh shifted. Its main shortfall is seasonal, since within-day shifting cannot carry summer PV into winter nights; moderate PV oversizing complements it above 90\%.
+EEF keeps the data center's supply identical to direct grid supply, delivers the emissions of a battery, a sixth of those under annual matching, which overstates mitigation~\cite{r12}, and is cheaper than storage whenever flexibility costs less than about US\$89/MWh shifted. Its main shortfall is seasonal, since within-day shifting cannot carry summer PV into winter nights; moderate PV oversizing complements it above 90\%.
 
-The analysis has limitations. Flexibility is represented by one generic class with perfect foresight and one weather year; flexibility costs are unknown and are therefore reported as break-even values; battery costs exclude power-related costs, which favors storage. Emission reductions are reported at the average factor: in Saudi Arabia the marginal generator often changes little with load timing~\cite{r38}, so the benefit of shifting depends on midday PV that would otherwise be curtailed, which becomes more frequent as solar penetration rises~\cite{r23,r44}. Network constraints, baseline accuracy~\cite{r45} and the saturation of flexibility as many data centers compete for it are left to future work. In Saudi Arabia's single-buyer market EEF needs no wheeling, but an aggregator licence, a baseline standard and hourly certificates are still missing.
+The analysis has limitations. Flexibility is represented by one generic class with perfect foresight and one weather year; flexibility costs are unknown and are therefore reported as break-even values, and the reinforcement and carbon values and the contract overhead are assumptions; battery costs exclude power-related costs, which favors storage. Emission reductions are reported at the average factor: in Saudi Arabia the marginal generator often changes little with load timing~\cite{r38}, so the benefit of shifting depends on midday PV that would otherwise be curtailed, which becomes more frequent as solar penetration rises~\cite{r23,r44}. Network constraints, baseline accuracy~\cite{r45} and the saturation of flexibility as many data centers compete for it are left to future work. In Saudi Arabia's single-buyer market EEF needs no wheeling, but an aggregator licence, a baseline standard and hourly certificates are still missing.
 
 \section{Conclusion}
-External Energy Flexibility lets an inflexible AI data center achieve verifiable hourly clean supply by contracting existing grid loads to absorb all of its PV output and to reduce their consumption by its load, rather than building storage. For a 100-MW data center in Riyadh at 80\% hourly matching, EEF combines the reliability of direct grid supply, the emissions of a battery-backed supply, one third of those under annual matching, and a lower cost than storage whenever flexibility costs less than about US\$87 per MWh shifted. Future work will model a portfolio of heterogeneous flexible loads, the day-ahead and intraday control layers under uncertainty, the contractual framework for single-buyer markets, and the saturation of external flexibility at national scale.
+External Energy Flexibility lets an inflexible AI data center achieve verifiable hourly clean supply by contracting existing grid loads to absorb all of its PV output and to reduce their consumption by its load, rather than building storage. A sweep of targets and sizes for Riyadh shows that EEF is the best option for 85--99.5\% hourly matching and data centers from about 8~MW to 1.5~GW, and that 90\% is the natural target: the highest reachable with PV equal to the annual consumption and daily shifting, and the first that frees the summer evenings. At 90\%, EEF combines the reliability of direct grid supply, the emissions of a battery-backed supply, a sixth of those under annual matching, and a lower cost than storage whenever flexibility costs less than about US\$89 per MWh shifted. Future work will model a portfolio of heterogeneous flexible loads, the day-ahead and intraday control layers under uncertainty, the contractual framework for single-buyer markets, and the saturation of external flexibility at national scale.
 
 \bibliographystyle{IEEEtran}
 \bibliography{../../docs/thesis/refs,refs_extra}
